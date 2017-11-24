@@ -5,7 +5,7 @@
   <select id="findById" resultType="User" parameterType="int">
     SELECT
       id,
-      username,
+      user_name,
       password,
       age
     FROM user_t
