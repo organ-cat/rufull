@@ -22,7 +22,9 @@
         <mybatis.generator.version>1.3.5</mybatis.generator.version>
         <dbcp.version>1.4</dbcp.version>
         <mysql.client.version>5.1.38</mysql.client.version>
+        <slf4j.version>1.7.6</slf4j.version>
         <slf4j.log4j.version>1.7.6</slf4j.log4j.version>
+        <log4j.version>1.2.17</log4j.version>
         <jstl.version>1.2</jstl.version>
         <jsr349.version>1.1.0.Final</jsr349.version>
         <javaee.web.api.version>7.0</javaee.web.api.version>
@@ -96,8 +98,19 @@
         <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- validation -->
         <dependency>
