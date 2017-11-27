@@ -10,4 +10,17 @@
     <import resource="classpath:META-INF/spring/datasource-tx-mybatis.xml"/>
 
     <context:component-scan base-package="com.cat.rufull.domain"/>
+
+    <!-- email 功能 -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.sohu.com"/>
+        <property name="protocol" value="smtp"/>
+        <property name="port" value="25"/>
+        <property name="username" value="jiangxxjj"/>
+        <property name="password" value="jiang6632380"/>
+    </bean>
+
+    <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="jiangxxjj@sohu.com"/>
+    </bean>
 </beans>
