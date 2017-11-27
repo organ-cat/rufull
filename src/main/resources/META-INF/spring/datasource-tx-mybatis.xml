@@ -22,7 +22,7 @@
     </jdbc:embedded-database>
 
     <!-- 引入配置文件 -->
-    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <context:property-placeholder location="classpath:application.properties"/>
 
     <!--配置数据源-->
     <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
@@ -46,16 +46,15 @@
     <!-- define the SqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="com.cat.rufull.domain.model"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
     <!-- scan for mappers and let them be autowired -->
-    <mybatis:scan base-package="com.cat.rufull.domain.repository"/>
+    <mybatis:scan base-package="com.cat.rufull.domain.mapper"/>
 
-    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!-- (事务管理)transaction manager -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 

@@ -1,7 +1,8 @@
 package com.cat.rufull.domain.service.user;
 
+import com.cat.rufull.domain.mapper.user.UserMapper;
 import com.cat.rufull.domain.model.User;
-import com.cat.rufull.domain.repository.user.UserRepository;
+import com.cat.rufull.domain.mapper.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl implements IUserService {
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @Override
     @Transactional(readOnly = true)
     public User findById(int id) {
-        return this.userRepository.findById(id);
+        return this.userMapper.findById(id);
     }
 }
