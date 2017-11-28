@@ -17,7 +17,7 @@
 
     <!--内存数据库,方便开发使用-->
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:META-INF/sql/schema.sql" encoding="UTF-8"/>
+        <jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>
         <jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>
     </jdbc:embedded-database>
 

@@ -1,0 +1,255 @@
+DROP DATABASE IF EXISTS rufull_db;
+
+CREATE DATABASE rufull_db DEFAULT CHARACTER SET utf8;
+
+USE rufull_db;
+
+DROP TABLE IF EXISTS ACCOUNT;
+DROP TABLE IF EXISTS LOGIN_LOG;
+DROP TABLE IF EXISTS MANAGER;
+DROP TABLE IF EXISTS MANAGE_LOG;
+DROP TABLE IF EXISTS ADDRESS;
+DROP TABLE IF EXISTS BUSINESS;
+DROP TABLE IF EXISTS SHOP;
+DROP TABLE IF EXISTS PRODUCT;
+DROP TABLE IF EXISTS `ORDER`;
+DROP TABLE IF EXISTS LINE_ITEM;
+DROP TABLE IF EXISTS FOOTPRINT;
+DROP TABLE IF EXISTS COLLECTION;
+DROP TABLE IF EXISTS ORDER_EVALUATION;
+DROP TABLE IF EXISTS PRODUCT_EVALUATION;
+DROP TABLE IF EXISTS COMPLAINT;
+DROP TABLE IF EXISTS MESSAGE;
+
+/*用户表*/
+CREATE TABLE ACCOUNT (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  username VARCHAR(255),              /*用户名*/
+  password VARCHAR(255) NOT NULL,     /*密码*/
+  phone VARCHAR(255) NOT NULL,        /*手机号*/
+  email VARCHAR(255),                 /*邮箱*/
+  nickname VARCHAR(255),              /*昵称*/
+  photo VARCHAR(255) NOT NULL,        /*头像图片名*/
+  balance DOUBLE,                     /*余额*/
+  status INT(11) NOT NULL,            /*状态*/
+  register_time DATETIME,             /*注册时间*/
+  PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*登录日志表*/
+CREATE TABLE LOGIN_LOG (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  ip VARCHAR(255) NOT NULL,           /*ip地址*/
+  location VARCHAR(255) NOT NULL,     /*定位位置*/
+  login_time DATETIME NOT NULL,       /*登录时间*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*管理员表*/
+CREATE TABLE MANAGER (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  username VARCHAR(255) NOT NULL,     /*用户名*/
+  password VARCHAR(255) NOT NULL,     /*密码*/
+  phone VARCHAR(255) NOT NULL,        /*手机*/
+  email VARCHAR(255) NOT NULL,        /*邮箱*/
+  photo VARCHAR(255) NOT NULL,        /*头像图片名*/
+  status INT(11) NOT NULL,            /*状态*/
+  created_time DATETIME NOT NULL,     /*创建时间*/
+  role INT(11) NOT NULL,              /*角色*/
+  PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*管理日志表*/
+CREATE TABLE MANAGE_LOG (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  detail VARCHAR(255) NOT NULL,       /*内容*/
+  type INT(11) NOT NULL,              /*日志类型*/
+  created_time DATETIME NOT NULL,     /*日志创建时间*/
+  manager_id INT(11) NOT NULL,        /*管理者,外键,引用MANAGER表*/
+  account_id INT(11),                 /*被管理者,外键,引用ACCOUNT表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (manager_id) REFERENCES MANAGER (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*地址表*/
+CREATE TABLE ADDRESS (
+  id INT(11) NOT NULL,            /*主键*/
+  receiver VARCHAR(255) NOT NULL, /*收货人*/
+  phone VARCHAR(255) NOT NULL,    /*手机号*/
+  location VARCHAR(255) NOT NULL, /*定位位置*/
+  detail VARCHAR(255) NOT NULL,   /*详细地址*/
+  status INT(11) NOT NULL,        /*状态*/
+  account_id INT(11) NOT NULL,    /*外键,引用ACCOUNT表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*商家表*/
+CREATE TABLE BUSINESS (
+  id INT(11) NOT NULL AUTO_INCREMENT,             /*主键*/
+  front_photo VARCHAR(255) NOT NULL,              /*室外图片名*/
+  inside_photo VARCHAR(255) NOT NULL,             /*室内图片名*/
+  id_back_photo VARCHAR(255) NOT NULL,            /*身份证背面图片名*/
+  id_front_Photo VARCHAR(255) NOT NULL,           /*身份证正面图片名*/
+  identifier VARCHAR(255) NOT NULL,               /*身份证号*/
+  business_licence VARCHAR(255) NOT NULL,         /*商家营业执照*/
+  catering_service_license VARCHAR(255) NOT NULL, /*餐厅服务营业执照*/
+  account_id INT(11) NOT NULL,                    /*外键,引用ACCOUNT表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*商店表*/
+CREATE TABLE SHOP (
+  id INT(11) NOT NULL AUTO_INCREMENT,     /*主键*/
+  address VARCHAR(255) NOT NULL,          /*地址*/
+  lat VARCHAR(255) NOT NULL,              /*经度*/
+  lon VARCHAR(255) NOT NULL,              /*纬度*/
+  operate_state INT(11) NOT NULL,         /*营业状态*/
+  announcement VARCHAR(255) NOT NULL,     /*公告*/
+  support_payment INT(11) NOT NULL,       /*支持支付方式*/
+  shop_type INT(11) NOT NULL,             /*商店类型*/
+  shipping_distance INT(11) NOT NULL,     /*配送范围*/
+  shipping_price INT(11) NOT NULL,        /*配送起价*/
+  shipping_time INT(11) NOT NULL,         /*配送时间*/
+  business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
+  shop_name VARCHAR(255) NOT NULL,        /*商店名*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (business_id) REFERENCES BUSINESS (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*商品表*/
+CREATE TABLE PRODUCT (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  product_name VARCHAR(255) NOT NULL, /*商品名*/
+  price DOUBLE NOT NULL,              /*单价*/
+  status INT(11) NOT NULL,            /*状态*/
+  sales_volume INT(11),               /*销量*/
+  description VARCHAR(255) NOT NULL,  /*商品描述*/
+  photo VARCHAR(255) NOT NULL,        /*商品图片路径*/
+  shop_id INT(11) NOT NULL,           /*外键,引用SHOP表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*订单表*/
+CREATE TABLE `ORDER` (
+  id INT(11) NOT NULL AUTO_INCREMENT,     /*主键*/
+  order_number VARCHAR(255) NOT NULL,     /*订单号*/
+  created_time DATETIME NOT NULL,         /*创建时间*/
+  completed_time DATETIME,                /*完成时间*/
+  accepted_time DATETIME,                 /*受理时间*/
+  status VARCHAR(255) NOT NULL,           /*订单状态*/
+  payment_method VARCHAR(255) NOT NULL,   /*支付方式*/
+  payment_status VARCHAR(255) NOT NULL,   /*支付状态*/
+  shipping_address VARCHAR(255) NOT NULL, /*发货地址*/
+  shipping_status VARCHAR(255) NOT NULL,  /*发货状态*/
+  notes VARCHAR(255),                     /*订单备注*/
+  total DOUBLE NOT NULL,                  /*总额*/
+  account_id INT(11) NOT NULL,            /*外键,引用ACCOUNT表*/
+  shop_id INT(11) NOT NULL,               /*外键,引用SHOP表*/
+  business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id),
+  FOREIGN KEY (business_id) REFERENCES BUSINESS (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*订单项表*/
+CREATE TABLE LINE_ITEM (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  product_name VARCHAR(255) NOT NULL, /*商品名*/
+  price DOUBLE NOT NULL,              /*商品单价*/
+  quantity INT(11) NOT NULL,          /*商品数量*/
+  order_id INT(11) NOT NULL,          /*外键,引用SHOP表*/
+  product_id INT(11) NOT NULL,        /*外键,引用SHOP表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (product_id) REFERENCES PRODUCT (id),
+  FOREIGN KEY (order_id) REFERENCES `ORDER` (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*足迹表*/
+CREATE TABLE FOOTPRINT (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  access_time DATE NOT NULL,          /*访问时间*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  shop_id INT(11) NOT NULL,           /*外键,引用SHOP表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*商店收藏表*/
+CREATE TABLE COLLECTION (
+  id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
+  account_id INT(11) NOT NULL,          /*外键,引用ACCOUNT表*/
+  shop_id INT(11) NOT NULL,             /*外键,引用SHOP表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*订单评价表*/
+CREATE TABLE ORDER_EVALUATION (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  score INT(11) NOT NULL,             /*评分*/
+  comment VARCHAR(255),               /*评论*/
+  reply VARCHAR(255),                 /*商家回复*/
+  image VARCHAR(255),                 /*评价图片名*/
+  eval_time DATETIME NOT NULL,        /*评价时间*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
+  business_id INT(11) NOT NULL,       /*外键,引用BUSINESS表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (order_id) REFERENCES `ORDER` (id),
+  FOREIGN KEY (business_id) REFERENCES BUSINESS (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*商品评价表*/
+CREATE TABLE PRODUCT_EVALUATION (
+  id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
+  score VARCHAR(255),                   /*评分*/
+  comment VARCHAR(255),                 /*评论*/
+  eval_time DATETIME NOT NULL,          /*评论时间*/
+  account_id INT(11) NOT NULL,          /*外键,引用ACCOUNT表*/
+  item_id INT(11) NOT NULL,             /*外键,引用LINE_ITEM表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (item_id) REFERENCES LINE_ITEM (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*投诉表*/
+CREATE TABLE COMPLAINT (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  type INT(11) NOT NULL,              /*投诉类型*/
+  content VARCHAR(255),               /*投诉内容*/
+  evindence VARCHAR(255),             /*证据图片名*/
+  created_time DATETIME NOT NULL,     /*投诉时间*/
+  status INT(11) NOT NULL,            /*状态*/
+  completed_time DATETIME,            /*处理完成时间*/
+  result INT(11),                     /*处理结果*/
+  solver INT(11),                     /*处理人,外键,引用MANAGER表*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  shop_id INT(11) NOT NULL,           /*外键,引用SHOP表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id),
+  FOREIGN KEY (solver) REFERENCES MANAGER (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+/*消息表*/
+CREATE TABLE MESSAGE (
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  type VARCHAR(255),                  /*消息类型*/
+  content VARCHAR(255),               /*消息内容*/
+  status VARCHAR(255) NOT NULL,       /*消息状态*/
+  sender_id INT(11) NOT NULL,         /*发送方,外键,引用ACCOUNT表*/
+  receiver_id INT(11) NOT NULL,       /*接收方,外键,引用ACCOUNT表*/
+  PRIMARY KEY (id),
+  FOREIGN KEY (sender_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (receiver_id) REFERENCES ACCOUNT (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8;
