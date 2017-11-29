@@ -2,17 +2,17 @@ package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
 
-public class Collection implements Serializable {
+public class Favor implements Serializable {
     private Integer id;                 // 用户收藏商家id
 
     private Integer accountId;          // 用户id
 
     private Integer shopId;             // 商家id
 
-    public Collection() {
+    public Favor() {
     }
 
-    public Collection(Integer id, Integer accountId, Integer shopId) {
+    public Favor(Integer id, Integer accountId, Integer shopId) {
         this.id = id;
         this.accountId = accountId;
         this.shopId = shopId;
@@ -44,7 +44,7 @@ public class Collection implements Serializable {
 
     @Override
     public String toString() {
-        return "Collection{" +
+        return "Favor{" +
                 "id=" + id +
                 ", accountId=" + accountId +
                 ", shopId=" + shopId +

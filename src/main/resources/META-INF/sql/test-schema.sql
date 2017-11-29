@@ -160,7 +160,7 @@ CREATE TABLE FOOTPRINT (
 );
 
 /*商店收藏表*/
-CREATE TABLE COLLECTION (
+CREATE TABLE FAVOR (
   id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
   account_id INT(11) NOT NULL,          /*外键,引用ACCOUNT表*/
   shop_id INT(11) NOT NULL,             /*外键,引用SHOP表*/
