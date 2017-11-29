@@ -13,7 +13,7 @@ public class ProductEvaluation {
 
    private Account account;
 
-   private Line_item item;
+   private LineItem item;
 
     public Account getAccount() {
         return account;
@@ -23,11 +23,11 @@ public class ProductEvaluation {
         this.account = account;
     }
 
-    public Line_item getItem() {
+    public LineItem getItem() {
         return item;
     }
 
-    public void setItem(Line_item item) {
+    public void setItem(LineItem item) {
         this.item = item;
     }
 

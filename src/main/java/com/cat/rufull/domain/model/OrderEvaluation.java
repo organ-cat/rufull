@@ -17,7 +17,7 @@ public class OrderEvaluation {
 
     private Business business;
 
-    private Shop shop;
+    private Order order;
 
     private Account account;
 
@@ -37,12 +37,12 @@ public class OrderEvaluation {
         this.account = account;
     }
 
-    public Shop getShop() {
-        return shop;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Integer getId() {
@@ -92,6 +92,4 @@ public class OrderEvaluation {
     public void setEvalTime(Date evalTime) {
         this.evalTime = evalTime;
     }
-
-
   }

@@ -5,10 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Luckily on 2017/11/29.
- */
-public class ManagerLog implements Serializable{
+public class ManageLog implements Serializable{
     private int id;
     private String detail;
     private int type;
