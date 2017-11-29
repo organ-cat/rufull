@@ -1,5 +1,7 @@
 package com.cat.rufull.domain.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class ManagerLog implements Serializable{
     private int id;
     private String detail;
     private int type;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;
     private int managerid;
     private int accountid;
