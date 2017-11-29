@@ -3,7 +3,7 @@ package com.cat.rufull.app.account;
 import com.aliyuncs.exceptions.ClientException;
 import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.SMS;
-import com.cat.rufull.domain.service.account.IAccountService;
+import com.cat.rufull.domain.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 @RequestMapping("/account")
 public class AccountController {
     @Resource
-    private IAccountService accountService;
+    private AccountService accountService;
 
     @Autowired
     private MailSender mailSender;
@@ -24,13 +24,13 @@ public class AccountController {
     private SimpleMailMessage mailMessage;
 
     @RequestMapping("/registerpage")
-    public void registerPage(){
-
+    public String registerPage() {
+        return "account/register";
     }
+
     @RequestMapping("/register")
     public String register(){
-
-        return "account/register";
+        return "hello";
     }
     @RequestMapping("/send")
     public String send(){

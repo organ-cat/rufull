@@ -1,7 +1,6 @@
 package com.cat.rufull.test;
 
-import com.cat.rufull.domain.model.User;
-import com.cat.rufull.domain.service.user.IUserService;
+import org.h2.engine.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,8 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestEverything {
     private static Logger logger = LoggerFactory.getLogger(TestEverything.class);
     //  private ApplicationContext ac = null;
-    @Autowired
-    private IUserService userService;
+
     @Autowired
     private MailSender mailSender;
     @Autowired
@@ -29,14 +27,6 @@ public class TestEverything {
 //      ac = new ClassPathXmlApplicationContext("applicationContext.xml");
 //      userService = (IUserService) ac.getBean("userService");
 //  }
-
-    @Test
-    public void testMybatis() {
-        User user = userService.findById(1);
-        // System.out.println(user.getUserName());
-        // logger.info("值："+user.getUserName());
-        logger.info(user.toString());
-    }
 
     @Test
     public void testSendEmail() {
