@@ -53,13 +53,13 @@ CREATE TABLE MANAGE_LOG (
 
 /*地址表*/
 CREATE TABLE ADDRESS (
-  id INT(11) NOT NULL,            /*主键*/
-  receiver VARCHAR(255) NOT NULL, /*收货人*/
-  phone VARCHAR(255) NOT NULL,    /*手机号*/
-  location VARCHAR(255) NOT NULL, /*定位位置*/
-  detail VARCHAR(255) NOT NULL,   /*详细地址*/
-  status INT(11) NOT NULL,        /*状态*/
-  account_id INT(11) NOT NULL,    /*外键,引用ACCOUNT表*/
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  receiver VARCHAR(255) NOT NULL,     /*收货人*/
+  phone VARCHAR(255) NOT NULL,        /*手机号*/
+  location VARCHAR(255) NOT NULL,     /*定位位置*/
+  detail VARCHAR(255) NOT NULL,       /*详细地址*/
+  status INT(11) NOT NULL,            /*状态*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
 );
@@ -81,19 +81,23 @@ CREATE TABLE BUSINESS (
 
 /*商店表*/
 CREATE TABLE SHOP (
-  id INT(11) NOT NULL AUTO_INCREMENT,     /*主键*/
-  address VARCHAR(255) NOT NULL,          /*地址*/
-  lat VARCHAR(255) NOT NULL,              /*经度*/
-  lon VARCHAR(255) NOT NULL,              /*纬度*/
-  operate_state INT(11) NOT NULL,         /*营业状态*/
-  announcement VARCHAR(255) NOT NULL,     /*公告*/
-  support_payment INT(11) NOT NULL,       /*支持支付方式*/
-  shop_type INT(11) NOT NULL,             /*商店类型*/
-  shipping_distance INT(11) NOT NULL,     /*配送范围*/
-  shipping_price INT(11) NOT NULL,        /*配送起价*/
-  shipping_time INT(11) NOT NULL,         /*配送时间*/
-  business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
-  shop_name VARCHAR(255) NOT NULL,        /*商店名*/
+  id INT(11) NOT NULL AUTO_INCREMENT,                 /*主键*/
+  shop_name VARCHAR(255) NOT NULL,                    /*商店名*/
+  shop_type INT(11) NOT NULL,                         /*商店类型*/
+  shop_photo    VARCHAR(255) NOT NULL,                /*商店图片*/
+  shop_phone	VARCHAR(255) NOT NULL,                  /*商店电话*/
+  address VARCHAR(255) NOT NULL,                      /*地址*/
+  operate_time VARCHAR(255) NOT NULL,                 /*营业时间*/
+  operate_state INT(11) NOT NULL,                     /*营业状态*/
+  lat VARCHAR(255) NOT NULL,                          /*经度*/
+  lon VARCHAR(255) NOT NULL,                          /*纬度*/
+  support_payment INT(11) NOT NULL,                   /*支持支付方式*/
+  shipping_distance INT(11) NOT NULL,                 /*配送范围*/
+  shipping_price DECIMAL(11,2) NOT NULL,              /*配送起价*/
+  shipping_time INT(11) NOT NULL DEFAULT 0,           /*配送时间*/
+  shipping_fee  DECIMAL(11,2) NOT NULL default 0.00,  /*配送费*/
+  announcement VARCHAR(255) NOT NULL,                 /*公告*/
+  business_id INT(11) NOT NULL,                       /*外键,引用BUSINESS表*/
   PRIMARY KEY (id),
   FOREIGN KEY (business_id) REFERENCES BUSINESS (id)
 );
@@ -123,9 +127,9 @@ CREATE TABLE `ORDER` (
   payment_method VARCHAR(255) NOT NULL,   /*支付方式*/
   payment_status VARCHAR(255) NOT NULL,   /*支付状态*/
   shipping_address VARCHAR(255) NOT NULL, /*发货地址*/
-  shipping_status VARCHAR(255) NOT NULL,  /*发货状态*/
+  shipping_status VARCHAR(255),           /*发货状态*/
   notes VARCHAR(255),                     /*订单备注*/
-  total DECIMAL(11,2) NOT NULL,                  /*总额*/
+  total DECIMAL(11,2) NOT NULL,           /*总额*/
   account_id INT(11) NOT NULL,            /*外键,引用ACCOUNT表*/
   shop_id INT(11) NOT NULL,               /*外键,引用SHOP表*/
   business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
@@ -139,7 +143,7 @@ CREATE TABLE `ORDER` (
 CREATE TABLE LINE_ITEM (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   product_name VARCHAR(255) NOT NULL, /*商品名*/
-  price DECIMAL(11,2) NOT NULL,              /*商品单价*/
+  price DECIMAL(11,2) NOT NULL,       /*商品单价*/
   quantity INT(11) NOT NULL,          /*商品数量*/
   order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
   product_id INT(11) NOT NULL,        /*外键,引用SHOP表*/

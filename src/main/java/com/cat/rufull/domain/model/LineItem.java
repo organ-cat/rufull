@@ -66,4 +66,16 @@ public class LineItem implements Serializable {
     public void setProductId(Integer productId) {
         this.productId = productId;
     }
+
+    @Override
+    public String toString() {
+        return "LineItem{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", orderId=" + orderId +
+                ", productId=" + productId +
+                '}';
+    }
 }

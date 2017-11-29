@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cat.rufull.domain.mapper.order.OrderMapper">
+
+  <cache/>
+  
+  <resultMap id="LineItemResult" type="com.cat.rufull.domain.model.LineItem">
+    <id column="item_id" property="id"/>
+    <result column="product_name" property="productName"/>
+    <result column="price" property="price"/>
+    <result column="quantity" property="quantity"/>
+    <result column="order_id" property="orderId"/>
+    <result column="product_id" property="productId"/>
+  </resultMap>
+
+  <resultMap id="ShopResult" type="com.cat.rufull.domain.model.Shop">
+    <id column="shop_id" property="id"/>
+    <result column="shop_name" property="shopName"/>
+  </resultMap>
+
+  <resultMap id="OrderResult" type="com.cat.rufull.domain.model.Order">
+    <id column="order_id" property="id"/>
+    <result column="order_number" property="orderNumber"/>
+    <result column="created_time" property="createdTime"/>
+    <result column="completed_time" property="completedTime"/>
+    <result column="accepted_time" property="acceptedTime"/>
+    <result column="order_status" property="status"/>
+    <result column="payment_method" property="paymentMethod"/>
+    <result column="payment_status" property="paymentStatus"/>
+    <result column="shipping_address" property="shippingAddress"/>
+    <result column="shipping_status" property="shippingStatus"/>
+    <result column="notes" property="notes"/>
+    <result column="total" property="total"/>
+    <result column="account_id" property="accountId"/>
+    <result column="business_id" property="businessId"/>
+
+    <association property="shop" resultMap="ShopResult"/>
+    <collection property="lineItems" resultMap="LineItemResult"/>
+  </resultMap>
+
+  <select id="findOrderByAccountId" parameterType="int" resultMap="OrderResult">
+    SELECT
+      O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,STATUS,
+      PAYMENT_METHOD,PAYMENT_STATUS,NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,O.BUSINESS_ID,
+      L.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,L.ORDER_ID,PRODUCT_ID,
+      S.ID AS SHOP_ID,SHOP_NAME
+    FROM `ORDER` O
+      LEFT OUTER JOIN LINE_ITEM L ON O.ID=L.ORDER_ID
+      LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
+    WHERE O.ACCOUNT_ID=#{accountId}
+  </select>
+
+  <select id="findOrderById" parameterType="int" resultMap="OrderResult">
+    SELECT
+      O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,STATUS,
+      PAYMENT_METHOD,PAYMENT_STATUS,NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,O.BUSINESS_ID,
+      L.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,L.ORDER_ID,PRODUCT_ID,
+      S.ID AS SHOP_ID,SHOP_NAME
+    FROM `ORDER` O
+      LEFT OUTER JOIN LINE_ITEM L ON O.ID=L.ORDER_ID
+      LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
+    WHERE O.ID=#{id}
+  </select>
+
+  <update id="updateOrder" parameterType="com.cat.rufull.domain.model.Order">
+    UPDATE `ORDER`
+    SET
+      ORDER_NUMBER=#{orderNumber},CREATED_TIME=#{createdTime},COMPLETED_TIME=#{completedTime},
+      ACCEPTED_TIME=#{acceptedTime},STATUS=#{status},PAYMENT_METHOD=#{paymentMethod},
+      PAYMENT_STATUS=#{paymentStatus},SHIPPING_ADDRESS=#{shippingAddress},SHIPPING_STATUS=#{shippingStatus},
+      NOTES=#{notes},TOTAL=#{total},ACCOUNT_ID=#{accountId},BUSINESS_ID=#{businessId}
+    WHERE ID=#{id}
+  </update>
+
+  <insert id="insertOrder" parameterType="com.cat.rufull.domain.model.Order"
+          useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO `ORDER`(ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,
+                        STATUS,PAYMENT_METHOD,PAYMENT_STATUS,SHIPPING_ADDRESS,
+                        SHIPPING_STATUS,NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,BUSINESS_ID)
+    VALUES(#{orderNumber},#{createdTime},#{completedTime},#{acceptedTime},#{status},
+           #{paymentMethod},#{paymentStatus},#{shippingAddress},#{shippingStatus},
+           #{notes},#{total},#{accountId},#{shop.id},#{businessId})
+  </insert>
+</mapper>
