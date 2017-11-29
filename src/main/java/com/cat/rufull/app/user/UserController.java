@@ -72,34 +72,34 @@ public class UserController {
 
     @RequestMapping("/backPay")
     public void backPay(){
-        //退款:
-        // 定义退款的参数:
-        String p0_Cmd = "RefundOrd";
-        String p1_MerId = "10001126856";
-        String pb_TrxId = "";
-        String p3_Amt = "0.01";
-        String p4_Cur = "CNY";
-        String p5_Desc = "";
-        String keyValue = "69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-        String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, pb_TrxId, p3_Amt, p4_Cur, p5_Desc, keyValue);
-
-        StringBuffer sb = new StringBuffer("https://www.yeepay.com/app-merchant-proxy/node?");
-        sb.append("p0_Cmd=").append(p0_Cmd).append("&");
-        sb.append("p1_MerId=").append(p1_MerId).append("&");
-        sb.append("p2_Order=").append(p2_Order).append("&");
-        sb.append("p3_Amt=").append(p3_Amt).append("&");
-        sb.append("p4_Cur=").append(p4_Cur).append("&");
-        sb.append("p5_Pid=").append(p5_Pid).append("&");
-        sb.append("p6_Pcat=").append(p6_Pcat).append("&");
-        sb.append("p7_Pdesc=").append(p7_Pdesc).append("&");
-        sb.append("p8_Url=").append(p8_Url).append("&");
-        sb.append("p9_SAF=").append(p9_SAF).append("&");
-        sb.append("pa_MP=").append(pa_MP).append("&");
-        sb.append("pd_FrpId=").append(pd_FrpId).append("&");
-        sb.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
-        sb.append("hmac=").append(hmac);
-
-        response.sendRedirect(sb.toString());
+//        //退款:
+//        // 定义退款的参数:
+//        String p0_Cmd = "RefundOrd";
+//        String p1_MerId = "10001126856";
+//        String pb_TrxId = "";
+//        String p3_Amt = "0.01";
+//        String p4_Cur = "CNY";
+//        String p5_Desc = "";
+//        String keyValue = "69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
+//        String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, pb_TrxId, p3_Amt, p4_Cur, p5_Desc, keyValue);
+//
+//        StringBuffer sb = new StringBuffer("https://www.yeepay.com/app-merchant-proxy/node?");
+//        sb.append("p0_Cmd=").append(p0_Cmd).append("&");
+//        sb.append("p1_MerId=").append(p1_MerId).append("&");
+//        sb.append("p2_Order=").append(p2_Order).append("&");
+//        sb.append("p3_Amt=").append(p3_Amt).append("&");
+//        sb.append("p4_Cur=").append(p4_Cur).append("&");
+//        sb.append("p5_Pid=").append(p5_Pid).append("&");
+//        sb.append("p6_Pcat=").append(p6_Pcat).append("&");
+//        sb.append("p7_Pdesc=").append(p7_Pdesc).append("&");
+//        sb.append("p8_Url=").append(p8_Url).append("&");
+//        sb.append("p9_SAF=").append(p9_SAF).append("&");
+//        sb.append("pa_MP=").append(pa_MP).append("&");
+//        sb.append("pd_FrpId=").append(pd_FrpId).append("&");
+//        sb.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
+//        sb.append("hmac=").append(hmac);
+//
+//        response.sendRedirect(sb.toString());
     }
 
     /**
