@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+  <!-- namespace还没有写 -->
+<mapper namespace="com.cat.rufull.domain.mapper.business.BusinessMapper" >
+
+  <!-- 路径还没有写type写全路径名字 -->
+  <resultMap id="BusinessResultMap" type="com.cat.rufull.domain.model.Business" >
+    <id column="id" property="id"/>
+    <result column="front_photo" property="frontPhoto"/>
+    <result column="inside_photo" property="insidePhoto"  />
+    <result column="id_back_photo" property="idBackPhoto"  />
+    <result column="id_front_Photo" property="idFrontPhoto"  />
+    <result column="identifier" property="identifier"  />
+    <result column="business_licence" property="businessLicence"  />
+    <result column="catering_service_license" property="cateringServiceLicense"  />
+    <association  column="account_id" property="account"
+                 select="com.cat.rufull.domain.mapper.account.AccountMapper.findAccountById"></association>
+  </resultMap>
+
+
+  
+  <!-- Business数据库基础字段 -->
+   <sql id="Business_Column_List" >
+    id, front_photo, inside_photo, id_back_photo, id_front_Photo, identifier, business_licence, 
+    catering_service_license, account_id
+  </sql>
+
+  
+  <!-- 查询所有的商家:返回List 可用-->
+    <select id="findAll" resultMap="BusinessResultMap" resultType="list">
+      select 
+      <include refid="Business_Column_List" />
+      from business
+  </select>
+
+  <!-- 通过id查询对应的商家信息 -->
+  <select id="findById" resultMap="BusinessResultMap">
+    select 
+    <include refid="Business_Column_List" />
+    from business
+    where id = #{id}
+  </select>
+
+  <!-- 通过id查询对应的删除 -->
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from business
+    where id = #{id}
+  </delete>
+
+
+  <!-- 添加一个商家 可用-->
+  <insert id="add" parameterType="com.cat.rufull.domain.model.Business" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      <!-- 主键标识 -->
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into business (front_photo, inside_photo, id_back_photo, 
+      id_front_Photo, identifier, business_licence, 
+      catering_service_license,account_id)
+
+    values (#{frontPhoto}, #{insidePhoto}, #{idBackPhoto}, 
+      #{idFrontPhoto}, #{identifier}, #{businessLicence}, 
+      #{cateringServiceLicense}, #{account.id})
+  </insert>
+  
+  <!--&lt;!&ndash; 选择特定的字段插入&ndash;&gt;用不上-->
+  <!--<insert id="insertSelective" parameterType="com.cat.rufull.domain.model.Business" >-->
+    <!--<selectKey resultType="Integer" keyProperty="id" order="AFTER" >-->
+      <!--SELECT LAST_INSERT_ID()-->
+    <!--</selectKey>-->
+    <!--insert into business-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides="," >-->
+      <!--<if test="frontPhoto != null" >-->
+        <!--front_photo,-->
+      <!--</if>-->
+      <!--<if test="insidePhoto != null" >-->
+        <!--inside_photo,-->
+      <!--</if>-->
+      <!--<if test="idBackPhoto != null" >-->
+        <!--id_back_photo,-->
+      <!--</if>-->
+      <!--<if test="idFrontPhoto != null" >-->
+        <!--id_front_Photo,-->
+      <!--</if>-->
+      <!--<if test="identifier != null" >-->
+        <!--identifier,-->
+      <!--</if>-->
+      <!--<if test="businessLicence != null" >-->
+        <!--business_licence,-->
+      <!--</if>-->
+      <!--<if test="cateringServiceLicense != null" >-->
+        <!--catering_service_license,-->
+      <!--</if>-->
+      <!--<if test="account != null" >-->
+        <!--account.id,-->
+      <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides="," >-->
+      <!--<if test="frontPhoto != null" >-->
+        <!--#{frontPhoto},-->
+      <!--</if>-->
+      <!--<if test="insidePhoto != null" >-->
+        <!--#{insidePhoto},-->
+      <!--</if>-->
+      <!--<if test="idBackPhoto != null" >-->
+        <!--#{idBackPhoto},-->
+      <!--</if>-->
+      <!--<if test="idFrontPhoto != null" >-->
+        <!--#{idFrontPhoto},-->
+      <!--</if>-->
+      <!--<if test="identifier != null" >-->
+        <!--#{identifier},-->
+      <!--</if>-->
+      <!--<if test="businessLicence != null" >-->
+        <!--#{businessLicence},-->
+      <!--</if>-->
+      <!--<if test="cateringServiceLicense != null" >-->
+        <!--#{cateringServiceLicense},-->
+      <!--</if>-->
+      <!--<if test="account.id != null" >-->
+        <!--#{account.id},-->
+      <!--</if>-->
+    <!--</trim>-->
+  <!--</insert>-->
+  
+  <!-- 可选择性的通过Id更新Business 可用-->
+  <update id="updateByIdSelective" parameterType="com.cat.rufull.domain.model.Business" >
+    update business
+    <set >
+      <if test="frontPhoto != null" >
+        front_photo = #{frontPhoto},
+      </if>
+      <if test="insidePhoto != null" >
+        inside_photo = #{insidePhoto},
+      </if>
+      <if test="idBackPhoto != null" >
+        id_back_photo = #{idBackPhoto},
+      </if>
+      <if test="idFrontPhoto != null" >
+        id_front_Photo = #{idFrontPhoto},
+      </if>
+      <if test="identifier != null" >
+        identifier = #{identifier},
+      </if>
+      <if test="businessLicence != null" >
+        business_licence = #{businessLicence},
+      </if>
+      <if test="cateringServiceLicense != null" >
+        catering_service_license = #{cateringServiceLicense},
+      </if>
+      <if test="account != null" >
+        account_id = #{account.id},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <!-- 更新所有Business的内容-->
+  <update id="updateById" parameterType="com.cat.rufull.domain.model.Business" >
+    update business
+    set front_photo = #{frontPhoto},
+      inside_photo  = #{insidePhoto},
+      id_back_photo = #{idBackPhoto},
+      id_front_Photo = #{idFrontPhoto},
+      identifier = #{identifier},
+      business_licence = #{businessLicence},
+      catering_service_license = #{cateringServiceLicense},
+      account_id = #{account.id}
+    where id = #{id}
+  </update>
+</mapper>
