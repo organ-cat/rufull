@@ -1,5 +1,8 @@
 package com.cat.rufull.app.account;
 
+import com.aliyuncs.exceptions.ClientException;
+import com.cat.rufull.domain.common.util.Email;
+import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.service.account.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -24,10 +27,19 @@ public class AccountController {
     public String register(){
         return "account/register";
     }
-
-    @RequestMapping("/sendEmail")
-    public String sendEmail(){
-//        EmailUtil.send(mailSender,mailMessage);
-        return "account/sendEmail";
+    @RequestMapping("/send")
+    public String send(){
+        Email.send(mailSender, mailMessage);
+        return "account/send";
     }
+    @RequestMapping("/sms")
+    public String sendSMS(){
+        try {
+            SMS.sendSMS("13413600394",1234);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        return "account/sms";
+    }
+
 }
