@@ -7,7 +7,7 @@ CREATE TABLE ACCOUNT (
   email VARCHAR(255),                 /*邮箱*/
   nickname VARCHAR(255),              /*昵称*/
   photo VARCHAR(255) NOT NULL,        /*头像图片名*/
-  balance DOUBLE,                     /*余额*/
+  balance DECIMAL(11,2),              /*余额*/
   status INT(11) NOT NULL,            /*状态*/
   register_time DATETIME,             /*注册时间*/
   PRIMARY KEY (id)
@@ -102,7 +102,7 @@ CREATE TABLE SHOP (
 CREATE TABLE PRODUCT (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   product_name VARCHAR(255) NOT NULL, /*商品名*/
-  price DOUBLE NOT NULL,              /*单价*/
+  price DECIMAL(11,2) NOT NULL,       /*单价*/
   status INT(11) NOT NULL,            /*状态*/
   sales_volume INT(11),               /*销量*/
   description VARCHAR(255) NOT NULL,  /*商品描述*/
@@ -125,7 +125,7 @@ CREATE TABLE `ORDER` (
   shipping_address VARCHAR(255) NOT NULL, /*发货地址*/
   shipping_status VARCHAR(255) NOT NULL,  /*发货状态*/
   notes VARCHAR(255),                     /*订单备注*/
-  total DOUBLE NOT NULL,                  /*总额*/
+  total DECIMAL(11,2) NOT NULL,                  /*总额*/
   account_id INT(11) NOT NULL,            /*外键,引用ACCOUNT表*/
   shop_id INT(11) NOT NULL,               /*外键,引用SHOP表*/
   business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
@@ -139,9 +139,9 @@ CREATE TABLE `ORDER` (
 CREATE TABLE LINE_ITEM (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   product_name VARCHAR(255) NOT NULL, /*商品名*/
-  price DOUBLE NOT NULL,              /*商品单价*/
+  price DECIMAL(11,2) NOT NULL,              /*商品单价*/
   quantity INT(11) NOT NULL,          /*商品数量*/
-  order_id INT(11) NOT NULL,          /*外键,引用SHOP表*/
+  order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
   product_id INT(11) NOT NULL,        /*外键,引用SHOP表*/
   PRIMARY KEY (id),
   FOREIGN KEY (product_id) REFERENCES PRODUCT (id),

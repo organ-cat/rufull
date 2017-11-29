@@ -1,19 +1,19 @@
 package com.cat.rufull.domain.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Footprint {
-    private Integer id;         // 足迹的id
-    private Date accessTime;    // 进入商家的时间
-    private Integer accountId;  // 账号的id
-    private Integer shopId;     // 浏览的商家
+public class Collection implements Serializable {
+    private Integer id;                 // 用户收藏商家id
 
-    public Footprint() {
+    private Integer accountId;          // 用户id
+
+    private Integer shopId;             // 商家id
+
+    public Collection() {
     }
 
-    public Footprint(Integer id, Date accessTime, Integer accountId, Integer shopId) {
+    public Collection(Integer id, Integer accountId, Integer shopId) {
         this.id = id;
-        this.accessTime = accessTime;
         this.accountId = accountId;
         this.shopId = shopId;
     }
@@ -24,14 +24,6 @@ public class Footprint {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getAccessTime() {
-        return accessTime;
-    }
-
-    public void setAccessTime(Date accessTime) {
-        this.accessTime = accessTime;
     }
 
     public Integer getAccountId() {
@@ -52,9 +44,8 @@ public class Footprint {
 
     @Override
     public String toString() {
-        return "Footprint{" +
+        return "Collection{" +
                 "id=" + id +
-                ", accessTime=" + accessTime +
                 ", accountId=" + accountId +
                 ", shopId=" + shopId +
                 '}';

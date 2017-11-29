@@ -5,27 +5,27 @@ import java.util.Date;
 
 public class Complaint {
 
-    private Integer id;         //投诉的id
+    private Integer id;         // 投诉的id
 
-    private Integer type;       //投诉的类型
+    private Integer type;       // 投诉的类型
 
-    private String content;     //投诉的内容
+    private String content;     // 投诉的内容
 
-    private String evindence;   //投诉的证据，图
+    private String evindence;   // 投诉的证据，图
 
-    private Date createdTime;   //投诉时间对应被创建时间
+    private Date createdTime;   // 投诉时间对应被创建时间
 
-    private Integer status;      //投诉状态
+    private Integer status;     // 投诉状态
 
-    private Date completedTime; //投诉处理结束时间
+    private Date completedTime; // 投诉处理结束时间
 
-    private Integer result;      //投诉处理后的结果
+    private Integer result;     // 投诉处理后的结果
 
-    private Integer solver;      //投诉处理者
+    private Integer solver;     // 投诉处理者
 
-    private Integer accountId;     //投诉的用户
+    private Integer accountId;  // 投诉的用户
 
-    private Integer shopId;           //被投诉的商店
+    private Integer shopId;     // 被投诉的商店
 
     public Complaint() {
     }

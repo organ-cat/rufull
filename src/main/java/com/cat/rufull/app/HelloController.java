@@ -1,4 +1,4 @@
-package com.cat.rufull.app.user;
+package com.cat.rufull.app;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

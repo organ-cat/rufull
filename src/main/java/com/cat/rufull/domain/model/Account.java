@@ -1,33 +1,34 @@
 package com.cat.rufull.domain.model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Account {
 
-    private Integer id;           //账号的id
+    private Integer id;          // 账号的id
 
-    private String username;     //账号的用户名
+    private String username;     // 账号的用户名
 
-    private String password;     //账号的密码
+    private String password;     // 账号的密码
 
-    private String phone;        //账号的手机
+    private String phone;        // 账号的手机
 
-    private String email;        //账号的邮箱
+    private String email;        // 账号的邮箱
 
-    private String nickname;     //账号的呢称
+    private String nickname;     // 账号的呢称
 
-    private String photo;         //账号的头像
+    private String photo;        // 账号的头像
 
-    private double balance;      //账号的余额
+    private BigDecimal balance;  // 账号的余额
 
-    private int status;          //账号的状态
+    private Integer status;      // 账号的状态
 
-    private Date registerTime;   //账号的注册时间
+    private Date registerTime;   // 账号的注册时间
 
     public Account() {
     }
 
-    public Account(Integer id, String username, String password, String phone, String email, String nickname, String photo, double balance, int status, Date registerTime) {
+    public Account(Integer id, String username, String password, String phone, String email, String nickname, String photo, BigDecimal balance, Integer status, Date registerTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -96,19 +97,19 @@ public class Account {
         this.photo = photo;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
