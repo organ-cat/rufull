@@ -15,33 +15,33 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <!--内存数据库,方便开发使用-->
-    <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>
-        <jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>
-    </jdbc:embedded-database>
+    <!--&lt;!&ndash;内存数据库,方便开发使用&ndash;&gt;-->
+    <!--<jdbc:embedded-database id="dataSource" type="H2">-->
+        <!--<jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>-->
+        <!--<jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>-->
+    <!--</jdbc:embedded-database>-->
 
     <!-- 引入配置文件 -->
     <context:property-placeholder location="classpath:application.properties"/>
 
     <!--配置数据源-->
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
-          <!--destroy-method="close">-->
-        <!--<property name="driverClassName" value="${jdbc.driver}"/>-->
-        <!--<property name="url" value="${jdbc.url}"/>-->
-        <!--<property name="username" value="${jdbc.username}"/>-->
-        <!--<property name="password" value="${jdbc.password}"/>-->
-        <!--&lt;!&ndash; 初始化连接大小 &ndash;&gt;-->
-        <!--<property name="initialSize" value="${jdbc.initialSize}"/>-->
-        <!--&lt;!&ndash; 连接池最大数量 &ndash;&gt;-->
-        <!--<property name="maxActive" value="${jdbc.maxActive}"/>-->
-        <!--&lt;!&ndash; 连接池最大空闲 &ndash;&gt;-->
-        <!--<property name="maxIdle" value="${jdbc.maxIdle}"/>-->
-        <!--&lt;!&ndash; 连接池最小空闲 &ndash;&gt;-->
-        <!--<property name="minIdle" value="${jdbc.minIdle}"/>-->
-        <!--&lt;!&ndash; 获取连接最大等待时间 &ndash;&gt;-->
-        <!--<property name="maxWait" value="${jdbc.maxWait}"/>-->
-    <!--</bean>-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${jdbc.maxWait}"/>
+    </bean>
 
     <!-- define the SqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
