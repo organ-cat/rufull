@@ -3,13 +3,11 @@ package com.cat.rufull.domain.model;
 import java.io.Serializable;
 
 public class Collection implements Serializable {
-    private Integer id;                 //用户收藏商家id
+    private Integer id;                 // 用户收藏商家id
 
-    private Integer accountId;          //用户id
+    private Integer accountId;          // 用户id
 
-    private Integer shopId;             //商家id
-
-    private static final long serialVersionUID = 1L;
+    private Integer shopId;             // 商家id
 
     public Collection() {
     }

@@ -4,33 +4,33 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Shop implements Serializable {
-    private Integer id;                         //商店id主键
+    private Integer id;                         // 商店id主键
 
-    private String shopName;                    //商店名称
+    private String shopName;                    // 商店名称
 
-    private String address;                     //商店详细地址
+    private String address;                     // 商店详细地址
 
-    private String lat;                         //商店在地图上经度
+    private String lat;                         // 商店在地图上经度
 
-    private String lon;                         //商店在地图上维度
+    private String lon;                         // 商店在地图上维度
 
-    private Integer operateState;               //营业状态：还没有确定有多少个状态
+    private Integer operateState;               // 营业状态：还没有确定有多少个状态
 
-    private String announcement;                //商店公告
+    private String announcement;                // 商店公告
 
-    private Integer supportPayment;             //支持支付方式
+    private Integer supportPayment;             // 支持支付方式
 
-    private Integer shopType;                   //商店类型
+    private Integer shopType;                   // 商店类型
 
-    private Integer shippingDistance;           //配送距离
+    private Integer shippingDistance;           // 配送距离
 
-    private Integer shippingPrice;              //配送起价
+    private Integer shippingPrice;              // 配送起价
 
-    private Integer shippingTime;               //配送时间
+    private Integer shippingTime;               // 配送时间
 
-    private Business business;                  //商店与商家1对1关系
+    private Business business;                  // 商店与商家1对1关系
 
-    private List<Product> productList;          //商店与商品1对多关系
+    private List<Product> productList;          // 商店与商品1对多关系
 
     private static final long serialVersionUID = 1L;
 

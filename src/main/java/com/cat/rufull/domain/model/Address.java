@@ -2,19 +2,19 @@ package com.cat.rufull.domain.model;
 
 public class Address {
 
-    private Integer id;          //地址的id
+    private Integer id;         // 地址的id
 
-    private String receiver;    //地址的收货人
+    private String receiver;    // 地址的收货人
 
-    private String phone;        //地址收货人的手机
+    private String phone;       // 地址收货人的手机
 
-    private String location;     //地址的位置
+    private String location;    // 地址的位置
 
-    private String detail;       //地址的详细位置
+    private String detail;      // 地址的详细位置
 
-    private Integer status;       //地址的状态
+    private Integer status;     // 地址的状态
 
-    private Integer accountId;      //地址对应的账号
+    private Integer accountId;  // 地址对应的账号
 
     public Address() {
     }

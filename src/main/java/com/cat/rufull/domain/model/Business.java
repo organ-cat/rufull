@@ -1,30 +1,31 @@
 package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Business implements Serializable {
-    private Integer id;                     //主键
+    private Integer id;                     // 主键
 
-    private String frontPhoto;              //室外图片名
+    private String frontPhoto;              // 室外图片名
 
-    private String insidePhoto;             //室内图片名
+    private String insidePhoto;             // 室内图片名
 
-    private String idBackPhoto;             //身份证背面照片
+    private String idBackPhoto;             // 身份证背面照片
 
-    private String idFrontPhoto;            //身份证正面照片
+    private String idFrontPhoto;            // 身份证正面照片
 
-    private String identifier;              //身份证号
+    private String identifier;              // 身份证号
 
-    private String businessLicence;         //商家营业执照
+    private String businessLicence;         // 商家营业执照
 
-    private String cateringServiceLicense;  //餐厅服务营业执照
+    private String cateringServiceLicense;  // 餐厅服务营业执照
 
-    private Account account;                //用户和商家1对1关系
+    private Account account;                // 用户和商家1对1关系
 
-    private List<Order> orderList;          //商家和订单1对多关系
+    private List<Order> orderList;          // 商家和订单1对多关系
 
-    //商店信息保留
-    private Shop shop;                      //商家和商店1对1关系
+    // 商店信息保留
+    private Shop shop;                      // 商家和商店1对1关系
 
     public Business() {
     }

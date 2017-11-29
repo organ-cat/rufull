@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class LoginLog {
 
-    private Integer id;         //登陆的id
+    private Integer id;         // 登陆的id
 
-    private String ip;          //登陆的ip
+    private String ip;          // 登陆的ip
 
-    private String location;   //登陆的位置
+    private String location;    // 登陆的位置
 
-    private Date loginTime;     //登陆的时间
+    private Date loginTime;     // 登陆的时间
 
-    private Integer accountId;  //登陆的账号的id
+    private Integer accountId;  // 登陆的账号的id
 
     public LoginLog() {
     }

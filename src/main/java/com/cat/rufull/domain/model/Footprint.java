@@ -3,10 +3,10 @@ package com.cat.rufull.domain.model;
 import java.util.Date;
 
 public class Footprint {
-    private Integer id;         //足迹的id
-    private Date accessTime;   //进入商家的时间
-    private Integer accountId;   //账号的id
-    private Integer shopId;         //浏览的商家
+    private Integer id;         // 足迹的id
+    private Date accessTime;    // 进入商家的时间
+    private Integer accountId;  // 账号的id
+    private Integer shopId;     // 浏览的商家
 
     public Footprint() {
     }

@@ -1,28 +1,30 @@
 package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class Product implements Serializable {
-    private Integer id;                 //商品主键id
+    private Integer id;                 // 商品主键id
 
-    private String productName;         //商品名称
+    private String productName;         // 商品名称
 
-    private Double price;               //商品价格
+    private BigDecimal price;           // 商品价格
 
-    private Integer status;             //商品状态：还没有确定有多少个
+    private Integer status;             // 商品状态：还没有确定有多少个
 
-    private Integer salesVolume;        // 销售量
+    private Integer salesVolume;        //  销售量
 
-    private String description;         //商品描述
+    private String description;         // 商品描述
 
-    private String photo;               //商品照片
+    private String photo;               // 商品照片
 
-    private Shop shop;                  //商店与商品1对1关系
+    private Shop shop;                  // 商店与商品1对1关系
 
     public Product() {
     }
 
-    public Product(Integer id, String productName, Double price, Integer status, Integer salesVolume, String description, String photo, Shop shop, List<LineItem> lineItemList) {
+    public Product(Integer id, String productName, BigDecimal price, Integer status, Integer salesVolume, String description, String photo, Shop shop, List<LineItem> lineItemList) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -55,11 +57,11 @@ public class Product implements Serializable {
         this.productName = productName == null ? null : productName.trim();
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
