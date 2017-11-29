@@ -14,8 +14,8 @@ public class ManagerLog implements Serializable{
     private int type;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;
-    private int managerid;
-    private int accountid;
+    private Manager manager;
+    private Account account;
 
     public int getId() {
         return id;
@@ -49,19 +49,19 @@ public class ManagerLog implements Serializable{
         this.createtime = createtime;
     }
 
-    public int getManagerid() {
-        return managerid;
+    public Manager getManager() {
+        return manager;
     }
 
-    public void setManagerid(int managerid) {
-        this.managerid = managerid;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
-    public int getAccountid() {
-        return accountid;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountid(int accountid) {
-        this.accountid = accountid;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
