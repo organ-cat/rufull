@@ -23,13 +23,18 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
+    @RequestMapping("/registerpage")
+    public void registerPage(){
+
+    }
     @RequestMapping("/register")
     public String register(){
+
         return "account/register";
     }
     @RequestMapping("/send")
     public String send(){
-        Email.send(mailSender, mailMessage);
+        Email.sendBing(mailSender, mailMessage,"thisjiang@sina.com");
         return "account/send";
     }
     @RequestMapping("/sms")
