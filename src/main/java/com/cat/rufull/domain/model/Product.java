@@ -19,12 +19,14 @@ public class Product implements Serializable {
 
     private String photo;               // 商品照片
 
-    private Shop shop;                  // 商店与商品1对1关系
+    private Integer shopId;             //商店Id
+
+    private List<LineItem> lineItemList;
 
     public Product() {
     }
 
-    public Product(Integer id, String productName, BigDecimal price, Integer status, Integer salesVolume, String description, String photo, Shop shop, List<LineItem> lineItemList) {
+    public Product(Integer id, String productName, BigDecimal price, Integer status, Integer salesVolume, String description, String photo,  List<LineItem> lineItemList,Integer shopId) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -32,12 +34,12 @@ public class Product implements Serializable {
         this.salesVolume = salesVolume;
         this.description = description;
         this.photo = photo;
-        this.shop = shop;
+        this.shopId = shopId;
         this.lineItemList = lineItemList;
     }
 
 
-    private List<LineItem> lineItemList;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -97,20 +99,20 @@ public class Product implements Serializable {
         this.photo = photo == null ? null : photo.trim();
     }
 
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
     public List<LineItem> getLineItemList() {
         return lineItemList;
     }
 
     public void setLineItemList(List<LineItem> lineItemList) {
         this.lineItemList = lineItemList;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
     @Override
@@ -123,7 +125,7 @@ public class Product implements Serializable {
                 ", salesVolume=" + salesVolume +
                 ", description='" + description + '\'' +
                 ", photo='" + photo + '\'' +
-                ", shop=" + shop +
+                ", shopId=" + shopId +
                 ", lineItemList=" + lineItemList +
                 '}';
     }

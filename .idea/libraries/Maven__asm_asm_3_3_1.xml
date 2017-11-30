@@ -1,7 +1,6 @@
 <component name="libraryTable">
   <library name="Maven: asm:asm:3.3.1">
     <CLASSES>
-<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.m2/repository/asm/asm/3.3.1/asm-3.3.1.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -9,15 +8,6 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.m2/repository/asm/asm/3.3.1/asm-3.3.1-sources.jar!/" />
-=======
-      <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.3.1/asm-3.3.1.jar!/" />
-    </CLASSES>
-    <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.3.1/asm-3.3.1-javadoc.jar!/" />
-    </JAVADOC>
-    <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.3.1/asm-3.3.1-sources.jar!/" />
->>>>>>> 6ccb5269e90c733050218205577894e8d4d799bc
     </SOURCES>
   </library>
 </component>
