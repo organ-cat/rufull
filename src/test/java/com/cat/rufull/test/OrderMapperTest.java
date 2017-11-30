@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/spring/root-context.xml"})
 public class OrderMapperTest {
     private static Logger logger = LoggerFactory.getLogger(OrderMapperTest.class);

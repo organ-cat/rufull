@@ -59,28 +59,28 @@
 						<p>
 							选择银行：<br/>
 							<input type="radio" name="pd_FrpId" value="ICBC-NET-B2C" checked="checked"/>工商银行
-							<img src="${pageContext.request.contextPath}/bank_img/icbc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<img src="${pageContext.request.contextPath}/image/icbc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="pd_FrpId" value="BOC-NET-B2C"/>中国银行
-							<img src="${pageContext.request.contextPath}/bank_img/bc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<img src="${pageContext.request.contextPath}/image/bc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="pd_FrpId" value="ABC-NET-B2C"/>农业银行
-							<img src="${pageContext.request.contextPath}/bank_img/abc.bmp" align="middle"/>
+							<img src="${pageContext.request.contextPath}/image/abc.bmp" align="middle"/>
 							<br/>
 							<input type="radio" name="pd_FrpId" value="BOCO-NET-B2C"/>交通银行
-							<img src="${pageContext.request.contextPath}/bank_img/bcc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<img src="${pageContext.request.contextPath}/image/bcc.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="pd_FrpId" value="PINGANBANK-NET"/>平安银行
-							<img src="${pageContext.request.contextPath}/bank_img/pingan.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<img src="${pageContext.request.contextPath}/image/pingan.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="pd_FrpId" value="CCB-NET-B2C"/>建设银行
-							<img src="${pageContext.request.contextPath}/bank_img/ccb.bmp" align="middle"/>
+							<img src="${pageContext.request.contextPath}/image/ccb.bmp" align="middle"/>
 							<br/>
 							<input type="radio" name="pd_FrpId" value="CEB-NET-B2C"/>光大银行
-							<img src="${pageContext.request.contextPath}/bank_img/guangda.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<img src="${pageContext.request.contextPath}/image/guangda.bmp" align="middle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="pd_FrpId" value="CMBCHINA-NET-B2C"/>招商银行
-							<img src="${pageContext.request.contextPath}/bank_img/cmb.bmp" align="middle"/>
+							<img src="${pageContext.request.contextPath}/image/cmb.bmp" align="middle"/>
 						</p>
 						<hr />
 						<p style="text-align:right">
 							<a href="javascript:document.getElementById('orderForm').submit();">
-								<img src="${pageContext.request.contextPath}/bank_img/finalbutton.gif" width="204" height="51" border="0" />
+								<img src="${pageContext.request.contextPath}/image/finalbutton.gif" width="204" height="51" border="0" />
 							</a>
 						</p>
 				</div>
