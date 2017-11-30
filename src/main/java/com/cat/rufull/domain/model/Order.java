@@ -25,8 +25,6 @@ public class Order implements Serializable {
 
     private String paymentStatus;       // 支付状态
 
-    private String shippingAddress;     // 发货地址
-
     private String shippingStatus;      // 发货状态
 
     private String notes;               // 订单备注
@@ -40,6 +38,8 @@ public class Order implements Serializable {
     private Integer businessId;         // 商家id
 
     private List<LineItem> lineItems;   // 订单项列表
+
+    private Address address;            // 地址
 
     public Integer getId() {
         return id;
@@ -105,14 +105,6 @@ public class Order implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
     public String getShippingStatus() {
         return shippingStatus;
     }
@@ -169,25 +161,28 @@ public class Order implements Serializable {
         this.lineItems = lineItems;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", createdTime=" + createdTime +
-                ", completedTime=" + completedTime +
-                ", acceptedTime=" + acceptedTime +
-                ", status='" + status + '\'' +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentStatus='" + paymentStatus + '\'' +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", shippingStatus='" + shippingStatus + '\'' +
-                ", notes='" + notes + '\'' +
-                ", total=" + total +
-                ", accountId=" + accountId +
-                ", shop=" + shop +
-                ", businessId=" + businessId +
-                ", lineItems=" + lineItems +
-                '}';
+        return "Order - Id: " + id +
+                ", Order number: " + orderNumber +
+                ", Created time: " + createdTime +
+                ", Completed time: " + completedTime +
+                ", Accepted time: " + acceptedTime +
+                ", Status: " + status +
+                ", Payment method: " + paymentMethod +
+                ", Payment status: " + paymentStatus +
+                ", Shipping status: " + shippingStatus +
+                ", Notes: " + notes +
+                ", Total: " + total +
+                ", Account id: " + accountId +
+                ", Business id: " + businessId;
     }
 }

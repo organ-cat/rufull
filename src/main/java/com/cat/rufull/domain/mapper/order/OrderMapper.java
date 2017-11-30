@@ -7,6 +7,7 @@ import com.cat.rufull.domain.model.Order;
 import java.util.List;
 
 public interface OrderMapper {
+    // 查询用户的所有订单
     // 内容:
     //  下单时间
     //  下单内容:商店名,商店图片,每个订单项的商品名和数量,总商品数量(统计得出),订单号
@@ -14,12 +15,15 @@ public interface OrderMapper {
     //  订单状态
     public List<Order> findOrderByAccountId(Integer accountId);
 
-    // 用订单号查订单详情
+    // 用id查询订单详情
     // 内容:
-    //  商店名,商店图片,订单号,商家电话,订单内容
-    public Order findOrderById(Integer id);
+    //  商店名,商店图片,商家电话,订单包含的内容,地址
+    public Order findOrderById(int id);
 
+    // 更新订单
+    // 更新内容:完成时间,接单时间,订单状态,支付状态,送货状态,
     public void updateOrder(Order order);
 
+    // 插入订单
     public void insertOrder(Order order);
 }

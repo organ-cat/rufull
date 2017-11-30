@@ -1,8 +1,9 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ProductEvaluation {
+public class ProductEvaluation implements Serializable {
     private Integer id;
 
     private String score;

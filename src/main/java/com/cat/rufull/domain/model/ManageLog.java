@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ManageLog implements Serializable{
+public class ManageLog implements Serializable {
     private int id;
     private String detail;
     private int type;

@@ -5,8 +5,20 @@
 
   <cache/>
 
-  <insert id="insertLineItem" parameterType="com.cat.rufull.domain.model.LineItem">
-    INSERT INTO LINE_ITEM(PRODUCT_NAME, PRICE, QUANTITY, ORDER_ID, PRODUCT_ID)
-    VALUES(#{productName},#{price},#{quantity},#{orderId},#{productId})
+  <resultMap id="LineItemResult" type="com.cat.rufull.domain.model.LineItem">
+    <id column="item_id" property="id"/>
+    <result column="product_name" property="productName"/>
+    <result column="price" property="price"/>
+    <result column="quantity" property="quantity"/>
+    <result column="order_id" property="orderId"/>
+    <result column="product_id" property="productId"/>
+
+  </resultMap>
+
+  <insert id="insertLineItems" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO LINE_ITEM(PRODUCT_NAME, PRICE, QUANTITY, ORDER_ID, PRODUCT_ID) VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.productName},#{item.price},#{item.quantity},#{item.orderId},#{item.productId})
+    </foreach>
   </insert>
 </mapper>

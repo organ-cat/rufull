@@ -69,13 +69,11 @@ public class LineItem implements Serializable {
 
     @Override
     public String toString() {
-        return "LineItem{" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                '}';
+        return "Line item - Id: " + id +
+                ", Product name: " + productName +
+                ", Price: " + price +
+                ", Quantity: " + quantity +
+                ", Order id: " + orderId +
+                ", Product id: " + productId;
     }
 }

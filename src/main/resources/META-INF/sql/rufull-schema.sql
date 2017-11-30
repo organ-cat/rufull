@@ -82,7 +82,7 @@ CREATE TABLE ADDRESS (
   location VARCHAR(255) NOT NULL,     /*定位位置*/
   detail VARCHAR(255) NOT NULL,       /*详细地址*/
   status INT(11) NOT NULL,            /*状态*/
-  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  account_id INT(11),                 /*外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
@@ -149,17 +149,18 @@ CREATE TABLE `ORDER` (
   status VARCHAR(255) NOT NULL,           /*订单状态*/
   payment_method VARCHAR(255) NOT NULL,   /*支付方式*/
   payment_status VARCHAR(255) NOT NULL,   /*支付状态*/
-  shipping_address VARCHAR(255) NOT NULL, /*发货地址*/
   shipping_status VARCHAR(255),           /*发货状态*/
   notes VARCHAR(255),                     /*订单备注*/
   total DECIMAL(11,2) NOT NULL,           /*总额*/
   account_id INT(11) NOT NULL,            /*外键,引用ACCOUNT表*/
   shop_id INT(11) NOT NULL,               /*外键,引用SHOP表*/
   business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
+  address_id INT(11) NOT NULL,            /*外键,引用ADDRESS表*/
   PRIMARY KEY (id),
   FOREIGN KEY (shop_id) REFERENCES SHOP (id),
   FOREIGN KEY (business_id) REFERENCES BUSINESS (id),
-  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (address_id) REFERENCES ADDRESS (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 /*订单项表*/

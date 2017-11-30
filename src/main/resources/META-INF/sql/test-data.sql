@@ -77,14 +77,14 @@ INSERT INTO FAVOR(id, account_id, shop_id) VALUES('5','2','2');
 INSERT INTO FAVOR(id, account_id, shop_id) VALUES('6','3','1');
 
 /*订单表数据*/
-INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
-VALUES('1','2017112901','2017-11-29 10:00:00','2017-11-29 13:00:00','2017-11-29 10:00:05','已完成','在线支付','完成支付','广东海洋大学海浪A','已送达','这是一个已完成的订单','37.00','1','1','1');
-INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
-VALUES('2','2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10:16:24','已完成','在线支付','完成支付','广东海洋大学海浪A','已送达','测试特殊字符<&lt;','22.00','2','2','2');
-INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
-VALUES('3','2017112903','2017-11-29 13:00:00',NULL,NULL,'已取消','在线支付','未支付','广东海洋大学海浪A','可为null','这是一个取消的订单','13.50','2','3','3');
-INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
-VALUES('4','2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','等待收货','在线支付','完成支付','广东海洋大学海浪A','已发货','这是一个未确认的订单','32.50','3','3','3');
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
+VALUES('1','2017112901','2017-11-29 10:00:00','2017-11-29 13:00:00','2017-11-29 10:00:05','已完成','在线支付','完成支付','已送达','这是一个已完成的订单','37.00','1','1','1',1);
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
+VALUES('2','2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10:16:24','已完成','在线支付','完成支付','已送达','测试特殊字符<&lt;','22.00','2','2','2',2);
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
+VALUES('3','2017112903','2017-11-29 13:00:00',NULL,NULL,'已取消','在线支付','未支付','可为null','这是一个取消的订单','13.50','2','3','3',3);
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
+VALUES('4','2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','等待收货','在线支付','完成支付','已发货','这是一个未确认的订单','32.50','2','3','3',2);
 
 /*订单项表数据*/
 INSERT INTO LINE_ITEM(id, product_name, price, quantity, order_id, product_id)

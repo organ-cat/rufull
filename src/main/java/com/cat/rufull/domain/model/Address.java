@@ -1,6 +1,8 @@
 package com.cat.rufull.domain.model;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
 
     private Integer id;         // 地址的id
 

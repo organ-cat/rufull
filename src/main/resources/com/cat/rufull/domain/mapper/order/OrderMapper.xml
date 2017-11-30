@@ -11,6 +11,16 @@
     <result column="shop_photo" property="shopPhoto"/>
   </resultMap>
 
+  <resultMap id="AddressReuslt" type="com.cat.rufull.domain.model.Address">
+    <id column="address_id" property="id"/>
+    <result column="receiver" property="receiver"/>
+    <result column="phone" property="phone"/>
+    <result column="location" property="location"/>
+    <result column="detail" property="detail"/>
+    <result column="address_status" property="status"/>
+    <result column="account_id" property="accountId"/>
+  </resultMap>
+
   <resultMap id="OrderResult" type="com.cat.rufull.domain.model.Order">
     <id column="order_id" property="id"/>
     <result column="order_number" property="orderNumber"/>
@@ -20,7 +30,6 @@
     <result column="order_status" property="status"/>
     <result column="payment_method" property="paymentMethod"/>
     <result column="payment_status" property="paymentStatus"/>
-    <result column="shipping_address" property="shippingAddress"/>
     <result column="shipping_status" property="shippingStatus"/>
     <result column="notes" property="notes"/>
     <result column="total" property="total"/>
@@ -28,12 +37,14 @@
     <result column="business_id" property="businessId"/>
 
     <association property="shop" resultMap="ShopResult"/>
-    <collection property="lineItems" ofType="com.cat.rufull.domain.model.LineItem" />
+    <association property="address" resultMap="AddressReuslt"/>
+    <collection property="lineItems" resultMap="com.cat.rufull.domain.mapper.lineItem.LineItemMapper.LineItemResult" />
   </resultMap>
 
   <select id="findOrderByAccountId" parameterType="int" resultMap="OrderResult">
     SELECT
-      O.ID AS ORDER_ID,CREATED_TIME,ORDER_NUMBER,TOTAL,PAYMENT_METHOD,STATUS,
+      O.ID AS ORDER_ID,ACCOUNT_ID,CREATED_TIME,ORDER_NUMBER,
+      TOTAL,PAYMENT_METHOD,STATUS AS ORDER_STATUS,
       I.ID AS ITEM_ID,PRODUCT_NAME,QUANTITY,
       S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO
     FROM `ORDER` O
@@ -44,33 +55,37 @@
 
   <select id="findOrderById" parameterType="int" resultMap="OrderResult">
     SELECT
-      O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,STATUS,
-      PAYMENT_METHOD,PAYMENT_STATUS,NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,O.BUSINESS_ID,
-      L.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,L.ORDER_ID,PRODUCT_ID,
-      S.ID AS SHOP_ID,SHOP_NAME
+      O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,
+      ACCEPTED_TIME,O.STATUS AS ORDER_STATUS,PAYMENT_METHOD,PAYMENT_STATUS,
+      SHIPPING_STATUS,NOTES,TOTAL,O.ACCOUNT_ID,O.SHOP_ID,O.BUSINESS_ID,O.ADDRESS_ID,
+      I.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,PRODUCT_ID,
+      S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO,
+      A.ID AS ADDRESS_ID,RECEIVER,PHONE,LOCATION,DETAIL,A.STATUS AS ADDRESS_STATUS
     FROM `ORDER` O
-      LEFT OUTER JOIN LINE_ITEM L ON O.ID=L.ORDER_ID
+      LEFT OUTER JOIN LINE_ITEM I ON O.ID=I.ORDER_ID
       LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
+      LEFT OUTER JOIN ADDRESS A ON O.ADDRESS_ID=A.ID
     WHERE O.ID=#{id}
   </select>
 
   <update id="updateOrder" parameterType="com.cat.rufull.domain.model.Order">
     UPDATE `ORDER`
     SET
-      ORDER_NUMBER=#{orderNumber},CREATED_TIME=#{createdTime},COMPLETED_TIME=#{completedTime},
-      ACCEPTED_TIME=#{acceptedTime},STATUS=#{status},PAYMENT_METHOD=#{paymentMethod},
-      PAYMENT_STATUS=#{paymentStatus},SHIPPING_ADDRESS=#{shippingAddress},SHIPPING_STATUS=#{shippingStatus},
-      NOTES=#{notes},TOTAL=#{total},ACCOUNT_ID=#{accountId},BUSINESS_ID=#{businessId}
+      COMPLETED_TIME=#{completedTime},
+      ACCEPTED_TIME=#{acceptedTime},
+      STATUS=#{status},
+      PAYMENT_STATUS=#{paymentStatus},
+      SHIPPING_STATUS=#{shippingStatus}
     WHERE ID=#{id}
   </update>
 
   <insert id="insertOrder" parameterType="com.cat.rufull.domain.model.Order"
           useGeneratedKeys="true" keyProperty="id">
     INSERT INTO `ORDER`(ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,
-                        STATUS,PAYMENT_METHOD,PAYMENT_STATUS,SHIPPING_ADDRESS,
-                        SHIPPING_STATUS,NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,BUSINESS_ID)
-    VALUES(#{orderNumber},#{createdTime},#{completedTime},#{acceptedTime},#{status},
-           #{paymentMethod},#{paymentStatus},#{shippingAddress},#{shippingStatus},
-           #{notes},#{total},#{accountId},#{shop.id},#{businessId})
+                        STATUS,PAYMENT_METHOD,PAYMENT_STATUS,SHIPPING_STATUS,
+                        NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,BUSINESS_ID,ADDRESS_ID)
+    VALUES(#{orderNumber},#{createdTime},#{completedTime},#{acceptedTime},
+           #{status},#{paymentMethod},#{paymentStatus},#{shippingStatus},
+           #{notes},#{total},#{accountId},#{shop.id},#{businessId},#{address.id})
   </insert>
 </mapper>

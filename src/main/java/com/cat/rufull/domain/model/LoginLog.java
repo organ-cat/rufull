@@ -1,8 +1,9 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LoginLog {
+public class LoginLog implements Serializable {
 
     private Integer id;         // 登陆的id
 
