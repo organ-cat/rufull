@@ -50,25 +50,26 @@ public class ShopMapperTest {
 
     }
 
+    @Test
     public void  testFindById(){
-//        Shop shop = shopMapper.findById(2);
-//       if(shop.getProductList() != null){
-//           logger.info(shop.getProductList().toString());
-//       }else {
-//           logger.info("productList为空。。。。");
-//       }
+        Shop shop = shopMapper.findById(2);
+       if(shop.getProductList() != null){
+           logger.info(shop.getProductList().toString());
+       }else {
+           logger.info("productList为空。。。。");
+       }
     }
 
     @Test
     public void testUpdate(){
-//        Shop shop = new Shop();
-//        shop.setShopName("曹欣");
-//        shop.setId(4);
-//        shopMapper.updateByIdSelective(shop);
+        Shop shop = new Shop();
+        shop.setShopName("曹欣");
+        shop.setId(4);
+        shopMapper.updateByIdSelective(shop);
     }
 
     @Test
     public void testDelete(){
-//        shopMapper.deleteById(4);
+        shopMapper.deleteById(4);
     }
 }
