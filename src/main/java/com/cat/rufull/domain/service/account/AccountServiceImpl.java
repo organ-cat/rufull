@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void regitser(Account account) {
+    public void register(Account account) {
         accountMapper.register(account);
     }
 

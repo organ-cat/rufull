@@ -15,6 +15,9 @@ public class RegEx {
     }
 
     public static boolean regExEmail(String email) {
+        if (email == null) {
+            return false;
+        }
         //邮箱验证
         String regex  = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
         return email.matches(regex);

@@ -23,13 +23,13 @@
     WHERE ACCOUNT.email = #{email}
   </select>
 
-  <insert id="register" parameterType="Account" useGeneratedKeys="true">
+  <insert id="register" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
     insert
     into
       ACCOUNT
-      (phone,password)
+      (phone,password,email,register_time)
     values
-      (#{phone},#{password})
+      (#{phone},#{password},#{email},#{registerTime})
   </insert>
 
   <select id="login" resultType="Account" parameterType="Account">
@@ -61,8 +61,4 @@
      WHERE
      ACCOUNT.id = #{id}
   </update>
-
-
-
-    <!---->
 </mapper>

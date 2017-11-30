@@ -1,9 +1,6 @@
 package com.cat.rufull.app.account;
 
-import com.aliyuncs.exceptions.ClientException;
-import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
-import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 @SessionAttributes({"account"})
 @Controller
@@ -46,8 +42,21 @@ public class AccountController {
     }
 
     @RequestMapping("/register")
-    public String register(){
-
+    public String register(HttpServletRequest request, ModelMap model) {
+        String phone = request.getParameter("phone");
+        String password = request.getParameter("password");
+        boolean isPhone = RegEx.regExPhone(phone);
+        boolean isEmail = RegEx.regExEmail(phone);
+        Account account = new Account();
+        account.setRegisterTime(new java.util.Date());
+        account.setPassword(password);
+        if (isPhone) {
+            account.setPhone(phone);
+        }
+        if (isEmail) {
+            account.setEmail(phone);
+        }
+        accountService.register(account);
         return "hello";
     }
 
@@ -74,9 +83,6 @@ public class AccountController {
         if (isEmail) {
             account.setEmail(username);
         }
-        System.out.println("测试-username:" + account.getUsername());
-        System.out.println("测试-phone:" + account.getPhone());
-        System.out.println("测试-email:" + account.getEmail());
         Account login = accountService.login(account);
         model.put("account", login);
         return "hello";

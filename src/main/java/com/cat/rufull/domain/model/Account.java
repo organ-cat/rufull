@@ -1,7 +1,7 @@
 package com.cat.rufull.domain.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class Account {
 

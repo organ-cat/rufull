@@ -13,7 +13,7 @@ public interface AccountService {
      */
     public Account findAccountById(Integer id);
 
-    public void regitser(Account account);
+    public void register(Account account);
 
     public void updateAccountPhoto(Account account);
 

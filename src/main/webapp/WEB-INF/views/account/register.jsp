@@ -24,10 +24,10 @@
                 <td>密码：</td>
                 <td><input type="password" name="password"/></td>
             </tr>
-            <tr>
-                <td>验证码：</td>
-                <td><input type="text" name="checkcode"/></td>
-            </tr>
+            <%--<tr>--%>
+                <%--<td>验证码：</td>--%>
+                <%--<td><input type="text" name="checkcode"/></td>--%>
+            <%--</tr>--%>
             <tr>
                 <td colspan="2"><input type="submit" name="提交"/></td>
             </tr>
