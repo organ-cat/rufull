@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cat.rufull.domain.mapper.evaluation.EvaluationMapper">
+    <select id="selectOrderEvaluationByBusinessId" parameterType="java.lang.Integer" resultType="com.cat.rufull.domain.model.OrderEvaluation">
+        SELECT * FROM ORDER_EVALUATION WHERE business_id = #{id}
+    </select>
+</mapper>
