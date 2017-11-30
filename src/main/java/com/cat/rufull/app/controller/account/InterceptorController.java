@@ -1,4 +1,4 @@
-package com.cat.rufull.app.account;
+package com.cat.rufull.app.controller.account;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

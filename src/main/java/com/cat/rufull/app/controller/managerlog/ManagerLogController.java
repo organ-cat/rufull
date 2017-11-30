@@ -1,4 +1,4 @@
-package com.cat.rufull.app.managerlog;
+package com.cat.rufull.app.controller.managerlog;
 
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import java.util.List;
 

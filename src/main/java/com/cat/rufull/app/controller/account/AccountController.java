@@ -1,4 +1,4 @@
-package com.cat.rufull.app.account;
+package com.cat.rufull.app.controller.account;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.cat.rufull.domain.common.util.Email;

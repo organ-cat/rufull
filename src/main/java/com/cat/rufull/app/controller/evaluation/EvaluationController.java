@@ -1,4 +1,4 @@
-package com.cat.rufull.app.evaluation;
+package com.cat.rufull.app.controller.evaluation;
 
 import com.cat.rufull.domain.model.OrderEvaluation;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;

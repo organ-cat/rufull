@@ -1,4 +1,4 @@
-package com.cat.rufull.domain.common.util.interceptor;
+package com.cat.rufull.app.interceptor.account;
 
 import com.cat.rufull.domain.model.Manager;
 import org.springframework.web.servlet.HandlerInterceptor;
