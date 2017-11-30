@@ -4,15 +4,6 @@
 <mapper namespace="com.cat.rufull.domain.mapper.lineItem.LineItemMapper">
 
   <cache/>
-  
-  <resultMap id="LineItemResult" type="com.cat.rufull.domain.model.LineItem">
-    <id column="item_id" property="id"/>
-    <result column="product_name" property="productName"/>
-    <result column="price" property="price"/>
-    <result column="quantity" property="quantity"/>
-    <result column="order_id" property="orderId"/>
-    <result column="product_id" property="productId"/>
-  </resultMap>
 
   <insert id="insertLineItem" parameterType="com.cat.rufull.domain.model.LineItem">
     INSERT INTO LINE_ITEM(PRODUCT_NAME, PRICE, QUANTITY, ORDER_ID, PRODUCT_ID)
