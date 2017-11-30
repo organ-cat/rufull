@@ -29,12 +29,12 @@ INSERT INTO business(id, front_photo, inside_photo, id_back_photo, id_front_Phot
 VALUES('3','C商家正面照片.jpg','C商家反面照片.jpg','C商家身份证反面.jpg','C商家身份证正面.jpg','460033199409111193','C商家营业执照.jpg','C商家餐厅营业服务.jpg','3');
 
 /*商店表数据*/
-INSERT INTO SHOP(id, address, lat, lon, operate_state, announcement, support_payment, shop_type, shipping_distance, shipping_price, shipping_time, business_id, shop_name)
-VALUES('1','广东海洋大学海浪A616','100.00','100.00','0','今天商品全部100元','0','0','30','10','30','1','皮皮虾');
-INSERT INTO SHOP (id, address, lat, lon, operate_state, announcement, support_payment, shop_type, shipping_distance, shipping_price, shipping_time, business_id, shop_name)
-VALUES('2','广东海洋大学海浪A613','200.00','200.00','1','今天商品全部免费','1','1','20','11','40','2','佳士顿');
-INSERT INTO SHOP (id, address, lat, lon, operate_state, announcement, support_payment, shop_type, shipping_distance, shipping_price, shipping_time, business_id, shop_name)
-VALUES('3','广东海洋大学海浪A606','300.00','300.00','2','今天休息','2','2','25','12','35','3','美味源');
+INSERT INTO SHOP (id, shop_name, shop_type, shop_photo, shop_phone, address, operate_time, operate_state, lat, lon, support_payment, shipping_distance, shipping_price, shipping_time, shipping_fee, announcement, business_id)
+VALUES('1','皮皮虾','0','皮皮虾.jpg','13535570616','广东海洋大学海浪A616','7:30-13:30,16:30-23:30','0','100.00','100.00','0','10','10.00','45','0.00','皮皮虾开业啦','1');
+INSERT INTO SHOP (id, shop_name, shop_type, shop_photo, shop_phone, address, operate_time, operate_state, lat, lon, support_payment, shipping_distance, shipping_price, shipping_time, shipping_fee, announcement, business_id)
+VALUES('2','佳士顿','0','佳士顿.jpg','18320338949','广东海洋大学海花A415','8:30-14:00,17:50-23:00','1','200.00','200.00','0','12','12.00','38','0.00','佳士顿开业啦','2');
+INSERT INTO SHOP (id, shop_name, shop_type, shop_photo, shop_phone, address, operate_time, operate_state, lat, lon, support_payment, shipping_distance, shipping_price, shipping_time, shipping_fee, announcement, business_id)
+VALUES('3','美味源','0','美味源.jpg','13002090126','广东海洋大学凯斯2楼305','9:00-15:00,17:20-12:00','2','300.00','330.00','0','14','5.00','23','0.00','美味源开业啦','3');
 
 /*商品表数据*/
 INSERT INTO product(id, product_name, price, status, sales_volume, description, photo, shop_id)
@@ -77,13 +77,13 @@ INSERT INTO FAVOR(id, account_id, shop_id) VALUES('5','2','2');
 INSERT INTO FAVOR(id, account_id, shop_id) VALUES('6','3','1');
 
 /*订单表数据*/
-INSERT INTO ORDER(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
 VALUES('1','2017112901','2017-11-29 10:00:00','2017-11-29 13:00:00','2017-11-29 10:00:05','已完成','在线支付','完成支付','广东海洋大学海浪A','已送达','这是一个已完成的订单','37.00','1','1','1');
-INSERT INTO ORDER(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
 VALUES('2','2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10:16:24','已完成','在线支付','完成支付','广东海洋大学海浪A','已送达','测试特殊字符<&lt;','22.00','2','2','2');
-INSERT INTO ORDER(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
 VALUES('3','2017112903','2017-11-29 13:00:00',NULL,NULL,'已取消','在线支付','未支付','广东海洋大学海浪A','可为null','这是一个取消的订单','13.50','2','3','3');
-INSERT INTO ORDER(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
+INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_address, shipping_status, notes, total, account_id, shop_id, business_id)
 VALUES('4','2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','等待收货','在线支付','完成支付','广东海洋大学海浪A','已发货','这是一个未确认的订单','32.50','3','3','3');
 
 /*订单项表数据*/
@@ -104,6 +104,15 @@ VALUES('7','黑椒牛肉饭','12.50','1','4','14');
 INSERT INTO LINE_ITEM(id, product_name, price, quantity, order_id, product_id)
 VALUES('8','红烧日本豆腐饭','10.00','2','4','15');
 
+/*订单评价表数据*/
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
+VALUES('1','5','很满足','已送餐','image1.png','2017-11-30 09:41:32','1','1','1');
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
+VALUES('2','4','很满足','已送餐','image1.png','2017-11-30 09:41:32','1','2','1');
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
+VALUES('3','3','很满足','已送餐','image1.png','2017-11-30 09:41:32','2','3','2');
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
+VALUES('4','3','很满足','已送餐','image1.png','2017-11-30 09:41:32','3','4','3');
 
 /*商品评价表数据*/
 INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id)
@@ -123,12 +132,12 @@ VALUES('7','2','很满足','2017-11-30 09:41:32','3','7');
 INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id)
 VALUES('8','3','很满足','2017-11-30 09:41:32','3','8');
 
-/*订单评价表数据*/
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES('1','5','很满足','已送餐','image1.png','2017-11-30 09:41:32','1','1','1');
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES('2','4','很满足','已送餐','image1.png','2017-11-30 09:41:32','1','2','1');
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES('3','3','很满足','已送餐','image1.png','2017-11-30 09:41:32','2','3','2');
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES('4','3','很满足','已送餐','image1.png','2017-11-30 09:41:32','3','4','3');
+/*管理日志表*/
+INSERT  INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
+VALUES(1,'添加管理员',1,'2017-11-08 19:19:33',1,NULL);
+INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
+VALUES(2,'审核商家入驻',2,'2017-11-08 19:19:58',2,1);
+INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
+VALUES(3,'删除管理员',1,'2017-11-09 19:20:37',1,NULL);
+INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
+VALUES(4,'查看商家数据分析',2,'2017-11-15 19:21:22',2,NULL);
