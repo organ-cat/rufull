@@ -1,7 +1,6 @@
 package com.cat.rufull.test;
 
-import com.cat.rufull.domain.model.User;
-import com.cat.rufull.domain.service.user.IUserService;
+import com.cat.rufull.domain.mapper.order.OrderMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,11 +17,11 @@ public class TestEverything {
     private static Logger logger = LoggerFactory.getLogger(TestEverything.class);
     //  private ApplicationContext ac = null;
     @Autowired
-    private IUserService userService;
-    @Autowired
     private MailSender mailSender;
     @Autowired
     private SimpleMailMessage mailMessage;
+    @Autowired
+    private OrderMapper orderMapper;
 
 //  @Before
 //  public void before() {
@@ -32,10 +31,7 @@ public class TestEverything {
 
     @Test
     public void testMybatis() {
-        User user = userService.findById(1);
-        // System.out.println(user.getUserName());
-        // logger.info("值："+user.getUserName());
-        logger.info(user.toString());
+        orderMapper.findOrderByAccountId(1);
     }
 
     @Test

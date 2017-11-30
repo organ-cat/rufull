@@ -168,4 +168,26 @@ public class Order implements Serializable {
     public void setLineItems(List<LineItem> lineItems) {
         this.lineItems = lineItems;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", createdTime=" + createdTime +
+                ", completedTime=" + completedTime +
+                ", acceptedTime=" + acceptedTime +
+                ", status='" + status + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", shippingStatus='" + shippingStatus + '\'' +
+                ", notes='" + notes + '\'' +
+                ", total=" + total +
+                ", accountId=" + accountId +
+                ", shop=" + shop +
+                ", businessId=" + businessId +
+                ", lineItems=" + lineItems +
+                '}';
+    }
 }
