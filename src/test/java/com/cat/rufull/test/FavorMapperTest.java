@@ -1,5 +1,6 @@
 package com.cat.rufull.test;
 
+import com.cat.rufull.domain.mapper.favor.FavorMapper;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Favor;
