@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.cat.rufull.domain.mapper.shop.ShopMapper">
+    <resultMap id="ShopResultMap" type="com.cat.rufull.domain.model.Shop">
+        <id column="id" property="id"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="shop_type" property="shopType"/>
+        <result column="shop_photo" property="shopPhoto"/>
+        <result column="shop_phone" property="shopPhone"/>
+        <result column="address" property="address"/>
+        <result column="operate_time" property="operateTime"/>
+        <result column="operate_state" property="operateState"/>
+        <result column="lat" property="lat"/>
+        <result column="lon" property="lon"/>
+        <result column="supportPayment" property="supportPayment"/>
+        <result column="shipping_distance" property="shippingDistance"/>
+        <result column="shipping_fee" property="shippingFee"/>
+        <result column="shipping_price" property="shippingPrice"/>
+        <result column="shipping_time" property="shippingTime"/>
+        <result column="announcement" property="announcement"/>
+        <association column="business_id" property="business"
+                     select="com.cat.rufull.domain.mapper.business.BusinessMapper.findById"></association>
+
+        <!--在商品那里要提供一个通过商店id查找所有商品的Mapper并放到select中-->
+        <collection column="id" property="productList"
+                    select="">
+
+        </collection>
+    </resultMap>
+
+    <sql id="Shop_Column_List">
+        id, shop_name, shop_type, shop_photo, shop_phone, address, operate_time,
+        operate_state, lat, lon, support_payment, shipping_distance, shipping_price,
+        shipping_time, shipping_fee, announcement, business_id
+    </sql>
+
+    <!--// 查询全部商店-->
+    <select id="findAll" resultMap="ShopResultMap" resultType="list">
+        SELECT
+          <include refid="Shop_Column_List"/>
+        FROM SHOP
+    </select>
+
+    <!--// 通过Id查询商店-->
+    <select id="findById" parameterType="java.lang.Integer" resultMap="ShopResultMap">
+        SELECT
+          <include refid="Shop_Column_List"/>
+        FROM SHOP
+        WHERE id = #{id}
+    </select>
+
+    <!--// 通过Id删除商店-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE
+        FROM SHOP
+        WHERE id = #{id}
+    </delete>
+
+    <!--// 添加商店-->
+    <insert id="add" parameterType="com.cat.rufull.domain.model.Shop">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+        <!-- 主键标识 -->
+          SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into shop ( shop_name, shop_type, shop_photo, shop_phone, address,
+        operate_time, operate_state, lat, lon, support_payment, shipping_distance,
+        shipping_price, shipping_time, shipping_fee, announcement, business_id)
+
+        values(#{shopName},#{shopType},#{shopPhoto},#{shopPhone},#{address},
+        #{operateTime},#{operateState},#{lat},#{lon}#{supportPayment},#{shippingDistance},#{shippingPrice},
+        #{shippingTime},#{shippingFee},#{announcement},#{business.id});
+    </insert>
+</mapper>

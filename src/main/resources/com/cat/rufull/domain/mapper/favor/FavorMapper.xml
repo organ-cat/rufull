@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cat.rufull.domain.mapper.favor.FavorMapper" >
-  
-  
+
+
   <resultMap id="FavorResultMap" type="com.cat.rufull.domain.model.Favor" >
     <id column="id" property="id"/>
     <result column="account_id" property="accountId"/>
     <result column="shop_id" property="shopId"/>
   </resultMap>
   
-  <sql id="Base_Column_List" >
+  <sql id="Favor_Column_List" >
     id, account_id, shop_id
   </sql>
-  
+
+  <!--// 通过Id查询用户喜爱的商店-->
   <select id="findShopByAccountId" resultMap="FavorResultMap" parameterType="java.lang.Integer" resultType="list">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Favor_Column_List" />
     from favor
     where account_id = #{id}
   </select>
 
+  <!--// 通过用户Id删除喜爱的商店-->
   <delete id="deleteShopByAccountIdAndShopId" parameterType="java.lang.Integer">
     delete from favor
     where account_id = #{0} and shop_id = #{1}
   </delete>
+
+  <!--// 添加用户喜爱的商店-->
   <insert id="addFavor" parameterType="com.cat.rufull.domain.model.Favor" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()

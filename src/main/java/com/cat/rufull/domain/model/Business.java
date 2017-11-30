@@ -3,6 +3,9 @@ package com.cat.rufull.domain.model;
 import java.io.Serializable;
 import java.util.List;
 
+/*
+    商家类
+ */
 public class Business implements Serializable {
     private Integer id;                     // 主键
 

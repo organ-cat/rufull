@@ -33,6 +33,7 @@
         <jackson.version>1.9.13</jackson.version>
         <commons.io.version>2.4</commons.io.version>
         <javax.mail.version>1.4.7</javax.mail.version>
+        <cglib.version>2.2.2</cglib.version>
     </properties>
 
     <dependencies>
@@ -166,12 +167,11 @@
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
         </dependency>
-
-        <!--懒加载-->
+        <!-- cglib-->
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
+            <version>${cglib.version}</version>
         </dependency>
     </dependencies>
     <build>
