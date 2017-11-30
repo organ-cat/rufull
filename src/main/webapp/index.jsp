@@ -24,7 +24,7 @@
 <body class="homepage">
 <div class="homepage-container" align="center" style="width:1080px;">
     <header class="homepage-header" style="width:1050px;">
-        <h1 class="header-logo"><img src="images/logo1.png" style="height:50px;width:300px;"></img></h1>
+        <h1 class="header-logo"><img src="image/logo1.png" style="height:50px;width:300px;"></img></h1>
         <div class="header-account" style="margin-top:-48px;">
             <a class="link" href="login.html">登录</a> /
             <a class="link" href="register.html">注册</a>

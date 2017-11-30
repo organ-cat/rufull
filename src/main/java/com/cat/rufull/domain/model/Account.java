@@ -2,7 +2,7 @@ package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class Account implements Serializable {
 
