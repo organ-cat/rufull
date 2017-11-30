@@ -13,7 +13,7 @@
     id, account_id, shop_id
   </sql>
 
-  <!--// 通过Id查询用户喜爱的商店-->
+  <!--// 通过Id查询用户喜爱的商店....-->
   <select id="findShopByAccountId" resultMap="FavorResultMap" parameterType="java.lang.Integer" resultType="list">
     select 
     <include refid="Favor_Column_List" />
