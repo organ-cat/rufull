@@ -48,15 +48,15 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mapping path="/account/*"/>
-            <beans:bean class="com.cat.rufull.domain.common.util.LoginInterceptor"/>
+            <beans:bean class="com.cat.rufull.domain.common.util.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mapping path="/admin/*"/>
-            <beans:bean class="com.cat.rufull.domain.common.util.AdminInterceptor"/>
+            <beans:bean class="com.cat.rufull.domain.common.util.interceptor.AdminInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mapping path="/manager/*"/>
-            <beans:bean class="com.cat.rufull.domain.common.util.ManagerInterceptor"/>
+            <beans:bean class="com.cat.rufull.domain.common.util.interceptor.ManagerInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 </beans:beans>

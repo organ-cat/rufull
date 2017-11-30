@@ -19,7 +19,6 @@ public class HelloController {
         logger.info(messageSource.getMessage("name", new Object[]{}, null));
         return "hello";
     }
-
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;

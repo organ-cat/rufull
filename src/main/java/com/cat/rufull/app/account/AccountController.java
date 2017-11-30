@@ -23,7 +23,7 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    @RequestMapping("/registerpage")
+    @RequestMapping("/registerPage")
     public String registerPage() {
         return "account/register";
     }
