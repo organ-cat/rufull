@@ -8,14 +8,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("accountService")
 @Transactional
-public class AccountServiceImpl implements IAccountService {
+public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountMapper accountMapper;
 
     @Override
-    @Transactional(readOnly = true)//只读
-    public boolean findAccountById(int id) {
+    @Transactional(readOnly = true)
+    public Account findAccountById(Integer id) {
         return this.accountMapper.findAccountById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Account findAccountByPhone(String phone) {
+        return accountMapper.findAccountByPhone(phone);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Account findAccountByEmail(String email) {
+        return accountMapper.findAccountByEmail(email);
+    }
+
+    @Override
+    public Account login(Account account) {
+        return accountMapper.login(account);
+    }
+
+    @Override
+    public void updateNickname(Account account) {
+        accountMapper.updateNickname(account);
     }
 
     @Override
@@ -24,12 +46,12 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void updateAccountInfo(Account account) {
-        accountMapper.updateAccountInfo(account);
+    public void updateAccountPhoto(Account account) {
+        accountMapper.updateAccountPhoto(account);
     }
 
     @Override
-    public void deleteAccount(int id) {
+    public void deleteAccount(Integer id) {
         accountMapper.deleteAccount(id);
     }
 }

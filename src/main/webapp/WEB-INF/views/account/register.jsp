@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>注册界面</title>
 </head>
 <body>
     注册界面
@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <td>密码：</td>
-                <td><input type="password" name="password""/></td>
+                <td><input type="password" name="password"/></td>
             </tr>
             <tr>
                 <td>验证码：</td>

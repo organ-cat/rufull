@@ -7,6 +7,8 @@
 </head>
 <body>
     你好
-    ${helloWorld}
+    ${helloWorld}<br/>
+    ${account.username}<br/>
+    ${account.password}<br/>
 </body>
 </html>
