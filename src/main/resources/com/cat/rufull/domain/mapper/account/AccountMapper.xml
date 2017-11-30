@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cat.rufull.domain.mapper.account.AccountMapper">
+  <select id="findAccountById" resultType="Account" parameterType="int">
+    SELECT
+      *
+    FROM ACCOUNT
+    WHERE ACCOUNT.id = #{id}
+  </select>
+
+  <select id="findAccountByPhone" resultType="Account" parameterType="String">
+    SELECT
+    *
+    FROM ACCOUNT
+    WHERE ACCOUNT.phone = #{phone}
+  </select>
+
+  <select id="findAccountByEmail" resultType="Account" parameterType="String">
+    SELECT
+    *
+    FROM ACCOUNT
+    WHERE ACCOUNT.email = #{email}
+  </select>
+
+  <insert id="register" parameterType="Account" useGeneratedKeys="true">
+    insert
+    into
+      ACCOUNT
+      (phone,password)
+    values
+      (#{phone},#{password})
+  </insert>
+
+  <select id="login" resultType="Account" parameterType="Account">
+      SELECT
+      *
+      FROM
+      ACCOUNT
+      WHERE
+      ACCOUNT.phone = #{phone} AND ACCOUNT.password  = #{password}
+      OR
+      ACCOUNT.username = #{username} AND ACCOUNT.password  = #{password}
+      OR
+      ACCOUNT.email = #{email} AND ACCOUNT.password = #{password}
+  </select>
+
+  <update id="updateAccountPhoto" parameterType="Account">
+     UPDATE
+     account
+     SET
+     account.photo = #{photo}
+     WHERE
+     account.id = #{id}
+  </update>
+  <update id="updateNickname" parameterType="Account">
+     UPDATE
+     ACCOUNT
+     SET
+     ACCOUNT.nickname = #{nickname}
+     WHERE
+     ACCOUNT.id = #{id}
+  </update>
+
+</mapper>
