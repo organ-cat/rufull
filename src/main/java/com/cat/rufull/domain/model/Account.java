@@ -1,9 +1,10 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-public class Account {
+public class Account implements Serializable {
 
     private Integer id;          // 账号的id
 
