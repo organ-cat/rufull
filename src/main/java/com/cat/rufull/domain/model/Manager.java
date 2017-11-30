@@ -1,8 +1,9 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Manager {
+public class Manager implements Serializable {
 
     private Integer id;            //管理员的id
 

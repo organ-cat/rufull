@@ -35,16 +35,17 @@
             ADDRESS.phone = #{phone},
             ADDRESS.location = #{location},
             ADDRESS.detail = #{detail},
-            ADDRESS.status = #{status}
+            ADDRESS.status = #{status},
+            ADDRESS.account_id = #{accountId}
         WHERE
         ADDRESS.id = #{id}
     </update>
 
-    <insert id="addAddress" parameterType="Address" useGeneratedKeys="true">
+    <insert id="addAddress" parameterType="Address" useGeneratedKeys="true" keyProperty="id">
         insert
         into
         ADDRESS
-        (ADDRESS.receiver,ADDRESS.phone,ADDRESS.location,ADDRESS.detail,ADDRESS.status,ADDRESS.account_id)
+        (receiver,phone,location,detail,status,account_id)
         values
         (#{receiver},#{phone},#{location},#{detail},#{status},#{accountId})
     </insert>
@@ -55,10 +56,5 @@
          ADDRESS
          WHERE
          ADDRESS.id=#{id}
-
-
-
      </delete>
-
-
 </mapper>

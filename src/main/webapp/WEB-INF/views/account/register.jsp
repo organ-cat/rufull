@@ -13,7 +13,7 @@
     <title>注册界面</title>
 </head>
 <body>
-    注册界面
+    <h1>注册界面</h1>
     <form method="post" action="<c:url value="/account/register"/>">
         <table>
             <tr>

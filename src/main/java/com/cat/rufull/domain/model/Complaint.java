@@ -1,9 +1,10 @@
 package com.cat.rufull.domain.model;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Complaint {
+public class Complaint implements Serializable {
 
     private Integer id;         // 投诉的id
 

@@ -19,4 +19,6 @@ public interface AccountMapper {
     Account login(Account account);
 
     void updateNickname(Account account);
+
+    void updateAccountInfo(Account account);
 }

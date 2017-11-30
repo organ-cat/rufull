@@ -45,18 +45,18 @@
                 id="multipartResolver"/>
 
     <!--拦截器-->
-    <mvc:interceptors>
-        <mvc:interceptor>
+    <interceptors>
+        <interceptor>
             <mapping path="/account/*"/>
             <beans:bean class="com.cat.rufull.domain.common.util.interceptor.LoginInterceptor"/>
-        </mvc:interceptor>
-        <mvc:interceptor>
+        </interceptor>
+        <interceptor>
             <mapping path="/admin/*"/>
             <beans:bean class="com.cat.rufull.domain.common.util.interceptor.AdminInterceptor"/>
-        </mvc:interceptor>
-        <mvc:interceptor>
+        </interceptor>
+        <interceptor>
             <mapping path="/manager/*"/>
             <beans:bean class="com.cat.rufull.domain.common.util.interceptor.ManagerInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+        </interceptor>
+    </interceptors>
 </beans:beans>

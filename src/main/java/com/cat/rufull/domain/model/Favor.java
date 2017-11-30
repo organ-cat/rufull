@@ -2,6 +2,9 @@ package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
 
+/*
+    收藏类
+ */
 public class Favor implements Serializable {
     private Integer id;                 // 用户收藏商家id
 

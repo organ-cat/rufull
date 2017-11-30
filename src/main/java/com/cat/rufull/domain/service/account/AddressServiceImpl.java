@@ -16,18 +16,27 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Address> queryAddress(Account account) {
         return addressMapper.queryAddress(account);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int queryAddressCount(Account account) {
         return addressMapper.queryAddressCount(account);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void updateAddress(Address address) {
-        addressMapper.updateAddress(address);
+        Address oldAdress = queryAddressById(address);
+        oldAdress.setAccountId(null);
+        // address.setStatus();
+        addressMapper.updateAddress(oldAdress);
+
+        address.setId(null);
+        addressMapper.addAddress(address);
     }
 
     @Override
@@ -36,12 +45,16 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Address queryAddressById(Address address) {
         return addressMapper.queryAddressById(address);
     }
 
     @Override
     public void deleteAddress(Address address) {
-        addressMapper.deleteAddress(address);
+        Address  deletedAddress = queryAddressById(address);
+        deletedAddress.setAccountId(null);
+        // address.setStatus();
+        addressMapper.updateAddress(deletedAddress);
     }
 }

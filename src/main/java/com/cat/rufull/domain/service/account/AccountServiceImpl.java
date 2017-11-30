@@ -13,17 +13,19 @@ public class AccountServiceImpl implements AccountService {
     private AccountMapper accountMapper;
 
     @Override
-    @Transactional(readOnly = true)//只读
+    @Transactional(readOnly = true)
     public Account findAccountById(Integer id) {
         return this.accountMapper.findAccountById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account findAccountByPhone(String phone) {
         return accountMapper.findAccountByPhone(phone);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Account findAccountByEmail(String email) {
         return accountMapper.findAccountByEmail(email);
     }

@@ -9,7 +9,7 @@ CREATE TABLE ACCOUNT (
   photo VARCHAR(255) NOT NULL,        /*头像图片名*/
   balance DECIMAL(11,2),              /*余额*/
   status INT(11) NOT NULL,            /*状态*/
-  register_time DATETIME,             /*注册时间*/
+  register_time TIMESTAMP,            /*注册时间*/
   PRIMARY KEY (id)
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE LOGIN_LOG (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   ip VARCHAR(255) NOT NULL,           /*ip地址*/
   location VARCHAR(255) NOT NULL,     /*定位位置*/
-  login_time DATETIME NOT NULL,       /*登录时间*/
+  login_time TIMESTAMP NOT NULL,      /*登录时间*/
   account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
@@ -33,7 +33,7 @@ CREATE TABLE MANAGER (
   email VARCHAR(255) NOT NULL,        /*邮箱*/
   photo VARCHAR(255) NOT NULL,        /*头像图片名*/
   status INT(11) NOT NULL,            /*状态*/
-  created_time DATETIME NOT NULL,     /*创建时间*/
+  created_time TIMESTAMP NOT NULL,    /*创建时间*/
   role INT(11) NOT NULL,              /*角色*/
   PRIMARY KEY (id)
 );
@@ -43,7 +43,7 @@ CREATE TABLE MANAGE_LOG (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   detail VARCHAR(255) NOT NULL,       /*内容*/
   type INT(11) NOT NULL,              /*日志类型*/
-  created_time DATETIME NOT NULL,     /*日志创建时间*/
+  created_time TIMESTAMP NOT NULL,    /*日志创建时间*/
   manager_id INT(11) NOT NULL,        /*管理者,外键,引用MANAGER表*/
   account_id INT(11),                 /*被管理者,外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
@@ -53,13 +53,13 @@ CREATE TABLE MANAGE_LOG (
 
 /*地址表*/
 CREATE TABLE ADDRESS (
-  id INT(11) NOT NULL,            /*主键*/
-  receiver VARCHAR(255) NOT NULL, /*收货人*/
-  phone VARCHAR(255) NOT NULL,    /*手机号*/
-  location VARCHAR(255) NOT NULL, /*定位位置*/
-  detail VARCHAR(255) NOT NULL,   /*详细地址*/
-  status INT(11) NOT NULL,        /*状态*/
-  account_id INT(11) NOT NULL,    /*外键,引用ACCOUNT表*/
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  receiver VARCHAR(255) NOT NULL,     /*收货人*/
+  phone VARCHAR(255) NOT NULL,        /*手机号*/
+  location VARCHAR(255) NOT NULL,     /*定位位置*/
+  detail VARCHAR(255) NOT NULL,       /*详细地址*/
+  status INT(11) NOT NULL,            /*状态*/
+  account_id INT(11),                 /*外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
 );
@@ -81,19 +81,23 @@ CREATE TABLE BUSINESS (
 
 /*商店表*/
 CREATE TABLE SHOP (
-  id INT(11) NOT NULL AUTO_INCREMENT,     /*主键*/
-  address VARCHAR(255) NOT NULL,          /*地址*/
-  lat VARCHAR(255) NOT NULL,              /*经度*/
-  lon VARCHAR(255) NOT NULL,              /*纬度*/
-  operate_state INT(11) NOT NULL,         /*营业状态*/
-  announcement VARCHAR(255) NOT NULL,     /*公告*/
-  support_payment INT(11) NOT NULL,       /*支持支付方式*/
-  shop_type INT(11) NOT NULL,             /*商店类型*/
-  shipping_distance INT(11) NOT NULL,     /*配送范围*/
-  shipping_price INT(11) NOT NULL,        /*配送起价*/
-  shipping_time INT(11) NOT NULL,         /*配送时间*/
-  business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
-  shop_name VARCHAR(255) NOT NULL,        /*商店名*/
+  id INT(11) NOT NULL AUTO_INCREMENT,                 /*主键*/
+  shop_name VARCHAR(255) NOT NULL,                    /*商店名*/
+  shop_type INT(11) NOT NULL,                         /*商店类型*/
+  shop_photo VARCHAR(255) NOT NULL,                   /*商店图片*/
+  shop_phone VARCHAR(255) NOT NULL,                   /*商店电话*/
+  address VARCHAR(255) NOT NULL,                      /*地址*/
+  operate_time VARCHAR(255) NOT NULL,                 /*营业时间*/
+  operate_state INT(11) NOT NULL,                     /*营业状态*/
+  lat VARCHAR(255) NOT NULL,                          /*经度*/
+  lon VARCHAR(255) NOT NULL,                          /*纬度*/
+  support_payment INT(11) NOT NULL,                   /*支持支付方式*/
+  shipping_distance INT(11) NOT NULL,                 /*配送范围*/
+  shipping_price DECIMAL(11,2) NOT NULL,              /*配送起价*/
+  shipping_time INT(11) NOT NULL DEFAULT 0,           /*配送时间*/
+  shipping_fee  DECIMAL(11,2) NOT NULL default 0.00,  /*配送费*/
+  announcement VARCHAR(255) NOT NULL,                 /*公告*/
+  business_id INT(11) NOT NULL,                       /*外键,引用BUSINESS表*/
   PRIMARY KEY (id),
   FOREIGN KEY (business_id) REFERENCES BUSINESS (id)
 );
@@ -116,30 +120,31 @@ CREATE TABLE PRODUCT (
 CREATE TABLE `ORDER` (
   id INT(11) NOT NULL AUTO_INCREMENT,     /*主键*/
   order_number VARCHAR(255) NOT NULL,     /*订单号*/
-  created_time DATETIME NOT NULL,         /*创建时间*/
-  completed_time DATETIME,                /*完成时间*/
-  accepted_time DATETIME,                 /*受理时间*/
+  created_time TIMESTAMP NOT NULL,        /*创建时间*/
+  completed_time TIMESTAMP,               /*完成时间*/
+  accepted_time TIMESTAMP,                /*受理时间*/
   status VARCHAR(255) NOT NULL,           /*订单状态*/
   payment_method VARCHAR(255) NOT NULL,   /*支付方式*/
   payment_status VARCHAR(255) NOT NULL,   /*支付状态*/
-  shipping_address VARCHAR(255) NOT NULL, /*发货地址*/
-  shipping_status VARCHAR(255) NOT NULL,  /*发货状态*/
+  shipping_status VARCHAR(255),           /*发货状态*/
   notes VARCHAR(255),                     /*订单备注*/
-  total DECIMAL(11,2) NOT NULL,                  /*总额*/
+  total DECIMAL(11,2) NOT NULL,           /*总额*/
   account_id INT(11) NOT NULL,            /*外键,引用ACCOUNT表*/
   shop_id INT(11) NOT NULL,               /*外键,引用SHOP表*/
   business_id INT(11) NOT NULL,           /*外键,引用BUSINESS表*/
+  address_id INT(11) NOT NULL,            /*外键,引用ADDRESS表*/
   PRIMARY KEY (id),
   FOREIGN KEY (shop_id) REFERENCES SHOP (id),
   FOREIGN KEY (business_id) REFERENCES BUSINESS (id),
-  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (address_id) REFERENCES ADDRESS (id)
 );
 
 /*订单项表*/
 CREATE TABLE LINE_ITEM (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   product_name VARCHAR(255) NOT NULL, /*商品名*/
-  price DECIMAL(11,2) NOT NULL,              /*商品单价*/
+  price DECIMAL(11,2) NOT NULL,       /*商品单价*/
   quantity INT(11) NOT NULL,          /*商品数量*/
   order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
   product_id INT(11) NOT NULL,        /*外键,引用SHOP表*/
@@ -161,9 +166,9 @@ CREATE TABLE FOOTPRINT (
 
 /*商店收藏表*/
 CREATE TABLE FAVOR (
-  id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
-  account_id INT(11) NOT NULL,          /*外键,引用ACCOUNT表*/
-  shop_id INT(11) NOT NULL,             /*外键,引用SHOP表*/
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  shop_id INT(11) NOT NULL,           /*外键,引用SHOP表*/
   PRIMARY KEY (id),
   FOREIGN KEY (shop_id) REFERENCES SHOP (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
@@ -176,7 +181,7 @@ CREATE TABLE ORDER_EVALUATION (
   comment VARCHAR(255),               /*评论*/
   reply VARCHAR(255),                 /*商家回复*/
   image VARCHAR(255),                 /*评价图片名*/
-  eval_time DATETIME NOT NULL,        /*评价时间*/
+  eval_time TIMESTAMP NOT NULL,       /*评价时间*/
   account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
   business_id INT(11) NOT NULL,       /*外键,引用BUSINESS表*/
@@ -188,12 +193,12 @@ CREATE TABLE ORDER_EVALUATION (
 
 /*商品评价表*/
 CREATE TABLE PRODUCT_EVALUATION (
-  id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
-  score VARCHAR(255),                   /*评分*/
-  comment VARCHAR(255),                 /*评论*/
-  eval_time DATETIME NOT NULL,          /*评论时间*/
-  account_id INT(11) NOT NULL,          /*外键,引用ACCOUNT表*/
-  item_id INT(11) NOT NULL,             /*外键,引用LINE_ITEM表*/
+  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
+  score VARCHAR(255),                 /*评分*/
+  comment VARCHAR(255),               /*评论*/
+  eval_time TIMESTAMP NOT NULL,       /*评论时间*/
+  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
+  item_id INT(11) NOT NULL,           /*外键,引用LINE_ITEM表*/
   PRIMARY KEY (id),
   FOREIGN KEY (item_id) REFERENCES LINE_ITEM (id),
   FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
@@ -205,9 +210,9 @@ CREATE TABLE COMPLAINT (
   type INT(11) NOT NULL,              /*投诉类型*/
   content VARCHAR(255),               /*投诉内容*/
   evindence VARCHAR(255),             /*证据图片名*/
-  created_time DATETIME NOT NULL,     /*投诉时间*/
+  created_time TIMESTAMP NOT NULL,     /*投诉时间*/
   status INT(11) NOT NULL,            /*状态*/
-  completed_time DATETIME,            /*处理完成时间*/
+  completed_time TIMESTAMP,           /*处理完成时间*/
   result INT(11),                     /*处理结果*/
   solver INT(11),                     /*处理人,外键,引用MANAGER表*/
   account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/

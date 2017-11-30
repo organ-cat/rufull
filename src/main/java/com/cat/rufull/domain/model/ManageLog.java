@@ -5,14 +5,26 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ManageLog implements Serializable{
+public class ManageLog implements Serializable {
     private int id;
     private String detail;
     private int type;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createtime;
+    private Date createTime;
     private Manager manager;
     private Account account;
+
+    @Override
+    public String toString() {
+        return "ManageLog{" +
+                "id=" + id +
+                ", detail='" + detail + '\'' +
+                ", type=" + type +
+                ", createTime=" + createTime +
+                ", manager=" + manager +
+                ", account=" + account +
+                '}';
+    }
 
     public int getId() {
         return id;
@@ -38,12 +50,12 @@ public class ManageLog implements Serializable{
         this.type = type;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Manager getManager() {

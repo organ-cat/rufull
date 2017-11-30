@@ -1,9 +1,10 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Account {
+public class Account implements Serializable {
 
     private Integer id;          // 账号的id
 
@@ -24,6 +25,11 @@ public class Account {
     private Integer status;      // 账号的状态
 
     private Date registerTime;   // 账号的注册时间
+
+    private Integer role;         // 账号的角色
+
+    private String code;          // 账号的激活码
+
 
     public Account() {
     }
@@ -121,6 +127,22 @@ public class Account {
         this.registerTime = registerTime;
     }
 
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -134,6 +156,8 @@ public class Account {
                 ", balance=" + balance +
                 ", status=" + status +
                 ", registerTime=" + registerTime +
+                ", role=" + role +
+                ", code='" + code + '\'' +
                 '}';
     }
 }

@@ -1,8 +1,9 @@
 package com.cat.rufull.domain.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Footprint {
+public class Footprint implements Serializable {
     private Integer id;         // 足迹的id
     private Date accessTime;    // 进入商家的时间
     private Integer accountId;  // 账号的id
