@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/interceptor")
 public class InterceptorController {
     @RequestMapping("/nologin")
-    public String sendSMS(){
+    public String nologin(){
         return "interceptor/nologin";
     }
 }

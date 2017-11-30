@@ -6,7 +6,11 @@ import com.cat.rufull.domain.model.Address;
 import java.util.List;
 
 public interface AccountService {
-
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Account findAccountById(Integer id);
 
     public void regitser(Account account);

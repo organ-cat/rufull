@@ -1,6 +1,7 @@
 package com.cat.rufull.test;
 
 
+import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Address;
 import com.cat.rufull.domain.service.account.AccountService;
@@ -74,8 +75,8 @@ public class TestByJiang {
         Account account = new Account();
         account.setPassword("123456");
 //        account.setPhone("6632380");
-        account.setEmail("jiang@qq.com");
-//        account.setUsername("jiang");
+//        account.setEmail("jiang@qq.com");
+        account.setUsername("jiang");
         Account user = accountService.login(account);
         if (user == null) {
             System.out.println("没有该用户");
@@ -163,4 +164,38 @@ public class TestByJiang {
         address.setId(1);
         addressService.deleteAddress(address);
     }
+    @Test
+    public void regular(){
+//        String phone = "13413000394";
+//        boolean b = RegEx.regExPhone(phone);
+//
+//        String username = "1mn ";
+//        boolean b1 = RegEx.regExUsername(username);
+
+        String emial = "jias@163.com";
+        boolean b2 = RegEx.regExEmail(emial);
+        if (b2) {
+            System.out.println("是是是是是是是是是是是是是是是是是是是是是是是");
+        } else {
+            System.out.println("否否否否否否否否否否否否否否否否否否否否否否否");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
