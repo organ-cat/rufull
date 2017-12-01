@@ -23,18 +23,18 @@ DROP TABLE IF EXISTS MESSAGE;
 
 /*用户表*/
 CREATE TABLE ACCOUNT (
-  id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
-  username VARCHAR(255),              /*用户名*/
-  password VARCHAR(255) NOT NULL,     /*密码*/
-  phone VARCHAR(255),                 /*手机号*/
-  email VARCHAR(255),                 /*邮箱*/
-  nickname VARCHAR(255),              /*昵称*/
-  photo VARCHAR(255),                 /*头像图片名*/
-  balance DECIMAL(11,2),              /*余额*/
-  status INT(11) NOT NULL,            /*状态*/
-  register_time TIMESTAMP NOT NULL,   /*注册时间*/
-  role INT NOT NULL,                  /*角色*/
-  code VARCHAR(255),                  /*激活码*/
+  id INT(11) NOT NULL AUTO_INCREMENT,   /*主键*/
+  username VARCHAR(255),                /*用户名*/
+  password VARCHAR(255) NOT NULL,       /*密码*/
+  phone VARCHAR(255),                   /*手机号*/
+  email VARCHAR(255),                   /*邮箱*/
+  nickname VARCHAR(255),                /*昵称*/
+  photo VARCHAR(255),                   /*头像图片名*/
+  balance DECIMAL(11,2),                /*余额*/
+  status INT(11) NOT NULL DEFAULT 100,  /*状态*/
+  register_time TIMESTAMP NOT NULL,     /*注册时间*/
+  role INT NOT NULL DEFAULT 1,          /*角色*/
+  code VARCHAR(255),                    /*激活码*/
   PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 

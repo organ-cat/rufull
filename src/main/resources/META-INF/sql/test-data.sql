@@ -1,11 +1,10 @@
 /*用户表数据*/
-INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time)
-VALUES(1,'jiang','123456','13413600394','jiang@qq.com','爸爸','url',100,1,'2017-11-29 09:41:32');
-INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time)
-VALUES(2,'zhong','123456','13432111111','zhong@163.com','钟仔','http:www.baidu.com',0,1,'2017-11-29 16:05:37');
-INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time)
-VALUES(3,'cao','123456','12345678990','cao@sina.com','操心','http://edu.ruanko.com//images/course/logo.png',0,1,'2017-11-29 16:07:27');
-
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(1,'jiang','123456','13413600394','jiang@qq.com','新健','http://edu.ruanko.com//images/course/logo.png',100,100,'2017-11-29 09:41:32',1,'');
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(2,'zhong','123456','13432111111','zhong@163.com','钟仔','http://edu.ruanko.com//images/course/logo.png',0,100,'2017-11-29 16:05:37',1,'');
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(3,'cao','123456','12345678990','caoxin@sina.com','操心','http://edu.ruanko.com//images/course/logo.png',0,100,'2017-11-29 16:07:27',1,'');
 /*地址表数据*/
 INSERT INTO ADDRESS(id,receiver,phone,location,detail,status,account_id)
 VALUES(1,'江爸爸','13413600394','广东省湛江市麻章区','广东海洋大学海浪A',1,1);
