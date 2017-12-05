@@ -9,18 +9,18 @@
     WHERE ACCOUNT.id = #{id}
   </select>
 
-  <select id="findAccountByPhone" resultType="Account" parameterType="String">
+  <select id="findAccountByPhone" resultType="Account">
     SELECT
     *
     FROM ACCOUNT
-    WHERE ACCOUNT.phone = #{phone}
+    WHERE ACCOUNT.phone = #{phone} AND ACCOUNT.role = #{role}
   </select>
 
-  <select id="findAccountByEmail" resultType="Account" parameterType="String">
+  <select id="findAccountByEmail" resultType="Account">
     SELECT
     *
     FROM ACCOUNT
-    WHERE ACCOUNT.email = #{email}
+    WHERE ACCOUNT.email = #{email} AND ACCOUNT.role = #{role}
   </select>
 
     <insert id="register" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
@@ -62,7 +62,13 @@
      ACCOUNT.id = #{id}
   </update>
 
+    <update id="setUsername" parameterType="Account">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.username = #{username}
+        WHERE
+        ACCOUNT.id = #{id}
+    </update>
 
-
-    <!---->
 </mapper>

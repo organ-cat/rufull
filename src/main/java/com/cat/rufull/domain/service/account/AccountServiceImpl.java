@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service("accountService")
 @Transactional
 public class AccountServiceImpl implements AccountService {
@@ -20,14 +22,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public Account findAccountByPhone(String phone) {
-        return accountMapper.findAccountByPhone(phone);
+    public Account findAccountByPhone(String phone,Integer role) {
+        return accountMapper.findAccountByPhone(phone, role);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Account findAccountByEmail(String email) {
-        return accountMapper.findAccountByEmail(email);
+    public Account findAccountByEmail(String email, Integer role) {
+        return accountMapper.findAccountByEmail(email, role);
     }
 
     @Override
@@ -41,7 +43,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void setUsername(Account account) {
+        accountMapper.setUsername(account);
+    }
+
+    @Override
     public void register(Account account) {
+        //设置账号注册时间
+        account.setRegisterTime(new Date());
         accountMapper.register(account);
     }
 

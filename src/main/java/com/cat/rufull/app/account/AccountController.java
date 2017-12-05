@@ -11,13 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 @SessionAttributes({"account"})
 @Controller
@@ -32,149 +28,122 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    private int checkCode;
-
-    public int getCheckCode() {
-        return checkCode;
-    }
-
-    public void setCheckCode(int checkCode) {
-        this.checkCode = checkCode;
-    }
+    public final Integer ACCOUNT_ROLE = 1;//用户角色编号
+    public final Integer BUSINESS_ROLE = 2;//商家角色编号
 
     @RequestMapping("/registerPage")
     public String registerPage() {
-        return "account/register";
+        //跳转到用户注册页面
+        return "account/loginOrRegister";
     }
-
-    @RequestMapping("/registerBusinessPage")
-    public String registerBusinessPage() {
-        return "account/registerBusiness";
-    }
-
-    @RequestMapping("/registerBusiness")
-    public String registerBusiness(WebRequest request,
-                           @RequestParam("phone")String phoneOrEmail,
-                           @RequestParam("password")String password) {
-        System.out.println("接受参数——"+phoneOrEmail+"——"+password);
-        boolean isPhone = RegEx.regExPhone(phoneOrEmail);
-        boolean isEmail = RegEx.regExEmail(phoneOrEmail);
-        Account account = new Account();
-        account.setPassword(password);
-        account.setStatus(200);
-
-        account.setRegisterTime(new Date());
-        if (isPhone) {
-            Account user = accountService.findAccountByPhone(phoneOrEmail);
-            if (user == null) {
-                account.setPhone(phoneOrEmail);
-                accountService.register(account);
-                System.out.println("注册成功isPhone");
-            }else {
-                System.out.println("失败失败isPhone");
-                return "account/registerBusiness";
-            }
-        }
-        if (isEmail) {
-            Account user = accountService.findAccountByEmail(phoneOrEmail);
-            if (user == null) {
-                account.setEmail(phoneOrEmail);
-                Email.sendBing(mailSender,mailMessage,phoneOrEmail);
-                accountService.register(account);
-                System.out.println("注册成功isEmail");
-            }else {
-                System.out.println("失败失败isEmail");
-                return "account/registerBusiness";
-            }
-        }
-        return "hello";
-    }
-
-    @RequestMapping("/register")
-    public String register(WebRequest request,
-                           @RequestParam("phone")String phoneOrEmail,
-                           @RequestParam("password")String password) {
-        System.out.println("接受参数——"+phoneOrEmail+"——"+password);
-        boolean isPhone = RegEx.regExPhone(phoneOrEmail);
-        boolean isEmail = RegEx.regExEmail(phoneOrEmail);
-        Account account = new Account();
-        account.setPassword(password);
-        account.setRegisterTime(new Date());
-        if (isPhone) {
-            Account user = accountService.findAccountByPhone(phoneOrEmail);
-            if (user == null) {
-                account.setPhone(phoneOrEmail);
-                accountService.register(account);
-                System.out.println("注册成功isPhone");
-            }else {
-                System.out.println("失败失败isPhone");
-                return "account/register";
-            }
-        }
-        if (isEmail) {
-            Account user = accountService.findAccountByEmail(phoneOrEmail);
-            if (user == null) {
-                account.setEmail(phoneOrEmail);
-                Email.sendBing(mailSender,mailMessage,phoneOrEmail);
-                accountService.register(account);
-                System.out.println("注册成功isEmail");
-            }else {
-                System.out.println("失败失败isEmail");
-                return "account/register";
-            }
-        }
-        return "hello";
-    }
-
     @RequestMapping("/loginPage")
     public String loginPage(){
-        return "account/login";
+        return "account/loginOrRegister";
     }
 
+    @RequestMapping("/accountRegister")
+    public String accountRegister(@RequestParam("phone") String phoneOrEmail,
+                           @RequestParam("password") String password,
+                           @RequestParam("checkCode") String checkCode,
+                           HttpSession httpSession) {
+        return register(phoneOrEmail, password, checkCode, httpSession, ACCOUNT_ROLE);
+    }
+
+    @RequestMapping("/businessRegister")
+    public String businessRegister(@RequestParam("phone") String phoneOrEmail,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("checkCode") String checkCode,
+                                  HttpSession httpSession) {
+        return register(phoneOrEmail, password, checkCode, httpSession, BUSINESS_ROLE);
+    }
     @RequestMapping("/login")
-    public String login(HttpServletRequest request,ModelMap model){
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        System.out.println("username---"+username);
-        System.out.println("password---"+password);
-
+    public String login(@RequestParam("username")String username,
+                        @RequestParam("password")String password,
+                        ModelMap model){
         Account account = new Account();
         boolean isUsernaem = RegEx.regExUsername(username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
-        account.setPassword(password);
+        account.setPassword(password); //编码阶段
+        //运行时候使用
+        //account.setPassword(EncryptByMD5.encrypt(password));
         if (isUsernaem) {
-            System.out.println("isUsernaem-"+username);
             account.setUsername(username);
         }
         if (isPhone) {
-            System.out.println("isPhone-"+username);
             account.setPhone(username);
         }
         if (isEmail) {
-            System.out.println("isEmail-"+username);
             account.setEmail(username);
         }
         Account login = accountService.login(account);
         if (login == null) {
-            return "account/loginPage";
+            return "account/loginOrRegister";
         } else {
             model.put("account", login);
             return "hello";
         }
     }
-//    @RequestMapping(value="/jiang")
-//    public @ResponseBody void sendCheckCode(HttpSession httpSession){
-//        Account account = new Account();
-//        account.setUsername("HttpSession");
-//        httpSession.setAttribute("jiang", account);
-//        System.out.println("------------------------------");
-//    }
-    @RequestMapping(value="/test")
-    public String test(HttpSession httpSession){
-        return "account/test";
-    }
 
+    public String register(String phoneOrEmail,
+                           String password,
+                           String checkCode,
+                           HttpSession httpSession,
+                           Integer role){
+        //获取session中的验证码
+        String registerCode = (String) httpSession.getAttribute("checkCode");
+        //判断是否是手机
+        boolean isPhone = RegEx.regExPhone(phoneOrEmail);
+        //判断是否是邮箱
+        boolean isEmail = RegEx.regExEmail(phoneOrEmail);
+
+        Account account = new Account();
+
+        if (registerCode == null) {
+            //没有获取验证码
+            return "account/loginOrRegister";
+        }
+        //判断用户输入的验证码是否正确
+        if (!registerCode.equalsIgnoreCase(checkCode)) {
+            //验证码错误，回到注册页面
+            return "account/loginOrRegister";
+        }
+        //设置账号密码,通过MD5加密
+        //account.setPassword(EncryptByMD5.encrypt(password));
+        // 编码期间，不加密
+        account.setPassword(password);
+        //注册方式是手机
+        if (isPhone) {
+            //根据手机查找用户账号
+            Account user = accountService.findAccountByPhone(phoneOrEmail,ACCOUNT_ROLE);
+            //账号不存在，可以注册
+            if (user == null) {
+                //设置账号的手机
+                account.setPhone(phoneOrEmail);
+                accountService.register(account);
+                return "registerSuccess";
+            } else {
+                //账号存在，返回注册页面
+                return "account/loginOrRegister";
+            }
+        }
+        //注册方式是邮箱
+        if (isEmail) {
+            //根据邮箱查找用户账号
+            Account user = accountService.findAccountByEmail(phoneOrEmail,ACCOUNT_ROLE);
+            //用户账号不存在,可以注册
+            if (user == null) {
+                //设置账号的邮箱
+                account.setEmail(phoneOrEmail);
+                //发送激活账号邮箱
+                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
+                accountService.register(account);
+                return "registerSuccess";
+            } else {
+                return "account/loginOrRegister";
+            }
+        }
+        return "account/loginOrRegister";
+    }
 
 }
