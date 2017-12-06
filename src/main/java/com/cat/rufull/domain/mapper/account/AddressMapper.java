@@ -1,21 +1,15 @@
 package com.cat.rufull.domain.mapper.account;
 
-import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Address;
 
 import java.util.List;
 
 public interface AddressMapper {
-
-    List<Address> queryAddress(Account account);
-
-    int queryAddressCount(Account account);
-
-    void updateAddress(Address address);
+    List<Address> queryAddressList(Integer id);
 
     void addAddress(Address address);
 
-    Address queryAddressById(Address address);
+    Address findAddressById(Integer id);
 
-    void deleteAddress(Address address);
+    int findAddressCount(int account_id);
 }

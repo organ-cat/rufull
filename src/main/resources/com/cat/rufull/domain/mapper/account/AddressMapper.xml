@@ -2,7 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cat.rufull.domain.mapper.account.AddressMapper">
-    <select id="queryAddressById" parameterType="Account" resultType="Address">
+    <select id="queryAddressList" parameterType="int" resultType="Address">
+        SELECT
+        *
+        FROM
+        ADDRESS
+        WHERE
+        ADDRESS.account_id = #{id}
+    </select>
+
+    <insert id="addAddress" parameterType="Address" useGeneratedKeys="true" keyProperty="id">
+        insert
+        into
+        ADDRESS
+        (receiver,phone,location,detail,status,account_id)
+        values
+        (#{receiver},#{phone},#{location},#{detail},#{status},#{accountId})
+    </insert>
+
+    <select id="findAddressById" parameterType="int" resultType="Address">
         SELECT
         *
         FROM
@@ -11,15 +29,7 @@
         ADDRESS.id = #{id}
     </select>
 
-    <select id="queryAddress" parameterType="Account" resultType="Address">
-        SELECT
-        *
-        FROM
-        ADDRESS
-        WHERE
-        ADDRESS.account_id = #{id}
-    </select>
-    <select id="queryAddressCount" parameterType="Account" resultType="int">
+    <select id="findAddressCount" parameterType="int" resultType="int">
         SELECT
         COUNT(*)
         FROM
@@ -27,6 +37,13 @@
         WHERE
         ADDRESS.account_id = #{id}
     </select>
+
+
+
+
+
+<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
     <update id="updateAddress" parameterType="Address">
         UPDATE
         ADDRESS
@@ -41,14 +58,7 @@
         ADDRESS.id = #{id}
     </update>
 
-    <insert id="addAddress" parameterType="Address" useGeneratedKeys="true" keyProperty="id">
-        insert
-        into
-        ADDRESS
-        (receiver,phone,location,detail,status,account_id)
-        values
-        (#{receiver},#{phone},#{location},#{detail},#{status},#{accountId})
-    </insert>
+
 
     <delete id="deleteAddress" parameterType="Address">
          DELETE
