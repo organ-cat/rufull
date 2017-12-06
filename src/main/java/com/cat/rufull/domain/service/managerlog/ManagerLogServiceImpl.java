@@ -19,4 +19,9 @@ public class ManagerLogServiceImpl implements ManagerLogService {
         List<ManageLog> list = managerLogMapper.findAllLog();
         return list;
     }
+
+    @Override
+    public int addLog(ManageLog log) {
+        return 0;
+    }
 }

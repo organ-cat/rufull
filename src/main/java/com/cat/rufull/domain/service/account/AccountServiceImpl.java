@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service("accountService")
 @Transactional
@@ -47,6 +48,8 @@ public class AccountServiceImpl implements AccountService {
         accountMapper.setUsername(account);
     }
 
+
+
     @Override
     @Transactional(readOnly = true)
     public Account findAccountByUsername(String username, Integer role) {
@@ -78,5 +81,27 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(Integer id) {
         accountMapper.deleteAccount(id);
+    }
+
+    //管理员获得所有用户
+    @Override
+    public List<Account> findAllAccount() {
+        return null;
+    }
+
+    //管理员更新用户
+    @Override
+    public int mUpdateAccount(Account account) {
+        return 0;
+    }
+    //管理员删除用户
+    @Override
+    public int mdelAccount(Integer id) {
+        return 0;
+    }
+
+    @Override
+    public List<Account> findName(String findname) {
+        return null;
     }
 }

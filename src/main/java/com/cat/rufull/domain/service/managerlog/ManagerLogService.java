@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ManagerLogService {
     public List<ManageLog> findAllLog();
+
+    int addLog(ManageLog log);
 }

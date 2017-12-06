@@ -2,6 +2,7 @@ package com.cat.rufull.domain.service.order;
 
 import com.cat.rufull.domain.model.Order;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
@@ -75,4 +76,12 @@ public interface OrderService {
      * @param order 订单
      */
     public void acceptOrder(Order order);
+
+    /**
+     * 根据开始时间和结束时间查询所有订单
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public List<Order> findOrdersBetween(Date beginDate, Date endDate);
 }

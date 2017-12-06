@@ -20,4 +20,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<OrderEvaluation> findOrderEvaluation(Integer id) throws Exception {
         return orderEvaluatiomMapper.selectOrderEvaluationByBusinessId(id);
     }
+
+    @Override
+    public List<OrderEvaluation> findByName(String name) {
+        return null;
+    }
 }
