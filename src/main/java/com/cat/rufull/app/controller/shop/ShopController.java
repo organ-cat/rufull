@@ -38,13 +38,12 @@ public class ShopController {
 
     //用户查看商店页面
     @RequestMapping("showShopDetail")
-    public String showShopDetail(Shop shop, ModelMap map){
+    public String showShopDetail(Integer id, ModelMap map){
 
         //缺少获取展示所有商家页面，点击商家页面后跳过过来这里。
-        Shop shopDetail = shopService.findById(1);
+        Shop shopDetail = shopService.findById(id);
         System.out.println("shopDetail"+shopDetail);
         map.put("shop",shopDetail);
-
         return "shop/accountToShop";
     }
 
@@ -73,7 +72,6 @@ public class ShopController {
     public String showAllShow(ModelMap map){
         List<Shop> shopList = shopService.findAll();
         map.put("shopList",shopList);
-
-        return "";
+        return "shop/showAllShop";
     }
 }

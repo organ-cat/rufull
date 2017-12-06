@@ -7,8 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/business/shopSettle.js"></script>
 
 <head>
     <title>商店创建页面</title>
@@ -214,6 +214,8 @@
 <script src="${pageContext.request.contextPath}/js/business/city-picker.data.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/city-picker.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/shopSettle.js"></script>
+
+
 
 
 

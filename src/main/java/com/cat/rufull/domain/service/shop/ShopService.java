@@ -16,4 +16,6 @@ public interface ShopService {
     int updateByIdSelective(Shop shop);             // 通过Id选择不为空的字段更新商家
 
     int updateById(Shop shop);                       // 通过Id更新商家
+
+
 }

@@ -5,6 +5,7 @@ import com.cat.rufull.domain.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("shopService")
@@ -21,7 +22,14 @@ public class ShopServiceImpl implements ShopService {
         *@param[]
         *@returnjava.util.List<com.cat.rufull.domain.model.Shop>
         */
-        return shopMapper.findAll();
+        List<Shop> shopList= new ArrayList<Shop>();
+
+        List<Shop> allOnlineShop = shopMapper.findAllOnlineShop(); //查询在线的商家
+        List<Shop> allNotOnlineShop = shopMapper.findAllNotOnlineShop();//查询所有不在线的商家
+
+        shopList.addAll(allOnlineShop);
+        shopList.addAll(allNotOnlineShop);
+        return shopList;
     }
 
     @Override
