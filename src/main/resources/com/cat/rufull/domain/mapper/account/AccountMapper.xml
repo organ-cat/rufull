@@ -38,11 +38,16 @@
       FROM
       ACCOUNT
       WHERE
+      (
       ACCOUNT.phone = #{phone} AND ACCOUNT.password  = #{password}
       OR
       ACCOUNT.username = #{username} AND ACCOUNT.password  = #{password}
       OR
       ACCOUNT.email = #{email} AND ACCOUNT.password = #{password}
+      )
+      AND
+      ACCOUNT.role = #{role}
+
   </select>
 
   <update id="updateAccountPhoto" parameterType="Account">

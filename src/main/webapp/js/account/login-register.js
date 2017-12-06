@@ -147,14 +147,10 @@ $(function(){
                     }
                 }
             })
-
-
-
         }else {
             shakeModal("请填写注册的手机或邮箱");
             messageShow();
         }
-
     })
 });
 
@@ -170,7 +166,6 @@ $(function(){
         }
     })
 });
-
 $(function(){
     $("#confirmationPassword").blur(function(){  //点击发送按钮
         var rp = $("#registerPassword").val();
@@ -178,10 +173,39 @@ $(function(){
         if(cp!=rp){
             messageShow();
             shakeModal("您的密码和确认密码不一致");
-        }else{
+            flag = false;
+        }else if((cp!="")&&(rp!="")){
             messageHide();
             flag = true;
         }
     })
 });
+
+
+$(function(){
+    $("#loginButton").click(function(){
+        var username = $("#username").val();
+        var password = $("#loginPassword").val();
+        $.ajax({
+            url: "http://localhost:8080/rufull/account/accountLogin",
+            data: {"username": username,"password":password},
+            async: true,
+            cache: false,
+            type: "POST",
+            dataType: "json",
+            success: function (result) {
+                if (result == "1") {
+                    $(location).attr('href', 'http://localhost:8080/rufull/account/loginSuccess');
+                } else if (result == "0") {
+                    shakeModal("账号或密码不正确");
+                }
+            }
+        });
+    })
+});
+
+
+
+
+
 
