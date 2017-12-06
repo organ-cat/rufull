@@ -12,4 +12,6 @@ public interface AddressMapper {
     Address findAddressById(Integer id);
 
     int findAddressCount(int account_id);
+
+    void updateAddress(Address address);
 }

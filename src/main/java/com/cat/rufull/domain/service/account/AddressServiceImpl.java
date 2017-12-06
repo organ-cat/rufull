@@ -34,6 +34,25 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.findAddressCount(account_id);
     }
 
+    @Override
+    public void deleteAddressById(int id) {
+        Address address = addressMapper.findAddressById(id);
+        address.setAccountId(null);
+        addressMapper.updateAddress(address);
+
+
+    }
+
+    @Override
+    public void updateAddress(Address address) {
+        Address oldAddress = addressMapper.findAddressById(address.getId());
+        oldAddress.setAccountId(null);
+        addressMapper.updateAddress(oldAddress);
+        address.setId(null);
+        addressMapper.addAddress(address);
+    }
+
+
 //    @Override
 //    @Transactional(readOnly = true)
 //    public List<Address> queryAddress(Account account) {

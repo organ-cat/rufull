@@ -14,6 +14,11 @@ public interface AddressService {
 
     int findAddressCount(int account_id);
 
+    void deleteAddressById(int id);
+
+    void updateAddress(Address address);
+
+
 //    void updateAddress(Address address);
 //    void addAddress(Address address);
 //    Address queryAddressById(Address address);
