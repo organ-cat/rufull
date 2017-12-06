@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +61,6 @@ public class TestController {
     public String upload(@RequestParam("photo") MultipartFile photo,
                          HttpServletRequest request,
                          HttpSession session) throws IOException {
-        FileOutputStream outputStream = null;
         String path = request.getServletContext().getRealPath("upload/account");
         Account account = new Account();
         account.setId(1);
@@ -71,6 +69,6 @@ public class TestController {
         FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
         accountService.updateAccountPhoto(account);
         session.setAttribute("account",account);
-        return "account/test";
+        return "account/loginSuccess";
     }
 }

@@ -68,4 +68,10 @@ public interface AccountMapper {
      * @param account
      */
     void setUsername(Account account);
+
+    Account findAccountByUsername(@Param("username")String username,@Param("role") Integer role);
+
+    void bindPhone(Account account);
+
+    void bindEmail(Account account);
 }

@@ -48,6 +48,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Account findAccountByUsername(String username, Integer role) {
+        return accountMapper.findAccountByUsername(username, role);
+    }
+
+    @Override
+    public void bindPhone(Account account) {
+        accountMapper.bindPhone(account);
+    }
+
+    @Override
+    public void bindEmail(Account account) {
+        accountMapper.bindEmail(account);
+    }
+
+    @Override
     public void register(Account account) {
         //设置账号注册时间
         account.setRegisterTime(new Date());

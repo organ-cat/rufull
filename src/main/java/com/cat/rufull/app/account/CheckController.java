@@ -21,6 +21,14 @@ public class CheckController {
     public final Integer ACCOUNT_ROLE = 1;//用户角色编号
     public final Integer BUSINESS_ROLE = 2;//商家角色编号
 
+    public void checkUsername(String username, String role) {
+        Account account = accountService.findAccountByUsername("jiang", 1);
+        System.out.println();
+        System.out.println(account.toString());
+        System.out.println();
+    }
+
+
     /**
      * 检验用户注册方式是否被使用
      * @param response

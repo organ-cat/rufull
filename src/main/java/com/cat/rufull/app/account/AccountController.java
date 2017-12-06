@@ -4,21 +4,22 @@ import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 
-@SessionAttributes({"account"})
 @Controller
 @RequestMapping("/account")
 public class AccountController {
@@ -52,6 +53,64 @@ public class AccountController {
         return "account/loginSuccess";
     }
 
+    @RequestMapping("/setUsername")
+    public String setUsername(@RequestParam("username") String username, HttpSession session) {
+        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        account.setUsername(username);
+        accountService.setUsername(account);
+        return "account/loginSuccess";
+    }
+
+    @RequestMapping("/bindPhone")
+    public String bindPhone(@RequestParam("phone") String phone, HttpSession session){
+        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        account.setPhone(phone);
+        accountService.bindPhone(account);
+        return "account/loginSuccess";
+    }
+
+    @RequestMapping("/bindEmail")
+    public String bindEmail(@RequestParam("email") String email, HttpSession session){
+        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        account.setEmail(email);
+        accountService.bindEmail(account);
+        return "account/loginSuccess";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "hello";
+    }
+
+    /**
+     * 用户上传头像
+     * @param photo
+     * @param nickname
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/uploadPhoto")
+    public String uploadPhoto(@RequestParam("photo") MultipartFile photo,
+                              @RequestParam("nickname") String nickname,
+                              HttpServletRequest request) {
+
+        String path = request.getServletContext().getRealPath("upload/account");
+        Account account = (Account) request.getSession().getAttribute("account");
+        String fileName = "A" + account.getId() + photo.getOriginalFilename();
+        System.out.println("头像名字："+fileName);
+        if (!fileName.equalsIgnoreCase("A" + account.getId())) {
+            account.setPhoto(fileName);
+            try {
+                FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        account.setNickname(nickname);
+        accountService.updateAccountPhoto(account);
+        return "account/loginSuccess";
+    }
     /**
      * 用户注册
      * @param phoneOrEmail
@@ -88,30 +147,30 @@ public class AccountController {
      * 用户登陆
      * @param username
      * @param password
-     * @param model
+     * @param session
      * @param response
      */
     @RequestMapping(value = "/accountLogin", method = RequestMethod.POST)
     public void accountLogin(@RequestParam("username") String username,
                              @RequestParam("password") String password,
-                             ModelMap model,
+                             HttpSession session,
                              HttpServletResponse response) {
-        this.login(username, password, ACCOUNT_ROLE, model, response, ACCOUNT_SESSION);
+        this.login(username, password, ACCOUNT_ROLE, session, response, ACCOUNT_SESSION);
     }
 
     /**
      * 商家登陆
      * @param username
      * @param password
-     * @param model
+     * @param session
      * @param response
      */
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username,
                               @RequestParam("password") String password,
-                              ModelMap model,
+                              HttpSession session,
                               HttpServletResponse response) {
-        this.login(username, password, BUSINESS_ROLE, model, response, BUSINESS_SESSION);
+        this.login(username, password, BUSINESS_ROLE, session, response, BUSINESS_SESSION);
     }
 
     /**
@@ -119,14 +178,14 @@ public class AccountController {
      * @param username
      * @param password
      * @param role
-     * @param model
+     * @param session
      * @param response
      * @param sessionName
      */
     public void login(String username,
                        String password,
                        int role,
-                       ModelMap model,
+                       HttpSession session,
                        HttpServletResponse response,
                        String sessionName){
         Account account = new Account();
@@ -154,7 +213,7 @@ public class AccountController {
         if (login == null) {//用户为空，登陆失败
             result = "0";//返回json是0对应是失败
         } else {//登陆成功
-            model.put(sessionName, login);//存入session中
+            session.setAttribute(sessionName, login);//存入session中
             result = "1";//返回json是1对应是成功
         }
         response.setContentType("text/html");

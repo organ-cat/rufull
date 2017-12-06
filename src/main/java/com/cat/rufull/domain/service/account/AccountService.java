@@ -22,4 +22,10 @@ public interface AccountService {
 
 
     void setUsername(Account account);
+
+    Account findAccountByUsername(String username, Integer role);
+
+    void bindPhone(Account account);
+
+    void bindEmail(Account account);
 }

@@ -44,17 +44,35 @@
 ${account.username}<br/>
 ${account.phone}<br/>
 ${account.email}<br/>
+${account.nickname}<br/>
+<a href="http://localhost:8080/rufull/account/logout">退出</a>
 <hr/>
-<img id="preview" style="width: 100px;height: 100px;"/>
+<img id="preview" src="http://localhost:8080/rufull/upload/account/${account.photo}" style="width: 100px;height: 100px;"/>
 <br />
-<input type="file" name="file"  />
-
-<form method="post" enctype="multipart/form-data" action="<c:url value="/test/upload"/>">
-    <input type="file" name="photo">
-    <input type="submit" onchange="imgPreview(this)" value="upload"/>
+<h1>上传头像</h1>
+<form method="post" enctype="multipart/form-data" action="<c:url value="/account/uploadPhoto"/>">
+    <input type="file" name="photo"  onchange="imgPreview(this)" ><br /><br />
+    <input type="text" name="nickname" value="${account.nickname}" placeholder="昵称"/><br /><br />
+    <input type="submit" value="upload"/>
 </form>
-
-<img style="width: 100px;height: 100px;" src="http://localhost:8080/rufull/upload/account/${account.photo}">
+<hr />
+<h1>更改邮箱</h1>
+<form method="post"  action="<c:url value="/account/bindEmail"/>">
+    <input type="text" name="email" value="${account.email}" placeholder="邮箱"/><br />
+    <input type="submit" value="确定"/>
+</form>
+<hr />
+<h1>修改用户名</h1>
+<form method="post"  action="<c:url value="/account/setUsername"/>">
+    <input type="text" name="username" value="${account.username}" placeholder="用户名"/><br />
+    <input type="submit" value="确定"/>
+</form>
+<hr />
+<h1>更改手机</h1>
+<form method="post"  action="<c:url value="/account/bindPhone"/>">
+    <input type="text" name="phone" value="${account.phone}" placeholder="手机号码"/><br />
+    <input type="submit" value="确定"/>
+</form>
 
 </body>
 </html>
