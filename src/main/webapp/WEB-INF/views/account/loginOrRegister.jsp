@@ -23,25 +23,6 @@
     <script src="${pageContext.request.contextPath}/js/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
-    <%--<script type="text/javascript">--%>
-        <%--var countdown=60;--%>
-        <%--function settime(val) {--%>
-            <%--if (countdown == 0) {--%>
-                <%--val.removeAttribute("disabled");--%>
-                <%--val.value="免费获取验证码";--%>
-                <%--countdown = 60;--%>
-                <%--return;--%>
-            <%--} else {--%>
-                <%--val.setAttribute("disabled", true);--%>
-                <%--val.value="重新发送(" + countdown + ")";--%>
-                <%--countdown--;--%>
-            <%--}--%>
-            <%--setTimeout(function() {--%>
-                <%--settime(val)--%>
-            <%--},1000)--%>
-        <%--}--%>
-    <%--</script>--%>
-
 </head>
 <body>
 <div class="container">
@@ -90,7 +71,7 @@
                                     <input id="registerPassword" class="form-control" type="password" placeholder="您的密码" name="password">
                                     <input id="confirmationPassword" class="form-control" type="password" placeholder="确认密码" name="password_confirmation">
                                     <input id="checkcode" type="text" name="checkCode" placeholder="验证码">
-                                    <input id="getCheckCodeButton" type="button" value="免费获取验证码" onclick="settime(this)">
+                                    <input id="getCheckCodeButton" type="button" value="免费获取验证码">
                                     <input id="registerButton" class="btn btn-default btn-register" onclick="registerAjax()" type="submit" value="注册" >
                                 </form>
                             </div>

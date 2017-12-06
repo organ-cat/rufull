@@ -109,10 +109,29 @@ $(function(){
     })
 });
 
+var countdown=60;
+
+function settime(val) {
+    if (countdown == 0) {
+        val.removeAttribute("disabled");
+        val.value="免费获取验证码";
+        countdown = 60;
+        return;
+    } else {
+        val.setAttribute("disabled", true);
+        val.value="重新发送(" + countdown + ")";
+        countdown--;
+    }
+    setTimeout(function() {
+        settime(val)
+    },1000)
+}
+
 $(function(){
     $("#getCheckCodeButton").click(function(){  //点击发送按钮
         var value=$("#phone").val();
         if(flag){
+            settime(this);
             $.ajax({
                 url:"http://localhost:8080/rufull/check/sendRegisterCode",//要请求的服务器url
                 data:{phone:value},  //这里的email对应表单中的name="email"，也是发送url中的email=value(GET方式)
@@ -128,11 +147,27 @@ $(function(){
                     }
                 }
             })
+
+
+
         }else {
             shakeModal("请填写注册的手机或邮箱");
             messageShow();
         }
 
+    })
+});
+
+$(function(){
+    $("#registerPassword").blur(function(){  //点击发送按钮
+        var rp = $("#registerPassword").val();
+        if(!(/^[0-9a-zA-Z_]{6,15}$/.test(rp))){
+            messageShow();
+            shakeModal("密码必须是6-16位且由字母,数字和_组成");
+        }else{
+            messageHide();
+            flag = true;
+        }
     })
 });
 
@@ -143,29 +178,10 @@ $(function(){
         if(cp!=rp){
             messageShow();
             shakeModal("您的密码和确认密码不一致");
-        }else if(!(/^[0-9a-zA-Z_]{6,15}$/.test(rp))){
-            messageShow();
-            shakeModal("密码必须是6-16位且由字母,数字和_组成");
         }else{
             messageHide();
+            flag = true;
         }
     })
 });
-
-// var countdown=60;
-// function settime(val) {
-//     if (countdown == 0) {
-//         val.removeAttribute("disabled");
-//         val.value="免费获取验证码";
-//         countdown = 60;
-//         return;
-//     } else {
-//         val.setAttribute("disabled", true);
-//         val.value="重新发送(" + countdown + ")";
-//         countdown--;
-//     }
-//     setTimeout(function() {
-//         settime(val)
-//     },1000)
-// }
 
