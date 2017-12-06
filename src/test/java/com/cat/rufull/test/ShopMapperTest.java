@@ -1,9 +1,7 @@
 package com.cat.rufull.test;
 
-import com.cat.rufull.domain.mapper.product.ProductMapper;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
-import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.model.Shop;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/spring/root-context.xml"})

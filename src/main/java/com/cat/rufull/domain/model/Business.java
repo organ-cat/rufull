@@ -3,15 +3,12 @@ package com.cat.rufull.domain.model;
 import java.io.Serializable;
 import java.util.List;
 
-/*
-    商家类
- */
 public class Business implements Serializable {
     private Integer id;                     // 主键
 
-    private String frontPhoto;              // 室外图片名
+    private String frontPhoto;              // 室外图片
 
-    private String insidePhoto;             // 室内图片名
+    private String insidePhoto;             // 室内图片
 
     private String idBackPhoto;             // 身份证背面照片
 

@@ -8,6 +8,19 @@ import java.util.List;
     商家类
  */
 public class Shop implements Serializable {
+//    支持支付的三种方式
+    public static Integer SUPPORT_PAY_ONLINE_AND_CASH = 0;   // 支持支付方式：在线和货到付款
+    public static Integer SUPPORT_PAY_ONLINE= 1;             // 支持支付方式：在线付款
+    public static Integer SUPPORT_PAY_CASH = 2;              // 支持支付方式：货到付款
+
+//    商家状态
+    public static Integer SHOP_STATUS_NORMAL = 0;            // 商店状态：正常
+    public static Integer SHOP_STATUS_REST = 1;              // 商店状态：休息
+    public static Integer SHOP_STATUS_RETIFY = 2;            // 商店状态：整顿
+    public static Integer SHOP_STATUS_DELETE = 3;            // 商店状态：删除
+
+
+
     private Integer id;                         // 商店id主键
 
     private String shopName;                    // 商店名称

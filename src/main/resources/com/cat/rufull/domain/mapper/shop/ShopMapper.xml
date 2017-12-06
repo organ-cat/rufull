@@ -42,6 +42,17 @@
         FROM SHOP
     </select>
 
+    <select id="findAllOnlineShop" resultMap="ShopResultMap" resultType="list">
+        SELECT
+        <include refid="Shop_Column_List"/>
+        FROM SHOP WHERE operate_state = 0;
+    </select>
+    <select id="findAllNotOnlineShop" resultMap="ShopResultMap" resultType="list">
+        SELECT
+        <include refid="Shop_Column_List"/>
+        FROM SHOP WHERE operate_state = 1;
+    </select>
+
     <!--// 通过Id查询商店-->
     <select id="findById" parameterType="java.lang.Integer" resultMap="ShopResultMap">
         SELECT
