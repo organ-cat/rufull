@@ -201,9 +201,11 @@ CREATE TABLE PRODUCT_EVALUATION (
   eval_time TIMESTAMP NOT NULL,       /*评论时间*/
   account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   item_id INT(11) NOT NULL,           /*外键,引用LINE_ITEM表*/
+  order_eval_id INT(11) NOT NULL,     /*外键,引用ORDER_EVALUATION表*/
   PRIMARY KEY (id),
   FOREIGN KEY (item_id) REFERENCES LINE_ITEM (id),
-  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id),
+  FOREIGN KEY (order_eval_id) REFERENCES ORDER_EVALUATION (id)
 );
 
 /*投诉表*/

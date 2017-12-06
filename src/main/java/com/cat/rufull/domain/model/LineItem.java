@@ -67,6 +67,10 @@ public class LineItem implements Serializable {
         this.productId = productId;
     }
 
+    public BigDecimal getTotal() {
+        return price.multiply(new BigDecimal(Integer.valueOf(quantity)));
+    }
+
     @Override
     public String toString() {
         return "Line item - Id: " + id +

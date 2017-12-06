@@ -1,14 +1,45 @@
 package com.cat.rufull.domain.model;
 
+import com.cat.rufull.domain.common.util.DateUtils;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * 订单类
  */
 public class Order implements Serializable {
+
+    // 订单状态 status:
+    public static final String STATUS_UNPAID      = "UNPAID";      // 未付款
+    public static final String STATUS_PAID        = "PAID";        // 已付款
+    public static final String STATUS_CANCELED    = "CANCELED";    // 已取消
+    public static final String STATUS_ACCEPTED    = "ACCEPTED";    // 已接单
+    public static final String STATUS_DELIVERY    = "DELIVERY";    // 运送中
+    public static final String STATUS_COMPLETED   = "COMPLETED";   // 已完成
+    public static final String STATUS_AUDITING    = "AUDITING";    // 审核中
+    public static final String STATUS_UNCOMPLETED = "UNCOMPLETED"; // 未完成
+    public static final String STATUS_EVALUATED   = "EVALUATED";   // 已评价
+
+    // 支付方式 paymentMethod:
+    public static final String PAYMENT_METHOD_ONLINE  = "ONLINE";  // 在线支付
+    public static final String PAYMENT_METHOD_OFFLINE = "OFFLINE"; // 货到付款
+
+    // 支付状态 paymentStatus:
+    public static final String PAYMENT_STATUS_UNPAID  = "UNPAID";  // 未付款
+    public static final String PAYMENT_STATUS_PAID    = "PAID";    // 已付款
+    public static final String PAYMENT_STATUS_IGNORED = "IGNORED"; // 忽略
+
+    // 发货状态 shippingStatus:
+    public static final String SHIPPING_STATUS_PENDING  = "PENDING";  // 听候中
+    public static final String SHIPPING_STATUS_SHIPPING = "SHIPPING"; // 运送中
+    public static final String SHIPPING_STATUS_ARRIVED  = "ARRIVED";  // 已送达
+    public static final String SHIPPING_STATUS_CANCELED = "CANCELED"; // 已取消
+
     private Integer id;                 // 主键
 
     private String orderNumber;         // 订单号
@@ -167,6 +198,30 @@ public class Order implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public int getTotalQuantity() {
+        int totalQuantity = 0;
+        for (LineItem item: lineItems)
+            totalQuantity += item.getQuantity();
+        return totalQuantity;
+    }
+
+    public String getCreateDateString() {
+        // 获取今天
+        Calendar today = Calendar.getInstance();
+
+        // 获取订单下单时间
+        Calendar createDate = new GregorianCalendar();
+        createDate.setTime(createdTime);
+
+        // 获取下单时间距离今天的天数
+        long daysBetween = DateUtils.calendarDaysBetween(createDate, today);
+
+        if      (daysBetween == 0) return "今天";
+        else if (daysBetween == 1) return "昨天";
+        else return String.format("%d-%02d",
+                    createDate.get(GregorianCalendar.MONTH) + 1, createDate.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
