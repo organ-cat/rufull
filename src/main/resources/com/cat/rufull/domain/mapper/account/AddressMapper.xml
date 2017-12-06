@@ -38,12 +38,6 @@
         ADDRESS.account_id = #{id}
     </select>
 
-
-
-
-
-<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-
     <update id="updateAddress" parameterType="Address">
         UPDATE
         ADDRESS
@@ -58,13 +52,4 @@
         ADDRESS.id = #{id}
     </update>
 
-
-
-    <delete id="deleteAddress" parameterType="Address">
-         DELETE
-         FROM
-         ADDRESS
-         WHERE
-         ADDRESS.id=#{id}
-     </delete>
 </mapper>
