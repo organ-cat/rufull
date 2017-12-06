@@ -141,9 +141,9 @@ $(function(){
                 dataType:"json",   //服务器返回的数据是什么类型
                 success:function(result){  //这个方法会在服务器执行成功是被调用 ，参数result就是服务器返回的值(现在是json类型)
                     if(result == "31"){
-                        alert("短信验证码已发送成功,请尽快确认");
+                        // alert("短信验证码已发送成功,请尽快确认");
                     }else if(result == "32"){
-                        alert("邮箱验证码已发送成功,请尽快确认");
+                        // alert("邮箱验证码已发送成功,请尽快确认");
                     }
                 }
             })

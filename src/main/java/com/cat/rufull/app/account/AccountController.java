@@ -10,6 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -30,19 +31,25 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    public final Integer ACCOUNT_ROLE = 1;//用户角色编号
-    public final Integer BUSINESS_ROLE = 2;//商家角色编号
-    public final String ACCOUNT_SESSION = "account";
-    public final String BUSINESS_SESSION = "business";
+    public final static int ACCOUNT_ROLE = 1;//用户角色编号
+    public final static int BUSINESS_ROLE = 2;//商家角色编号
+    public final static String ACCOUNT_SESSION = "account";
+    public final static String BUSINESS_SESSION = "business";
 
+    //跳转到用户注册页面
     @RequestMapping("/registerPage")
     public String registerPage() {
-        //跳转到用户注册页面
         return "account/loginOrRegister";
     }
+    //用户登陆页面
     @RequestMapping("/loginPage")
     public String loginPage(){
         return "account/loginOrRegister";
+    }
+    //登陆成功页面
+    @RequestMapping("/loginSuccess")
+    public String loginSuccess(){
+        return "account/loginSuccess";
     }
 
     /**
@@ -53,7 +60,7 @@ public class AccountController {
      * @param httpSession
      * @return
      */
-    @RequestMapping("/accountRegister")
+    @RequestMapping(value = "/accountRegister",method = RequestMethod.POST)
     public String accountRegister(@RequestParam("phone") String phoneOrEmail,
                            @RequestParam("password") String password,
                            @RequestParam("checkCode") String checkCode,
@@ -69,33 +76,41 @@ public class AccountController {
      * @param httpSession
      * @return
      */
-    @RequestMapping("/businessRegister")
+    @RequestMapping(value = "/businessRegister", method = RequestMethod.POST)
     public String businessRegister(@RequestParam("phone") String phoneOrEmail,
-                                  @RequestParam("password") String password,
-                                  @RequestParam("checkCode") String checkCode,
-                                  HttpSession httpSession) {
+                                   @RequestParam("password") String password,
+                                   @RequestParam("checkCode") String checkCode,
+                                   HttpSession httpSession) {
         return register(phoneOrEmail, password, checkCode, httpSession, BUSINESS_ROLE);
     }
 
-    @RequestMapping("/loginSuccess")
-    public String loginSuccess(){
-        return "hello";
-    }
-
-    @RequestMapping("/accountLogin")
-    public void accountLogin(@RequestParam("username")String username,
-                        @RequestParam("password")String password,
-                        ModelMap model,
-                        HttpServletResponse response){
-        System.out.println("用户注册："+username+"-"+password);
+    /**
+     * 用户登陆
+     * @param username
+     * @param password
+     * @param model
+     * @param response
+     */
+    @RequestMapping(value = "/accountLogin", method = RequestMethod.POST)
+    public void accountLogin(@RequestParam("username") String username,
+                             @RequestParam("password") String password,
+                             ModelMap model,
+                             HttpServletResponse response) {
         this.login(username, password, ACCOUNT_ROLE, model, response, ACCOUNT_SESSION);
     }
-    @RequestMapping("/businessLogin")
-    public void businessLogin(@RequestParam("username")String username,
-                        @RequestParam("password")String password,
-                        ModelMap model,
-                        HttpServletResponse response){
-        System.out.println("商家注册："+username+"-"+password);
+
+    /**
+     * 商家登陆
+     * @param username
+     * @param password
+     * @param model
+     * @param response
+     */
+    @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
+    public void businessLogin(@RequestParam("username") String username,
+                              @RequestParam("password") String password,
+                              ModelMap model,
+                              HttpServletResponse response) {
         this.login(username, password, BUSINESS_ROLE, model, response, BUSINESS_SESSION);
     }
 
@@ -110,18 +125,21 @@ public class AccountController {
      */
     public void login(String username,
                        String password,
-                       Integer role,
+                       int role,
                        ModelMap model,
                        HttpServletResponse response,
                        String sessionName){
         Account account = new Account();
+        //判断是否是用户名
         boolean isUsernaem = RegEx.regExUsername(username);
+        //判断是否是手机
         boolean isPhone = RegEx.regExPhone(username);
+        //判断是否是邮箱
         boolean isEmail = RegEx.regExEmail(username);
+        //返回结果
         String result = null;
         account.setPassword(password); //编码阶段
         account.setRole(role);
-
         if (isUsernaem) {
             account.setUsername(username);
         }
@@ -131,13 +149,13 @@ public class AccountController {
         if (isEmail) {
             account.setEmail(username);
         }
+        //查询登陆的用户
         Account login = accountService.login(account);
-        if (login == null) {
-            System.out.println("登陆——失败");
-            result = "0";
-        } else {
-            model.put(sessionName, login);
-            result = "1";
+        if (login == null) {//用户为空，登陆失败
+            result = "0";//返回json是0对应是失败
+        } else {//登陆成功
+            model.put(sessionName, login);//存入session中
+            result = "1";//返回json是1对应是成功
         }
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
@@ -150,7 +168,7 @@ public class AccountController {
     }
 
     /**
-     * 注册的方法
+     * 注册功能
      * @param phoneOrEmail
      * @param password
      * @param checkCode
@@ -162,7 +180,8 @@ public class AccountController {
                            String password,
                            String checkCode,
                            HttpSession httpSession,
-                           Integer role){
+                           int role){
+
         //获取session中的验证码
         String registerCode = (String) httpSession.getAttribute("checkCode");
         //判断是否是手机
@@ -181,22 +200,25 @@ public class AccountController {
             //验证码错误，回到注册页面
             return "account/loginOrRegister";
         }
-        //设置账号密码,通过MD5加密
-        //account.setPassword(EncryptByMD5.encrypt(password));
         // 编码期间，不加密
         account.setPassword(password);
         //注册方式是手机
         if (isPhone) {
             //根据手机查找用户账号
-            Account user = accountService.findAccountByPhone(phoneOrEmail,ACCOUNT_ROLE);
+            Account user = accountService.findAccountByPhone(phoneOrEmail,role);
             //账号不存在，可以注册
             if (user == null) {
                 //设置账号的手机
                 account.setPhone(phoneOrEmail);
                 accountService.register(account);
-                return "account/registerSuccess";
+                if (role == 1) {
+                    httpSession.setAttribute(ACCOUNT_SESSION, account);
+                    return "account/registerSuccess";
+                } else {
+                    return "account/registerSuccess";
+                }
             } else {
-                //账号存在，返回注册页面
+                //手机被注册了，跳转到注册也秒
                 return "account/loginOrRegister";
             }
         }
@@ -210,9 +232,16 @@ public class AccountController {
                 account.setEmail(phoneOrEmail);
                 //发送激活账号邮箱
                 Email.sendBing(mailSender, mailMessage, phoneOrEmail);
+                //注册账号
                 accountService.register(account);
-                return "account/registerSuccess";
+                if (role == 1) {
+                    httpSession.setAttribute(ACCOUNT_SESSION, account);
+                    return "account/registerSuccess";
+                } else {
+                    return "account/registerSuccess";
+                }
             } else {
+                //邮箱被注册了，跳转到注册也秒
                 return "account/loginOrRegister";
             }
         }
