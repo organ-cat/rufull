@@ -133,10 +133,10 @@
         <div class="rst-header-info-shipping_fee">
 
             <h3>配送费</h3>
-            <c:if test="0 == ${shop.shippingFee}">
+            <c:if test="0.00 == ${shop.shippingFee}">
                 <b>免费配送</b>
             </c:if>
-            <c:if test="0 != ${shop.shippingFee}">
+            <c:if test="0.00 != ${shop.shippingFee}">
                 <b>${shop.shippingFee}</b>
             </c:if>
         </div>
@@ -153,15 +153,15 @@
 <div class="restaurant-subheader">
     <div class="container">
         <div class="rst-subheader-nav">
-            <a class="rst-subheader-nav-left active" href="/zb-eamonn">
+            <a class="rst-subheader-nav-left active" href="${pageContext.request.contextPath}/shop/showShopDetail">
                 菜单列表
             </a>
 
-            <a class="rst-subheader-nav-left" href="">
+            <a class="rst-subheader-nav-left" href="${pageContext.request.contextPath}/shop/showShopComments">
                 商家评价
             </a>
 
-            <a class="rst-subheader-nav-left" href="/zb-eamonn/comment">
+            <a class="rst-subheader-nav-left" href="${pageContext.request.contextPath}/shop/showBusinessLicense">
                 商家资质
             </a>
 
@@ -246,20 +246,17 @@
         <div class="restaurant-main">
             <div id="rating_wrap" class="rst-rating-wrapper">
                 <section class="rst-rating-column rst_rating_wrap">
+                    <c:forEach items="${shop.productList}" var="product">
                     <div class="rst-block rst-rating-block">
-
-                        <c:forEach items="${shop.productList}" var="product">
                             <div class="product_img">
                                 <a href="/zb-eamonn" itemprop="url">
-                                    <img class="rst-img" src="${pageContext.request.contextPath}/upload/product/${product.photo}"
+                                    <img class="rst-img"
+                                         src="${pageContext.request.contextPath}/upload/product/${product.photo}"
                                          alt=""${shop.shopName}"
                                     />
                                 </a>
-
                             </div>
-
                             <div class="product_name">
-
                                 <h4><b>${product.productName}</b></h4>
                                 <p class="produce_name_comments">
                                     <span class="produce_name_font">评分：${查询到的商品评价}</span>
@@ -267,19 +264,15 @@
                                     <span>月售：${product.salesVolume}</span>
                                 </p>
                             </div>
-
                             <div class="product_price">
-
                                 <span class="product_price_symbol">¥</span>
                                 <span class="product_price_digital">${product.price}</span>
-
                             </div>
                             <div class="product_cart">
                                 <button class="product_cart_button">加入购物车</button>
                             </div>
-                        </c:forEach>
-
                     </div>
+                    </c:forEach>
                 </section>
             </div>
         </div>

@@ -4,12 +4,14 @@ body.ui_no_scroll {
 }
 
 .restaurant-main {
+	margin-top: 10px;
 	float: left;
 	margin-right: 14px;
 	width: 666px
 }
 
 .restaurant-aside {
+	margin-top: 10px;
 	float: right;
 	width: 250px
 }
@@ -178,7 +180,7 @@ body.ui_no_scroll {
 	background: #3199e8;
 	color: #fff
 }
-
+/*用到*/
 .rating-point {
 	float: left;
 	margin-right: 14px
@@ -302,6 +304,7 @@ body.ui_no_scroll {
 	filter: alpha(opacity=100)
 }
 
+/*用到*/
 .rst-fav-wrapper {
 	position: absolute;
 	top: 106px;
@@ -323,6 +326,52 @@ body.ui_no_scroll {
 .rst-fav.ui_faved>.glyph,.rst-fav:hover>.glyph {
 	color: #f5522c
 }
+/*有用*/
+.comment-left{
+	padding: 20px 0;
+	margin-left: 130px;
+	position: relative;
+	border-bottom: 1px solid #eee;
+	min-height: 100px;
+}
+/*有用*/
+.commentitem-left-img {
+	position: absolute;
+	left: -130px;
+	width: 80px;
+	text-align: center;
+
+}
+/*有用*/
+.comment_right{
+	display: block;
+}
+/*有用*/
+.comment_date{
+	position: absolute;
+	top: 28px;
+	right: 0;
+	font-size: 12px;
+	color: #999;
+}
+/*有用*/
+.comment_right_content_margain{
+	margin-left: 4px;
+}
+/*有用*/
+.comment_right_div{
+	padding-top: 10px;
+	padding-bottom: 4px;
+	border-top: 1px solid #f7f7f7;
+}
+
+.nav-style{
+	background-color: #fafafa;
+	position: relative;
+	color: #666;
+	border-bottom: 1px solid #eee;
+	height: 43px;
+}
 
 .rst-fav>.glyph {
 	display: block;
@@ -342,19 +391,16 @@ body.ui_no_scroll {
 
 /*用到*/
 .restaurant-header {
-	margin-bottom: 14px;
 	width: 100%;
-	height: 92px;
+	height: 142px;
 	background: #fff;
 	box-shadow: 0 1px 1px rgba(0,0,0,.08)
 }
 
 .restaurant-subheader{
 	margin-top: 14px;
-	margin-bottom: 14px;
 	width: 100%;
-	height: 60px;
-	background: #fff;
+	height: 70px;
 	box-shadow: 0 1px 1px rgba(0,0,0,.08)
 }
 
@@ -396,11 +442,11 @@ body.ui_no_scroll {
 	-ms-transform: rotate(180deg);
 	border-top-color: #666
 }
-
+/*用到*/
 .rst-header-toggle:hover .rst-header-dropdown {
 	display: block
 }
-
+/*用到*/
 .rst-header-dropdown {
 	position: absolute;
 	top: 92px;
@@ -409,15 +455,16 @@ body.ui_no_scroll {
 	display: none;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	color: #666
+	color: #666;
+	transition: opacity .1s ease-in-out,max-height .4s ease-in-out;
 }
 /*用到*/
 .rst-header-main {
 	position: relative;
 	float: left;
-	width: 348px
+	width: 400px
 }
-
+/*用到*/
 .rst-header-main:hover {
 	box-shadow: 0 0 6px rgba(0,0,0,.3)
 }
@@ -427,7 +474,7 @@ body.ui_no_scroll {
 	border-right: 1px solid transparent;
 	border-left: 1px solid transparent
 }
-
+/*用到*/
 .no-boxshadow .rst-header-main:hover>.rst-header-info {
 	border-color: #ddd
 }
@@ -438,28 +485,28 @@ body.ui_no_scroll {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 14px 16px;
-	height: 92px;
+	height: 140px;
 	background: #fff
 }
 
 /*用到*/
 .rst-header-info-shipping_price{
 	position: relative;
-	margin-top: 20px;
+	margin-top: 40px;
 	float: left;
-	margin-left: 160px;
+	margin-left: 150px;
 }
 
 /*用到*/
 .rst-header-info-shipping_fee{
-	margin-top: 20px;
+	margin-top: 40px;
 	float: left;
 	margin-left: 130px;
 }
 
 /*用到*/
 .rst-header-info-shipping_time{
-	margin-top: 20px;
+	margin-top: 40px;
 	float: left;
 	margin-left: 120px;
 }
@@ -470,18 +517,18 @@ body.ui_no_scroll {
 	right: 15px;
 	border-top-color: #c2c2c2
 }
-
+/*用到*/
 .rst-header-detail {
 	width: 100%;
 	border-radius: 0 0 3px 3px;
 	background: #fff;
 	box-shadow: 0 3px 6px rgba(0,0,0,.3);
 	color: #666;
-	font-size: 14px
+
 }
 
 
-
+/*用到*/
 .no-boxshadow .rst-header-detail {
 	border: 1px solid #ddd;
 	border-top: none
@@ -492,35 +539,85 @@ body.ui_no_scroll {
 	position: relative;
 	float: left;
 	margin: 8px 16px 0 0;
-	width: 48px;
-	height: 48px
+	width: 100px;
+	height: 100px
 }
 
+
+/*用到*/
 .product_img{
 	position: relative;
 	float: left;
+	width: 12%;
+
 
 }
+/*用到*/
 .product_name{
-	margin-top: 15px;
+	margin-top: 23px;
 	position: relative;
 	float: left;
-	
+	width: 60%;
+	text-align: left;
+
+
 }
+/*用到*/
+.produce_name_comments{
+	color: #999;
+	font-size: 16px;
+}
+.produce_name_font{
+	color: #000;
+	font-size: 16px;
+}
+/*用到*/
 .product_price{
 	margin-top: 50px;
 	position: relative;
 	float: left;
-	margin-left: 300px;
-	
+	font-size: 12px;
+	width: 12%;
+
+
 }
+/*用到*/
+.product_price_symbol{
+
+	font-size: 14px;
+	font-weight: 700;
+	font-color:#999;
+}
+.product_price_digital{
+	font-size: 14px;
+	font-weight: 700;
+	font-color:#333;
+}
+/*用到*/
 .product_cart{
 	margin-top: 50px;
 	position: relative;
 	float: left;
-	margin-left: 150px;
-	
+
+
 }
+/*用到*/
+.product_cart_button{
+	border: 0;
+	cursor: pointer;
+	width: 90px;
+	height: 26px;
+	line-height: 26px;
+	border-radius: 20px;
+	text-align: center;
+	outline: 0;
+	display: inline-block;
+	background-color: #0089dc;
+	color: #fff;
+}
+
+
+/*用到*/
 .rst-img {
 	position: relative;
 	float: left;
@@ -539,8 +636,8 @@ body.ui_no_scroll {
 /*用到*/
 .rst-logo>.rst-logo-img {
 	display: block;
-	width: 48px;
-	height: 48px
+	width: 95px;
+	height: 95px
 }
 
 .rst-logo.premium {
@@ -557,14 +654,17 @@ body.ui_no_scroll {
 /*用到*/
 .rst-basic-info {
 	float: left;
-	margin-top: 13px;
-	width: 235px
+	margin-top: 30px;
+	width: 250px
+
 }
 
+/*用到*/
 .rst-name-wrapper.caret:after {
 	border-top-color: #aaa
 }
 
+/*用到*/
 .rst-name {
 	display: inline-block;
 	max-width: 87%;
@@ -574,11 +674,12 @@ body.ui_no_scroll {
 	font-size: 20px
 }
 
+/*用到*/
 .rst-name:hover {
 	color: #08c;
 	text-decoration: underline
 }
-
+/*用到*/
 .rst-misc {
 	margin: 5px 0 0
 }
@@ -602,11 +703,12 @@ body.ui_no_scroll {
 	color: #44a725
 }
 
+/*用到*/
 .rst-flavor {
 	float: left;
 	max-width: 125px;
 	color: #999;
-	font-size: 12px
+	font-size: 14px
 }
 
 .rst-status {
@@ -621,7 +723,7 @@ body.ui_no_scroll {
 .rst-status.bookable {
 	background: #5bb06c
 }
-
+/*用到*/
 .rst-header-rating {
 	padding: 20px;
 	border-top: 1px solid #eee
@@ -632,15 +734,20 @@ body.ui_no_scroll {
 	border-top: 1px solid #eee
 }
 
+/*用到*/
 .rst-header-list {
 	margin: 0 0 0 20px;
 	padding: 13px 20px 25px 3em;
 	border-top: 1px solid #eee;
 	line-height: 2em
 }
-
+/*用到*/
 .rst-header-list .item {
 	margin-left: -3em
+}
+
+.my-header-nav{
+	/*margin-bottom: -20px;*/
 }
 
 .rst-header-nav {
@@ -650,27 +757,81 @@ body.ui_no_scroll {
 }
 
 .rst-subheader-nav {
+	padding-top: 19px;
 	float: left;
-	margin-left: 125px;
-	margin-top: 12px;
-	font-size: 16px
+	width: 75%;
 }
-.rst-subheader-nav-middle{
-	float: left;
-	margin-left: 150px;
-	margin-top: 12px;
-	font-size: 13px;
+.rst-subheader-nav-left{
+	width: 112px;
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	color: #333;
+	font-size: 16px;
+	width: 112px;
+	height: 50px;
+	text-align: center;
+	background: transparent;
+}
+
+
+
+.rst-subheader-nav-left:after{
+	right: 0;
+	bottom: 0;
+	border-top: 3px solid;
+	content: "";
+	position: absolute;
+	left: 0;
+}
+
+.rst-subheader-nav-right{
+	margin-top: -6px;
+	width: 391px;
+	height: 50px;
+	float: right;
+	font-size: 18px;
+}
+
+.rst-subheader-nav-right-span{
+	padding: 0 15px;
+}
+
+
+
+.rst-subheader-nav-left.active {
+	color: #0089dc;
+}
+
+a:link{
+	text-decoration:none;
+	color: #000;
+}
+a:visited{
+	text-decoration:none;
+	color: #000;
+}
+a:hover{
+	text-decoration:none;
+}
+a:active{
+	text-decoration:none;
 }
 
 .rst-subheader-nav-right{
 	float: right;
-	width: 268px;
+	width: 310px;
 	height: 40px;
 	margin-top: 12px;
 	font-size: 13px;
 }
 
-
+.rst-subheader-nav-search{
+	float: right;
+	width: 180px;
+	height: 40px;
+	margin-top: 20px;
+}
 
 .rst-header-nav-item {
 	display: inline-block;
@@ -864,7 +1025,6 @@ body.ui_no_scroll {
 	color: #666;
 	font-size: 14px;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .rst-menu-desc>.activity-desc {
@@ -919,7 +1079,6 @@ body.ui_no_scroll {
 .icon-d-star {
 	width: 65px;
 	height: 12px;
-	background: url(../images/rst-sprites.b35686d3.png) no-repeat 0 0;
 	vertical-align: text-top
 }
 
@@ -995,7 +1154,6 @@ body.ui_no_scroll {
 }
 
 .rst-d-ordered.loading {
-	background-image: url(../images/loader-rst-ordered.cae14ba5.gif);
 	background-position: center;
 	background-repeat: no-repeat;
 	text-indent: -9999em
@@ -1786,7 +1944,6 @@ body.ui_no_scroll {
 .rst-notice-board {
 	color: #eb6100;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .rst-deliver-detail {
@@ -1827,7 +1984,6 @@ body.ui_no_scroll {
 
 .rst-badge-item>.v-license {
 	margin: 0 2px 0 -25px;
-	background: url(../images/license-icon.0995fc8b.png) no-repeat;
 	background-position: 0 7px
 }
 
@@ -2086,7 +2242,6 @@ body.ui_no_scroll {
 	width: 376px;
 	height: 100%;
 	background: #f9f9f9;
-	transition: left .3s ease 0
 }
 
 .rst-drawer-wrapper.ui_slide_in {
@@ -2105,7 +2260,6 @@ body.ui_no_scroll {
 	overflow: hidden;
 	width: 100%;
 	height: 182px;
-	background: url(../images/rst-drawer-bg.98c5e1f2.jpg) no-repeat center;
 	background-size: cover
 }
 
@@ -2199,7 +2353,6 @@ body.ui_no_scroll {
 	border-bottom: 1px solid #e2e2e2;
 	font-size: 12px;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .rst-drawer-citem:after {
@@ -2449,7 +2602,6 @@ body.ui_no_scroll {
 }
 
 .rcart-no.empty {
-	background-image: url(../images/rst-sprites.b35686d3.png);
 	background-position: 0 -30px
 }
 
@@ -2530,7 +2682,6 @@ body.ui_no_scroll {
 	z-index: 10;
 	width: 310px;
 	height: 64px;
-	background: url(../images/cart-activity.5fbb5aff.png)
 }
 
 .rcart-dish {
@@ -2640,7 +2791,6 @@ input.rcart-d-qty:focus {
 
 .rcart-d-del.loading {
 	display: block;
-	background: url(../images/loader-rcart-del.88d8c830.gif) no-repeat center right;
 	text-align: left;
 	text-indent: -9999em
 }
@@ -2768,7 +2918,7 @@ input.rcart-d-qty:focus {
 }
 
 .rst-product-block {
-	
+
 	padding: 20px;
 	height: 70px;
 	width: 804px;
@@ -2803,7 +2953,6 @@ input.rcart-d-qty:focus {
 	margin: 0;
 	font: 16px/1.5em "Helvetica Neue",Arial,"Microsoft Yahei",sans-serif;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .rst-rating-info {
@@ -2897,7 +3046,6 @@ input.rcart-d-qty:focus {
 	font-size: 14px;
 	line-height: 1.5;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .bs-modal-dialog.rst-comment-modal {
@@ -3179,7 +3327,6 @@ input.rcart-d-qty:focus {
 	padding: 0 0 8px;
 	border-bottom: 1px solid #e4e4e4;
 	word-break: break-all;
-	word-break: break-word
 }
 
 .photo-misc {
@@ -3319,7 +3466,6 @@ input.rcart-d-qty:focus {
 	margin: -5px 5px -5px 0;
 	width: 32px;
 	height: 25px;
-	background: url(../images/rst-sprites.b35686d3.png) no-repeat -40px -30px
 }
 
 .photo-guide-dropdown {
