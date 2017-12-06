@@ -20,24 +20,62 @@
 <body>
 
 <!-- 留着用来作导航条 -->
-<header>
-
-</header>
+<div class="my-header-nav">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img class="img-responsive center-block" alt="饱了么" src="">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li  class="hidden-sm hidden-md active"><a href="#">首页</a></li>
+                    <li><a href="#">我的订单</a></li>
+                    <li><a href="#">加盟合作</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户名 <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人中心</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> 我的收藏</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 我的地址</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
+                            <li class="divider" role="separator"></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
 
 
 <div class="restaurant-header">
+
     <div class="container">
-        <article class="rst-header-main rst-header-toggle rst_info_header"
+        <article class="rst-header-main rst-header-toggle "
                  itemscope=""
                  itemtype="http://schema.org/Restaurant">
 
             <header class="rst-header-info group">
                 <!-- 商店图标 图片-->
-                <a class="rst-logo" href="/zb-eamonn" itemprop="url">
-                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/business/${shop.shopPhoto}"
 
+                <a class="rst-logo" href="/zb-eamonn" itemprop="url">
+                    <%--商家图片--%>
+                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/business/${shop.shopPhoto}"
                          alt="${shop.shopName}"
-                         itemprop="logo" />
+                         itemprop="logo"/>
                 </a>
                 <!-- 商店图标 文字-->
                 <div class="rst-basic-info">
@@ -51,27 +89,15 @@
                     </div>
                     <!-- 商店图标 类型-->
                     <div class="rst-misc">
-                        <span class="rst-flavor text-overflow" title="中式,西式,港式,韩式">
-                            ${shop.shopType}
-                        </span>
+                        <span class="rst-flavor text-overflow" title="${shop.shopType}">${shop.shopType}</span>
                     </div>
                 </div>
             </header>
 
             <!-- 商店图标下拉的时候打开的框-->
             <div class="rst-header-detail rst-header-dropdown">
-
-                <section class="rst-header-rating group">
-                    <div class="rating-point header" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-                    </div>
-
-                    ${shop.shopPhone}<br>
-                    ${shop.operateState}
-                </section>
-
-                <!-- 公告 -->
                 <section class="rst-header-intro">
-                    商家公告:${shop.announcement}
+
                 </section>
                 <!-- 服务时间、地址 -->
                 <ul class="rst-header-list">
@@ -81,7 +107,7 @@
                     </li>
                     <li>
                         <span class="item">地址：</span>
-                        <span itemprop="address">  ${shop.address}</span>
+                        <span itemprop="address"> ${shop.address}</span>
                     </li>
                 </ul>
             </div>
@@ -90,18 +116,23 @@
         <div class="rst-header-info-shipping_price">
 
             <h3>起送价</h3>
-            <b>${shop.shippingPrice}</b>
+            <b>¥ ${shop.shippingPrice}</b>
         </div>
 
         <div class="rst-header-info-shipping_fee">
 
             <h3>配送费</h3>
-            <b>${shop.shippingFee}</b>
+            <c:if test="0.00 == ${shop.shippingFee}">
+                <b>免费配送</b>
+            </c:if>
+            <c:if test="0.00 != ${shop.shippingFee}">
+                <b>${shop.shippingFee}</b>
+            </c:if>
         </div>
 
         <div class="rst-header-info-shipping_time">
             <h3>平均送达时间</h3>
-            <b>${shop.shippingTime}</b>
+            <b>${shop.shippingTime}分钟</b>
         </div>
     </div>
 </div>
@@ -109,56 +140,32 @@
 
 <!-- 商家头部下面导航 -->
 <div class="restaurant-subheader">
-    <div>
-        <nav class="rst-subheader-nav">
-            <ul class="nav nav-pills">
-                <li>
-                    <a class="rst-header-nav-item"  href="/zb-eamonn">菜单列表</a>
-                </li>
+    <div class="container">
+        <div class="rst-subheader-nav">
+            <a class="rst-subheader-nav-left "  href="${pageContext.request.contextPath}/shop/showShopDetail">
+                菜单列表
+            </a>
 
-                <li>
-                    <a class="rst-header-nav-item" href="">商家评价</a>
-                </li>
-                <li class="active">
-                    <a class="rst-header-nav-item" href="/zb-eamonn/comment">商家资质</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+            <a class="rst-subheader-nav-left active " href="${pageContext.request.contextPath}/shop/showShopComments">
+                商家评价
+            </a>
 
-
-
-    <!-- 商家下面的导航 -->
-    <div>
-        <nav class="rst-subheader-nav-middle">
-            <ul class="nav nav-tabs">
-                <li>
-                    <a class="rst-header-nav-item" href="/zb-eamonn">搜索1</a>
-                </li>
-
-                <li>
-                    <a class="rst-header-nav-item" href="">搜索2</a>
-                </li>
-                <li>
-                    <a class="rst-header-nav-item" href="/zb-eamonn/rating">搜索3</a>
-                </li>
-                <li>
-                    <a class="rst-header-nav-item" href="/zb-eamonn/comment">搜索4</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <div class="rst-subheader-nav-right " >
-        <div id="topbar_search" class="topbar-search" role="search">
-            <form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">
-                <i id="" class="glyphicon glyphicon-search"></i>
-                <input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />
-
-            </form>
+            <a class="rst-subheader-nav-left " href="${pageContext.request.contextPath}/shop/showBusinessLicense">
+                商家资质
+            </a>
         </div>
+
+        <div class="rst-subheader-nav-search " >
+            <div id="topbar_search" class="topbar-search" role="search">
+                <form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">
+                    <i id="" class="glyphicon glyphicon-search"></i>
+                    <input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />
+
+                </form>
+            </div>
+        </div>
+
     </div>
-</div>
 
 
 
@@ -228,9 +235,33 @@
 
 
 <!-- 页脚 -->
-
-<footer class="index_footer">
-
+<footer class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="text-center"><strong>用户帮助</strong></h3>
+            <ul class="list-unstyled text-center">
+                <li><a href="#" class="text-muted">常见问题</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center"><strong>商务合作</strong></h3>
+            <ul class="list-unstyled text-center">
+                <li><a href="#" class="text-muted">我要开店</a></li>
+                <li><a href="#" class="text-muted">加盟指南</a></li>
+                <li><a href="#" class="text-muted">市场合作</a></li>
+                <li><a href="#" class="text-muted">开放平台</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center"><strong>关于我们</strong></h3>
+            <ul class="list-unstyled text-center">
+                <li><a href="#" class="text-muted">饱了么介绍</a></li>
+                <li><a href="#" class="text-muted">加入我们</a></li>
+                <li><a href="#" class="text-muted">联系我们</a></li>
+                <li><a href="#" class="text-muted">规则中心</a></li>
+            </ul>
+        </div>
+    </div>
 </footer>
 </body>
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
