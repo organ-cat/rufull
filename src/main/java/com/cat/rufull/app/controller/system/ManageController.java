@@ -56,10 +56,10 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, HttpSession session) {
+    public String login(@RequestParam("username") String username ,
+                        @RequestParam("password") String password,
+                        HttpServletRequest request, HttpSession session) {
         Manager manager = new Manager();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         boolean isUsername = RegEx.regExUsername(username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
@@ -157,7 +157,7 @@ public class ManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/getManager")
+    @RequestMapping("/getManager/{id}")
     public String getManager(@PathVariable Integer id, Model model) {
         Manager manager = manageService.getManagerById(id);
         model.addAttribute("manager", manager);
@@ -208,14 +208,13 @@ public class ManageController {
 
     /**
      * 删除管理员
-     * @param password
      * @param id
      * @param session
      * @param attr
      * @return
      */
-    @RequestMapping("/delManager")
-    public String delManager(String password,Integer id,
+    @RequestMapping("/delManager/{id}")
+    public String delManager(@PathVariable Integer id,
                              HttpSession session, RedirectAttributes attr) {
         session.removeAttribute("delerror");
         session.removeAttribute("delsuccess");
@@ -248,7 +247,7 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/find")
-    public String find(String findname, Model model, HttpSession session){
+    public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
         session.removeAttribute("logerror");
         List<Manager> findlist = manageService.findName(findname);
         model.addAttribute("findmlist", findlist);

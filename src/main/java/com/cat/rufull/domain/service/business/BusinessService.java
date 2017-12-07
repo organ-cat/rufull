@@ -18,4 +18,6 @@ public interface BusinessService {
     int updateByIdSelective(Business business);     // 通过Id选择不为空的字段更新商家
 
     int updateById(Business business);              // 通过Id更新商家
+
+    Business findBusinessByAccountId(Integer id);   // 通过用户id查询对应的商家
 }

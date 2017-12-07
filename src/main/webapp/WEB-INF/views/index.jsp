@@ -66,7 +66,7 @@
                                 <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/photo.jpg" alt="头像" /> <span >${account.username}</span></a></li>
                             </c:if>
                             <c:if test="${account.photo != null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><font size="5px">${account.username}</font></a></li>
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
                             </c:if>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
@@ -159,7 +159,7 @@
         </div>
     </div>
 
-    <footer class="homepage-footer">
+    <footer class="homepage-footer" style="background-color: #00000000">
         <a class="footer-nav" href="" target="_blank">我要开店</a>
         <a class="footer-nav" href="" target="_blank">问题答疑</a>
         <a class="footer-nav" href="" target="_blank">规则中心</a>

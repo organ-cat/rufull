@@ -1,4 +1,4 @@
-package com.cat.rufull.app.account;
+package com.cat.rufull.app.controller.account;
 
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;

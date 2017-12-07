@@ -6,10 +6,12 @@ import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -38,8 +40,8 @@ public class ManageShopController {
      */
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model) {
-        //List<Business> businessesList = businessService.getNotSettledShop();
-        List<Business> businessesList = null;
+        List<Business> businessesList = businessService.getNotSettledShop();
+        //List<Business> businessesList = null;
         model.addAttribute("notSettleShop", businessesList);
         return "system/shop/notSettleShop";
     }
@@ -50,11 +52,11 @@ public class ManageShopController {
      * @param model
      * @return
      */
-    @RequestMapping("/getBusiness")
+    @RequestMapping("/getBusiness/{id}")
     public String getShop(@PathVariable Integer id, Model model) {
         Business business = businessService.findById(id);
         model.addAttribute("mbusiness", business);
-        //business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         return "system/shop/examineShop";
     }
 
@@ -75,7 +77,7 @@ public class ManageShopController {
         session.removeAttribute("examerror");
 
         Manager mana = (Manager) session.getAttribute("manager");
-     //   business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         int i = businessService.updateById(business);
         if (i >= 1) {
             session.setAttribute("examsuccess","审核成功!");
@@ -83,11 +85,12 @@ public class ManageShopController {
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核通过！");
             log.setManager(mana);
-            log.setType(1);
+            log.setType(2);
+            log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:getNotSettledShop";
-            } else
+            }else
                 model.addAttribute("mbusiness", business);
                 session.setAttribute("logerror","写入日志失败");
                 return "redirect:getNotSettledShop";
@@ -103,18 +106,16 @@ public class ManageShopController {
      * @param business
      * @param session
      * @param attr
-     * @param model
      * @return
      * @throws Exception
      */
     @RequestMapping("/examineNotPass")
-    public String examineNotPass(Business business, HttpSession session,RedirectAttributes attr,
-                              Model model) throws Exception{
+    public String examineNotPass(Business business, HttpSession session,RedirectAttributes attr) throws Exception{
         session.removeAttribute("npexamerror");
         session.removeAttribute("npexamsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
-      //  business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_NOTPASS);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_NOTPASS);
         int i = businessService.updateById(business);
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone()+":你好，您申请的商家未通过审核");
@@ -122,7 +123,8 @@ public class ManageShopController {
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核不通过！");
             log.setManager(mana);
-            log.setType(1);
+            log.setType(2);
+            log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:getNotSettledShop";
@@ -148,15 +150,27 @@ public class ManageShopController {
         return "system/shop/allbusiness";
     }
 
+    /**
+     * 根据条件查询商家
+     * @param condition
+     * @param model
+     * @return
+     */
     @RequestMapping("/findByCondition")
-    public String findByCondition(Integer type,String condition,Model model) {
-       // List<Business> conditionBusiness= businessService.findByCondition(type,condition);
-        List<Business> conditionBusiness= null;
-        model.addAttribute("mbusinesslist",condition);
+    public String findByCondition(@RequestParam("condition") String condition, Model model) {
+        List<Business> conditionBusiness= businessService.findByCondition(condition);
+        model.addAttribute("mbusinesslist",conditionBusiness);
         return "system/shop/allbusiness";
     }
 
-    @RequestMapping("/delBusiness")
+    /**
+     * 根据id查询商家
+     * @param id
+     * @param model
+     * @param session
+     * @return
+     */
+    @RequestMapping("/delBusiness/{id}")
     public String delBusiness(@PathVariable Integer id,Model model,
                               HttpSession session) {
         session.removeAttribute("delBsuccess");
@@ -164,14 +178,15 @@ public class ManageShopController {
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         Business business = businessService.findById(id);
-        //business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
         int i = businessService.updateById(business);
         if (i >= 1) {
             session.setAttribute("delBsuccess","删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员删除商家信息！");
             log.setManager(mana);
-            log.setType(1);
+            log.setType(2);
+            log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:manageShop/findBusiness";

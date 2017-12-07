@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/manageAcc")
-public class AccountManageController {
+public class ManageAccountController {
 
     @Resource
     private AccountService accountService;
@@ -46,7 +47,7 @@ public class AccountManageController {
      * @param session
      * @return
      */
-    @RequestMapping("/getAccount")
+    @RequestMapping("/getAccount/{id}")
     public String getAccount(@PathVariable Integer id, Model model, HttpSession session) {
         session.removeAttribute("updateAccerror");
         Account account = accountService.findAccountById(id);
@@ -90,7 +91,8 @@ public class AccountManageController {
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("修改用户信息！");
             log.setManager(mana);
-            log.setType(1);
+            log.setType(2);
+            log.setAccount(old);
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:getAccountList";
@@ -111,24 +113,25 @@ public class AccountManageController {
     /**
      * 管理员删除用户
      * @param id
-     * @param model
      * @param session
-     * @param attr
      * @return
      */
-    @RequestMapping("/delaccount")
-    public String delManager(Integer id, Model model, HttpSession session,RedirectAttributes attr){
+    @RequestMapping("/delaccount/{id}")
+    public String delManager(@PathVariable Integer id, HttpSession session){
         session.removeAttribute("delAccerror");
         session.removeAttribute("delAccsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
+        Account account = new Account();
+        account.setId(id);
         int i = accountService.mdelAccount(id);
         if (i >= 1) {
             session.setAttribute("delAccsuccess","删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("删除用户！");
             log.setManager((Manager) session.getAttribute("manager"));
-            log.setType(1);
+            log.setType(2);
+            log.setAccount(account);
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:getAccountList";
@@ -148,14 +151,14 @@ public class AccountManageController {
      * @return
      */
     @RequestMapping("/findaccount")
-    public String find(String findname, Model model,HttpSession session) throws Exception{
+    public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
         session.removeAttribute("logerror");
         List<Account> findlist = accountService.findName(findname);
         model.addAttribute("findAcclist", findlist);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询用户！");
         log.setManager((Manager) session.getAttribute("manager"));
-        log.setType(1);
+        log.setType(2);
         int a = logService.addLog(log);
         if (a >= 1) {
             return "system/account/findlist";

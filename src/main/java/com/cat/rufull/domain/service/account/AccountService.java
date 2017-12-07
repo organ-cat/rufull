@@ -33,21 +33,21 @@ public interface AccountService {
     List<Account> findAllAccount();
 
     /**
-     * 管理员更新用户
+     * 管理员更新用户（更新用户的角色，状态，）
      * @param account
      * @return
      */
     int mUpdateAccount(Account account);
 
     /**
-     * 管理员删除用户
+     * 管理员删除用户（修改用户状态代表删除）
      * @param id
      * @return
      */
     int mdelAccount(Integer id);
 
     /**
-     * 根据字段 查询电话号码，昵称，用户名，邮箱
+     * 根据字段 用户名邮箱手机其中一个都可以查询到用户？（模糊查询）
      * @param findname
      * @return
      */

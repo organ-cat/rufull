@@ -3,7 +3,9 @@ package com.cat.rufull.app.controller.account;
 import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.model.Account;
+import com.cat.rufull.domain.model.LoginLog;
 import com.cat.rufull.domain.service.account.AccountService;
+import com.cat.rufull.domain.service.account.LoginLogService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -19,23 +21,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private LoginLogService loginLogService;
 
     @Autowired
     private MailSender mailSender;
 
     @Autowired
     private SimpleMailMessage mailMessage;
-
-    public final static int ACCOUNT_ROLE = 1;//用户角色编号
-    public final static int BUSINESS_ROLE = 2;//商家角色编号
-    public final static String ACCOUNT_SESSION = "account";
-    public final static String BUSINESS_SESSION = "business";
 
     //跳转到用户注册页面
     @RequestMapping("/registerPage")
@@ -55,7 +55,7 @@ public class AccountController {
 
     @RequestMapping("/setUsername")
     public String setUsername(@RequestParam("username") String username, HttpSession session) {
-        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
         account.setUsername(username);
         accountService.setUsername(account);
         return "account/loginSuccess";
@@ -63,7 +63,7 @@ public class AccountController {
 
     @RequestMapping("/bindPhone")
     public String bindPhone(@RequestParam("phone") String phone, HttpSession session){
-        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
         account.setPhone(phone);
         accountService.bindPhone(account);
         return "account/loginSuccess";
@@ -71,7 +71,7 @@ public class AccountController {
 
     @RequestMapping("/bindEmail")
     public String bindEmail(@RequestParam("email") String email, HttpSession session){
-        Account account = (Account) session.getAttribute(ACCOUNT_SESSION);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
         account.setEmail(email);
         accountService.bindEmail(account);
         return "account/loginSuccess";
@@ -80,7 +80,7 @@ public class AccountController {
     @RequestMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
-        return "hello";
+        return "index";
     }
 
     /**
@@ -124,7 +124,7 @@ public class AccountController {
                            @RequestParam("password") String password,
                            @RequestParam("checkCode") String checkCode,
                            HttpSession httpSession) {
-        return register(phoneOrEmail, password, checkCode, httpSession, ACCOUNT_ROLE);
+        return register(phoneOrEmail, password, checkCode, httpSession, Account.ACCOUNT_ROLE);
     }
 
     /**
@@ -140,7 +140,7 @@ public class AccountController {
                                    @RequestParam("password") String password,
                                    @RequestParam("checkCode") String checkCode,
                                    HttpSession httpSession) {
-        return register(phoneOrEmail, password, checkCode, httpSession, BUSINESS_ROLE);
+        return register(phoneOrEmail, password, checkCode, httpSession, Account.BUSINESS_ROLE);
     }
 
     /**
@@ -151,12 +151,49 @@ public class AccountController {
      * @param response
      */
     @RequestMapping(value = "/accountLogin", method = RequestMethod.POST)
-    public void accountLogin(@RequestParam("username") String username,
-                             @RequestParam("password") String password,
-                             HttpSession session,
-                             HttpServletResponse response) {
-        this.login(username, password, ACCOUNT_ROLE, session, response, ACCOUNT_SESSION);
+    public void accountLogin(
+                                @RequestParam("username") String username,
+                                @RequestParam("password") String password,
+                                @RequestParam("ip") String ip,
+                                @RequestParam("city") String city,
+                                HttpSession session,
+                                HttpServletResponse response) {
+        System.out.println(ip + city);
+        boolean isRemote = checkLoglog(ip, city,username,Account.ACCOUNT_ROLE);
+        if (isRemote) {
+            this.login(username, password, Account.ACCOUNT_ROLE, session, response, Account.ACCOUNT_SESSION);
+        } else {
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+            try {
+                response.getWriter().write("0");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
+    /**
+     * 检查登陆日志，判断是否异地登陆
+     * @param ip
+     * @param city
+     * @param username
+     * @param role
+     * @return boolean
+     */
+    private boolean checkLoglog(String ip, String city, String username,int role) {
+        Account account = accountService.findAccountByEmail(username, role);
+        List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
+        for (LoginLog log : logList) {
+            if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equalsIgnoreCase(city)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * 商家登陆
@@ -170,7 +207,7 @@ public class AccountController {
                               @RequestParam("password") String password,
                               HttpSession session,
                               HttpServletResponse response) {
-        this.login(username, password, BUSINESS_ROLE, session, response, BUSINESS_SESSION);
+        this.login(username, password, Account.BUSINESS_ROLE, session, response, Account.BUSINESS_SESSION);
     }
 
     /**
@@ -215,6 +252,10 @@ public class AccountController {
         } else {//登陆成功
             session.setAttribute(sessionName, login);//存入session中
             result = "1";//返回json是1对应是成功
+            //商家已经注册成功逻辑
+            if(login.getRole()  == Account.BUSINESS_ROLE){
+                result =  String.valueOf(login.getStatus());
+            }
         }
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
@@ -271,7 +312,7 @@ public class AccountController {
                 account.setPhone(phoneOrEmail);
                 accountService.register(account);
                 if (role == 1) {
-                    httpSession.setAttribute(ACCOUNT_SESSION, account);
+                    httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
                     return "account/registerSuccess";
                 } else {
                     return "account/registerSuccess";
@@ -284,7 +325,7 @@ public class AccountController {
         //注册方式是邮箱
         if (isEmail) {
             //根据邮箱查找用户账号
-            Account user = accountService.findAccountByEmail(phoneOrEmail,ACCOUNT_ROLE);
+            Account user = accountService.findAccountByEmail(phoneOrEmail,Account.ACCOUNT_ROLE);
             //用户账号不存在,可以注册
             if (user == null) {
                 //设置账号的邮箱
@@ -294,7 +335,7 @@ public class AccountController {
                 //注册账号
                 accountService.register(account);
                 if (role == 1) {
-                    httpSession.setAttribute(ACCOUNT_SESSION, account);
+                    httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
                     return "account/registerSuccess";
                 } else {
                     return "account/registerSuccess";

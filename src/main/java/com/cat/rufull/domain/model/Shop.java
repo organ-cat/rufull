@@ -13,7 +13,7 @@ public class Shop implements Serializable {
     public static Integer SUPPORT_PAY_ONLINE= 1;             // 支持支付方式：在线付款
     public static Integer SUPPORT_PAY_CASH = 2;              // 支持支付方式：货到付款
 
-//    商家状态
+//    商店状态
     public static Integer SHOP_STATUS_NORMAL = 0;            // 商店状态：正常
     public static Integer SHOP_STATUS_REST = 1;              // 商店状态：休息
     public static Integer SHOP_STATUS_RETIFY = 2;            // 商店状态：整顿
@@ -35,7 +35,7 @@ public class Shop implements Serializable {
 
     private String operateTime;                // 营业时间
 
-    private Integer operateState;              // 营业状态：还没有确定有多少个状态
+    private Integer operateState;              // 营业状态
 
     private String lat;                         // 商店在地图上经度
 

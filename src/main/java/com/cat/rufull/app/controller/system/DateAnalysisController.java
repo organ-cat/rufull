@@ -9,6 +9,7 @@ import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -37,7 +38,8 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getOrders")
-    public String getOrders(String type, Model model, Date begin, Date end) {
+    public String getOrders(@RequestParam("type") String type, Model model,
+                            @RequestParam("begin") Date begin, @RequestParam("end")Date end) {
         int a = 0;
         int b = 0;
         int c = 0;
@@ -93,7 +95,7 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getShops")
-    public String getShops(Model model, String type) {
+    public String getShops(Model model, @RequestParam("type") String type) {
         int a = 0;
         int b = 0;
         int c = 0;
