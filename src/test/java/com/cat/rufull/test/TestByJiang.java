@@ -1,14 +1,8 @@
 package com.cat.rufull.test;
 
 
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Address;
-import com.cat.rufull.domain.model.Complaint;
-import com.cat.rufull.domain.model.Footprint;
-import com.cat.rufull.domain.service.account.AccountService;
-import com.cat.rufull.domain.service.account.AddressService;
-import com.cat.rufull.domain.service.account.ComplaintService;
-import com.cat.rufull.domain.service.account.FootprintService;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +26,8 @@ public class TestByJiang {
     private ComplaintService complaintService;
     @Autowired
     private FootprintService footprintService;
+    @Autowired
+    private LoginLogService loginLogService;
 
     @Autowired
     private MailSender mailSender;
@@ -237,5 +233,31 @@ public class TestByJiang {
 //异地登陆测试
 //    **************************************************************************************************************/
 
+    @Test
+    public void addLoginLog() {
+        LoginLog log = new LoginLog();
+        log.setAccountId(1);
+        log.setIp("127.0.0.1");
+        log.setLocation("广东湛江");
+        log.setLoginTime(new Date());
+        loginLogService.addLoginLog(log);
+    }
 
+    @Test
+    public void fingLoginLogList(){
+        int account_id = 1;
+        List<LoginLog> logList =  loginLogService.fingLoginLogList(account_id);
+        boolean flag = false;
+        for (LoginLog log : logList) {
+            System.out.println(log.toString());
+            if (log.getLocation().equals("广东湛江")) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            System.out.println("可以可以可以可以可以可以可以可以");
+        } else {
+            System.out.println("不不不不不不不不不不不不不不不不");
+        }
+    }
 }

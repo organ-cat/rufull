@@ -151,7 +151,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findOrdersBetween(Date beginDate, Date endDate) {
-        return null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (beginDate != null) map.put("beginDate", beginDate);
+        if (endDate != null) map.put("endDate", endDate);
+        return orderMapper.findOrdersBetween(map);
     }
 
     @Autowired

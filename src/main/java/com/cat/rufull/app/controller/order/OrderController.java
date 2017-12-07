@@ -1,7 +1,9 @@
 package com.cat.rufull.app.controller.order;
 
 import com.cat.rufull.domain.model.Account;
+import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Order;
+import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.order.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +23,7 @@ public class OrderController {
 
     private OrderService orderService;
 
-//    private BusinessService businessService;
+    private BusinessService businessService;
 
     private MessageSource messageSource;
 
@@ -144,15 +146,14 @@ public class OrderController {
         Account account = getSessionAccount(session); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
-//        if (isTheOrderKeeper(account, order)) { // 该订单属于该登录商家
-//            orderService.acceptOrder(order); // 接单
-//            uiModel.addAttribute("order", order);
-//            return null;
-//        } else {
-//            uiModel.addAttribute("error","您只可以接自己的订单");
-//            return "order/error";
-//        }
-        return null;
+        if (isTheOrderKeeper(account, order)) { // 该订单属于该登录商家
+            orderService.acceptOrder(order); // 接单
+            uiModel.addAttribute("order", order);
+            return null;
+        } else {
+            uiModel.addAttribute("error","您只可以接自己的订单");
+            return "order/error";
+        }
     }
 
     /**
@@ -165,27 +166,28 @@ public class OrderController {
         return account.getId().equals(order.getAccountId());
     }
 
-//    /**
-//     * 判断登录用户是否该订单的管理者(商家)
-//     * @param account 商家用户
-//     * @param order 订单
-//     * @return
-//     */
-//    private boolean isTheOrderKeeper(Account account, Order order) {
+    /**
+     * 判断登录用户是否该订单的管理者(商家)
+     * @param account 商家用户
+     * @param order 订单
+     * @return
+     */
+    private boolean isTheOrderKeeper(Account account, Order order) {
 //        Business business =
 //                businessService.findBusinessByAccountId(account.getId()); // 获取登录商家
 //        return business.getId().equals(order.getBusinessId());
-//    }
+        return true;
+    }
 
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }
 
-//    @Autowired
-//    public void setBusinessService(BusinessService businessService) {
-//        this.businessService = businessService;
-//    }
+    @Autowired
+    public void setBusinessService(BusinessService businessService) {
+        this.businessService = businessService;
+    }
 
     @Autowired
     public void setMessageSource(MessageSource messageSource) {

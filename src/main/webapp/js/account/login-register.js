@@ -199,35 +199,36 @@ $(function(){
     })
 });
 
+// 商家状态
+// var BUSINESS_STATUS_REGISTERED = 0;
+// var BUSINESS_STATUS_SETTLED = 200;
+// var BUSINESS_STATUS_SETTLED_PASS = 201;
+// var BUSINESS_STATUS_CREATED_SHOP= 202;
+// var BUSINESS_STATUS_RECITIFY = 203;
+// var BUSINESS_STATUS_DELETE= 204;
 
 $(function(){
     $("#loginButton").click(function(){
         var username = $("#username").val();
         var password = $("#loginPassword").val();
+        var ip = returnCitySN["cip"] ;
+        var city = returnCitySN["cname"] ;
         $.ajax({
             url: "http://localhost:8080/rufull/account/accountLogin",
-            data: {"username": username,"password":password},
+            data: {"username": username,"password":password,"ip":ip,"city":city},
             async: true,
             cache: false,
             type: "POST",
             dataType: "json",
             success: function (result) {
-                // 商家状态
-                // var BUSINESS_STATUS_REGISTERED = 0;
-                // var BUSINESS_STATUS_SETTLED = 200;
-                // var BUSINESS_STATUS_SETTLED_PASS = 201;
-                // var BUSINESS_STATUS_CREATED_SHOP= 202;
-                // var BUSINESS_STATUS_RECITIFY = 203;
-                // var BUSINESS_STATUS_DELETE= 204;
-
                 if (result == "1") {
-                    $(location).attr('href', 'http://localhost:8080/rufull/account/loginSuccess');
+                    $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == "0") {
                     shakeModal("账号或密码不正确");
                 }else if(result == BUSINESS_STATUS_REGISTERED ||
                           result == BUSINESS_STATUS_SETTLED){   // 已经注册但没有填写入驻信息
 
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusinessUI');//商家入驻页面
+                    $(location).attr('href', '/business/addBusinessUI');//商家入驻页面
 
                 }else if(result == BUSINESS_STATUS_SETTLED_PASS ||
                          result == BUSINESS_STATUS_CREATED_SHOP){ // 已经填写入驻想信息
@@ -245,6 +246,9 @@ $(function(){
         });
     })
 });
+
+
+
 
 
 
