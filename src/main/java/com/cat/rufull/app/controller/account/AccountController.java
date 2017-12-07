@@ -198,7 +198,7 @@ public class AccountController {
         //返回结果
         String result = null;
         account.setPassword(password); //编码阶段
-        account.setRole(role);
+        account.setRole(role);   //
         if (isUsernaem) {
             account.setUsername(username);
         }
@@ -213,8 +213,13 @@ public class AccountController {
         if (login == null) {//用户为空，登陆失败
             result = "0";//返回json是0对应是失败
         } else {//登陆成功
+
+            if (login.getRole() == ACCOUNT_ROLE) {
+
+            }
             session.setAttribute(sessionName, login);//存入session中
             result = "1";//返回json是1对应是成功
+
         }
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");

@@ -20,12 +20,12 @@
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
 
-    <link href="${pageContext.request.contextPath}/css/service/login-register.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/js/service/login-register.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
     <script>
     </script>
 </head>
@@ -38,7 +38,7 @@
 
             <div style="widht:1080px;margin-right:50px;align:right;">
                 <div class="row">
-                    <c:if test="${empty user}">
+                    <c:if test="${empty account}">
                     <div class="col-sm-4"></div>
 
                     <div class="col-sm-4">
@@ -52,11 +52,11 @@
                         </a>
                     </div>
                     </c:if>
-                    <c:if test="${!empty user}">
+                    <c:if test="${!empty account}">
                         <a href="">
                         <font color="#f0ffff" size="4px">
                             <img src="${pageContext.request.contextPath}/image/service/account.png" style="height:20px;width:20px; margin-right:10px;"/>
-                            ${sessionScope.user.nickname}
+                            ${account.username}
                         </font>
                         </a>
                     </c:if>
@@ -103,23 +103,39 @@
                                 </div>
                                 <div class="error"></div>
                                 <div class="form loginBox">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"  name="email">
-                                        <input id="password"   class="form-control loi" type="password" placeholder="密码" name="password">
-                                        <input class="btn btn-default btn-login loi"   type="button" value="登陆" onclick="loginAjax()">
+
+                                    <form method="post" accept-charset="UTF-8">
+                                        <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                        <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+                                        <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
+                                    <%----%>
+                                    <%--<form method="post" action="/login" accept-charset="UTF-8">--%>
+                                        <%--<input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"  name="email">--%>
+                                        <%--<input id="password"   class="form-control loi" type="password" placeholder="密码" name="password">--%>
+                                        <%--<input class="btn btn-default btn-login loi"   type="button" value="登陆" onclick="loginAjax()">--%>
+                                    <%--</form>--%>
                                 </div>
                             </div>
                         </div>
                         <div class="box">
                             <div class="content registerBox" style="display:none;">
                                 <div class="form">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control loi"  type="text" placeholder="手机/用户名/邮箱" name="email">
-                                        <input id="password" class="form-control loi" type="password" placeholder="密码" name="password">
-                                        <input id="password_confirmation"  class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
-                                        <input class="btn btn-default btn-register loi"   type="submit" value="注册" name="commit" onclick="loginAjax()">
+                                    <form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8">
+                                        <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                        <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                        <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                        <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                        <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                        <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
                                     </form>
+
+                                    <%--<form method="post" action="/login" accept-charset="UTF-8">--%>
+                                        <%--<input id="email" class="form-control loi"  type="text" placeholder="手机/用户名/邮箱" name="email">--%>
+                                        <%--<input id="password" class="form-control loi" type="password" placeholder="密码" name="password">--%>
+                                        <%--<input id="password_confirmation"  class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">--%>
+                                        <%--<input class="btn btn-default btn-register loi"   type="submit" value="注册" name="commit" onclick="loginAjax()">--%>
+                                    <%--</form>--%>
                                 </div>
                             </div>
                         </div>

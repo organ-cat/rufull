@@ -195,7 +195,7 @@ $(function(){
             dataType: "json",
             success: function (result) {
                 if (result == "1") {
-                    $(location).attr('href', 'http://localhost:8080/rufull/account/loginSuccess');
+                    $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == "0") {
                     shakeModal("账号或密码不正确");
                 }
