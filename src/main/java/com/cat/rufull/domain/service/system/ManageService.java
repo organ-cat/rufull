@@ -11,13 +11,13 @@ import java.util.List;
 public interface ManageService {
     Manager login(Manager manager);
 
-    int saveManager();
+    int saveManager(Manager manager);
 
     List<Manager> findAll();
 
     Manager getManagerById(Integer id);
 
-    int saveOrUpdateManager(Manager manager);
+    int updateManager(Manager manager);
 
     int delManager(Integer id);
 

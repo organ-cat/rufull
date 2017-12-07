@@ -1,6 +1,9 @@
 package com.cat.rufull.app.controller.system;
 
+import com.aliyuncs.http.HttpRequest;
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.EncryptByMD5;
+import com.cat.rufull.domain.common.util.ManagerUtils;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
@@ -10,18 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Luckily on 2017/12/5.
@@ -39,13 +40,21 @@ public class ManageController {
 
     private Date date = new Date();
 
-    /*跳转到管理员登录界面*/
+    /**
+     * 跳转管理员登录界面
+     * @return
+     */
     @RequestMapping("adminlogin")
     public String adminlogin() {
         return "system/managelogin";
     }
 
-    /*管理员登录*/
+    /**
+     * 管理员登录
+     * @param request
+     * @param session
+     * @return
+     */
     @RequestMapping("/login")
     public String login(HttpServletRequest request, HttpSession session) {
         Manager manager = new Manager();
@@ -69,21 +78,34 @@ public class ManageController {
         return "system/systemindex";
     }
 
-    /*管理员退出登录*/
+    /**
+     * 管理员退出登录
+     * @param session
+     * @return
+     */
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("manager");
         return "system/managelogin";
     }
 
-    /*跳转到添加管理员页面*/
+
+    /**
+     * 跳转到管理员添加页面
+     * @param session
+     * @return
+     */
     @RequestMapping("/addManager")
     public String saveManager(HttpSession session) {
         session.removeAttribute("adderror");
         return "system/manager/addmanager";
     }
-    /*
-    * 获取管理员列表*/
+
+    /**
+     * 获取所有管理员
+     * @param model
+     * @return
+     */
     @RequestMapping("/getManagerList")
     public String getManagerList(Model model){
         List<Manager> mlist = manageService.findAll();
@@ -91,144 +113,142 @@ public class ManageController {
         return "system/manager/managerlist";
     }
 
-    /*保存管理员*/
+    /**
+     * 保存管理员
+     * @param file
+     * @param manager
+     * @param model
+     * @param session
+     * @param request
+     * @return
+     */
     @RequestMapping("/saveManager")
-    public String saveManager(Manager manager, String password, Model model, HttpSession session) {
+    public String saveManager(@RequestParam(value = "file")MultipartFile file,
+                              Manager manager, Model model, HttpSession session,
+                              HttpServletRequest request)  {
         session.removeAttribute("logerror");
-        session.removeAttribute("adderror");
+        session.removeAttribute("addMerror");
+        session.removeAttribute("addMsuccess");
         Manager mana = (Manager) session.getAttribute("manager");
-
-            int i = manageService.saveManager();
+        Manager newManager = ManagerUtils.uploadManager(file,manager,request);
+            int i = manageService.saveManager(newManager);
             if (i >= 1) {
+                session.setAttribute("addMsuccess","成功了！");
                 log.setCreateTime(DateFormat.getNewdate(date));
                 log.setDetail("添加新的管理员！");
                 log.setManager(mana);
                 log.setType(1);
                 int a = logService.addLog(log);
                 if (a >= 1) {
-                    return "redirect:manager/getManagerList";
+                    return "redirect:getManagerList";
                 } else
-                    session.setAttribute("logerror", "出错了");
-                model.addAttribute("managers", manager);
-                return "system/manager/addmanager";
+                    session.setAttribute("logerror","添加日志失败!");
+                    return "redirect:getManagerList";
             } else
-                session.setAttribute("adderror", "出错了");
+                session.setAttribute("addMerror","失败了！");
             model.addAttribute("managers", manager);
             return "system/manager/addmanager";
         }
 
 
-
-    /*获取管理员的详细信息*/
+    /**
+     * 获取管理员详细信息页面
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping("/getManager")
-    public String getManager(@PathVariable Integer id, Model model, HttpSession session) {
-        session.removeAttribute("updateerror");
+    public String getManager(@PathVariable Integer id, Model model) {
         Manager manager = manageService.getManagerById(id);
         model.addAttribute("manager", manager);
         return "system/manager/updatemanager";
     }
 
-    /*管理员更新操作*/
+    /**
+     * 更新管理员
+     * @param manager
+     * @param model
+     * @param session
+     * @param attr
+     * @return
+     */
     @RequestMapping("/updateManager")
-    public String updateManager(Manager manager, Model model,String password, HttpSession session, RedirectAttributes attr) {
-        session.removeAttribute("updateerror");
-        session.removeAttribute("logerror");
-
-        Manager mana = (Manager) session.getAttribute("manager");
-
+    public String updateManager(Manager manager, Model model,
+                                HttpSession session, RedirectAttributes attr) throws Exception{
+            session.removeAttribute("updateerror");
+            session.removeAttribute("updatesuccess");
+            session.removeAttribute("logerror");
+            Manager mana = (Manager) session.getAttribute("manager");
             Manager old = manageService.getManagerById(manager.getId());
             old.setEmail(manager.getEmail());
             old.setPhone(manager.getPhone());
             old.setUsername(manager.getUsername());
-            old.setPhoto(manager.getPhoto());
+            old.setPassword(EncryptByMD5.encrypt(manager.getPassword()));
 
-            int i = manageService.saveOrUpdateManager(old);
+            int i = manageService.updateManager(old);
             if (i >= 1) {
-
+                session.setAttribute("updatesuccess","成功了！");
                 log.setCreateTime(DateFormat.getNewdate(date));
                 log.setDetail("修改管理员信息！");
                 log.setManager(mana);
                 log.setType(1);
                 int a = logService.addLog(log);
                 if (a >= 1) {
-                    return "redirect:manager/getManagerList";
+                    return "redirect:getManagerList";
                 } else
                     model.addAttribute("managers", manager);
-                session.setAttribute("logerror", "出错了");
-                Integer id = manager.getId();
-                attr.addAttribute("id", id);
-                return "redirect : manage/getManager";
+                    return "redirect:getManagerList";
             } else
-                session.setAttribute("updateerror", "出错了");
+                session.setAttribute("updateerror","出错了!");
             Integer id = manager.getId();
             attr.addAttribute("id", id);
-            return "redirect : manage/getManager";
+            return "redirect : getManager";
         }
 
 
+    /**
+     * 删除管理员
+     * @param password
+     * @param id
+     * @param session
+     * @param attr
+     * @return
+     */
     @RequestMapping("/delManager")
-    public String delManager(String password,Integer id, Model model, HttpSession session, RedirectAttributes attr) {
+    public String delManager(String password,Integer id,
+                             HttpSession session, RedirectAttributes attr) {
         session.removeAttribute("delerror");
+        session.removeAttribute("delsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         int i = manageService.delManager(id);
         if (i >= 1) {
+            session.setAttribute("delsuccess","成功");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("删除管理员！");
             log.setType(1);
             log.setManager(mana);
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:manager/getManagerList";
+                return "redirect:getManagerList";
             } else
-                session.setAttribute("logerror", "出错了");
-                return "redirect:manager/getManagerList";
+                session.setAttribute("logerror","日志写入错误");
+                return "redirect:getManagerList";
         } else
-                session.setAttribute("updateerror", "出错了");
-                return "redirect:manager/getManagerList";
+            session.setAttribute("delerror","失败");
+                return "redirect:getManagerList";
     }
 
 
-    @RequestMapping("/uploadPic")
-    public void uploadPic(HttpServletRequest request, String fileName, PrintWriter out) {
-        //由于上传的图片是属于流类型的，request不能直接操作，需要将request强转为多部件请求对象
-        MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-        //根据文件的名称获取文件对象,对象类型要和springmvc配置的文件上传类型匹配
-        CommonsMultipartFile commons = (CommonsMultipartFile) mRequest.getFile(fileName);
-        //获取文件上传流
-        byte[] bytes = commons.getBytes();
-        //文件名在服务器中可能会重复，使用时间作为命名
-        String newFileName = "";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        newFileName = dateFormat.format(new Date());
-        Random random = new Random();
-        //取10以内的随机数
-        for (int i = 0; i < 3; i++) {
-            newFileName = newFileName + random.nextInt(10);
-        }
-        //获取文件的扩展名
-        String originalFilename = commons.getOriginalFilename();
-        //截取文件名称
-        String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
-        /*//创建jerser服务器，实现跨服务器上传
-        Client client = Client.create();
-        //把文件关联到远程服务器上
-        WebResource resource = client.resource(Commons.PIC_HOST+"/upload/"+newFileName+suffix);
-        //上传
-        resource.put(String.class, bytes);
-
-        //ajax回调函数需要写的内容
-        //图片需要回显，需要图片的完整路径
-        //数据库需要保存图片的途径
-        String fullPath = Commons.PIC_HOST+"/upload/"+newFileName+suffix;
-        String relativePath ="/upload/"+newFileName+suffix;
-        //模拟json{"":"","":""}
-        String result = "{\"fullPath\":\""+fullPath+"\",\"relativePath\":\""+relativePath+"\"}";
-        out.print(result);*/
-    }
-
+    /**
+     * 根据字段查询管理员
+     * @param findname
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/find")
-    public String find(String findname, Model model, HttpSession session) {
+    public String find(String findname, Model model, HttpSession session){
         session.removeAttribute("logerror");
         List<Manager> findlist = manageService.findName(findname);
         model.addAttribute("findmlist", findlist);
@@ -240,7 +260,7 @@ public class ManageController {
         if (a >= 1) {
             return "system/manager/findlist";
         } else
-            session.setAttribute("logerror", "出错了");
+            session.setAttribute("logerror","出错了");
         return "system/manager/findlist";
     }
 

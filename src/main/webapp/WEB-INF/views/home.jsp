@@ -56,7 +56,6 @@
                 <div class="modal-body">
                     <div class="box">
                         <div class="content">
-
                             <div class="division">
                                 <div class="line l"></div>
                                 <span>其中一个方式</span>
@@ -64,13 +63,11 @@
                             </div>
                             <div class="error"></div>
                             <div class="form loginBox">
-                                <form method="post" action="/login" accept-charset="UTF-8">
-                                    <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                           name="email">
-                                    <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                           name="password">
-                                    <input class="btn btn-default btn-login loi" type="button" value="登陆"
-                                           onclick="loginAjax()">
+                                <%--action="<c:url value="/account/login"/>"--%>
+                                <form method="post" accept-charset="UTF-8">
+                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+                                    <input id="loginButton" class="btn btn-default btn-login loi" type="button" value="登陆">
                                 </form>
                             </div>
                         </div>
@@ -78,15 +75,14 @@
                     <div class="box">
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
-                                <form method="post" action="/login" accept-charset="UTF-8">
-                                    <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                           name="email">
-                                    <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                           name="password">
-                                    <input id="password_confirmation" class="form-control loi" type="password"
-                                           placeholder="确认密码" name="password_confirmation">
-                                    <input class="btn btn-default btn-register loi" type="submit" value="注册"
-                                           name="commit" onclick="loginAjax()">
+
+                                <form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8">
+                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                    <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                    <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                    <input id="checkcode" type="text" class="loi" name="checkCode" placeholder="验证码">
+                                    <input id="getCheckCodeButton" class="btn-default btn loi" type="button" value="免费获取验证码">
+                                    <input id="registerButton" class="loi btn btn-default btn-register" type="submit" value="注册" >
                                 </form>
                             </div>
                         </div>
@@ -107,7 +103,6 @@
         </div>
     </div>
 </div>
-
 <div>
     <div>
         <header class="topbar">

@@ -17,7 +17,7 @@ public class ManageServiceImpl implements ManageService{
     }
     /*添加管理员*/
     @Override
-    public int saveManager() {
+    public int saveManager(Manager manager) {
         return 0;
     }
     /*找到所有管理员*/
@@ -32,7 +32,7 @@ public class ManageServiceImpl implements ManageService{
     }
     /*修改管理员*/
     @Override
-    public int saveOrUpdateManager(Manager manager) {
+    public int updateManager(Manager manager) {
         return 0;
     }
     /*根据id删除管理员*/

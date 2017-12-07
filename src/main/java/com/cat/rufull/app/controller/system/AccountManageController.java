@@ -1,18 +1,24 @@
 package com.cat.rufull.app.controller.system;
 
+import com.aliyuncs.http.HttpRequest;
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
+import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +27,7 @@ import java.util.List;
  * Created by Luckily on 2017/12/6.
  */
 @Controller
-@RequestMapping("manageAcc")
+@RequestMapping("/manageAcc")
 public class AccountManageController {
 
     @Resource
@@ -33,9 +39,13 @@ public class AccountManageController {
     private Date date = new Date();
 
 
-
-
-    /*获取用户的详细信息*/
+    /**
+     * 管理员获取用户的详细信息
+     * @param id
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/getAccount")
     public String getAccount(@PathVariable Integer id, Model model, HttpSession session) {
         session.removeAttribute("updateAccerror");
@@ -44,71 +54,101 @@ public class AccountManageController {
         return "system/account/updateaccount";
     }
 
-    /*获取用户列表*/
+    /**
+     * 管理员获取用户列表
+     * @param model
+     * @return
+     */
     @RequestMapping("/getAccountList")
     public String getAccountlist(Model model){
         List<Account> mlist = accountService.findAllAccount();
         model.addAttribute("allalist", mlist);
         return "system/account/accountlist";
     }
-    /*用户更新操作*/
-    @RequestMapping("/updateManager")
-    public String updateManager(String password,Account account, Model model, HttpSession session, RedirectAttributes attr) {
+
+    /**
+     * 管理员更新用户
+     * @param account
+     * @param session
+     * @param attr
+     * @return
+     */
+    @RequestMapping("/updateacccount")
+    public String updateManager(Account account, HttpSession session, RedirectAttributes attr) {
         session.removeAttribute("updateAccerror");
+        session.removeAttribute("updateAccsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         Account old = accountService.findAccountById(account.getId());
-        old.setEmail(account.getEmail());
-        old.setNickname(account.getNickname());
-        old.setPhoto(account.getPhoto());
+        old.setUsername(account.getUsername());
+        old.setPassword(EncryptByMD5.encrypt(account.getPassword()));
+        old.setPhone(account.getPhone());
 
         int i = accountService.mUpdateAccount(old);
         if (i >= 1) {
-
+            session.setAttribute("updateAccsuccess", "更新成功了");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("修改用户信息！");
             log.setManager(mana);
             log.setType(1);
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:manageAcc/getAccountList";
-            } else
-                session.setAttribute("logerror", "出错了");
+                return "redirect:getAccountList";
+            } else {
+                session.setAttribute("logerror", "日志写入失败");
+                Integer id = account.getId();
+                attr.addAttribute("id", id);
+                return "redirect : getAccount";
+            }
+        } else {
+            session.setAttribute("updateAccerror", "更新失败了");
             Integer id = account.getId();
             attr.addAttribute("id", id);
-            return "redirect : manageAcc/getAccount";
-        } else
-            session.setAttribute("updateAccerror", "出错了");
-        Integer id = account.getId();
-        attr.addAttribute("id", id);
-        return "redirect : manageAcc/getAccount";
+            return "redirect : getAccount";
+        }
     }
-/*管理员删除用户*/
+
+    /**
+     * 管理员删除用户
+     * @param id
+     * @param model
+     * @param session
+     * @param attr
+     * @return
+     */
     @RequestMapping("/delaccount")
-    public String delManager(String password,Integer id, Model model, HttpSession session, RedirectAttributes attr) {
-        session.removeAttribute("delaccerror");
+    public String delManager(Integer id, Model model, HttpSession session,RedirectAttributes attr){
+        session.removeAttribute("delAccerror");
+        session.removeAttribute("delAccsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         int i = accountService.mdelAccount(id);
         if (i >= 1) {
+            session.setAttribute("delAccsuccess","删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("删除用户！");
             log.setManager((Manager) session.getAttribute("manager"));
             log.setType(1);
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:manageAcc/getAccountList";
+                return "redirect:getAccountList";
             } else
-                session.setAttribute("logerror", "出错了");
+                session.setAttribute("logerror","日志写入失败！");
                 return "redirect:manageAcc/getAccountList";
         } else
-            session.setAttribute("delaccerror", "出错了");
-            return "redirect:manageAcc/getAccountList";
+            session.setAttribute("delAccerror","删除失败！");
+            return "redirect:getAccountList";
     }
 
-/*通过字段查询用户*/
+    /**
+     * 管理员通过某一字段查询用户
+     * @param findname
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/findaccount")
-    public String find(String findname, Model model,HttpSession session) {
+    public String find(String findname, Model model,HttpSession session) throws Exception{
         session.removeAttribute("logerror");
         List<Account> findlist = accountService.findName(findname);
         model.addAttribute("findAcclist", findlist);
@@ -120,7 +160,7 @@ public class AccountManageController {
         if (a >= 1) {
             return "system/account/findlist";
         } else
-            session.setAttribute("logerror", "出错了");
+            session.setAttribute("logerror","出错了");
         return "system/account/findlist";
     }
 
