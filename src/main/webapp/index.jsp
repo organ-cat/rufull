@@ -26,8 +26,7 @@
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
-    <script>
-    </script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 </head>
 <body class="homepage">
 <div class="homepage-container" align="center">
@@ -107,14 +106,9 @@
                                     <form method="post" accept-charset="UTF-8">
                                         <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
                                         <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+                                        <input value=""  />
                                         <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
-                                    <%----%>
-                                    <%--<form method="post" action="/login" accept-charset="UTF-8">--%>
-                                        <%--<input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"  name="email">--%>
-                                        <%--<input id="password"   class="form-control loi" type="password" placeholder="密码" name="password">--%>
-                                        <%--<input class="btn btn-default btn-login loi"   type="button" value="登陆" onclick="loginAjax()">--%>
-                                    <%--</form>--%>
                                 </div>
                             </div>
                         </div>
@@ -129,13 +123,6 @@
                                         <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
                                         <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
                                     </form>
-
-                                    <%--<form method="post" action="/login" accept-charset="UTF-8">--%>
-                                        <%--<input id="email" class="form-control loi"  type="text" placeholder="手机/用户名/邮箱" name="email">--%>
-                                        <%--<input id="password" class="form-control loi" type="password" placeholder="密码" name="password">--%>
-                                        <%--<input id="password_confirmation"  class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">--%>
-                                        <%--<input class="btn btn-default btn-register loi"   type="submit" value="注册" name="commit" onclick="loginAjax()">--%>
-                                    <%--</form>--%>
                                 </div>
                             </div>
                         </div>
