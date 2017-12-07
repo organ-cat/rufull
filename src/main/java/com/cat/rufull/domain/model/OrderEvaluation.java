@@ -2,49 +2,24 @@ package com.cat.rufull.domain.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class OrderEvaluation implements Serializable {
-    private Integer id;
+    private Integer id; // 主键
 
-    private Integer score;
+    private Integer score; // 评分
 
-    private String comment;
+    private String comment; // 评论
 
-    private String reply;
+    private String reply; // 商家回复
 
-    private String image;
+    private Date evalTime; // 评价时间
 
-    private Date evalTime;
+    private Order order; // 订单
 
-    private Business business;
+    private Integer shopId; // 商店id
 
-    private Order order;
-
-    private Account account;
-
-    public Business getBusiness() {
-        return business;
-    }
-
-    public void setBusiness(Business business) {
-        this.business = business;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+    private List<ProductEvaluation> productEvaluations; // 订单项列表
 
     public Integer getId() {
         return id;
@@ -67,7 +42,7 @@ public class OrderEvaluation implements Serializable {
     }
 
     public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+        this.comment = comment;
     }
 
     public String getReply() {
@@ -75,15 +50,7 @@ public class OrderEvaluation implements Serializable {
     }
 
     public void setReply(String reply) {
-        this.reply = reply == null ? null : reply.trim();
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
+        this.reply = reply;
     }
 
     public Date getEvalTime() {
@@ -93,4 +60,42 @@ public class OrderEvaluation implements Serializable {
     public void setEvalTime(Date evalTime) {
         this.evalTime = evalTime;
     }
-  }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
+
+    public List<ProductEvaluation> getProductEvaluations() {
+        return productEvaluations;
+    }
+
+    public void setProductEvaluations(List<ProductEvaluation> productEvaluations) {
+        this.productEvaluations = productEvaluations;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderEvaluation{" +
+                "id=" + id +
+                ", score=" + score +
+                ", comment='" + comment + '\'' +
+                ", reply='" + reply + '\'' +
+                ", evalTime=" + evalTime +
+                ", order=" + order +
+                ", shopId=" + shopId +
+                ", productEvaluations=" + productEvaluations +
+                '}';
+    }
+}
