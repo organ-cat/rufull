@@ -90,4 +90,16 @@ public class BusinessServiceImpl implements BusinessService{
         businessMapper.updateById(business);
         return 0;
     }
+
+    @Override
+    public Business findBusinessByAccountId(Integer id) {
+        /**
+        *@Author:Caoxin
+        *@Description：用过用户id查询商家
+        *@Date:9:11 2017/12/7
+        *@param[id]输入用户的id
+        *@returncom.cat.rufull.domain.model.Business
+        */
+        return businessMapper.findBusinessByAccountId(id);
+    }
 }

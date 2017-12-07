@@ -4,6 +4,29 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Business implements Serializable {
+    /*
+    商家状态：1.已经注册，但是没有入驻为               0
+              2.已经填写入驻信息，但是未通过管理员审核200
+              3.已经通过管理员审核，未创建商店        201
+              4.已经创建商店                          202
+              5.被管理员停业整顿                      203
+              6.被管理员删除                          204
+
+            public static Integer BUSINESS_STATUS_NOT_SETTLED = 0;
+            public static Integer BUSINESS_STATUS_SETTLED = 200;
+            public static Integer BUSINESS_STATUS_SETTLED_PASS = 201;
+            public static Integer BUSINESS_STATUS_CREATED_SHOP= 202;
+            public static Integer BUSINESS_STATUS_RECITIFY = 203;
+            public static Integer BUSINESS_STATUS_DELETE= 204;
+     */
+
+    public static Integer BUSINESS_STATUS_REGISTERED = 0;
+    public static Integer BUSINESS_STATUS_SETTLED = 200;
+    public static Integer BUSINESS_STATUS_SETTLED_PASS = 201;
+    public static Integer BUSINESS_STATUS_CREATED_SHOP= 202;
+    public static Integer BUSINESS_STATUS_RECITIFY = 203;
+    public static Integer BUSINESS_STATUS_DELETE= 204;
+
     private Integer id;                     // 主键
 
     private String frontPhoto;              // 室外图片
