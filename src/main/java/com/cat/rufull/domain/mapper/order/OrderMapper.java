@@ -26,4 +26,6 @@ public interface OrderMapper {
 
     // 插入订单
     public void insertOrder(Order order);
+
+    List<Order> findOrdersBetween(Map<String, Object> map);
 }
