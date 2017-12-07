@@ -19,5 +19,5 @@ public interface BusinessMapper {
 
     int updateById(Business business);              // 通过Id更新商家
 
-    //int insertSelective(Business business);fdsf
+    Business findBusinessByAccountId(Integer id);    //通过用户id查询对应的商家
 }

@@ -36,7 +36,15 @@ public class BusinessController {
 
          //添加商家:看看用户外键有没有添加进来
         //businessService.add(finishedBusiness);
-        return "hello";
+        return "forward:/business/showBusiness";
+    }
+
+    //展示对应的商家主页
+    @RequestMapping("showBusiness")
+    public String showBusiness(){
+
+        //页面还没有写
+        return "";
     }
 
 }

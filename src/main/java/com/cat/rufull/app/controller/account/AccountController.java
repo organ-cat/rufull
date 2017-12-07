@@ -214,7 +214,12 @@ public class AccountController {
             result = "0";//返回json是0对应是失败
         } else {//登陆成功
             session.setAttribute(sessionName, login);//存入session中
-            result = "1";//返回json是1对应是成功
+//            result = "1";//返回json是1对应是成功
+
+            //商家已经注册成功逻辑
+            if(login.getRole()  == 1){
+                result =  login.getStatus()+"";
+            }
         }
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");

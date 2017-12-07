@@ -1,3 +1,21 @@
+/*
+   商家状态：1.已经注册，但是没有入驻为               0
+             2.已经填写入驻信息，但是未通过管理员审核200
+             3.已经通过管理员审核，未创建商店        201
+             4.已经创建商店                          202
+             5.被管理员停业整顿                      203
+             6.被管理员删除                          204
+             
+          
+    */
+
+    var BUSINESS_STATUS_REGISTERED = 0;
+    var BUSINESS_STATUS_SETTLED = 200;
+    var BUSINESS_STATUS_SETTLED_PASS = 201;
+    var BUSINESS_STATUS_CREATED_SHOP= 202;
+    var BUSINESS_STATUS_RECITIFY = 203;
+    var BUSINESS_STATUS_DELETE= 204;
+
 function showRegisterForm(){
     $('.loginBox').fadeOut('fast',function(){
         $('.registerBox').fadeIn('fast');
@@ -194,10 +212,34 @@ $(function(){
             type: "POST",
             dataType: "json",
             success: function (result) {
+                // 商家状态
+                // var BUSINESS_STATUS_REGISTERED = 0;
+                // var BUSINESS_STATUS_SETTLED = 200;
+                // var BUSINESS_STATUS_SETTLED_PASS = 201;
+                // var BUSINESS_STATUS_CREATED_SHOP= 202;
+                // var BUSINESS_STATUS_RECITIFY = 203;
+                // var BUSINESS_STATUS_DELETE= 204;
+
                 if (result == "1") {
                     $(location).attr('href', 'http://localhost:8080/rufull/account/loginSuccess');
                 } else if (result == "0") {
                     shakeModal("账号或密码不正确");
+                }else if(result == BUSINESS_STATUS_REGISTERED ||
+                          result == BUSINESS_STATUS_SETTLED){   // 已经注册但没有填写入驻信息
+
+                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusinessUI');//商家入驻页面
+
+                }else if(result == BUSINESS_STATUS_SETTLED_PASS ||
+                         result == BUSINESS_STATUS_CREATED_SHOP){ // 已经填写入驻想信息
+
+                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusiness');  // 展示商家页面
+
+                }else if( result == BUSINESS_STATUS_RECITIFY){   // 商家被停业整顿
+
+                    // $(location).attr('href', 'http://localhost:8080/rufull/business/showBusiness');  //还没有对应的页面或者提示
+
+                }else if(result == BUSINESS_STATUS_DELETE){      //商家被管理员删除
+                    // 提示信息：请联系饱了吗：客服
                 }
             }
         });

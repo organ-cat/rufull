@@ -152,15 +152,15 @@
 <div class="restaurant-subheader">
     <div class="container">
         <div class="rst-subheader-nav">
-            <a class="rst-subheader-nav-left "  href="${pageContext.request.contextPath}/shop/showShopDetail">
+            <a class="rst-subheader-nav-left "  href="${pageContext.request.contextPath}/shop/showShopDetail?$id={shop.id}">
                 菜单列表
             </a>
 
-            <a class="rst-subheader-nav-left active " href="${pageContext.request.contextPath}/shop/showShopComments">
+            <a class="rst-subheader-nav-left active " href="${pageContext.request.contextPath}/shop/showShopComments?id=${shop.id}">
                 商家评价
             </a>
 
-            <a class="rst-subheader-nav-left " href="${pageContext.request.contextPath}/shop/showBusinessLicense">
+            <a class="rst-subheader-nav-left " href="${pageContext.request.contextPath}/shop/showBusinessLicense?id=${shop.id}">
                 商家资质
             </a>
         </div>
