@@ -9,17 +9,29 @@ import java.util.List;
  */
 public class Shop implements Serializable {
 //    支持支付的三种方式
-    public static Integer SUPPORT_PAY_ONLINE_AND_CASH = 0;   // 支持支付方式：在线和货到付款
-    public static Integer SUPPORT_PAY_ONLINE= 1;             // 支持支付方式：在线付款
-    public static Integer SUPPORT_PAY_CASH = 2;              // 支持支付方式：货到付款
+    public static final Integer SUPPORT_PAY_ONLINE_AND_CASH = 0;   // 支持支付方式：在线和货到付款
+    public static final Integer SUPPORT_PAY_ONLINE= 1;             // 支持支付方式：在线付款
+    public static final Integer SUPPORT_PAY_CASH = 2;              // 支持支付方式：货到付款
 
 //    商店状态
-    public static Integer SHOP_STATUS_NORMAL = 0;            // 商店状态：正常
-    public static Integer SHOP_STATUS_REST = 1;              // 商店状态：休息
-    public static Integer SHOP_STATUS_RETIFY = 2;            // 商店状态：整顿
-    public static Integer SHOP_STATUS_DELETE = 3;            // 商店状态：删除
+    public static final Integer SHOP_STATUS_NORMAL = 0;            // 商店状态：正常
+    public static final Integer SHOP_STATUS_REST = 1;              // 商店状态：休息
+    public static final Integer SHOP_STATUS_RETIFY = 2;            // 商店状态：整顿
+    public static final Integer SHOP_STATUS_DELETE = 3;            // 商店状态：删除
+    
+    
+/*    商家状态：
 
-
+    美食、异国料理、特色菜 ：0
+    甜品、饮品、小吃：1
+    午餐、晚餐：2
+    早餐、下午茶、夜宵：3
+    快餐、便当：4
+    果蔬生鲜：5
+    超市商店：6
+    鲜花绿植：7
+    医药健康：8
+*/
 
     private Integer id;                         // 商店id主键
 

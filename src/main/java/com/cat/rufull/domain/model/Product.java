@@ -5,6 +5,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Product implements Serializable {
+//    商品状态
+    public static final Integer PRODUCT_NORMAL = 0;           //正常
+    public static final Integer PRODUCT_SALEOUT = 1;          //售罄
+    public static final Integer PRODUCT_DELETE = 2;           //删除
+
     private Integer id;                 // 商品主键id
 
     private String productName;         // 商品名称

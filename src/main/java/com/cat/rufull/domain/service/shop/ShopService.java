@@ -9,6 +9,8 @@ public interface ShopService {
 
     Shop findById(Integer id);                       // 通过Id查询商店
 
+    Shop findShopByBusinessId(Integer id);           //通过business查询商家id
+
     int deleteById(Integer id);                     // 通过Id删除商店
 
     int add(Shop shop);                             // 添加商店

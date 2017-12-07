@@ -44,8 +44,19 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店类型:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shopType" class="form-control">
+                    <select class="selectpicker" id="shopTypeSelect">
+                        <option>美食、异国料理、特色菜</option>
+                        <option>甜品、饮品、小吃</option>
+                        <option>午餐、晚餐</option>
+                        <option>早餐、下午茶、夜宵</option>
+                        <option>快餐、便当</option>
+                        <option>果蔬生鲜</option>
+                        <option>超市商店</option>
+                        <option>鲜花绿植</option>
+                        <option>医药健康</option>
+                    </select>
                 </div>
+
             </div>
 
             <div class="form-group">
@@ -85,7 +96,7 @@
                 <label class="col-sm-4 control-label text-info">支持支付方式:</label>
                 <div class="col-sm-4 ">
                     <!-- <input type="text" name="" class="form-control"> -->
-                    <select class="selectpicker" name="supportPayment">
+                    <select class="selectpicker" id="supportPaySelect" name="supportPayment">
                         <option value="0">在线支付和货到付款</option>
                         <option value="1">在线支付</option>
                         <option value="2">货到付款</option>
@@ -159,15 +170,17 @@
                 </div>
             </div>
 
+
+
             <div class="form-group">
-                <label class="col-sm-4 control-label text-info">商店在地图上经度:</label>
+                <label class="col-sm-4 control-label text-info">商店在地图上维度:</label>
                 <div class="col-sm-4 ">
                     <input id="lat" type="text" name="lat" class="form-control" readonly="true">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-4 control-label text-info">商店在地图上维度:</label>
+                <label class="col-sm-4 control-label text-info">商店在地图上经度:</label>
                 <div class="col-sm-4 ">
                     <input id="lon" type="text" name="lon" class="form-control" readonly="true">
                 </div>
@@ -211,8 +224,6 @@
 
 <%--百度地图、用户定位--%>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi"></script>
-<script src="${pageContext.request.contextPath}/js/business/city-picker.data.js"></script>
-<script src="${pageContext.request.contextPath}/js/business/city-picker.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/shopSettle.js"></script>
 
 

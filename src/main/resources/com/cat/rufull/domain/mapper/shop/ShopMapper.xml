@@ -61,6 +61,13 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findShopByBusinessId" parameterType="java.lang.Integer" resultMap="ShopResultMap">
+        SELECT
+        <include refid="Shop_Column_List"/>
+        FROM SHOP
+        WHERE id = #{business_id}
+    </select>
+
     <!--// 通过Id删除商店-->
     <delete id="deleteById" parameterType="java.lang.Integer">
         DELETE
