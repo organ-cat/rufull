@@ -46,13 +46,17 @@
     <%--<a href="${pageContext.request.contextPath}/test/test">哈哈哈哈</a>--%>
 
 
-    <h1>使用spring mvc提供的类的方法上传文件</h1><br/>
-    <form method="post" enctype="multipart/form-data" action="<c:url value="/test/upload"/>">
-        <input type="file" name="photo">
-        <input type="submit" value="upload"/>
-    </form>
+    <%--<h1>使用spring mvc提供的类的方法上传文件</h1><br/>--%>
+    <%--<form method="post" enctype="multipart/form-data" action="<c:url value="/test/upload"/>">--%>
+        <%--<input type="file" name="photo">--%>
+        <%--<input type="submit" value="upload"/>--%>
+    <%--</form>--%>
 
-    <img src="http://localhost:8080/rufull/upload/account/${account.photo}">
+    <%--<img src="http://localhost:8080/rufull/upload/account/${account.photo}">--%>
+
+    ${sessionScope.account}<br/>
+    ${sessionScope.account}<br/>
+    ${sessionScope.account}<br/>
 
 </body>
 </html>

@@ -33,7 +33,7 @@ public class ShopController {
 
         ShopUtils.upload2Shop(file,shop,shippingTimePart,request);
 //        shopService.add(shop);
-        return "hello";
+        return "test";
     }
 
 

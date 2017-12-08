@@ -2,10 +2,12 @@ package com.cat.rufull.app.controller.account;
 
 import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
+import com.cat.rufull.domain.common.util.RufullCookie;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.LoginLog;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.account.LoginLogService;
+import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -21,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/account")
@@ -76,7 +80,27 @@ public class AccountController {
         accountService.bindEmail(account);
         return "account/loginSuccess";
     }
+    @RequestMapping("/center")
+    public String center(){
+        return "account/login/center";
+    }
+    @RequestMapping("/showInfo")
+    public String showInfo(HttpServletResponse response){
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write("1");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "account/login/showInfo";
+    }
 
+    /**
+     * 退出的功能
+     * @param session
+     * @return
+     */
     @RequestMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
@@ -156,23 +180,57 @@ public class AccountController {
                                 @RequestParam("password") String password,
                                 @RequestParam("ip") String ip,
                                 @RequestParam("city") String city,
+                                @RequestParam("remoteCode") String remoteCode,
                                 HttpSession session,
                                 HttpServletResponse response) {
         System.out.println(ip + city);
-        boolean isRemote = checkLoglog(ip, city,username,Account.ACCOUNT_ROLE);
-        if (isRemote) {
-            this.login(username, password, Account.ACCOUNT_ROLE, session, response, Account.ACCOUNT_SESSION);
-        } else {
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF-8");
-            try {
-                response.getWriter().write("0");
-            } catch (IOException e) {
-                e.printStackTrace();
+        //从session中获取异地登陆的验证码
+        String recode = (String) session.getAttribute(Account.REMOTE_CODE);
+        //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
+        if (recode == null) {
+            //判断是否是异地登陆
+            boolean isRemote = checkLoglog(ip, city, username, Account.ACCOUNT_ROLE);
+            if (isRemote) {//true ，不是异地登陆
+                //登陆
+                this.login(
+                        username,
+                        password,
+                        Account.ACCOUNT_ROLE,
+                        session,
+                        response,
+                        Account.ACCOUNT_SESSION,
+                        ip,
+                        city
+                );
+            } else {//false，异地登陆
+                //将异地登陆验证码赋值为uuid并放入session，防止破解
+                session.setAttribute(Account.REMOTE_CODE, UUID.randomUUID().toString().replaceAll("-", ""));
+                //返回异地登陆信息，提示需要短信验证码
+                returnMessage(response, "102");//异地登陆
             }
+        } else {//非第一次登陆
+            //判断输入的异地登陆的验证码是否正确
+            if (remoteCode.equalsIgnoreCase(remoteCode)) {//正确
+                this.login(
+                        username,
+                        password,
+                        Account.ACCOUNT_ROLE,
+                        session,
+                        response,
+                        Account.ACCOUNT_SESSION,
+                        ip,
+                        city
+                );
+            } else {//错误
+                //返回错误信息
+                returnMessage(response, "103");//异地登陆验证码错误
+            }
+
         }
 
     }
+
+
 
     /**
      * 检查登陆日志，判断是否异地登陆
@@ -205,9 +263,19 @@ public class AccountController {
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username,
                               @RequestParam("password") String password,
+                              @RequestParam("ip") String ip,
+                              @RequestParam("city") String city,
                               HttpSession session,
                               HttpServletResponse response) {
-        this.login(username, password, Account.BUSINESS_ROLE, session, response, Account.BUSINESS_SESSION);
+        this.login(
+                username,
+                password,
+                Account.ACCOUNT_ROLE,
+                session,
+                response,
+                Account.ACCOUNT_SESSION,
+                ip,
+                city);
     }
 
     /**
@@ -224,7 +292,9 @@ public class AccountController {
                        int role,
                        HttpSession session,
                        HttpServletResponse response,
-                       String sessionName){
+                       String sessionName,
+                       String ip,
+                       String city){
         Account account = new Account();
         //判断是否是用户名
         boolean isUsernaem = RegEx.regExUsername(username);
@@ -250,21 +320,20 @@ public class AccountController {
         if (login == null) {//用户为空，登陆失败
             result = "0";//返回json是0对应是失败
         } else {//登陆成功
-            session.setAttribute(sessionName, login);//存入session中
+            //存入session中
+            session.setAttribute(sessionName, login);
+            //添加登陆日志
+            addLoginLog(ip, city, login);
+            //添加到cookie中
+            addRufullCookie(response, login);
             result = "1";//返回json是1对应是成功
             //商家已经注册成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
                 result =  String.valueOf(login.getStatus());
             }
         }
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        //返回页面对应的信息
+        returnMessage(response, result);
     }
 
     /**
@@ -346,6 +415,38 @@ public class AccountController {
             }
         }
         return "account/loginOrRegister";
+    }
+
+    /**
+     * 返回页面的json信息
+     * @param response
+     * @param result
+     */
+    public void returnMessage(HttpServletResponse response, String result) {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 添加到cookie
+     *
+     * @param response
+     * @param account
+     */
+    public void addRufullCookie(HttpServletResponse response, Account account) {
+        Gson gson = new Gson();
+        String cookieValue = gson.toJson(account);
+        RufullCookie.addCookie(response, cookieValue);
+    }
+
+    public void addLoginLog(String ip,String location,Account account){
+        loginLogService.addLoginLog(new LoginLog(null, ip, location, new Date(), account.getId()));
+
     }
 
 }

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html class="no-js" lang="zh">
 <head>
@@ -47,18 +48,18 @@
             <div style="widht:1080px;margin-right:50px;align:right;">
                 <div class="row">
                     <c:if test="${empty account}">
-                    <div class="col-sm-4"></div>
+                        <div class="col-sm-4"></div>
 
-                    <div class="col-sm-4">
-                        <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
-                            登陆
-                        </a>
-                    </div>
-                    <div class="col-sm-4">
-                        <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
-                            注册
-                        </a>
-                    </div>
+                        <div class="col-sm-4">
+                            <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
+                                登陆
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
+                                注册
+                            </a>
+                        </div>
                     </c:if>
                     <c:if test="${!empty account}">
                         <ul id="ulSize">
@@ -68,7 +69,7 @@
                             <c:if test="${account.photo != null}">
                                 <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
                             </c:if>
-                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>
@@ -123,6 +124,12 @@
                                     <form method="post" accept-charset="UTF-8">
                                         <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
                                         <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+
+                                        <div id="hideDiv">
+                                            <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                            <input id="loginCodeBtn" class="loh" type="text" readonly value="免费获取验证码">
+                                        </div>
+
                                         <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
                                 </div>

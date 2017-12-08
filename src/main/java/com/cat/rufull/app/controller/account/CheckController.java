@@ -60,15 +60,7 @@ public class CheckController {
                                  HttpSession session,
                                  HttpServletResponse response) {
         String result = null;
-        String str = "0123456789";
-        Random random = new Random();
-        String arr[] = new String[4];
-        String checkCode = "";
-        for (int i = 0; i < 4; i++) {
-            int n = random.nextInt(10);
-            arr[i] = str.substring(n, n + 1);
-            checkCode += arr[i];
-        }
+        String checkCode = getCode();
         boolean isPhone = RegEx.regExPhone(phone);
         boolean isEmail = RegEx.regExEmail(phone);
         if (isPhone) {
@@ -82,13 +74,7 @@ public class CheckController {
             System.out.println("邮箱" + phone + "收到验证码是：" + checkCode);
         }
         session.setAttribute("checkCode",checkCode);
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        returnMessage(response, result);
     }
 
 
@@ -123,6 +109,50 @@ public class CheckController {
         } else if (!isEmail && ! isPhone) {
             result = "22";//手机或邮箱格式错误
         }
+
+        returnMessage(response, result);
+    }
+
+    @RequestMapping("/sendRometeCheckCode")
+    public void sendRometeCheckCode(@RequestParam("username") String username,
+                                    HttpSession session,
+                                    HttpServletResponse response) {
+        System.out.println("接受到的用户名——" + username);
+        boolean isPhone = RegEx.regExPhone(username);
+        boolean isEmail = RegEx.regExEmail(username);
+        boolean isUsername = RegEx.regExEmail(username);
+        Account account = null;
+        if (isUsername) {
+            account = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
+        }
+        if (isPhone) {
+            account = accountService.findAccountByPhone(username, Account.ACCOUNT_ROLE);
+        }
+        if (isEmail) {
+            account = accountService.findAccountByEmail(username, Account.ACCOUNT_ROLE);
+        }
+        String phone = account.getPhone();
+        String email = account.getEmail();
+        String code = getCode();
+        String result = null;
+        if (phone != null) {
+            System.out.println("手机" + phone + "异地登陆的验证码是——" + code);
+            result = "1";
+        } else {
+            System.out.println("邮箱" + email + "异地登陆的验证码是——" + code);
+            result = "1";
+        }
+        session.setAttribute(Account.REMOTE_CODE, code);
+        returnMessage(response,result);
+    }
+
+
+    /**
+     * 返回页面的json信息
+     * @param response
+     * @param result
+     */
+    public void returnMessage(HttpServletResponse response, String result) {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try {
@@ -132,4 +162,16 @@ public class CheckController {
         }
     }
 
+    public String getCode(){
+        String str = "0123456789";
+        Random random = new Random();
+        String arr[] = new String[4];
+        String checkCode = "";
+        for (int i = 0; i < 4; i++) {
+            int n = random.nextInt(10);
+            arr[i] = str.substring(n, n + 1);
+            checkCode += arr[i];
+        }
+        return checkCode;
+    }
 }

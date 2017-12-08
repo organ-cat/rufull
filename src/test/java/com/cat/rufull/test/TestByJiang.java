@@ -3,6 +3,7 @@ package com.cat.rufull.test;
 
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,4 +261,26 @@ public class TestByJiang {
             System.out.println("不不不不不不不不不不不不不不不不");
         }
     }
+
+
+    @Test
+    public void uuid() {
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
+
+    @Test
+    public void json(){
+        String email = "email";
+        String password = "password";
+        String phone = "password";
+        String username = "password";
+        String json = "{ \"email\": \"" + email + "\",\"password\": \""+password+"\", \"phone\": \""+phone+"\",\"username\": \""+username+"\"}";
+        Gson gson = new Gson();
+        Account account = gson.fromJson(json, Account.class);
+        System.out.println(account.toString());
+    }
 }
+

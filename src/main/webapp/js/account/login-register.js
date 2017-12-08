@@ -5,16 +5,18 @@
              4.已经创建商店                          202
              5.被管理员停业整顿                      203
              6.被管理员删除                          204
-             
-          
-    */
 
-    var BUSINESS_STATUS_REGISTERED = 0;
-    var BUSINESS_STATUS_SETTLED = 200;
-    var BUSINESS_STATUS_SETTLED_PASS = 201;
-    var BUSINESS_STATUS_CREATED_SHOP= 202;
-    var BUSINESS_STATUS_RECITIFY = 203;
-    var BUSINESS_STATUS_DELETE= 204;
+
+    */
+var BUSINESS_STATUS_REGISTERED = 0;
+
+var countdown=60;
+
+var BUSINESS_STATUS_SETTLED = 200;
+var BUSINESS_STATUS_SETTLED_PASS = 201;
+var BUSINESS_STATUS_CREATED_SHOP= 202;
+var BUSINESS_STATUS_RECITIFY = 203;
+var BUSINESS_STATUS_DELETE= 204;
 
 function showRegisterForm(){
     $('.loginBox').fadeOut('fast',function(){
@@ -23,7 +25,7 @@ function showRegisterForm(){
             $('.register-footer').fadeIn('fast');
         });
         $('.modal-title').html('注册方式');
-    }); 
+    });
     $('.error').removeClass('alert alert-danger').html('');
 }
 function showLoginForm(){
@@ -34,8 +36,8 @@ function showLoginForm(){
         });
         
         $('.modal-title').html('登陆方式');
-    });       
-     $('.error').removeClass('alert alert-danger').html(''); 
+    });
+     $('.error').removeClass('alert alert-danger').html('');
 }
 
 function openLoginModal(){
@@ -47,9 +49,9 @@ function openLoginModal(){
 function openRegisterModal(){
     showRegisterForm();
     setTimeout(function(){
-        $('#loginModal').modal('show');    
+        $('#loginModal').modal('show');
     }, 230);
-    
+
 }
 
 function loginAjax(){
@@ -63,9 +65,9 @@ function shakeModal(message){
     $('#loginModal .modal-dialog').addClass('shake');
              $('.error').addClass('alert alert-danger').html(message);
              $('input[type="password"]').val('');
-             setTimeout( function(){ 
+             setTimeout( function(){
                 $('#loginModal .modal-dialog').removeClass('shake'); 
-    }, 1000 ); 
+    }, 1000 );
 }
 var flag = false;
 
@@ -86,14 +88,12 @@ function messageHide() {
 }
 
 
-
+//注册时候，输入手机或邮箱，输入框失去焦点的时候触发的事件
 $(function(){
-    $("#phone").blur(function(){  //当xxx失去焦点时
+    $("#phone").blur(function(){  //当输入注册信息输入框失去焦点时
         var value=$("#phone").val();
         $.ajax({
             url:"http://localhost:8080/rufull/check/checkAccountRegisterWays",//要请求的服务器url
-            //这是一个对象，表示请求的参数，两个参数：method=ajax&val=xxx，服务器可以通过request.getParameter()来获取
-            //data:{method:"ajaxTest",val:value},
             data:{phone:value},  //这里的email对应表单中的name="email"，也是发送url中的email=value(GET方式)
             async:true,   //是否为异步请求
             cache:false,  //是否缓存结果
@@ -127,8 +127,8 @@ $(function(){
     })
 });
 
-var countdown=60;
 
+//点击"免费获取验证码"后，按钮变成"重新发送（60）"倒计时
 function settime(val) {
     if (countdown == 0) {
         val.removeAttribute("disabled");
@@ -144,7 +144,7 @@ function settime(val) {
         settime(val)
     },1000)
 }
-
+//点击免费获取密码时候，按钮触发的事件
 $(function(){
     $("#getCheckCodeButton").click(function(){  //点击发送按钮
         var value=$("#phone").val();
@@ -172,6 +172,7 @@ $(function(){
     })
 });
 
+//注册时候输入密码，输入框离开聚焦时候触发的事件
 $(function(){
     $("#registerPassword").blur(function(){  //点击发送按钮
         var rp = $("#registerPassword").val();
@@ -184,10 +185,13 @@ $(function(){
         }
     })
 });
+//注册时候确认密码，输入框离开聚焦时候触发的事件
 $(function(){
     $("#confirmationPassword").blur(function(){  //点击发送按钮
         var rp = $("#registerPassword").val();
         var cp = $("#confirmationPassword").val();
+        alert("");
+
         if(cp!=rp){
             messageShow();
             shakeModal("您的密码和确认密码不一致");
@@ -199,23 +203,17 @@ $(function(){
     })
 });
 
-// 商家状态
-// var BUSINESS_STATUS_REGISTERED = 0;
-// var BUSINESS_STATUS_SETTLED = 200;
-// var BUSINESS_STATUS_SETTLED_PASS = 201;
-// var BUSINESS_STATUS_CREATED_SHOP= 202;
-// var BUSINESS_STATUS_RECITIFY = 203;
-// var BUSINESS_STATUS_DELETE= 204;
-
+//点击登陆按钮登陆
 $(function(){
     $("#loginButton").click(function(){
         var username = $("#username").val();
         var password = $("#loginPassword").val();
         var ip = returnCitySN["cip"] ;
         var city = returnCitySN["cname"] ;
+        var remoteCode = "";
         $.ajax({
             url: "http://localhost:8080/rufull/account/accountLogin",
-            data: {"username": username,"password":password,"ip":ip,"city":city},
+            data: {"username": username,"password":password,"ip":ip,"city":city,"remoteCode":remoteCode},
             async: true,
             cache: false,
             type: "POST",
@@ -225,20 +223,21 @@ $(function(){
                     $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == "0") {
                     shakeModal("账号或密码不正确");
-                }else if(result == BUSINESS_STATUS_REGISTERED ||
+                    $("#hideDiv").attr("style","display:block;");
+                }else if(result == "102"){
+                    shakeModal("您是异地登陆，请进行身份验证");
+                    $("#hideDiv").attr("style","display:block;");
+                }else if(result == "103"){
+                    shakeModal("验证码错误，请重新输入");
+                    $("#hideDiv").attr("style","display:block;");
+                } else if(result == BUSINESS_STATUS_REGISTERED ||
                           result == BUSINESS_STATUS_SETTLED){   // 已经注册但没有填写入驻信息
-
                     $(location).attr('href', '/business/addBusinessUI');//商家入驻页面
-
                 }else if(result == BUSINESS_STATUS_SETTLED_PASS ||
                          result == BUSINESS_STATUS_CREATED_SHOP){ // 已经填写入驻想信息
-
                     $(location).attr('href', 'http://localhost:8080/rufull/business/addBusiness');  // 展示商家页面
-
                 }else if( result == BUSINESS_STATUS_RECITIFY){   // 商家被停业整顿
-
                     // $(location).attr('href', 'http://localhost:8080/rufull/business/showBusiness');  //还没有对应的页面或者提示
-
                 }else if(result == BUSINESS_STATUS_DELETE){      //商家被管理员删除
                     // 提示信息：请联系饱了吗：客服
                 }
@@ -247,7 +246,27 @@ $(function(){
     })
 });
 
+$(function () {
+    $("#loginCodeBtn").click(function () {
+        var username = $("#username").val();
+        $.ajax({
+            url: "http://localhost:8080/rufull/check/sendRometeCheckCode",
+            data: {"username": username},
+            async: true,
+            cache: false,
+            type: "POST",
+            dataType: "json",
+            success: function (result) {
+                if (result == "1"){
+                    alert("发送成功");
+                }else {
+                    alert("发送失败");
+                }
+            }
+        });
 
+    });
+});
 
 
 

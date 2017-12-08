@@ -252,3 +252,47 @@
 .loh{
     min-width: 150px;
 }
+
+
+#remoteCode{
+    width: 49%;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+    color: #000000;
+}
+
+#remoteCode:hover{
+    background-color: rgba(0,0,0,.16);
+}
+#remoteCode:focus{
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+    background-color: rgba(0,0,0,0.23);
+    color: #000000;
+}
+
+
+
+#loginCodeBtn {
+    width: 49%;
+    height: 48px;
+    margin-left: 1px;
+    margin-top: 1px;
+    text-align: center;
+    background-color: #00BBFF;
+    border-radius: 3px;
+    border-color: #00BBFF;
+    border-width: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+
+#loginCodeBtn:hover{
+    background-color: #00A4E4;
+    color: #FFFFFF;
+}
+
+#hideDiv{
+    display: none;
+}

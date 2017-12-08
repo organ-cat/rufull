@@ -6,10 +6,12 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,9 +26,11 @@ import java.util.List;
 public class TestController {
     @Autowired
     private AccountService accountService;
-    @RequestMapping(value = "/test")
-    public String test() {
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(HttpSession session, @RequestParam("test") String test) {
+        session.setAttribute("account", test);
+        System.out.println(test + test);
         return "account/test";
     }
 
@@ -70,5 +74,16 @@ public class TestController {
         accountService.updateAccountPhoto(account);
         session.setAttribute("account",account);
         return "account/loginSuccess";
+    }
+
+    @RequestMapping("/cookie")
+    public String testCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("rufullCookie", "I fuck you !");
+        cookie.setMaxAge(60);// 设置为30min
+        cookie.setPath("/");
+        System.out.println("已添加===============");
+        response.addCookie(cookie);
+        return "account/test";
+
     }
 }
