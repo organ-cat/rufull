@@ -159,18 +159,19 @@ public class AccountController {
                                 HttpSession session,
                                 HttpServletResponse response) {
         System.out.println(ip + city);
-        boolean isRemote = checkLoglog(ip, city,username,Account.ACCOUNT_ROLE);
-        if (isRemote) {
-            this.login(username, password, Account.ACCOUNT_ROLE, session, response, Account.ACCOUNT_SESSION);
-        } else {
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF-8");
-            try {
-                response.getWriter().write("0");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        this.login(username, password, Account.ACCOUNT_ROLE, session, response, Account.ACCOUNT_SESSION);
+//        boolean isRemote = checkLoglog(ip, city,username,Account.ACCOUNT_ROLE);
+//        if (isRemote) {
+//
+//        } else {
+//            response.setContentType("text/html");
+//            response.setCharacterEncoding("UTF-8");
+//            try {
+//                response.getWriter().write("0");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
     }
 

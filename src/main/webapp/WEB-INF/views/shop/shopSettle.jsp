@@ -211,7 +211,7 @@
 <%--bootstrap--%>
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
-<%--文件上床--%>
+<%--文件上传--%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput_locale_zh.js"></script>
 <%--时间组件--%>

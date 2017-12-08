@@ -1,3 +1,4 @@
+//百度地图需要用到的东西
 var map = new BMap.Map("container");        //在container容器中创建一个地图,参数container为div的id属性;
 var point = new BMap.Point(120.2,30.25);    //创建点坐标
 
@@ -62,7 +63,7 @@ $(function () {
 
 
 });
-///////////////////////////////////////////////////////////////////////////////
+
 //onchange事件，直接自动获取位置坐标
 function searchByStationName() {
     var localSearch = new BMap.LocalSearch(map);
@@ -78,6 +79,7 @@ function searchByStationName() {
         lat = poi.point.lat;
         alert(keyword+poi.point.lng + "," + poi.point.lat);
 
+        //使用百度地图获取到经纬度，将经纬度放到对应的页面
         $("#lat").val(poi.point.lat);
         $("#lon").val(poi.point.lng);
         $("#detailAddress").val(keyword);

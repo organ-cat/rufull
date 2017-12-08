@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller;
 
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class HelloController {
     private static Logger logger = LoggerFactory.getLogger(HelloController.class);
     private MessageSource messageSource;
 
+    @Autowired
+    private ShopService shopService;
     @RequestMapping(method = RequestMethod.GET)
     public String index() {
         logger.info(messageSource.getMessage("name", new Object[]{}, null));
@@ -23,4 +26,6 @@ public class HelloController {
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
+
 }
