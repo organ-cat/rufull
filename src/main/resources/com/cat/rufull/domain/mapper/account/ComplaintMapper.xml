@@ -56,5 +56,33 @@
         COMPLAINT
         WHERE shop_id= #{shopId};
     </select>
+    <select id="findAllComplaint" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT;
+    </select>
+
+    <update id="completedComplaint">
+        UPDATE
+        COMPLAINT
+        SET
+        COMPLAINT.result = #{result},
+        COMPLAINT.solver = #{solver},
+        COMPLAINT.status = #{status},
+        COMPLAINT.completed_time = #{completedTime}
+        WHERE
+        id = #{id};
+    </update>
+
+    <update id="handlerComplaint">
+        UPDATE
+        COMPLAINT
+        SET
+        COMPLAINT.status = #{status}
+        WHERE
+        COMPLAINT.id = #{id};
+    </update>
+
 
 </mapper>

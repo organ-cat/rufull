@@ -297,30 +297,33 @@ public class TestByJiang {
         System.out.println("0"+footprint.toString());
         System.out.println("1"+footprint1.toString());
 
-//        List<Shop> shopList = null;
-//        if (footprintList == null) {
-//
-//        } else {
-//            for (Footprint footprint : footprintList) {
-//                System.out.println("商店的id——"+footprint.getShopId());
-////                Shop shop = shopService.findById(footprint.getShopId());
-////                shopList.add(shop);
-//            }
-//        }
-////        for (Shop shop : shopList) {
-////            System.out.println(shop.toString());
-////        }
-//
-//        Shop byId = shopService.findById(1);
-//        System.out.println(byId.toString());
     }
 
 
     @Test
     public void test(){
+        List<Complaint> complaintList = complaintService.findAllComplaint();
+        for (Complaint c : complaintList) {
+            System.out.println(c.toString());
+        }
+    }
+
+    @Test
+    public void completedComplaint(){
+        Complaint complaint = new Complaint();
+        complaint.setId(1);
+        complaint.setResult(9);
+        complaint.setCompletedTime(new Date());
+        complaint.setSolver(1);
+        complaint.setStatus(9);
+
         int id = 1;
-        int shop = 2;
-        footprintService.deleteFootprint(id, shop);
+        int status = 777;
+        int handlering = complaintService.handlerComplaint(id, status);
+        System.out.println("处理过程结果——" + handlering);
+        int handerResult = complaintService.completedComplaint(complaint);
+        System.out.println("处理结果——"+handerResult);
+
     }
 
 }

@@ -36,8 +36,6 @@
     margin:0 auto;
     width: 700px;
     height: 400px;
-    position: absolute;
-    top: 100px;
     z-index: 1000;
     display: none;
     background-color: #0c9efc;

@@ -111,7 +111,7 @@
 </head>
 <body>
     <!-- 导航条 -->
-    <nav class="navbar navbar-default">
+    <nav id="nav" class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -215,7 +215,7 @@
             </div>
         </div>
     </div>
-    <footer class="container-fluid">
+    <footer id="footer" class="container-fluid">
         <div class="row">
             <div class="col-md-4">
                 <h3 class="text-center"><strong>用户帮助</strong></h3>
@@ -243,6 +243,8 @@
             </div>
         </div>
     </footer>
+
+
 
     <div id="addAddressId">
         addAddressId

@@ -1,6 +1,7 @@
 package com.cat.rufull.domain.mapper.account;
 
 import com.cat.rufull.domain.model.Complaint;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,4 +32,14 @@ public interface ComplaintMapper {
      * @return
      */
     List<Complaint> findShopComplaintListById(int shop_id);
+
+    /**
+     * 查询所有的投诉集合
+     * @return
+     */
+    List<Complaint> findAllComplaint();
+
+    int completedComplaint(Complaint complaint);
+
+    int handlerComplaint(@Param("id") int id, @Param("status") int status);
 }
