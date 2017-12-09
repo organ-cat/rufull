@@ -13,8 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -28,7 +30,7 @@ public class PaymentController {
 
     private static final String SESSION_ACCOUNT = "account";
 
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String createForm(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
         Account account = getSessionAccount(session); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
@@ -40,6 +42,35 @@ public class PaymentController {
             uiModel.addAttribute("error","您只可以对自己的订单进行支付");
             return "payment/error";
         }
+    }
+
+    /**
+     * 进行支付
+     * @param id
+     * @param bank
+     * @param total
+     * @return
+     */
+    @RequestMapping(value = "/process/{id}", method = RequestMethod.POST)
+    public String process(@PathVariable("id") Integer id, // 订单id
+                         @RequestParam("pd_FrpId") String bank, // 选择银行
+                         @RequestParam("total") BigDecimal total // 支付金额
+                        ) {
+        // 省略了支付业务
+        return complete(id);
+    }
+
+    /**
+     * 完成支付,跳转订单详情页面
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/complete/{id}", method = RequestMethod.POST)
+    public String complete(@PathVariable("id") Integer id) {
+        Order order = orderService.findOrderById(id);
+        orderService.paidOrder(order);
+
+        return "redirect:/order/{id}";
     }
 
     /**

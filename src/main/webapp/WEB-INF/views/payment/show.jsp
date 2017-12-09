@@ -61,26 +61,13 @@
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
-    <spring:url value="/payment" var="toPayUrl"/>
+    <spring:url value="/payment/process" var="toPayUrl"/>
     <spring:url value="/cart" var="showCartUrl"/>
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#orderPaymentBtn').click(function () { // 当点击支付按钮时
-                if ($('#paymentMethod').attr('value')) { // 如果选择了支付方式
-                    $('#orderPaymentForm').submit(); // 提交表单
-                }
-            });
-            $('.payment-method-btn').click(function () { // 点击支付方式按钮
-                // 显示激活样式
-                $('.payment-method-btn').removeClass('active');
-                $(this).addClass('active');
-
-                if ($(this).attr('id') == 'offline') { // 点击"货到付款"按钮,支付方式设为货到付款
-                    $('#paymentMethod').attr('value', 'offline');
-                } else { // 否则,支付方式设为在线付款
-                    $('#paymentMethod').attr('value', 'online');
-                }
+            $('#orderPaymentBtn').click(function () {
+                $('#orderPaymentForm').submit();
             });
         });
 </script>
@@ -151,18 +138,32 @@
                     <div class="row">
                         <div class="col-md-12 text-muted">
                             <h4>支付金额: <span class="text-warning">¥${order.total}</span></h4>
-                            <div class="btn-group  btn-group-lg" role="group">
-                                <button id="yifubao" type="button" class="btn btn-default payment-method-btn">易付宝</button>
-                                <button id="zhifubao" type="button" class="btn btn-default payment-method-btn">支付宝</button>
-                                <button id="offline" type="button" class="btn btn-default payment-method-btn">货到付款</button>
+                            <div class="btn-group" data-toggle="buttons">
+                                <c:if test="${'ONLINE' == order.paymentMethod}">
+                                    <label class="btn btn-default payment-method-btn">
+                                        <input type="radio" checked>
+                                        易宝
+                                    </label>
+                                    <label class="btn btn-default payment-method-btn">
+                                        <input type="radio">
+                                        支付宝
+                                    </label>
+                                </c:if>
+                                <c:if test="${'OFFLINE' == order.paymentMethod}">
+                                    <label class="btn btn-default payment-method-btn">
+                                        <input class="disabled" type="radio" checked>
+                                        货到付款
+                                    </label>
+                                </c:if>
                             </div>
                             <hr>
                         </div>
                         <div class="col-md-12">
                             <button id="orderPaymentBtn" type="button" class="btn btn-lg btn-danger payment-confirm-btn">确认支付</button>
                         </div>
-                        <form:form id="orderPaymentForm" action="${toPayUrl}/">
-                            <input id="paymentMethod" type="hidden" name="paymentMethod">
+                        <form:form id="orderPaymentForm" action="${toPayUrl}/${order.id}">
+                            <input type="hidden" name="pd_FrpId" value="CCB-NET">
+                            <input type="hidden" name="total" value="${order.total}">
                         </form:form>
                     </div>
                 </div>

@@ -247,7 +247,7 @@
                                                     <div class="btn-group-vertical">
                                                         <a class="btn btn-default order-btn" href="${showOrderUrl}/${order.id}" role="button">订单详情</a>
                                                         <c:if test="${'UNPAID'.equals(order.status)}">
-                                                            <a class="btn btn-primary order-btn" href="${showPaymentUrl}/${order.id}?form" role="button">立即付款</a>
+                                                            <a class="btn btn-primary order-btn" href="${showPaymentUrl}/${order.id}" role="button">立即付款</a>
                                                             <form:form id="orderCancelForm" action="${cancelOrderUrl}/${order.id}"/>
                                                             <button id="orderCancelBtn" type="button" class="btn btn btn-danger order-btn">取消订单</button>
                                                         </c:if>

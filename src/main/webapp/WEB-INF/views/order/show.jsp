@@ -250,9 +250,7 @@
                                 <div class="col-md-6">
                                     <c:if test="${'UNPAID'.equals(order.status)}">
                                         <form:form id="orderCancelForm" action="${cancelOrderUrl}/${order.id}"/>
-                                        <form:form id="payForm" action="${showPaymentUrl}/${order.id}" method="get">
-                                            <input type="hidden" name="form">
-                                        </form:form>
+                                        <form:form id="payForm" action="${showPaymentUrl}/${order.id}" method="get"/>
                                     </c:if>
                                     <c:if test="${'PAID'.equals(order.status) or 'ACCEPTED'.equals(order.status) or 'DELIVERY'.equals(order.status)}">
                                         <form:form id="orderUrgeForm" action="${urgeOrderUrl}/${order.id}"/>

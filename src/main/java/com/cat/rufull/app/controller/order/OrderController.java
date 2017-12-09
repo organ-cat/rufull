@@ -1,10 +1,10 @@
 package com.cat.rufull.app.controller.order;
 
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Business;
-import com.cat.rufull.domain.model.Order;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.AddressService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.order.OrderService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,18 @@ public class OrderController {
 
     private OrderService orderService;
 
+    private ShopService shopService;
+
     private BusinessService businessService;
+
+    private AddressService addressService;
 
     private MessageSource messageSource;
 
     private static final String SESSION_ACCOUNT = "account";
+
+    @Autowired
+    protected Carts carts;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(HttpSession session, Model uiModel) {
@@ -136,9 +143,15 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "/submit/{id}", method = RequestMethod.POST)
-    public String submit(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        return null;
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    public String submit(Order order, HttpSession session, Model uiModel) {
+        // 为订单设置商家信息
+        Shop shop = shopService.findById(order.getShop().getId());
+        order.setBusinessId(shop.getBusiness().getId());
+
+        orderService.submitOrder(order); // 下单
+        carts.clearCart(order.getShop().getId()); // 清空该商店的购物车
+        return "redirect:/payment/" + order.getId(); // 跳转到支付页面
     }
 
     @RequestMapping(value = "/accept/{id}", method = RequestMethod.POST)
@@ -185,13 +198,32 @@ public class OrderController {
     }
 
     @Autowired
+    public void setShopService(ShopService shopService) {
+        this.shopService = shopService;
+    }
+
+    @Autowired
     public void setBusinessService(BusinessService businessService) {
         this.businessService = businessService;
     }
 
     @Autowired
+    public void setAddressService(AddressService addressService) {
+        this.addressService = addressService;
+    }
+
+    @Autowired
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    /**
+     * 获取登录用户
+     * @param session
+     * @return 返回当前登录用户
+     */
+    private Account getSessionAccount(HttpSession session) {
+        return (Account) session.getAttribute(SESSION_ACCOUNT);
     }
 
     // 测试用户
@@ -205,12 +237,24 @@ public class OrderController {
         return "redirect:/order";
     }
 
-    /**
-     * 获取登录用户
-     * @param session
-     * @return 返回当前登录用户
-     */
-    private Account getSessionAccount(HttpSession session) {
-        return (Account) session.getAttribute(SESSION_ACCOUNT);
+    public void listOrder(List<Order> orders) {
+        for (Order order : orders) {
+            showOrder(order);
+        }
+    }
+
+    public void showOrder(Order order) {
+        System.out.println(order);
+
+        System.out.println("  The order's shop is: ");
+        System.out.println("    " + order.getShop());
+
+        System.out.println("  The order's address is: ");
+        System.out.println("    " + order.getAddress());
+
+        System.out.println("  The order's items are: ");
+        for (LineItem lineItem: order.getLineItems()) {
+            System.out.println("    " + lineItem);
+        }
     }
 }
