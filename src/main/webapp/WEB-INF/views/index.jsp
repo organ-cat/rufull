@@ -146,12 +146,12 @@
                     <div class="modal-footer">
                         <div class="forgot login-footer">
                             <span>打算
-                                 <a href="javascript: showRegisterForm();">注册一个账号？</a>
+                                 <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
                             </span>
                         </div>
                         <div class="forgot register-footer" style="display:none">
                             <span>已经有一个账号？</span>
-                            <a href="javascript: showLoginForm();">登陆</a>
+                            <a href="javascript: showLoginForm();" class="alink">登陆</a>
                         </div>
                     </div>
                 </div>

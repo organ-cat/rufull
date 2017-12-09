@@ -210,19 +210,18 @@ public class ManageController {
      * 删除管理员
      * @param id
      * @param session
-     * @param attr
      * @return
      */
     @RequestMapping("/delManager/{id}")
     public String delManager(@PathVariable Integer id,
-                             HttpSession session, RedirectAttributes attr) {
+                             HttpSession session) {
         session.removeAttribute("delerror");
         session.removeAttribute("delsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         int i = manageService.delManager(id);
         if (i >= 1) {
-            session.setAttribute("delsuccess","成功");
+            session.setAttribute("delsuccess","删除成功");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("删除管理员！");
             log.setType(1);
@@ -236,6 +235,38 @@ public class ManageController {
         } else
             session.setAttribute("delerror","失败");
                 return "redirect:getManagerList";
+    }
+
+
+    /**
+     * 恢复已经删除的管理员
+     * @param id
+     * @param session
+     * @return
+     */
+    @RequestMapping("/redelManager/{id}")
+    public String redelManager(@PathVariable Integer id,
+                             HttpSession session) {
+        session.removeAttribute("redelerror");
+        session.removeAttribute("redelsuccess");
+        session.removeAttribute("logerror");
+        Manager mana = (Manager) session.getAttribute("manager");
+        int i = manageService.reDelManager(id);
+        if (i >= 1) {
+            session.setAttribute("redelsuccess","成功");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("恢复已经删除的管理员！");
+            log.setType(1);
+            log.setManager(mana);
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:getManagerList";
+            } else
+                session.setAttribute("logerror","日志写入错误");
+            return "redirect:getManagerList";
+        } else
+            session.setAttribute("redelerror","失败");
+        return "redirect:getManagerList";
     }
 
 

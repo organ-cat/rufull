@@ -23,34 +23,57 @@
 
 
     <select id="findAllLog" resultMap="ManagerLogResult">
-        SELECT
-        manage_log.id,
-        manage_log.detail,
-        manage_log.created_time,
-        account.username as accountname,
-        manager.username as managername
-        FROM
-        manage_log,account,manager where
-             manage_log.manager_id = manager.id and
-             manage_log.account_id = account.id
+        SELECT *
+          FROM ((manage_log AS manage_log
+         INNER JOIN account AS account ON (manage_log.account_id = account.id ))
+         INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
+            WHERE
+                (
+                  manage_log.manager_id = manager.id  AND
+                  manage_log.account_id = account.id  )
 
     </select>
 
     <select id="findAllmLog" resultMap="ManagerLogResult">
-        SELECT
-        manage_log.id,
-        manage_log.detail,
-        manage_log.created_time,
-        manager.username as managername
-        FROM
-        manage_log,account,manager where
-        manage_log.manager_id = manager.id
+        SELECT *
+            FROM (manage_log AS manage_log
+                 INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
+            WHERE
+                (
+                  manage_log.manager_id = manager.id AND
+                  manage_log.account_id IS NULL )
 
     </select>
 
-    <insert id="addLog" >
-        INSERT into manage_log(detail,created_time,account_id,manager_id)
-        VALUES(#{detail},#{createdTime},#{account.id},#{manager.id})
+    <insert id="addLogs" parameterType="com.cat.rufull.domain.model.ManageLog"
+            useGeneratedKeys="true" keyProperty="id" >
+        INSERT into manage_log(detail,created_time,type,account_id,manager_id)
+        VALUES(#{detail},#{createdTime},#{type},#{account.id},#{manager.id})
     </insert>
+
+    <select id="findLogsByCondition" resultMap="ManagerLogResult">
+        SELECT *
+        FROM ((manage_log AS manage_log
+        INNER JOIN account AS account ON (manage_log.account_id = account.id ))
+        INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
+        <where>
+            <if test="beginTime != null">
+                manage_log.created_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                AND manage_log.created_time &lt;= #{endTime}
+            </if>
+            <if test="keyword!=null">
+                AND
+                (
+                manage_log.detail LIKE '%'+#{keyword}+'%' OR
+                account.username LIKE '%'+#{keyword}+'%' OR
+                manager.username LIKE '%'+#{keyword}+'%'
+                )
+            </if>
+        </where>
+
+
+    </select>
 
 </mapper>

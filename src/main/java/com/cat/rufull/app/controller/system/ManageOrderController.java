@@ -111,7 +111,7 @@ public class ManageOrderController {
         Manager mana = (Manager) session.getAttribute("manager");
         Order order = orderService.findOrderById(id);
         order.setStatus(Order.STATUS_AUDITING);
-        int i = orderService.mupdateOrder(order);
+        int i = orderService.mUpdateOrder(order);
         if (i >= 1) {
             Account account = new Account();
             account.setId(order.getAccountId());
