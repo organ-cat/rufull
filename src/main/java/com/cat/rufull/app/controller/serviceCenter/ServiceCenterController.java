@@ -49,8 +49,8 @@ public class ServiceCenterController {
                                           Model model,HttpSession session){
         session.removeAttribute("exportXls");
         Account account = (Account) session.getAttribute("account");
-        List<Order> list = null;
-                //orderService.findAccountOrdersBetween(account.getId(),beginTime,endTime);
+        List<Order> list =
+                orderService.findAccountOrdersBetween(account.getId(),beginTime,endTime);
         model.addAttribute("getAccountOrdersBetween",list);
         session.setAttribute("exportXls",list);
         return "service/exportOrdersXls";
@@ -132,8 +132,8 @@ public class ServiceCenterController {
     public String fanAnalysis(String type,Date beginTime, Date endTime,
                               Model model,HttpSession session) {
         Account account = (Account) session.getAttribute("account");
-        List<Order> list = null;
-               // orderService.findAccountOrdersBetween(account.getId(), beginTime, endTime);
+        List<Order> list =
+                orderService.findAccountOrdersBetween(account.getId(), beginTime, endTime);
 
         int aa = 0;
         int bb = 0;

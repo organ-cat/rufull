@@ -13,7 +13,6 @@
         <result column="created_time" property="createdTime"/>
         <result column="role" property="role"/>
     </resultMap>
-
     <select id="findAll" resultType="Manager" parameterType="Manager">
         SELECT
         *
@@ -25,7 +24,6 @@
         FROM MANAGER WHERE id = #{id}
 
     </select>
-
     <update id="updateManager" parameterType="Manager">
         UPDATE MANAGER
         SET
@@ -35,24 +33,6 @@
         MANAGER.phone = #{phone},
         MANAGER.photo = #{photo}
         WHERE MANAGER.id = #{id}
-    </update>
-
-    <update id="delManager" parameterType="id">
-        UPDATE MANAGER
-        SET
-        MANAGER.status = 0
-        WHERE
-        MANAGER.id = #{id}
-
-    </update>
-
-    <update id="reDelManager" parameterType="id">
-        UPDATE MANAGER
-        SET
-        MANAGER.status = 1
-        WHERE
-        MANAGER.id = #{id}
-
     </update>
 
     <select id="findName" resultMap="ManagerResultMap">
@@ -94,6 +74,25 @@
         MANAGER.role = #{role} AND MANAGER.status = 1
     </select>
 
+    <update id="delManager" parameterType="Manager">
+        UPDATE MANAGER
+        SET
+        MANAGER.status = #{status}
+        WHERE
+        MANAGER.id = #{id}
+
+    </update>
+
+
+    <update id="reDelManager" parameterType="Manager">
+        UPDATE MANAGER
+        SET
+        MANAGER.status = #{status}
+        WHERE
+        MANAGER.id = #{id}
+
+    </update>
+
     <update id="updateManagerPhoto" parameterType="Manager">
         UPDATE
         MANAGER
@@ -102,6 +101,8 @@
         WHERE
         MANAGER.id = #{id}
     </update>
+
+
 
 
 </mapper>

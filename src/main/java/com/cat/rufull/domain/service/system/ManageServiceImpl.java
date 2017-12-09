@@ -43,12 +43,29 @@ public class ManageServiceImpl implements ManageService{
     /*根据id删除管理员*/
     @Override
     public int delManager(Integer id) {
-        return managerMapper.delManager(id);
+        Manager manager = new Manager();
+        manager.setId(id);
+        manager.setStatus(0);
+        return managerMapper.delManager(manager);
     }
+
+    @Override
+    public int reDelManager(Integer id) {
+        Manager manager = new Manager();
+        manager.setId(id);
+        manager.setStatus(1);
+        return managerMapper.reDelManager(manager);
+    }
+
     /*根据字段模糊查询管理员  分别查询 username phone email*/
     @Override
     public List<Manager> findName(String findname) {
         return managerMapper.findName(findname);
+    }
+
+    @Override
+    public int updateManagerPhoto(Manager Manager) {
+        return 0;
     }
 
 
