@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @Controller
 @RequestMapping("/")
@@ -36,12 +38,17 @@ public class HelloController {
                 if (cookie.getName().equalsIgnoreCase(RufullCookie.RUFULLCOOKIE)) {
                     Gson gson = new Gson();
                     //将cookie的值转化为Account对象
-                    Account account = gson.fromJson(cookie.getValue(), Account.class);
-                    //登陆
-                    Account login = accountService.login(account);
-                    if (login != null) {
-                        //登陆成功，将对象存入session
-                        session.setAttribute(Account.ACCOUNT_SESSION, login);
+                    try {
+                        String accountJSON = URLDecoder.decode(cookie.getValue(), "utf-8");
+                        Account account = gson.fromJson(accountJSON, Account.class);
+                        //登陆
+                        Account login = accountService.login(account);
+                        if (login != null) {
+                            //登陆成功，将对象存入session
+                            session.setAttribute(Account.ACCOUNT_SESSION, login);
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
                     }
                 }
             }

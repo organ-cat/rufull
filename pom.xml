@@ -209,7 +209,7 @@
             <artifactId>spring-context-support</artifactId>
             <version>4.0.2.RELEASE</version>
         </dependency>
-        <!--gson-->
+        <!-- gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
