@@ -201,7 +201,6 @@
     width: 100%;
 }
 
-
 @media (max-width:400px){
     .login .modal-dialog{
         width: 100%;
@@ -215,21 +214,21 @@
     border-width: 2px;
     font-size: 14px;
     font-style: normal;
-    font-weight: 150;
-    padding: 10px 30px;
+    font-weight: 200;
+    padding: 5px 15px;
     text-transform: uppercase;
     transition: all 0.3s ease 0s;
 }
 .big-login:hover{
-    background-color: #00A4E4;
+    background-color: #c9302c;
     color: #FFFFFF;
 }
 .big-register{
     background-color: rgba(0,0,0,.0);
     color: #ffffff;
-    border-color: #D5514d;
+    border-color: #d9534f;
 }
 .big-register:hover{
-    border-color: #00A4E4;
-    color:  #00A4E4;
+    border-color: #c9302c;
+    color:  #c9302c;
 }

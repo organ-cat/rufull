@@ -5,6 +5,7 @@ import com.cat.rufull.domain.model.ManageLog;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class ManagerLogServiceImpl implements ManagerLogService {
 
     @Override
     public int addLog(ManageLog log) {
-        return 0;
+        return managerLogMapper.addLogs(log);
+    }
+
+    @Override
+    public List<ManageLog> findLogsByCondition(Date beginTime, Date endTime, String keyword) {
+        return null;
     }
 }
