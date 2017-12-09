@@ -75,8 +75,8 @@ public class ManageOrderController {
      * @param model
      * @return
      */
-    @RequestMapping("/getAccOrder/{accountid}")
-    public String getAccOrder(@PathVariable Integer accountid, Model model,HttpSession session) {
+    @RequestMapping("/getAccOrder")
+    public String getAccOrder(Integer accountid, Model model,HttpSession session) {
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         Account account = new Account();
@@ -102,38 +102,5 @@ public class ManageOrderController {
     }
 
 
-    @RequestMapping("/backOrder/{id}")
-    public String backOrder(@PathVariable Integer id, HttpSession session,
-                            RedirectAttributes attr) {
-        session.removeAttribute("backerror");
-        session.removeAttribute("backsuccess");
-        session.removeAttribute("logerror");
-        Manager mana = (Manager) session.getAttribute("manager");
-        Order order = orderService.findOrderById(id);
-        order.setStatus(Order.STATUS_AUDITING);
-        int i = orderService.mUpdateOrder(order);
-        if (i >= 1) {
-            Account account = new Account();
-            account.setId(order.getAccountId());
-            session.setAttribute("backsuccess", "退单成功!");
-            log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员根据情况强制退单！");
-            log.setManager(mana);
-            log.setType(2);
-            log.setAccount(account);
-            int a = logService.addLog(log);
-            if (a >= 1) {
-                session.setAttribute("backsuccess", "退单成功！");
-                attr.addAttribute("accountid", order.getAccountId());
-                return "redirect : getAccOrder";
-            } else
-                session.setAttribute("logerror", "写入日志失败");
-            attr.addAttribute("accountid", order.getAccountId());
-            return "redirect : getAccOrder";
-        } else
-            session.setAttribute("backerror", "审核失败");
-        attr.addAttribute("accountid", order.getAccountId());
-        return "redirect : getAccOrder";
-    }
 }
 

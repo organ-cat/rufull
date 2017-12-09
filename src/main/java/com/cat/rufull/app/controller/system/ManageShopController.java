@@ -41,7 +41,6 @@ public class ManageShopController {
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model) {
         List<Business> businessesList = businessService.getNotSettledShop();
-        //List<Business> businessesList = null;
         model.addAttribute("notSettleShop", businessesList);
         return "system/shop/notSettleShop";
     }
@@ -158,8 +157,9 @@ public class ManageShopController {
      */
     @RequestMapping("/findByCondition")
     public String findByCondition(@RequestParam("condition") String condition, Model model) {
-        List<Business> conditionBusiness= businessService.findByCondition(condition);
-        model.addAttribute("mbusinesslist",conditionBusiness);
+
+       List<Business> conditionBusiness= businessService.findByCondition(condition);
+                model.addAttribute("mbusinesslist",conditionBusiness);
         return "system/shop/allbusiness";
     }
 

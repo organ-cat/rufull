@@ -36,18 +36,22 @@ public class ManageComplaintController {
     private ManageLog log;
     private Date date = new Date();
 
+    /**
+     * 查看用户的所有投诉
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/findAllComp")
     public String findAllComp(Model model, HttpSession session) {
         session.removeAttribute("logerror");
         session.removeAttribute("getcomperror");
-        //查找未处理完成的用户投诉
         List<Complaint> complaintList = complaintService.findAllComplaint();
         List<Complaint> processingComp = new ArrayList<Complaint>();
         Manager mana = (Manager) session.getAttribute("manager");
         for (Complaint complaint : complaintList) {
             complaint.setStatus(2);
-            //将所有的未处理的以及处理中的投诉都设置为处理中
-            int i = complaintService.updateComp(complaint);
+            int i = complaintService.handlerComplaint(complaint.getId(),2);
             if (i >= 1) {
                     processingComp.add(complaint);
                     model.addAttribute("managecomp", complaintList);
@@ -77,7 +81,11 @@ public class ManageComplaintController {
         Account account = accountService.findAccountById(complaint.getAccountId());
         Manager mana = (Manager) session.getAttribute("manager");
         complaint.setStatus(3);
-        int i = complaintService.updateComp(complaint);
+        //1 处理成功  2投诉为假
+        complaint.setResult(1);
+        complaint.setCompletedTime(DateFormat.getNewdate(date));
+        complaint.setSolver(mana.getId());
+        int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
             session.setAttribute("replysuccess","处理成功");
             log.setCreateTime(DateFormat.getNewdate(date));
@@ -116,7 +124,9 @@ public class ManageComplaintController {
             Complaint complaint = complaintService.findComplaintById(id);
             Account account = accountService.findAccountById(complaint.getAccountId());
             complaint.setStatus(3);
-            int i = complaintService.updateComp(complaint);
+            //需要 complaintService提供updateComp(complaint) 方法
+            //int i = complaintService.updateComp(complaint);
+            int i = 1;
             if (i >= 1) {
                 session.setAttribute("replysuccess", "处理成功");
                 log.setCreateTime(DateFormat.getNewdate(date));
@@ -142,5 +152,7 @@ public class ManageComplaintController {
         }
         return "redirect:findAllComp";
     }
+
+
 
 }
