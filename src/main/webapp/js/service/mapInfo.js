@@ -179,7 +179,7 @@ $('#searcher').click(function () {
     var region = document.getElementById("city").value;
     var strs = new Array(); //定义一数组
     strs = region.split(" -- ");
-    window.location.href = "user/shopHome.do?city=" + strs[1] +
+    window.location.href = "/rufull/searchShop?city=" + strs[1] +
         "&address=" + addressvalue + "&lng=" + lng + "&lat=" + lat;
 });
 
@@ -187,7 +187,7 @@ $('#submit').click(function () {
     var region = document.getElementById("city").value;
     var strs = new Array(); //定义一数组
     strs = region.split(" -- ");
-    window.location.href = "newAddress.do?city=" + strs[1] +
+    window.location.href = "/rufull/newSearchShop?city=" + strs[1] +
         "&newaddress=" + addressvalue + "&lng=" + lng + "&lat=" + lat;
 });
 

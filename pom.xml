@@ -38,6 +38,7 @@
         <cglib.version>2.2.2</cglib.version>
         <poi.version>3.9</poi.version>
         <gson.version>2.3.1</gson.version>
+        <json.version>1.0.2</json.version>
     </properties>
 
     <dependencies>
@@ -215,8 +216,12 @@
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
-
-
+        <!--json-->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib-ext-spring</artifactId>
+            <version>${json.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

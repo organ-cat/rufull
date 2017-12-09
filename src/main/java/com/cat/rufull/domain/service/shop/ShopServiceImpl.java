@@ -95,4 +95,9 @@ public class ShopServiceImpl implements ShopService {
         shopMapper.updateById(shop);
         return 0;
     }
+
+    @Override
+    public Shop findShopByBusinessId(Integer id) {
+        return shopMapper.findShopByBusinessId(id);
+    }
 }
