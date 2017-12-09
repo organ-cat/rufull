@@ -29,7 +29,7 @@ public class ProductController {
         Product finishedProduct = ProductUtils.upload2Product(file, product, request);
         System.out.println("finished:"+finishedProduct);
 //      productService.add(finishedProduct);
-        return "hello";
+        return "test";
     }
 }
 

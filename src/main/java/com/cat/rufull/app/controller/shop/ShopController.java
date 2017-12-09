@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,42 +33,44 @@ public class ShopController {
 
         ShopUtils.upload2Shop(file,shop,shippingTimePart,request);
 //        shopService.add(shop);
-        return "hello";
+        return "test";
     }
 
 
     //用户查看商店页面
-    @RequestMapping("showShopDetail")
+    @RequestMapping(value = "showShopDetail",method = RequestMethod.GET)
     public String showShopDetail(Integer id, ModelMap map){
 
         //缺少获取展示所有商家页面，点击商家页面后跳过过来这里。
         Shop shopDetail = shopService.findById(id);
         System.out.println("shopDetail"+shopDetail);
+
         map.put("shop",shopDetail);
         return "shop/accountToShop";
     }
 
     //用户查看商家资质
-    @RequestMapping("showBusinessLicense")
-    public String showBusinessLicense(ModelMap map){
-
-        Shop shopDetail = shopService.findById(1);
+    @RequestMapping(value = "showBusinessLicense",method = RequestMethod.GET)
+    public String showBusinessLicense(Integer id,ModelMap map){
+        //查找对应的商店
+        Shop shopDetail = shopService.findById(id);
         map.put("shop",shopDetail);
 
         return "shop/accountToBusinessLicense";
     }
 
     //查看商家评价：小伟要自己写
-    @RequestMapping("showShopComments")
-    public String showBusinnessLicence(ModelMap map){
+    @RequestMapping(value = "showShopComments",method = RequestMethod.GET)
+    public String showBusinnessLicence(Integer id,ModelMap map){
         //查找对应的商店
-        Shop shopDetail = shopService.findById(1);
+        Shop shopDetail = shopService.findById(id);
+
         map.put("shop",shopDetail);
         return "shop/accountToShopComments";
     }
 
 
-    //查找全部商家：
+    //查找正常营业的商家和休息的商家：
     @RequestMapping("showAllShop")
     public String showAllShow(ModelMap map){
         List<Shop> shopList = shopService.findAll();

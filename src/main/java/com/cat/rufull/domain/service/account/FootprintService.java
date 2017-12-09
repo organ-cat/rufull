@@ -7,7 +7,7 @@ import java.util.List;
 public interface FootprintService {
     void addFootprint(Footprint footprint);
 
-    void deleteFootprint(int id);
+    List<Footprint> deleteFootprint(int accountId, int shopId);
 
     List<Footprint> findFootprintList(int account_id);
 }

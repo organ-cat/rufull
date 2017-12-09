@@ -14,7 +14,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintMapper complaintMapper;
 
-
     @Override
     public void addComplaint(Complaint complaint) {
         complaintMapper.addComplaint(complaint);
@@ -33,5 +32,20 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Override
     public List<Complaint> findShopComplaintListById(int shop_id) {
         return complaintMapper.findShopComplaintListById(shop_id);
+    }
+
+    @Override
+    public List<Complaint> findAllComplaint() {
+        return complaintMapper.findAllComplaint();
+    }
+
+    @Override
+    public int completedComplaint(Complaint complaint) {
+        return complaintMapper.completedComplaint(complaint);
+    }
+
+    @Override
+    public int handlerComplaint(int id, int status) {
+        return complaintMapper.handlerComplaint(id, status);
     }
 }

@@ -18,9 +18,4 @@ public interface AddressService {
 
     void updateAddress(Address address);
 
-
-//    void updateAddress(Address address);
-//    void addAddress(Address address);
-//    Address queryAddressById(Address address);
-//    void deleteAddress(Address address);
 }

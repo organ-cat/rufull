@@ -62,7 +62,7 @@ body {
 .header-account {
     position: absolute;
     top: 0;
-    right: 20px
+    right: 0;
 }
 
 .header-account > .link {

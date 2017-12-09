@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+#personalInfo{
+    width: auto;
+    height:120px;
+    background-color: #F8F8F8;
+
+}
+#footprint{
+    width: auto;
+    height: 350px;
+    background-color: #F8F8F8;
+}
+.profile{
+    height: 100px;
+    width: 150px;
+    background-color: #0c9efc;
+    margin-right: 2px;
+    margin-left: 2px;
+    float: left;
+}
+.shoplist{
+    margin: 0 auto;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 2px;
+    width: 265px;
+    height: 135px;
+    float: left;
+    background-color: #FFFFFF;
+}
+
+.deleteFootprint {
+    position: relative;
+    right: -120px;
+    top: 0px;
+    z-index: 10;
+    background-color: #F8F8F8;
+    text-transform: none;
+}
+
+.deleteFootprint:hover{
+    position: relative;
+    right: -120px;
+    top: 0px;
+    z-index: 10;
+    background-color: #F8F8F8;
+    color: #000000;
+    text-transform: none;
+}

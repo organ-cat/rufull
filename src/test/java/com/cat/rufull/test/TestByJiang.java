@@ -1,14 +1,10 @@
 package com.cat.rufull.test;
 
 
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Address;
-import com.cat.rufull.domain.model.Complaint;
-import com.cat.rufull.domain.model.Footprint;
-import com.cat.rufull.domain.service.account.AccountService;
-import com.cat.rufull.domain.service.account.AddressService;
-import com.cat.rufull.domain.service.account.ComplaintService;
-import com.cat.rufull.domain.service.account.FootprintService;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.*;
+import com.cat.rufull.domain.service.shop.ShopService;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +28,10 @@ public class TestByJiang {
     private ComplaintService complaintService;
     @Autowired
     private FootprintService footprintService;
-
+    @Autowired
+    private LoginLogService loginLogService;
+    @Autowired
+    private ShopService shopService;
     @Autowired
     private MailSender mailSender;
     @Autowired
@@ -220,8 +219,9 @@ public class TestByJiang {
 
     @Test
     public void deleteFootprint() {
-        int id = 2;
-        footprintService.deleteFootprint(id);
+        int accountId = 1;
+        int shopId = 2;
+        footprintService.deleteFootprint(accountId,shopId);
     }
 
     @Test
@@ -237,5 +237,95 @@ public class TestByJiang {
 //异地登陆测试
 //    **************************************************************************************************************/
 
+    @Test
+    public void addLoginLog() {
+        LoginLog log = new LoginLog();
+        log.setAccountId(1);
+        log.setIp("127.0.0.1");
+        log.setLocation("广东湛江");
+        log.setLoginTime(new Date());
+        loginLogService.addLoginLog(log);
+    }
+
+    @Test
+    public void fingLoginLogList(){
+        int account_id = 8;
+        List<LoginLog> logList =  loginLogService.fingLoginLogList(account_id);
+        System.out.println(logList == null);
+        boolean flag = false;
+        for (LoginLog log : logList) {
+            System.out.println(log.toString());
+            if (log.getLocation().equals("广东湛江")) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            System.out.println("可以可以可以可以可以可以可以可以");
+        } else {
+            System.out.println("不不不不不不不不不不不不不不不不");
+        }
+    }
+
+
+    @Test
+    public void uuid() {
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
+
+    @Test
+    public void json(){
+        String email = "email";
+        String password = "password";
+        String phone = "password";
+        String username = "password";
+        String json = "{ \"email\": \"" + email + "\",\"password\": \""+password+"\", \"phone\": \""+phone+"\",\"username\": \""+username+"\"}";
+        Gson gson = new Gson();
+        Account account = gson.fromJson(json, Account.class);
+        System.out.println(account.toString());
+    }
+
+    @Test
+    public void findfootprint(){
+        List<Footprint> footprintList = footprintService.findFootprintList(1);
+        Footprint footprint = footprintList.get(0);
+
+        Footprint footprint1 = footprintList.get(1);
+
+        System.out.println("0"+footprint.toString());
+        System.out.println("1"+footprint1.toString());
+
+    }
+
+
+    @Test
+    public void test(){
+        List<Complaint> complaintList = complaintService.findAllComplaint();
+        for (Complaint c : complaintList) {
+            System.out.println(c.toString());
+        }
+    }
+
+    @Test
+    public void completedComplaint(){
+        Complaint complaint = new Complaint();
+        complaint.setId(1);
+        complaint.setResult(9);
+        complaint.setCompletedTime(new Date());
+        complaint.setSolver(1);
+        complaint.setStatus(9);
+
+        int id = 1;
+        int status = 777;
+        int handlering = complaintService.handlerComplaint(id, status);
+        System.out.println("处理过程结果——" + handlering);
+        int handerResult = complaintService.completedComplaint(complaint);
+        System.out.println("处理结果——"+handerResult);
+
+    }
 
 }
+
+

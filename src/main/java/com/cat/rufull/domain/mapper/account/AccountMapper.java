@@ -13,7 +13,6 @@ public interface AccountMapper {
 
     /**
      * 根据手机查找用户
-     *
      * @param phone
      * @return
      */
@@ -69,9 +68,23 @@ public interface AccountMapper {
      */
     void setUsername(Account account);
 
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @param role
+     * @return
+     */
     Account findAccountByUsername(@Param("username")String username,@Param("role") Integer role);
 
+    /**
+     * 绑定手机号码
+     * @param account
+     */
     void bindPhone(Account account);
 
+    /**
+     * 绑定邮箱
+     * @param account
+     */
     void bindEmail(Account account);
 }

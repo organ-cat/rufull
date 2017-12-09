@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html class="no-js" lang="zh">
 <head>
@@ -19,46 +20,54 @@
     <link href="${pageContext.request.contextPath}/css/service/city-picker.css" rel="stylesheet" type="text/css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
-
-    <link href="${pageContext.request.contextPath}/css/service/login-register.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/js/service/login-register.js" type="text/javascript"></script>
-    <script>
-    </script>
+    <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 </head>
 <body class="homepage">
 <div class="homepage-container" align="center">
 
     <header>
-
         <div class="header-account" style="margin-top:-48px;">
-
             <div style="widht:1080px;margin-right:50px;align:right;">
                 <div class="row">
-                    <c:if test="${empty user}">
-                    <div class="col-sm-4"></div>
+                    <c:if test="${empty account}">
+                        <div class="col-sm-4"></div>
 
-                    <div class="col-sm-4">
-                        <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
-                            登陆
-                        </a>
-                    </div>
-                    <div class="col-sm-4">
-                        <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
-                            注册
-                        </a>
-                    </div>
+                        <div class="col-sm-4">
+                            <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
+                                登陆
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn big-register" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">
+                                注册
+                            </a>
+                        </div>
                     </c:if>
-                    <c:if test="${!empty user}">
-                        <a href="">
-                        <font color="#f0ffff" size="4px">
-                            <img src="${pageContext.request.contextPath}/image/service/account.png" style="height:20px;width:20px; margin-right:10px;"/>
-                            ${sessionScope.user.nickname}
-                        </font>
-                        </a>
+                    <c:if test="${!empty account}">
+                        <ul id="ulSize">
+                            <c:if test="${account.photo == null &&account.username == null}">
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/photo.png" alt="头像" /> <span >Hi,美食家</span></a></li>
+                            </c:if>
+                            <c:if test="${account.photo != null}">
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
+                            </c:if>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
+                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
+                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
+                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>
+                            <li class="divider" role="separator"></li>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/account/logout" class="aLabel"><span class="glyphicon glyphicon-off"></span> 退出登录</a></li>
+                        </ul>
                     </c:if>
                 </div>
             </div>
@@ -103,10 +112,17 @@
                                 </div>
                                 <div class="error"></div>
                                 <div class="form loginBox">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"  name="email">
-                                        <input id="password"   class="form-control loi" type="password" placeholder="密码" name="password">
-                                        <input class="btn btn-default btn-login loi"   type="button" value="登陆" onclick="loginAjax()">
+
+                                    <form method="post" accept-charset="UTF-8">
+                                        <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                        <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+
+                                        <div id="hideDiv">
+                                            <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                            <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
+                                        </div>
+
+                                        <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
                                 </div>
                             </div>
@@ -114,11 +130,13 @@
                         <div class="box">
                             <div class="content registerBox" style="display:none;">
                                 <div class="form">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control loi"  type="text" placeholder="手机/用户名/邮箱" name="email">
-                                        <input id="password" class="form-control loi" type="password" placeholder="密码" name="password">
-                                        <input id="password_confirmation"  class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
-                                        <input class="btn btn-default btn-register loi"   type="submit" value="注册" name="commit" onclick="loginAjax()">
+                                    <form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8">
+                                        <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                        <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                        <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                        <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                        <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                        <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
                                     </form>
                                 </div>
                             </div>
@@ -140,7 +158,7 @@
         </div>
     </div>
 
-    <footer class="homepage-footer">
+    <footer class="homepage-footer" style="background-color: #00000000">
         <a class="footer-nav" href="" target="_blank">我要开店</a>
         <a class="footer-nav" href="" target="_blank">问题答疑</a>
         <a class="footer-nav" href="" target="_blank">规则中心</a>
@@ -158,6 +176,5 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi
 "></script>
 <script src="${pageContext.request.contextPath}/js/service/mapInfo.js"></script>
-
 </body>
 </html>

@@ -12,22 +12,18 @@
 <head>
     <title>Title</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $(":input[name='username']").change(function () {
-                var val = $(this).val();
-                val = $.trim(val);
-                if(val != "") {
-                    var url = "${pageContext.request.contextPath}/test/ajax";
-                    var args = {"username":val,"time":new Date()};
+    <link rel="apple-touch-icon-precomposed" href="">
 
-                    $.post(url,args, function (data) {
-                        $("#message").html(data);
-                    });
-                }
-            })
-        });
-    </script>
+    <link href="../css/service/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/service/pagevendor.css" rel="stylesheet">
+
+    <link href="../css/service/pagemain.css" rel="stylesheet">
+    <link href="../css/service/login-register.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <script src="../js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="../css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+    <script src="../js/service/login-register.js" type="text/javascript"></script>
 </head>
 <body>
     <%--<h1>Ajax</h1><br/>--%>
@@ -46,13 +42,27 @@
     <%--<a href="${pageContext.request.contextPath}/test/test">哈哈哈哈</a>--%>
 
 
-    <h1>使用spring mvc提供的类的方法上传文件</h1><br/>
-    <form method="post" enctype="multipart/form-data" action="<c:url value="/test/upload"/>">
-        <input type="file" name="photo">
-        <input type="submit" value="upload"/>
-    </form>
+    <%--<h1>使用spring mvc提供的类的方法上传文件</h1><br/>--%>
+    <%--<form method="post" enctype="multipart/form-data" action="<c:url value="/test/upload"/>">--%>
+        <%--<input type="file" name="photo">--%>
+        <%--<input type="submit" value="upload"/>--%>
+    <%--</form>--%>
 
-    <img src="http://localhost:8080/rufull/upload/account/${account.photo}">
+    <%--<img src="http://localhost:8080/rufull/upload/account/${account.photo}">--%>
+
+    <a href=" "   data-bidding="" target="_blank" class="rstblock">
+        <div class="rstblock-logo">
+            <img src="${pageContext.request.contextPath}/upload/account/${shop.shopPhoto}"
+                 width="70" height="70" alt="${shop.shopName}" class="rstblock-logo-icon">
+            <span class="rstblock-left-timeout">${shop.shippingTime}+分钟</span>
+        </div>
+        <div class="rstblock-content">
+            <div class="rstblock-title">${shop.shopName}</div>
+            <div class="rating-star r8"></div>
+            <span class="rstblock-monthsales">月售100+</span>
+            <div class="rstblock-cost">￥${shop.shippingFee}</div>
+        </div>
+    </a>
 
 </body>
 </html>

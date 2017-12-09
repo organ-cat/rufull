@@ -209,11 +209,6 @@
                         </div>
                     </div>
                 </nav>
-
-
-
-
-
         </header>
     </div>
 </div>
@@ -332,12 +327,13 @@
             </div>
         </div>
         <div class="place-rstbox clearfix">
-            <div class="clearfix"
-                 style="height:auto;"><a href=" "   data-bidding="" target="_blank" class="rstblock">
-                <div class="rstblock-logo"><img
-                        src="//fuss10.elemecdn.com/e/07/2a9f3e50201db18a7702638958e5ajpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
-                        width="70" height="70" alt="麻辣煮题" class="rstblock-logo-icon"><span
-                        class="rstblock-left-timeout">45+ 分钟</span></div>
+            <div class="clearfix" style="height:auto;">
+                <a href=" "   data-bidding="" target="_blank" class="rstblock">
+                <div class="rstblock-logo">
+                    <img src="//fuss10.elemecdn.com/e/07/2a9f3e50201db18a7702638958e5ajpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
+                        width="70" height="70" alt="麻辣煮题" class="rstblock-logo-icon">
+                    <span class="rstblock-left-timeout">45+ 分钟</span>
+                </div>
                 <div class="rstblock-content">
                     <div class="rstblock-title">麻辣煮题</div>
                     <div class="rating-star r8"></div>
@@ -345,7 +341,9 @@
                     <div class="rstblock-cost">免配送费</div>
                     <div class="rstblock-activity"></div>
                 </div>
-            </a><a href="/shop/1423546"   data-bidding="" target="_blank" class="rstblock">
+                </a>
+
+                <a href="/shop/1423546"   data-bidding="" target="_blank" class="rstblock">
                 <div class="rstblock-logo"><img
                         src=" //fuss10.elemecdn.com/7/fb/ef04af49d56f2507523164760acc7png.png?imageMogr2/thumbnail/70x70/format/webp/quality/85"
                         width="70" height="70" alt="royaltea 皇茶" class="rstblock-logo-icon">

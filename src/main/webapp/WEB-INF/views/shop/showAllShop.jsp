@@ -329,6 +329,7 @@
             <div class="clearfix"
                  style="height:auto;">
 
+                <%--//显示出查询出来的所有商家--%>
                 <c:forEach var="shop" items="${requestScope.shopList}">
                     <a href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}"   data-bidding="" target="_blank" class="rstblock">
                         <div class="rstblock-logo"><img

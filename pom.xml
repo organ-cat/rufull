@@ -37,6 +37,7 @@
         <javax.mail.version>1.4.7</javax.mail.version>
         <cglib.version>2.2.2</cglib.version>
         <poi.version>3.9</poi.version>
+        <gson.version>2.3.1</gson.version>
     </properties>
 
     <dependencies>
@@ -193,6 +194,29 @@
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+        <!--gson-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>
