@@ -40,8 +40,8 @@ public class ManageShopController {
      */
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model) {
-        List<Business> businessesList = businessService.getNotSettledShop();
-        model.addAttribute("notSettleShop", businessesList);
+        //List<Business> businessesList = businessService.getNotSettledShop();
+        //model.addAttribute("notSettleShop", businessesList);
         return "system/shop/notSettleShop";
     }
 
@@ -114,7 +114,7 @@ public class ManageShopController {
         session.removeAttribute("npexamsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
-        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_NOTPASS);
+       // business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_NOTPASS);
         int i = businessService.updateById(business);
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone()+":你好，您申请的商家未通过审核");
@@ -158,8 +158,9 @@ public class ManageShopController {
     @RequestMapping("/findByCondition")
     public String findByCondition(@RequestParam("condition") String condition, Model model) {
 
-       List<Business> conditionBusiness= businessService.findByCondition(condition);
-                model.addAttribute("mbusinesslist",conditionBusiness);
+       //List<Business> conditionBusiness= businessService.findByCondition(condition);
+
+        //        model.addAttribute("mbusinesslist",conditionBusiness);
         return "system/shop/allbusiness";
     }
 

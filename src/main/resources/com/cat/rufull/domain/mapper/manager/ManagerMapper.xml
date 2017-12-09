@@ -74,20 +74,20 @@
         MANAGER.role = #{role} AND MANAGER.status = 1
     </select>
 
-    <update id="delManager" parameterType="Manager">
+    <update id="delManager" parameterType="int">
         UPDATE MANAGER
         SET
-        MANAGER.status = #{status}
+        MANAGER.status = 0
         WHERE
         MANAGER.id = #{id}
 
     </update>
 
 
-    <update id="reDelManager" parameterType="Manager">
+    <update id="reDelManager" parameterType="int">
         UPDATE MANAGER
         SET
-        MANAGER.status = #{status}
+        MANAGER.status =1
         WHERE
         MANAGER.id = #{id}
 

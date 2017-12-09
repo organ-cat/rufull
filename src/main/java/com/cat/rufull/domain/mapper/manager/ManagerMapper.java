@@ -18,9 +18,9 @@ public interface ManagerMapper {
 
     int updateManager(Manager manager);
 
-    int delManager(Manager manager);
+    int delManager(Integer id);
 
-    int reDelManager(Manager manager);
+    int reDelManager(Integer id);
 
     List<Manager> findName(String findname);
 
