@@ -28,6 +28,15 @@
     <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
     <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 
+    <!-- address css -->
+    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
+
+
+    <!-- address js -->
+    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
+    <script src="${address_js_url}" type="text/javascript"></script>
+
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
     <script src="${jquery_url}" type="text/javascript"></script>
@@ -174,38 +183,30 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                        <div class="page-header">
-                            <div id="personalInfo">
-                                <div class="profile"></div>
-                                <div class="profile"></div>
-                                <div class="profile"></div>
-                                <div class="profile"></div>
-                            </div>
-                        </div>
+                            <h3>地址管理</h3>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
                         <div class="container-fluid" id="content">
                             <div class="row">
                                 <div id="footprint">
-                                    <h3>足迹</h3>
-                                    <hr/>
-                                    <c:forEach items="${footprintList}" var="footprint">
-                                        <div class="shoplist">
-                                            <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${jiangShowShopUrl}?shopId=${footprint.id}&accountId=${account.id} " target="_self">
-                                                <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
-                                                         width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
-                                                    <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
-                                                </div>
+                                    <%--<c:forEach items="${footprintList}" var="footprint">--%>
+                                        <div class="addressShow">
+                                            <span class="addresssChange">
+                                                <a href="#" class="deleteAddress">删除</a>
+                                                <a href="#" class="updateAddress">修改</a>
+                                            </span>
+                                            <a href="#" target="_self">
                                                 <div class="rstblock-content">
-                                                    <div class="rstblock-title">${footprint.shopName}</div>
-                                                    <div class="rating-star r8"></div>
-                                                    <span class="rstblock-monthsales">月售100+</span>
-                                                    <div class="rstblock-cost">￥${footprint.shippingFee}</div>
+                                                    <div class="rstblock-title">江先生</div>
+                                                    <div class="rstblock-cost">广东海洋大学海浪A613</div>
+                                                    <span class="rstblock-monthsales">13413600394</span>
                                                 </div>
                                             </a>
                                         </div>
-                                    </c:forEach>
+                                    <%--</c:forEach>--%>
+
+                                    <div class="addAddress" onclick="addAddress()">
+                                            <span class="glyphicon glyphicon-plus" >添加新地址地址</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -242,5 +243,12 @@
             </div>
         </div>
     </footer>
+
+    <div id="addAddressId">
+        addAddressId
+    </div>
+    <div id="updateAddressId">
+        updateAddressId
+    </div>
 </body>
 </html>

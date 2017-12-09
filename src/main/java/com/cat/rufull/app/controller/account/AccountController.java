@@ -68,7 +68,7 @@ public class AccountController {
         view.setViewName("account/login/center");
         return view;
     }
-    //测试使用的视图，待商家模块完成后转移过去
+//测试使用的视图，待商家模块完成后转移过去
     @RequestMapping(value = "/showshowshow", method = RequestMethod.GET)
     public ModelAndView addFootprint(@RequestParam("shopId") int shopId , @RequestParam("accountId") int accountId) {
         //添加浏览的足迹

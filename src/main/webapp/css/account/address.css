@@ -1,0 +1,51 @@
+@charset "UTF-8";
+.addAddress {
+    margin:0 auto;
+    width: 265px;
+    height: 135px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 2px;
+    padding-top:55px;
+    float: left;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+.addAddress:hover{
+    background-color: #F8F8F8;
+}
+
+.addressShow{
+    margin: 0 auto;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 2px;
+    width: 265px;
+    height: 135px;
+    float: left;
+    background-color: #FFFFFF;
+}
+.addressShow:hover {
+    background-color: #F8F8F8;
+}
+.addresssChange{
+    position: relative;
+    left: 200px;
+}
+#addAddressId {
+    margin:0 auto;
+    width: 700px;
+    height: 400px;
+    position: absolute;
+    top: 100px;
+    z-index: 1000;
+    display: none;
+    background-color: #0c9efc;
+}
+#updateAddressId {
+    width: 700px;
+    height: 400px;
+    z-index: 1000;
+    display: none;
+    background-color: #FF0000;
+}
