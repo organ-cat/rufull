@@ -24,6 +24,10 @@
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
 
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
     <script src="${jquery_url}" type="text/javascript"></script>
@@ -42,6 +46,7 @@
     <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="#" var="showProfileUrl"/>
     <spring:url value="/favor" var="showFavorUrl"/>
+    <spring:url value="/footprint" var="footprintUrl"/>
     <spring:url value="/address" var="showAddressUrl"/>
     <spring:url value="/security" var="showSecurityUrl"/>
     <spring:url value="/account/logout" var="logoutUrl"/>
@@ -62,6 +67,9 @@
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
+
+    <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
+    <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/ajax.js" type="text/javascript"></script>
 
@@ -84,6 +92,13 @@
             });
         });
     </script>
+
+    <link href="../css/service/pagevendor.css" rel="stylesheet">
+
+    <link href="../css/service/pagemain.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+
 </head>
 <body>
     <!-- 导航条 -->
@@ -132,7 +147,7 @@
                         <a class="text-muted" href="${showPlaceUrl}/需要一组字符串不知道干嘛用的">麻章区广东海洋大学(点击后跳到附近商店列表页面)</a>
                         <a href="${homeUrl}">[切换地址]</a>
                     </li>
-                    <li>近三个月订单(需要动态切换)</li>
+                    <li>个人中心(需要动态切换)</li>
                 </ol>
             </div>
             <div class="container-fluid">
@@ -153,20 +168,46 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
                     <div class="col-md-10">
+                        <%--会自动调节高度--%>
                         <div class="page-header">
-                            <h1><small>近三个月订单(需要动态切换)</small></h1>
+                            <div id="personalInfo">
+                                <div class="profile"></div>
+                                <div class="profile"></div>
+                                <div class="profile"></div>
+                                <div class="profile"></div>
+                            </div>
                         </div>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
                         <div class="container-fluid" id="content">
-
-
-
-
-
+                            <div class="row">
+                                <div id="footprint">
+                                    <h3>足迹</h3>
+                                    <hr/>
+                                    <c:forEach items="${footprintList}" var="footprint">
+                                        <div class="shoplist">
+                                            <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
+                                            <a href="${jiangShowShopUrl}?shopId=${footprint.id}&accountId=${account.id} " target="_self">
+                                                <div class="rstblock-logo">
+                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
+                                                         width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
+                                                    <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
+                                                </div>
+                                                <div class="rstblock-content">
+                                                    <div class="rstblock-title">${footprint.shopName}</div>
+                                                    <div class="rating-star r8"></div>
+                                                    <span class="rstblock-monthsales">月售100+</span>
+                                                    <div class="rstblock-cost">￥${footprint.shippingFee}</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

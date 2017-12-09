@@ -20,31 +20,23 @@
     <link href="${pageContext.request.contextPath}/css/service/city-picker.css" rel="stylesheet" type="text/css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
-
     <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
-
-
-
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
-
     <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 </head>
 <body class="homepage">
 <div class="homepage-container" align="center">
 
     <header>
-
         <div class="header-account" style="margin-top:-48px;">
-
             <div style="widht:1080px;margin-right:50px;align:right;">
                 <div class="row">
                     <c:if test="${empty account}">
@@ -63,13 +55,13 @@
                     </c:if>
                     <c:if test="${!empty account}">
                         <ul id="ulSize">
-                            <c:if test="${account.photo == null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/photo.jpg" alt="头像" /> <span >${account.username}</span></a></li>
+                            <c:if test="${account.photo == null &&account.username == null}">
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/photo.png" alt="头像" /> <span >Hi,美食家</span></a></li>
                             </c:if>
                             <c:if test="${account.photo != null}">
                                 <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
                             </c:if>
-                            <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>
@@ -127,7 +119,7 @@
 
                                         <div id="hideDiv">
                                             <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
-                                            <input id="loginCodeBtn" class="loh" type="text" readonly value="免费获取验证码">
+                                            <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
                                         </div>
 
                                         <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
@@ -184,6 +176,5 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi
 "></script>
 <script src="${pageContext.request.contextPath}/js/service/mapInfo.js"></script>
-
 </body>
 </html>

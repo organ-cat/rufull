@@ -11,7 +11,16 @@
         (#{accessTime}, #{accountId},#{shopId} )
     </insert>
 
-    <delete id="deleteFootprint" parameterType="int">
+    <delete id="deleteFootprint">
+        DELETE
+        FROM
+        FOOTPRINT
+        WHERE
+        account_id = #{accountId}
+        AND
+        shop_id = #{shopId};
+    </delete>
+    <delete id="deleteFootprintById" parameterType="int">
         DELETE
         FROM
         FOOTPRINT

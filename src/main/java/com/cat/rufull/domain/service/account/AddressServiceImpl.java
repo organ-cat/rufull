@@ -39,8 +39,6 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressMapper.findAddressById(id);
         address.setAccountId(null);
         addressMapper.updateAddress(address);
-
-
     }
 
     @Override
@@ -51,48 +49,4 @@ public class AddressServiceImpl implements AddressService {
         address.setId(null);
         addressMapper.addAddress(address);
     }
-
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<Address> queryAddress(Account account) {
-//        return addressMapper.queryAddress(account);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public int queryAddressCount(Account account) {
-//        return addressMapper.queryAddressCount(account);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public void updateAddress(Address address) {
-//        Address oldAdress = queryAddressById(address);
-//        oldAdress.setAccountId(null);
-//        // address.setStatus();
-//        addressMapper.updateAddress(oldAdress);
-//
-//        address.setId(null);
-//        addressMapper.addAddress(address);
-//    }
-//
-//    @Override
-//    public void addAddress(Address address) {
-//        addressMapper.addAddress(address);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Address queryAddressById(Address address) {
-//        return addressMapper.queryAddressById(address);
-//    }
-//
-//    @Override
-//    public void deleteAddress(Address address) {
-//        Address  deletedAddress = queryAddressById(address);
-//        deletedAddress.setAccountId(null);
-//        // address.setStatus();
-//        addressMapper.updateAddress(deletedAddress);
-//    }
 }

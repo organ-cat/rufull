@@ -1,7 +1,11 @@
 package com.cat.rufull.domain.common.util;
 
 public class RegEx {
-
+    /**
+     * 校验是否是手机号码
+     * @param phone 手机号码
+     * @return
+     */
     public static boolean regExPhone(String phone) {
         if (phone == null) {
             return false;
@@ -11,6 +15,11 @@ public class RegEx {
         return phone.matches(regex);
     }
 
+    /**
+     * 校验是否是用户名
+     * @param username  用户名
+     * @return
+     */
     public static boolean regExUsername(String username) {
         if (username == null) {
             return false;
@@ -20,6 +29,11 @@ public class RegEx {
         return username.matches(regex);
     }
 
+    /**
+     * 校验是否是邮箱号码
+     * @param email 邮箱号码
+     * @return
+     */
     public static boolean regExEmail(String email) {
         if (email == null) {
             return false;

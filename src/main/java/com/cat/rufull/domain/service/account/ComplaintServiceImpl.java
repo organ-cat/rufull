@@ -14,7 +14,6 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Autowired
     private ComplaintMapper complaintMapper;
 
-
     @Override
     public void addComplaint(Complaint complaint) {
         complaintMapper.addComplaint(complaint);

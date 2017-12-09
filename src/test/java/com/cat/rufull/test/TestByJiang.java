@@ -3,6 +3,7 @@ package com.cat.rufull.test;
 
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
+import com.cat.rufull.domain.service.shop.ShopService;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,8 @@ public class TestByJiang {
     private FootprintService footprintService;
     @Autowired
     private LoginLogService loginLogService;
-
+    @Autowired
+    private ShopService shopService;
     @Autowired
     private MailSender mailSender;
     @Autowired
@@ -217,8 +219,9 @@ public class TestByJiang {
 
     @Test
     public void deleteFootprint() {
-        int id = 2;
-        footprintService.deleteFootprint(id);
+        int accountId = 1;
+        int shopId = 2;
+        footprintService.deleteFootprint(accountId,shopId);
     }
 
     @Test
@@ -246,8 +249,9 @@ public class TestByJiang {
 
     @Test
     public void fingLoginLogList(){
-        int account_id = 1;
+        int account_id = 8;
         List<LoginLog> logList =  loginLogService.fingLoginLogList(account_id);
+        System.out.println(logList == null);
         boolean flag = false;
         for (LoginLog log : logList) {
             System.out.println(log.toString());
@@ -282,5 +286,43 @@ public class TestByJiang {
         Account account = gson.fromJson(json, Account.class);
         System.out.println(account.toString());
     }
+
+    @Test
+    public void findfootprint(){
+        List<Footprint> footprintList = footprintService.findFootprintList(1);
+        Footprint footprint = footprintList.get(0);
+
+        Footprint footprint1 = footprintList.get(1);
+
+        System.out.println("0"+footprint.toString());
+        System.out.println("1"+footprint1.toString());
+
+//        List<Shop> shopList = null;
+//        if (footprintList == null) {
+//
+//        } else {
+//            for (Footprint footprint : footprintList) {
+//                System.out.println("商店的id——"+footprint.getShopId());
+////                Shop shop = shopService.findById(footprint.getShopId());
+////                shopList.add(shop);
+//            }
+//        }
+////        for (Shop shop : shopList) {
+////            System.out.println(shop.toString());
+////        }
+//
+//        Shop byId = shopService.findById(1);
+//        System.out.println(byId.toString());
+    }
+
+
+    @Test
+    public void test(){
+        int id = 1;
+        int shop = 2;
+        footprintService.deleteFootprint(id, shop);
+    }
+
 }
+
 

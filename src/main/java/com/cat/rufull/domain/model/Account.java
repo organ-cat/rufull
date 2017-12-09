@@ -35,7 +35,8 @@ public class Account implements Serializable {
     public final static int BUSINESS_ROLE = 2;//商家角色编号
     public final static String ACCOUNT_SESSION = "account"; //session中用户的名称
     public final static String BUSINESS_SESSION = "business";//session中商家的名称
-    public static String REMOTE_CODE = "remoteCode";//session中异地登陆验证码的名称
+    public final static String REMOTE_CODE_SESSION = "remoteCode";//session中异地登陆验证码的名称
+    public final static String CHECKCODE_SESSION = "checkcode";//session中异地登陆验证码的名称
 
 
     public Account() {

@@ -28,26 +28,25 @@ public class HelloController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpSession session) {
         logger.info(messageSource.getMessage("name", new Object[]{}, null));
-        //获取cookie
+        //获取用户的cookie
         Cookie[] cookies = request.getCookies();
-        if (null == cookies) {
-            System.out.println("没有cookie=========");
-        } else {
+        if (null != cookies){
             for (Cookie cookie : cookies) {
+                //判断是否存在rufullCookie，即本网站的cookie
                 if (cookie.getName().equalsIgnoreCase(RufullCookie.RUFULLCOOKIE)) {
-                    System.out.println("name:" + cookie.getName() + ",value:" + cookie.getValue());
                     Gson gson = new Gson();
+                    //将cookie的值转化为Account对象
                     Account account = gson.fromJson(cookie.getValue(), Account.class);
+                    //登陆
                     Account login = accountService.login(account);
                     if (login != null) {
-                        System.out.println("1111111111111111111111");
+                        //登陆成功，将对象存入session
                         session.setAttribute(Account.ACCOUNT_SESSION, login);
-                    } else {
-                        System.out.println("0000000000000000000000");
                     }
                 }
             }
         }
+
         return "index";
     }
     @Autowired

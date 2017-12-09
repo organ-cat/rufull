@@ -1,6 +1,7 @@
 package com.cat.rufull.app.controller.account;
 
 import com.cat.rufull.domain.common.util.RegEx;
+import com.cat.rufull.domain.common.util.ReturnCode;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,42 +19,32 @@ import java.util.Random;
 public class CheckController {
     @Autowired
     private AccountService accountService;
-    public final Integer ACCOUNT_ROLE = 1;//用户角色编号
-    public final Integer BUSINESS_ROLE = 2;//商家角色编号
-
-    public void checkUsername(String username, String role) {
-        Account account = accountService.findAccountByUsername("jiang", 1);
-        System.out.println();
-        System.out.println(account.toString());
-        System.out.println();
-    }
-
 
     /**
      * 检验用户注册方式是否被使用
-     * @param response
-     * @param phone
+     * @param response      HttpServletResponse
+     * @param phone         用户注册方式，手机/邮箱
      */
     @RequestMapping(value="/checkAccountRegisterWays")
     public void checkAccountRegisterWays(HttpServletResponse response, @RequestParam("phone") String phone){
-        this.check(phone, ACCOUNT_ROLE, response);
+        this.check(phone, Account.ACCOUNT_ROLE, response);
     }
 
     /**
      * 检验商家注册方式是否被使用
-     * @param response
-     * @param phone
+     * @param response  HttpServletResponse
+     * @param phone     商家注册方式，手机/邮箱
      */
     @RequestMapping(value="/checkBusinessRegisterWays")
     public void checkBusinessRegisterWays(HttpServletResponse response, @RequestParam("phone") String phone){
-        this.check(phone, BUSINESS_ROLE, response);
+        this.check(phone, Account.BUSINESS_ROLE, response);
     }
 
     /**
      * 发送注册码
-     * @param phone
-     * @param session
-     * @param response
+     * @param phone     注册的手机，但是可以是邮箱，发送注册码则会是邮箱注册码
+     * @param session   HttpSession
+     * @param response  HttpServletResponse
      */
     @RequestMapping(value = "/sendRegisterCode")
     public void sendRegisterCode(@RequestParam("phone") String phone,
@@ -64,16 +55,16 @@ public class CheckController {
         boolean isPhone = RegEx.regExPhone(phone);
         boolean isEmail = RegEx.regExEmail(phone);
         if (isPhone) {
-            result = "31";//短信验证码已发送成功,请尽快确认
+            result = ReturnCode.SNED_PHONE_CODE;//短信验证码已发送成功,请尽快确认
             //发送短信
             System.out.println("手机" + phone + "收到验证码是：" + checkCode);
         }
         if (isEmail) {
-            result = "32";//邮箱验证码已发送成功，请尽快确认
+            result = ReturnCode.SNED_EMAIL_CODE;//邮箱验证码已发送成功，请尽快确认
             //发送邮箱
             System.out.println("邮箱" + phone + "收到验证码是：" + checkCode);
         }
-        session.setAttribute("checkCode",checkCode);
+        session.setAttribute(Account.CHECKCODE_SESSION,checkCode);
         returnMessage(response, result);
     }
 
@@ -91,33 +82,36 @@ public class CheckController {
         if (isPhone) {
             Account account = accountService.findAccountByPhone(phone, role);
             if (account == null) {
-                result = "10";//手机通过
+                result = ReturnCode.PHONE_PASSED;//手机通过
             } else {
-                result = "11";//手机通过
+                result = ReturnCode.PHONE_REGISTERED;//手机号码被注册了
             }
         } else {
-            result = "12";//手机格式错误
+            result = ReturnCode.PHONE_FORMAT_ERROR;//手机格式错误
         }
-
         if (isEmail) {
             Account account = accountService.findAccountByEmail(phone, role);
             if (account == null) {
-                result = "20";//手机通过
+                result = ReturnCode.EMAIL_PASSED;//邮箱通过
             } else {
-                result = "21";//手机通过
+                result = ReturnCode.EMAIL_REGISTERED;//手机通过
             }
         } else if (!isEmail && ! isPhone) {
-            result = "22";//手机或邮箱格式错误
+            result = ReturnCode.EMAIL_FORMAT_ERROR;//手机或邮箱格式错误
         }
-
         returnMessage(response, result);
     }
 
+    /**
+     * 发送异地登陆的验证码
+     * @param username  用户的用户名，可以是用户名/手机/邮箱
+     * @param session   HttpSession
+     * @param response  HttpServletResponse
+     */
     @RequestMapping("/sendRometeCheckCode")
     public void sendRometeCheckCode(@RequestParam("username") String username,
                                     HttpSession session,
                                     HttpServletResponse response) {
-        System.out.println("接受到的用户名——" + username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
         boolean isUsername = RegEx.regExEmail(username);
@@ -137,12 +131,12 @@ public class CheckController {
         String result = null;
         if (phone != null) {
             System.out.println("手机" + phone + "异地登陆的验证码是——" + code);
-            result = "1";
+            result = ReturnCode.SNED_REMOTE_CODE_SUCCESS;
         } else {
             System.out.println("邮箱" + email + "异地登陆的验证码是——" + code);
-            result = "1";
+            result = ReturnCode.SNED_REMOTE_CODE_SUCCESS;
         }
-        session.setAttribute(Account.REMOTE_CODE, code);
+        session.setAttribute(Account.REMOTE_CODE_SESSION, code);
         returnMessage(response,result);
     }
 
@@ -150,7 +144,7 @@ public class CheckController {
     /**
      * 返回页面的json信息
      * @param response
-     * @param result
+     * @param result 返回页面的json信息
      */
     public void returnMessage(HttpServletResponse response, String result) {
         response.setContentType("text/html");
@@ -161,6 +155,11 @@ public class CheckController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 获取随机验证码
+     * @return 四位数的验证码
+     */
 
     public String getCode(){
         String str = "0123456789";
