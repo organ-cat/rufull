@@ -89,7 +89,114 @@ public class ManageController {
         return "system/managelogin";
     }
 
+    /**
+     * 获得自己的个人信息
+     * @param model
+     * @param session
+     * @return
+     */
+    @RequestMapping("/getManagerInfo")
+    public String getManagerInfo(Model model,HttpSession session){
+        List<Manager> manager = (List<Manager>) session.getAttribute("manager");
+        model.addAttribute("managerInfo",manager);
+        return "system/manager/managerinfo";
+    }
 
+
+    /**
+     * ajax验证原密码
+      * @param password
+     * @param response
+     * @param session
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/checkPwd")
+    public String checkPwd(String password, HttpServletResponse response,
+                           HttpSession session) throws Exception{
+        String flag="1";
+        try {
+            Manager manager = (Manager) session.getAttribute("manager");
+            if(EncryptByMD5.encrypt(password).equals(manager.getPassword().toString()))
+            {
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print(flag);
+            }
+            else
+            {
+                flag = "0";
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print(flag);
+            }
+        }catch (Exception e){
+                flag = "0";
+        }
+
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(flag);
+        return null;
+    }
+
+    @RequestMapping("repeatPwd")
+    public String repeatPwd(String pwd1,String pwd2,
+                           HttpServletResponse response) throws Exception{
+        String flag = "1";
+        try {
+            if (pwd1.equals(pwd2)) {
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print(flag);
+            } else {
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print(flag);
+            }
+        }
+        catch (Exception e){
+            flag = "0";
+        }
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(flag);
+        return null;
+    }
+
+
+    @RequestMapping("/editPwd")
+    public String editPwd(String pwd1,HttpSession session){
+        session.removeAttribute("editpwdsuccess");
+        session.removeAttribute("editpwderror");
+        Manager manager = (Manager) session.getAttribute("manager");
+        manager.setPassword(pwd1);
+        int i = manageService.updateManager(manager);
+        if(i >=1 )
+        {
+            session.setAttribute("editpwdsuccess","更新成功");
+        }
+        else {
+            session.setAttribute("editpwderror","更新失败");
+        }
+        return "system/manager/managerinfo";
+    }
+
+    /**
+     * 自己修改个人信息
+     * @param manager
+     * @param session
+     * @return
+     */
+
+    @RequestMapping("/editManagerInfo")
+    public String editManagerInfo(Manager manager,HttpSession session){
+        session.removeAttribute("editInfosuccess");
+        session.removeAttribute("editInfoerror");
+        int i = manageService.updateManager(manager);
+        if(i >=1 )
+        {
+            session.setAttribute("editInfosuccess","更新成功");
+        }
+        else {
+            session.setAttribute("editInfoerror","更新失败");
+        }
+        return "system/manager/managerinfo";
+    }
     /**
      * 跳转到管理员添加页面
      * @param session
