@@ -40,4 +40,6 @@ public class ReturnCode {
     public static final String BUSINESS_STATUS_RECITIFY = "203";
 
     public static final String BUSINESS_STATUS_DELETE = "204";
+
+    public static final String BUSINESS_STATUS_SETTLED_NOTPASS = "205";
 }

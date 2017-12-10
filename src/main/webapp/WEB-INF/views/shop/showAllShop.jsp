@@ -348,44 +348,13 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi"></script>
 <script src="${pageContext.request.contextPath}/js/business/showAllShop.js"></script>
 <script>
-
-
         //获取经纬度
-        var uLat = ${requestScope.lng};
-        var uLon = ${requestScope.lon};
+        var uLat = "${requestScope.lng}";
+        var uLon = "${requestScope.lon}";
         //获取到所有的商家，将商家信息放置到页面中
         var shopList = ${requestScope.shopList};
         //项目路径
         var contextPath = "${pageContext.request.contextPath}";
-
-        //添加用户查看到的商家，这段js添加不进js文件。
-        $(function(){
-            for(var i = 0; i < shopList.length; i++){
-                var account2ShopDistance = compto(uLat,uLon,shopList[i].lat,shopList[i].lon);
-                //在测试中先把判断用户到商家的距离去掉  shippingDistanced单位是公里所以要 * 1000;
-//            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
-                $("#shopListDiv").append(
-                    "<a href='"+contextPath+"/shop/showShopDetail?id="+shopList[i].id+"'"+
-                    "target='blank' class='rstblock'>" +
-                    "<div class='rstblock-logo'>" +
-                    "<img " +"src='"+contextPath+"/upload/shop/"+shopList[i].shopPhoto+"'"+
-                    "width='70' height='70' alt='"+shopList[i].shopName+"'class='rstblock-logo-icon'/>"+
-                    "<span class='rstblock-left-timeout'>"+shopList[i].shippingTime+ "分钟</span>"+
-                    "</div>"+
-                    "<div class='rstblock-content'>"+
-                    "<div class='rstblock-title'>"+shopList[i].shopName+"</div>"+
-                    "<div class='rating-star r8'></div>"+
-                    "<span class='rstblock-monthsales'>月售${查询订单出结果}单</span>"+
-                    "<div class='rstblock-cost'>"+
-                    "￥ "+shopList[i].shippingFee+
-                    "</div>"+
-                    "<div class='rstblock-activity'></div>"+
-                    "</div>"+
-                    "</a>");
-            }
-//        }
-        });
-
 
 </script>
 </html>
