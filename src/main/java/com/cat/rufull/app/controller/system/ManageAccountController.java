@@ -82,9 +82,10 @@ public class ManageAccountController {
         Manager mana = (Manager) session.getAttribute("manager");
         Account old = accountService.findAccountById(account.getId());
         old.setUsername(account.getUsername());
-        old.setPassword(EncryptByMD5.encrypt(account.getPassword()));
+       // old.setPassword(EncryptByMD5.encrypt(account.getPassword()));
+        old.setPassword(account.getPassword());
         old.setPhone(account.getPhone());
-
+        old.setEmail(account.getEmail());
         int i = accountService.mUpdateAccount(old);
         if (i >= 1) {
             session.setAttribute("updateAccsuccess", "更新成功了");
@@ -154,17 +155,17 @@ public class ManageAccountController {
     public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
         session.removeAttribute("logerror");
         List<Account> findlist = accountService.findName(findname);
-        model.addAttribute("findAcclist", findlist);
+        model.addAttribute("allalist", findlist);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询用户！");
         log.setManager((Manager) session.getAttribute("manager"));
         log.setType(2);
         int a = logService.addLog(log);
         if (a >= 1) {
-            return "system/account/findlist";
+            return "system/account/accountlist";
         } else
             session.setAttribute("logerror","出错了");
-        return "system/account/findlist";
+        return "system/account/accountlist";
     }
 
 }

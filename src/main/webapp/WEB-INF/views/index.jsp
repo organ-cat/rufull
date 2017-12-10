@@ -121,6 +121,12 @@
                                     <form method="post" accept-charset="UTF-8">
                                         <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
                                         <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+
+                                        <div id="hideDiv">
+                                            <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                            <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
+                                        </div>
+
                                         <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
                                 </div>
@@ -160,7 +166,7 @@
     </div>
 
     <footer class="homepage-footer" style="background-color: #00000000">
-        <a class="footer-nav" href="" target="_blank">我要开店</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" target="_blank">我要开店</a>
         <a class="footer-nav" href="" target="_blank">问题答疑</a>
         <a class="footer-nav" href="" target="_blank">规则中心</a>
     </footer>

@@ -21,13 +21,47 @@ public class ManageLogsController {
     @Resource
     private ManagerLogService managerLogService;
 
-    @RequestMapping("/showlog.do")
-    public String showlog(Model model) {
-        List<ManageLog> list = this.managerLogService.findAllLog();
+    /**
+     * 展示管理日志
+     * @param model
+     * @return
+     */
+    @RequestMapping("/showManagelog")
+    public String showManagelog(Model model) {
+        List<ManageLog> list = this.managerLogService.findManageLog();
         model.addAttribute("list", list);
         return "system/managelog/checklog";
     }
 
+    /**
+     * 展示用户日志
+     * @param model
+     * @return
+     */
+    @RequestMapping("/showAccountlog")
+    public String showAccountlog(Model model) {
+        List<ManageLog> list = this.managerLogService.findAccountLog();
+        model.addAttribute("list", list);
+        return "system/managelog/checklog";
+    }
+
+    /**
+     * 跳转到查询页面
+     * @return
+     */
+    @RequestMapping("goLogs")
+    public String goLogs() {
+        return "system/managelog/checklog";
+    }
+
+    /**
+     * 根据条件查询
+     * @param beginTime
+     * @param endTime
+     * @param keyword
+     * @param model
+     * @return
+     */
     @RequestMapping("/checkLogs")
     public String checkLogs(Date beginTime,Date endTime,String keyword, Model model){
         List<ManageLog> manageLogs = managerLogService.findLogsByCondition(beginTime,endTime,keyword);
