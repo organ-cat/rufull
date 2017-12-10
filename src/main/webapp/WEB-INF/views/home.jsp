@@ -20,16 +20,17 @@
 
     <link rel="apple-touch-icon-precomposed" href="">
 
-    <link href="../css/service/bootstrap.css" rel="stylesheet"/>
-    <link href="../css/service/pagevendor.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/service/pagevendor.css" rel="stylesheet">
 
-    <link href="../css/service/pagemain.css" rel="stylesheet">
-    <link href="../css/service/login-register.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/service/pagemain.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/service/login-register.css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
-    <script src="../js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="../css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-    <script src="../js/service/login-register.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js"
+            type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/service/login-register.js" type="text/javascript"></script>
     <meta name="keywords" content="麻章区广东海洋大学美食，麻章区广东海洋大学商家，麻章区广东海洋大学外卖">
     <script type="text/javascript">
         $("body").css("width", window.innerWidth);
@@ -56,7 +57,6 @@
                 <div class="modal-body">
                     <div class="box">
                         <div class="content">
-
                             <div class="division">
                                 <div class="line l"></div>
                                 <span>其中一个方式</span>
@@ -64,13 +64,11 @@
                             </div>
                             <div class="error"></div>
                             <div class="form loginBox">
-                                <form method="post" action="/login" accept-charset="UTF-8">
-                                    <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                           name="email">
-                                    <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                           name="password">
-                                    <input class="btn btn-default btn-login loi" type="button" value="登陆"
-                                           onclick="loginAjax()">
+                                <%--action="<c:url value="/account/login"/>"--%>
+                                <form method="post" accept-charset="UTF-8">
+                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+                                    <input id="loginButton" class="btn btn-default btn-login loi" type="button" value="登陆">
                                 </form>
                             </div>
                         </div>
@@ -78,15 +76,14 @@
                     <div class="box">
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
-                                <form method="post" action="/login" accept-charset="UTF-8">
-                                    <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                           name="email">
-                                    <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                           name="password">
-                                    <input id="password_confirmation" class="form-control loi" type="password"
-                                           placeholder="确认密码" name="password_confirmation">
-                                    <input class="btn btn-default btn-register loi" type="submit" value="注册"
-                                           name="commit" onclick="loginAjax()">
+
+                                <form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8">
+                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                    <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                    <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                    <input id="checkcode" type="text" class="loi" name="checkCode" placeholder="验证码">
+                                    <input id="getCheckCodeButton" class="btn-default btn loi" type="button" value="免费获取验证码">
+                                    <input id="registerButton" class="loi btn btn-default btn-register" type="submit" value="注册" >
                                 </form>
                             </div>
                         </div>
@@ -107,7 +104,6 @@
         </div>
     </div>
 </div>
-
 <div>
     <div>
         <header class="topbar">
@@ -160,55 +156,59 @@
             </div>--%>
 
 
-
-
-                <nav class="navbar navbar-default">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="#">
-                                <img class="img-responsive center-block" alt="饱了么" src="">
-                            </a>
-                        </div>
-                        <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li class="hidden-sm hidden-md active"><a href="#">首页</a></li>
-                                <li class="hidden-sm hidden-md "><a href="#">我的订单</a></li>
-                                <li><a href="#">加盟合作</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
-                                <c:if test="${empty user}">
-                                    <li class="hidden-sm hidden-md">
-                                        <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
-                                    登录/注册
-                                </a></li>
-                                </c:if>
-                                <c:if test="${!empty user}">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img class="img-responsive center-block" alt="饱了么" src="">
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="hidden-sm hidden-md active"><a href="#">首页</a></li>
+                            <li class="hidden-sm hidden-md "><a href="#">我的订单</a></li>
+                            <li><a href="#">加盟合作</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                            <c:if test="${empty user}">
+                                <li class="hidden-sm hidden-md">
+                                    <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
+                                        登录/注册
+                                    </a></li>
+                            </c:if>
+                            <c:if test="${!empty user}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                        aria-haspopup="true" aria-expanded="false">${sessionScope.user.nickname}
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人中心</a></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> 我的收藏</a></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 我的地址</a></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-user"
+                                                              aria-hidden="true"></span> 个人中心</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-star"
+                                                              aria-hidden="true"></span> 我的收藏</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-map-marker"
+                                                              aria-hidden="true"></span> 我的地址</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                            安全设置</a></li>
                                         <li class="divider" role="separator"></li>
-                                        <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                            退出登录</a></li>
                                     </ul>
                                 </li>
-                                </c:if>
-                            </ul>
-                        </div>
+                            </c:if>
+                        </ul>
                     </div>
-                </nav>
+                </div>
+            </nav>
         </header>
     </div>
 </div>
@@ -220,7 +220,7 @@
                                                                  ubt-click="401" ng-bind="place.name || place.address"
                                                                  href=""> ${requestScope.address}</a></span> <span
                 class="location-change"><a ubt-click="400" hardjump=""
-                                           href="${pageContext.request.contextPath}/user/changeAddress.do">[切换地址]</a><ul
+                                           href="${pageContext.request.contextPath}/changeAddressUI">[切换地址]</a><ul
                 class="dropbox location-dropbox" ubt-visit="398">
 				<li class="arrow"></li>
 				<li class="changelocation"><a href="/home">修改收货地址<span
@@ -327,13 +327,12 @@
             </div>
         </div>
         <div class="place-rstbox clearfix">
-            <div class="clearfix" style="height:auto;">
-                <a href=" "   data-bidding="" target="_blank" class="rstblock">
-                <div class="rstblock-logo">
-                    <img src="//fuss10.elemecdn.com/e/07/2a9f3e50201db18a7702638958e5ajpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
-                        width="70" height="70" alt="麻辣煮题" class="rstblock-logo-icon">
-                    <span class="rstblock-left-timeout">45+ 分钟</span>
-                </div>
+            <div class="clearfix"
+                 style="height:auto;"><a href=" " data-bidding="" target="_blank" class="rstblock">
+                <div class="rstblock-logo"><img
+                        src="//fuss10.elemecdn.com/e/07/2a9f3e50201db18a7702638958e5ajpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
+                        width="70" height="70" alt="麻辣煮题" class="rstblock-logo-icon"><span
+                        class="rstblock-left-timeout">45+ 分钟</span></div>
                 <div class="rstblock-content">
                     <div class="rstblock-title">麻辣煮题</div>
                     <div class="rating-star r8"></div>
@@ -341,9 +340,7 @@
                     <div class="rstblock-cost">免配送费</div>
                     <div class="rstblock-activity"></div>
                 </div>
-                </a>
-
-                <a href="/shop/1423546"   data-bidding="" target="_blank" class="rstblock">
+            </a><a href="/shop/1423546" data-bidding="" target="_blank" class="rstblock">
                 <div class="rstblock-logo"><img
                         src=" //fuss10.elemecdn.com/7/fb/ef04af49d56f2507523164760acc7png.png?imageMogr2/thumbnail/70x70/format/webp/quality/85"
                         width="70" height="70" alt="royaltea 皇茶" class="rstblock-logo-icon">
@@ -355,7 +352,7 @@
                     <div class="rstblock-cost">免配送费</div>
                     <div class="rstblock-activity"></div>
                 </div>
-            </a><a href=""   data-bidding="" target="_blank" class="rstblock">
+            </a><a href="" data-bidding="" target="_blank" class="rstblock">
                 <div class="rstblock-logo"><img
                         src=" //fuss10.elemecdn.com/b/6b/f92672d6cdbb3c483fc5b28b11e6dpng.png?imageMogr2/thumbnail/70x70/format/webp/quality/85"
                         width="70" height="70" alt="台湾贡茶" class="rstblock-logo-icon">
@@ -367,7 +364,7 @@
                     <div class="rstblock-cost">免配送费</div>
                     <div class="rstblock-activity"></div>
                 </div>
-            </a><a href=" "   data-bidding="" target="_blank" class="rstblock">
+            </a><a href=" " data-bidding="" target="_blank" class="rstblock">
                 <div class="rstblock-logo"><img
                         src=" //fuss10.elemecdn.com/3/ee/eec80831f7fcdad79fb6c112523c1jpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
                         width="70" height="70" alt="约吗" class="rstblock-logo-icon">
@@ -380,7 +377,7 @@
                     <div class="rstblock-activity"></div>
                 </div>
             </a>
-                <a href=" "  data-bidding="" target="_blank" class="rstblock">
+                <a href=" " data-bidding="" target="_blank" class="rstblock">
                     <div class="rstblock-logo"><img
                             src="//fuss10.elemecdn.com/b/a6/e517cd1d2ebdd6b77c0d3f8ad888fjpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
                             width="70" height="70" alt="川味凉拌菜" class="rstblock-logo-icon"><span
@@ -393,7 +390,7 @@
                         <div class="rstblock-activity"></div>
                     </div>
                 </a>
-                <a href=" "   data-bidding="" target="_blank"
+                <a href=" " data-bidding="" target="_blank"
                    class="rstblock-closed rstblock">
                     <div class="rstblock-logo"><img
                             src="//fuss10.elemecdn.com/4/88/1e047c43a1650bc2a99ac1e7fc87ejpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"
@@ -407,7 +404,7 @@
                         <div class="rstblock-relaxing">商家休息,暂不接单</div>
                     </div>
                 </a>
-                <a href=" "   data-bidding="" target="_blank"
+                <a href=" " data-bidding="" target="_blank"
                    class="rstblock-closed rstblock">
                     <div class="rstblock-logo"><img
                             src="//fuss10.elemecdn.com/8/ea/177684647c2dbdb4bf42329e8de31jpeg.jpeg?imageMogr2/thumbnail/70x70/format/webp/quality/85"

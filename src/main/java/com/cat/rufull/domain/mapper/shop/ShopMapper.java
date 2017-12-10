@@ -11,6 +11,8 @@ public interface ShopMapper {
 
     List<Shop> findAllNotOnlineShop();               //查询休息商家
 
+    Shop findShopByBusinessId(Integer id);     //通过商家id查询对应的商店
+
     Shop findById(Integer id);                       // 通过Id查询商店
 
     int deleteById(Integer id);                     // 通过Id删除商店

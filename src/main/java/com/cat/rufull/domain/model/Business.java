@@ -11,21 +11,16 @@ public class Business implements Serializable {
               4.已经创建商店                          202
               5.被管理员停业整顿                      203
               6.被管理员删除                          204
-
-            public static Integer BUSINESS_STATUS_NOT_SETTLED = 0;
-            public static Integer BUSINESS_STATUS_SETTLED = 200;
-            public static Integer BUSINESS_STATUS_SETTLED_PASS = 201;
-            public static Integer BUSINESS_STATUS_CREATED_SHOP= 202;
-            public static Integer BUSINESS_STATUS_RECITIFY = 203;
-            public static Integer BUSINESS_STATUS_DELETE= 204;
+              7.审核但是还没有通过                    205
      */
 
-    public static Integer BUSINESS_STATUS_REGISTERED = 0;
-    public static Integer BUSINESS_STATUS_SETTLED = 200;
-    public static Integer BUSINESS_STATUS_SETTLED_PASS = 201;
-    public static Integer BUSINESS_STATUS_CREATED_SHOP= 202;
-    public static Integer BUSINESS_STATUS_RECITIFY = 203;
-    public static Integer BUSINESS_STATUS_DELETE= 204;
+    public static final Integer BUSINESS_STATUS_REGISTERED = 0;
+    public static final Integer BUSINESS_STATUS_SETTLED = 200;
+    public static final Integer BUSINESS_STATUS_SETTLED_PASS = 201;
+    public static final Integer BUSINESS_STATUS_CREATED_SHOP= 202;
+    public static final Integer BUSINESS_STATUS_RECITIFY = 203;
+    public static final Integer BUSINESS_STATUS_DELETE= 204;
+    public static final Integer BUSINESS_STATUS_SETTLED_NOTPASS= 205;
 
     private Integer id;                     // 主键
 

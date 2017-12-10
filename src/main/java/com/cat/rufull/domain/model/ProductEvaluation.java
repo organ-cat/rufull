@@ -4,33 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ProductEvaluation implements Serializable {
-    private Integer id;
+    private Integer id; // 主键
 
-    private String score;
+    private String score; // 评分
 
-    private String comment;
+    private String comment; // 评论
 
-    private Date evalTime;
+    private Integer orderEvalId; // 订单评价id
 
-   private Account account;
-
-   private LineItem item;
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public LineItem getItem() {
-        return item;
-    }
-
-    public void setItem(LineItem item) {
-        this.item = item;
-    }
+    private LineItem item; // 订单项
 
     public Integer getId() {
         return id;
@@ -45,7 +27,7 @@ public class ProductEvaluation implements Serializable {
     }
 
     public void setScore(String score) {
-        this.score = score == null ? null : score.trim();
+        this.score = score;
     }
 
     public String getComment() {
@@ -53,15 +35,33 @@ public class ProductEvaluation implements Serializable {
     }
 
     public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+        this.comment = comment;
     }
 
-    public Date getEvalTime() {
-        return evalTime;
+    public Integer getOrderEvalId() {
+        return orderEvalId;
     }
 
-    public void setEvalTime(Date evalTime) {
-        this.evalTime = evalTime;
+    public void setOrderEvalId(Integer orderEvalId) {
+        this.orderEvalId = orderEvalId;
     }
 
-   }
+    public LineItem getItem() {
+        return item;
+    }
+
+    public void setItem(LineItem item) {
+        this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEvaluation{" +
+                "id=" + id +
+                ", score='" + score + '\'' +
+                ", comment='" + comment + '\'' +
+                ", orderEvalId=" + orderEvalId +
+                ", item=" + item +
+                '}';
+    }
+}

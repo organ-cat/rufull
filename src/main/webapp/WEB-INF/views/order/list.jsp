@@ -51,16 +51,17 @@
     <spring:url value="/info" var="showInfoUrl"/>
     <spring:url value="/security/changepassword" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
-    <spring:url value="/rate" var="addRateUrl"/>
+    <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
     <spring:url value="/complaint?from" var="addComplaintUrl"/>
-    <spring:url value="/payment?from" var="payUrl"/>
+    <spring:url value="/payment" var="showPaymentUrl"/>
     <spring:url value="/order/cancel" var="cancelOrderUrl"/>
     <spring:url value="/upload/business" var="showShopPhotoUrl"/>
     <spring:url value="/order/refund" var="refundOrderUrl"/>
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
+    <spring:url value="/cart" var="showCartUrl"/>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -107,6 +108,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.nickname}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
                             <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
@@ -178,7 +180,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="${showShopUrl}/${order.shop.id}">
-                                                        <img class="img-responsive center-block img-circle" alt="商店头像" src="${shopPhotoUrl}/${order.shop.shopPhoto}">
+                                                        <img class="img-responsive center-block img-circle" alt="商店头像" src="${showShopPhotoUrl}/${order.shop.shopPhoto}">
                                                     </a>
                                                 </td>
                                                 <td>
@@ -245,7 +247,7 @@
                                                     <div class="btn-group-vertical">
                                                         <a class="btn btn-default order-btn" href="${showOrderUrl}/${order.id}" role="button">订单详情</a>
                                                         <c:if test="${'UNPAID'.equals(order.status)}">
-                                                            <a class="btn btn-primary order-btn" href="${payUrl}" role="button">立即付款</a>
+                                                            <a class="btn btn-primary order-btn" href="${showPaymentUrl}/${order.id}" role="button">立即付款</a>
                                                             <form:form id="orderCancelForm" action="${cancelOrderUrl}/${order.id}"/>
                                                             <button id="orderCancelBtn" type="button" class="btn btn btn-danger order-btn">取消订单</button>
                                                         </c:if>
@@ -265,7 +267,7 @@
                                                             <button id="orderCancelRefundBtn" type="button" class="btn btn-primary order-btn">取消退单</button>
                                                         </c:if>
                                                         <c:if test="${'COMPLETED'.equals(order.status)}">
-                                                            <a class="btn btn-info order-btn" href="${addRateUrl}/${order.id}" role="button">评价订单</a>
+                                                            <a class="btn btn-info order-btn" href="${addEvaluationUrl}/${order.id}?form" role="button">评价订单</a>
                                                         </c:if>
                                                     </div>
                                                 </td>

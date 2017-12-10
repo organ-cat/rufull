@@ -51,16 +51,17 @@
     <spring:url value="/info" var="showInfoUrl"/>
     <spring:url value="/security/changepassword" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
-    <spring:url value="/rate?form" var="addRateUrl"/>
+    <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
     <spring:url value="/complaint?from" var="addComplaintUrl"/>
-    <spring:url value="/payment?from" var="payUrl"/>
+    <spring:url value="/payment" var="showPaymentUrl"/>
     <spring:url value="/order/cancel" var="cancelOrderUrl"/>
     <spring:url value="/upload/business" var="showShopPhotoUrl"/>
     <spring:url value="/order/refund" var="refundOrderUrl"/>
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
+    <spring:url value="/cart" var="showCartUrl"/>
 
     <script type="text/javascript">
         $(document).ready(function(e) {
@@ -124,6 +125,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.nickname}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
                             <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
@@ -248,7 +250,7 @@
                                 <div class="col-md-6">
                                     <c:if test="${'UNPAID'.equals(order.status)}">
                                         <form:form id="orderCancelForm" action="${cancelOrderUrl}/${order.id}"/>
-                                        <form:form id="payForm" action="${payUrl}/${order.id}" method="get"/>
+                                        <form:form id="payForm" action="${showPaymentUrl}/${order.id}" method="get"/>
                                     </c:if>
                                     <c:if test="${'PAID'.equals(order.status) or 'ACCEPTED'.equals(order.status) or 'DELIVERY'.equals(order.status)}">
                                         <form:form id="orderUrgeForm" action="${urgeOrderUrl}/${order.id}"/>
@@ -261,7 +263,9 @@
                                         <form:form id="orderCancelRefundForm" action="${cancelRefundOrderUrl}/${order.id}"/>
                                     </c:if>
                                     <c:if test="${'COMPLETED'.equals(order.status)}">
-                                        <form:form id="orderRateForm" action="${addRateUrl}/${order.id}" method="get"/>
+                                        <form:form id="orderRateForm" action="${addEvaluationUrl}/${order.id}" method="get">
+                                            <input type="hidden" name="form">
+                                        </form:form>
                                     </c:if>
                                     <div class="btn-group" role="group">
                                         <c:if test="${'UNPAID'.equals(order.status)}">
@@ -289,7 +293,7 @@
                                     <div class="col-sm-12">
                                         <div class="col-sm-2">
                                             <a href="${showShopUrl}/${order.shop.id}">
-                                                <img class="img-responsive center-block img-circle" alt="商店头像" src="${shopPhotoUrl}/${order.shop.shopPhoto}">
+                                                <img class="img-responsive center-block" alt="商店头像" src="${showShopPhotoUrl}/${order.shop.shopPhoto}">
                                             </a>
                                         </div>
                                         <div class="col-sm-6">

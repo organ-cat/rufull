@@ -1,6 +1,7 @@
 package com.cat.rufull.domain.service.order;
 
 import com.cat.rufull.domain.common.exception.OrderException;
+import com.cat.rufull.domain.common.util.UUIDUtil;
 import com.cat.rufull.domain.mapper.lineItem.LineItemMapper;
 import com.cat.rufull.domain.mapper.order.OrderMapper;
 import com.cat.rufull.domain.model.LineItem;
@@ -115,9 +116,15 @@ public class OrderServiceImpl implements OrderService {
         // 订单收货地址在商店的配送范围之内
         // 订单总额达到商店的起送价
 
+        // 设置创建时间
+        order.setCreatedTime(new Date());
+
         // 为订单生成订单号
+        order.setOrderNumber(createOrderNumber());
+
         // 设置订单状态为未付款
         order.setStatus(Order.STATUS_UNPAID);
+
         // 根据支付方式设置支付状态
         if (Order.PAYMENT_METHOD_ONLINE.equals(order.getPaymentMethod()))
             order.setPaymentStatus(Order.PAYMENT_STATUS_UNPAID);
@@ -150,8 +157,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void paidOrder(Order order) {
+        if (Order.STATUS_UNPAID.equals(order.getStatus())) {
+            order.setStatus(Order.STATUS_PAID);
+            order.setPaymentStatus(Order.PAYMENT_STATUS_PAID);
+            orderMapper.updateOrder(order);
+        } else {
+            throw new OrderException("该订单无法完成支付");
+        }
+    }
+
+    @Override
     public List<Order> findOrdersBetween(Date beginDate, Date endDate) {
-        return null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (beginDate != null) map.put("beginDate", beginDate);
+        if (endDate != null) map.put("endDate", endDate);
+        return orderMapper.findOrdersBetween(map);
+    }
+
+    private static String createOrderNumber() {
+        return UUIDUtil.uuid();
     }
 
     @Autowired

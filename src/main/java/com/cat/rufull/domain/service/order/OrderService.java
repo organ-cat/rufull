@@ -78,6 +78,12 @@ public interface OrderService {
     public void acceptOrder(Order order);
 
     /**
+     * 完成支付
+     * @param order 包括商家信息的订单
+     */
+    public void paidOrder(Order order);
+
+    /**
      * 根据开始时间和结束时间查询所有订单
      * @param beginDate
      * @param endDate
