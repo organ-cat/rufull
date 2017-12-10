@@ -3,6 +3,8 @@ package com.cat.rufull.domain.mapper.account;
 import com.cat.rufull.domain.model.Account;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface AccountMapper {
     /**
      * 根据id查找账号
@@ -87,4 +89,15 @@ public interface AccountMapper {
      * @param account
      */
     void bindEmail(Account account);
+
+    void updateAccountStatus(@Param("id") int id, @Param("status") int status);
+
+    List<Account> findAllAccount();
+
+    int mUpdateAccount(Account account);
+
+    int mdelAccount(Integer id);
+
+    List<Account> findName(@Param("findName") String findName);
+
 }

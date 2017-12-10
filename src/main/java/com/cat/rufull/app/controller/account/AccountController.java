@@ -333,13 +333,17 @@ public class AccountController {
         } else {//登陆成功
             //用户登陆成功
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
-                //存入session中
-                session.setAttribute(sessionName, login);
-                //添加登陆日志
-                addLoginLog(ip, city, login);
-                //添加到cookie中
-                addRufullCookie(response, login);
-                result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                if (login.getStatus() >= 100) {
+                    //存入session中
+                    session.setAttribute(sessionName, login);
+                    //添加登陆日志
+                    addLoginLog(ip, city, login);
+                    //添加到cookie中
+                    addRufullCookie(response, login);
+                    result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                } else {
+                    result = ReturnCode.ACCOUNT_ABNORMAL;
+                }
             }
 /******************************************************************************************/
             //商家已经登陆成功逻辑
