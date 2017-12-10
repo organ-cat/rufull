@@ -77,6 +77,7 @@
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
     <spring:url value="/address/add" var="add_address_url"/>
+    <spring:url value="/address/update" var="update_address_url"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
@@ -190,7 +191,7 @@
                                     <c:forEach items="${addressList}" var="address">
                                         <div class="addressShow">
                                             <span class="addresssChange">
-                                                <a href="javascript: updateAddress()"  class="updateAddress">修改</a>
+                                                <a href="javascript: updateAddress(${address.id})"  class="updateAddress">修改</a>
                                                 <a href="${pageContext.request.contextPath}/address/delete?id=${address.id}&accountId=${account.id}" class="deleteAddress">删除</a>
                                             </span>
                                             <a href="#" target="_self">
@@ -257,16 +258,19 @@
                             <div class="form loginBox">
                                 <form method="post" action="${add_address_url}" accept-charset="UTF-8">
                                     <input type="hidden" name="accountId" value="${account.id}"/>
-                                    姓名<input id="receiver" class="form-control" type="text" placeholder="您的名字" name="receiver">
-                                    手机<input id="phone" class="form-control" type="text" placeholder="您的手机" name="phone">
-                                    位置<input id="location" class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
-                                    详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
-                                    <label for="radioChecked">是否是默认地址</label>
-                                    <input type="radio" id="radioChecked" checked="checked" name="status" value="1" />
-                                    <input type="radio" class="radioChecked" name="status" value="0" />
+                                    姓名<input class="form-control" type="text" placeholder="您的名字" name="receiver">
+                                    手机<input class="form-control" type="text" placeholder="您的手机" name="phone">
+                                    位置<input class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
+                                    详细地址<input class="form-control" type="text" placeholder="单位、门牌号" name="detail">
                                     <br/>
-                                    <input class="saveAndResetBtn" type="submit" value="保存">
-                                    <input class="saveAndResetBtn"  type="reset" value="重置">
+                                    <span class="defaultSpan">是否是默认地址</span>
+                                    <label for="AddYes">是</label>
+                                    <input type="radio" id="AddYes" class="radioChecked" checked="checked" name="status" value="1" />
+                                    <label for="AddNo">否</label>
+                                    <input type="radio" id="AddNo" class="radioChecked" name="status" value="0" />
+                                    <br/><br/>
+                                    <input class="saveBtn" type="submit" value="保存">
+                                    <input class="cancelBtn" onclick="hideView()"  type="button" value="取消">
                                 </form>
                             </div>
                         </div>
@@ -288,18 +292,22 @@
                         <div class="content">
                             <div class="error"></div>
                             <div class="form loginBox">
-                                <form method="post" accept-charset="UTF-8">
-                                    <input type="hidden" name="id" value="${account.id}"/>
-                                    姓名<input id="receiver" class="form-control" type="text" placeholder="您的名字" name="receiver">
+                                <form method="post" action="${update_address_url}" accept-charset="UTF-8">
+                                    <input id="accountId" type="hidden" name="accountId" value="${account.id}"/>
+                                    <input id="id" type="hidden" name="id"/>
+                                    姓名<input id="receiver"  class="form-control" type="text" placeholder="您的名字" name="receiver">
                                     手机<input id="phone" class="form-control" type="text" placeholder="您的手机" name="phone">
                                     位置<input id="location" class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
                                     详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
-                                    <label for="radioChecked">是否是默认地址</label>
-                                    <input type="radio" id="radioChecked" checked="checked" name="status" value="1" />
+                                    <br/>
+                                    <span class="defaultSpan">是否是默认地址</span>
+                                    <label>是</label>
+                                    <input type="radio" id="radioChecked" class="radioChecked" checked="checked" name="status" value="1" />
+                                    <label>否</label>
                                     <input type="radio" class="radioChecked" name="status" value="0" />
                                     <br/>
-                                    <input class="saveAndResetBtn" type="submit" value="保存">
-                                    <input class="saveAndResetBtn"  type="reset" value="重置">
+                                    <input class="saveBtn" type="submit" value="保存">
+                                    <input class="cancelBtn" onclick="hideView()"  type="button" value="取消">
                                 </form>
                             </div>
                         </div>

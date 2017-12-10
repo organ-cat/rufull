@@ -302,10 +302,9 @@ public class TestByJiang {
 
     @Test
     public void test(){
-        List<Complaint> complaintList = complaintService.findAllComplaint();
-        for (Complaint c : complaintList) {
-            System.out.println(c.toString());
-        }
+
+        List<LoginLog> logList = loginLogService.fingLoginLogList(1);
+        System.out.println(logList.size());
     }
 
     @Test

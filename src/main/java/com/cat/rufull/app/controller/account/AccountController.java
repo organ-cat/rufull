@@ -252,8 +252,13 @@ public class AccountController {
                                    String remoteCode, String sessionName,String sessionRemoteCode) {
         //从session中获取异地登陆的验证码
         String recode = (String) session.getAttribute(sessionRemoteCode);
+
+        System.out.println("session中的验证码"+recode);
+
         //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
         if (recode == null) {
+
+            System.out.println("不是异地登陆"+recode);
             //判断是否是异地登陆
             boolean isRemote = checkLoglog(ip, city, username, role);
             if (isRemote) {//true ，不是异地登陆
@@ -267,6 +272,8 @@ public class AccountController {
                 returnMessage(response, ReturnCode.REMOTE_LOGIN);//异地登陆
             }
         } else {//非第一次登陆
+
+            System.out.println("异地登陆----"+recode);
             //判断输入的异地登陆的验证码是否正确
             if (remoteCode.equals(remoteCode)) {//正确
                 this.login(username, password, role, session,
@@ -353,6 +360,8 @@ public class AccountController {
      * @return boolean
      */
     private boolean checkLoglog(String ip, String city, String username,int role) {
+
+        System.out.println(ip + "+" + city + "+" + username + "+" + role);
         boolean isUsername = RegEx.regExUsername(username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
@@ -370,11 +379,13 @@ public class AccountController {
         List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
         //若为0，代表第一次登陆
         if (logList.size() == 0) {
+            System.out.println("1111");
             return true;
         } else {
             //不为空，则是登陆过了，遍历登陆日志
             for (LoginLog log : logList) {
                 if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equals(city)) {
+                    System.out.println("2222");
                     return true;
                 }
             }
