@@ -1,6 +1,9 @@
 package com.cat.rufull.app.controller.account;
 
-import com.cat.rufull.domain.common.util.*;
+import com.cat.rufull.domain.common.util.Email;
+import com.cat.rufull.domain.common.util.RegEx;
+import com.cat.rufull.domain.common.util.ReturnCode;
+import com.cat.rufull.domain.common.util.RufullCookie;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Footprint;
 import com.cat.rufull.domain.model.LoginLog;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -117,13 +121,26 @@ public class AccountController {
         accountService.bindEmail(account);
         return "account/loginSuccess";
     }
+
     /**
      * 退出的功能
+     *
      * @param session
      * @return
      */
     @RequestMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session, HttpServletRequest request,HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equalsIgnoreCase(RufullCookie.RUFULLCOOKIE)) {
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
+            }
+        }
         session.invalidate();
         return "index";
     }

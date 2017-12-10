@@ -76,11 +76,9 @@
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
-
+    <spring:url value="/address/add" var="add_address_url"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
-
-    <script src="${pageContext.request.contextPath}/js/account/ajax.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -111,7 +109,7 @@
 </head>
 <body>
     <!-- 导航条 -->
-    <nav id="nav" class="navbar navbar-default">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -172,7 +170,6 @@
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
                             <li class="list-group-item"><a id="infoinfo" class="text-muted" >个人资料</a></li>
-                            <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
@@ -184,28 +181,30 @@
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
                             <h3>地址管理</h3>
+                            <br/>
+                            <br/>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
                         <div class="container-fluid" id="content">
                             <div class="row">
                                 <div id="footprint">
-                                    <%--<c:forEach items="${footprintList}" var="footprint">--%>
+                                    <c:forEach items="${addressList}" var="address">
                                         <div class="addressShow">
                                             <span class="addresssChange">
-                                                <a href="#" class="deleteAddress">删除</a>
-                                                <a href="#" class="updateAddress">修改</a>
+                                                <a href="javascript: updateAddress()"  class="updateAddress">修改</a>
+                                                <a href="${pageContext.request.contextPath}/address/delete?id=${address.id}&accountId=${account.id}" class="deleteAddress">删除</a>
                                             </span>
                                             <a href="#" target="_self">
                                                 <div class="rstblock-content">
-                                                    <div class="rstblock-title">江先生</div>
-                                                    <div class="rstblock-cost">广东海洋大学海浪A613</div>
-                                                    <span class="rstblock-monthsales">13413600394</span>
+                                                    <div class="rstblock-title">${address.receiver}</div>
+                                                    <div class="rstblock-cost">${address.detail}</div>
+                                                    <span class="rstblock-monthsales">${address.phone}</span>
                                                 </div>
                                             </a>
                                         </div>
-                                    <%--</c:forEach>--%>
+                                    </c:forEach>
 
                                     <div class="addAddress" onclick="addAddress()">
-                                            <span class="glyphicon glyphicon-plus" >添加新地址地址</span>
+                                            <span id="deleteLabel" class="glyphicon glyphicon-plus" >添加新地址地址</span>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +214,7 @@
             </div>
         </div>
     </div>
-    <footer id="footer" class="container-fluid">
+    <footer class="container-fluid">
         <div class="row">
             <div class="col-md-4">
                 <h3 class="text-center"><strong>用户帮助</strong></h3>
@@ -244,13 +243,70 @@
         </div>
     </footer>
 
-
-
-    <div id="addAddressId">
-        addAddressId
+    <div class="modal fade" id="addAddressId">
+        <div class="modal-dialog login animated">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">添加地址</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="content">
+                            <div class="error"></div>
+                            <div class="form loginBox">
+                                <form method="post" action="${add_address_url}" accept-charset="UTF-8">
+                                    <input type="hidden" name="accountId" value="${account.id}"/>
+                                    姓名<input id="receiver" class="form-control" type="text" placeholder="您的名字" name="receiver">
+                                    手机<input id="phone" class="form-control" type="text" placeholder="您的手机" name="phone">
+                                    位置<input id="location" class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
+                                    详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
+                                    <label for="radioChecked">是否是默认地址</label>
+                                    <input type="radio" id="radioChecked" checked="checked" name="status" value="1" />
+                                    <input type="radio" class="radioChecked" name="status" value="0" />
+                                    <br/>
+                                    <input class="saveAndResetBtn" type="submit" value="保存">
+                                    <input class="saveAndResetBtn"  type="reset" value="重置">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="updateAddressId">
-        updateAddressId
+
+    <div class="modal fade" id="updateAddressId">
+        <div class="modal-dialog login animated">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改地址</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="content">
+                            <div class="error"></div>
+                            <div class="form loginBox">
+                                <form method="post" accept-charset="UTF-8">
+                                    <input type="hidden" name="id" value="${account.id}"/>
+                                    姓名<input id="receiver" class="form-control" type="text" placeholder="您的名字" name="receiver">
+                                    手机<input id="phone" class="form-control" type="text" placeholder="您的手机" name="phone">
+                                    位置<input id="location" class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
+                                    详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
+                                    <label for="radioChecked">是否是默认地址</label>
+                                    <input type="radio" id="radioChecked" checked="checked" name="status" value="1" />
+                                    <input type="radio" class="radioChecked" name="status" value="0" />
+                                    <br/>
+                                    <input class="saveAndResetBtn" type="submit" value="保存">
+                                    <input class="saveAndResetBtn"  type="reset" value="重置">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -18,6 +18,8 @@ public class Address implements Serializable {
 
     private Integer accountId;  // 地址对应的账号
 
+    public static final String ADDRESS_REQUEST = "addressList"; //地址request域的key
+
     public Address() {
     }
 
