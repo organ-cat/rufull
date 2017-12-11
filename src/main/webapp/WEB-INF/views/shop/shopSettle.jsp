@@ -12,10 +12,7 @@
 
 <head>
     <title>商店创建页面</title>
-
-
-
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/fileinput.css">
 
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap-datetimepicker.css">
@@ -45,15 +42,14 @@
                 <label class="col-sm-4 control-label text-info">商店类型:</label>
                 <div class="col-sm-4 ">
                     <select class="selectpicker" id="shopTypeSelect">
-                        <option>美食、异国料理、特色菜</option>
-                        <option>甜品、饮品、小吃</option>
-                        <option>午餐、晚餐</option>
-                        <option>早餐、下午茶、夜宵</option>
-                        <option>快餐、便当</option>
-                        <option>果蔬生鲜</option>
-                        <option>超市商店</option>
-                        <option>鲜花绿植</option>
-                        <option>医药健康</option>
+                        <option value="0">美食、异国料理、特色菜</option>
+                        <option value="1">甜品、饮品、小吃</option>
+                        <option value="2">午餐、晚餐、早餐、下午茶、夜宵</option>
+                        <option value="3">快餐、便当</option>
+                        <option value="4">果蔬生鲜</option>
+                        <option value="5">超市商店</option>
+                        <option value="6">鲜花绿植</option>
+                        <option value="7">医药健康</option>
                     </select>
                 </div>
 

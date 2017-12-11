@@ -4,6 +4,7 @@ html {
     text-rendering: optimizelegibility;
     box-sizing: border-box
 }
+
 *, :after, :before {
     box-sizing: inherit
 }
@@ -89,7 +90,11 @@ sub {
     bottom: -.25em
 }
 a {
-    color: #0089dc
+    color: #0089dc;
+
+}
+a:hover{
+    text-decoration: none
 }
 a.inherit {
     color: inherit
@@ -777,3 +782,4 @@ a.badge:focus, a.badge:hover {
 .rating-star.r10 {
     background-position: -1px -179px
 }
+

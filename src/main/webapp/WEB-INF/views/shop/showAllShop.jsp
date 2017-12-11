@@ -17,9 +17,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="麻章区广东海洋大学美食，麻章区广东海洋大学商家，麻章区广东海洋大学外卖">
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link href="${pageContext.request.contextPath}/css/service/pagevendor.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/service/pagemain.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/business/showAllShop.css" rel="stylesheet">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
 </head>
@@ -203,95 +204,62 @@
 
     <div class="container">
         <div class="excavator" style="width:100%">
-            <div class="excavator-filter"><span class="excavator-filter-name">商店分类:</span>
+            <div id="shopType" class="excavator-filter"><span class="excavator-filter-name">商店分类:</span>
                 <a class="excavator-filter-item  focus"
-                   href="javascript:" ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)"
-                   ubt-click="380">全部商家</a>
-
-                <a class="excavator-filter-item  active" href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name" ng-click="changeCategory(category)" ubt-click="380">美食</a>
+                   href="javascript:"
+                   onclick="getDifferentTypeShop(8,this)">全部商家</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">快餐</a>
-
-                <a class="excavator-filter-item "
-                   href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">特色菜系</a>
+                   onclick="getDifferentTypeShop(0,this)">美食</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">异国料理</a>
+                   onclick="getDifferentTypeShop(3,this)">快餐</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">夜宵</a>
+                   onclick="getDifferentTypeShop(0,this)">特色菜系</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">甜饮</a>
+                   onclick="getDifferentTypeShop(0,this)">异国料理</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">蔬果</a>
+                   onclick="getDifferentTypeShop(2,this)">夜宵</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">商店超市</a>
+                   onclick="getDifferentTypeShop(1,this)">甜饮</a>
 
                 <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">鲜花</a>
+                   onclick="getDifferentTypeShop(4,this)">蔬果</a>
 
-                <a class="excavator-filter-item ng-binding"
+                <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">早餐</a>
+                   onclick="getDifferentTypeShop(5,this)">商店超市</a>
 
-                <a class="excavator-filter-item "
+                <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">午餐</a>
+                   onclick="getDifferentTypeShop(6,this)">鲜花</a>
 
-                <a class="excavator-filter-item "
+                <a class="excavator-filter-item"
+                 href="javascript:"
+                   onclick="getDifferentTypeShop(2,this)">早餐</a>
+
+                <a class="excavator-filter-item"
                    href="javascript:"
-                   ng-repeat="category in rstCategories"
-                   ng-class="{'focus': clickedCategory === category.id &amp;&amp; (!clickedCategory || clickedCategory < 0) , 'active': activeCategory === category.id, 'premium': category.id === -10001 &amp;&amp; !pumStream}"
-                   ng-bind="category.name"
-                   ng-click="changeCategory(category)" ubt-click="380">晚餐</a>
+                   onclick="getDifferentTypeShop(2,this)">午餐</a>
+
+                <a class="excavator-filter-item"
+                   href="javascript:"
+                   onclick="getDifferentTypeShop(2,this)">晚餐</a>
+
+                <a class="excavator-filter-item"
+                   href="javascript:"
+                   onclick="getDifferentTypeShop(7,this)">医药健康</a>
             </div>
         </div>
         <div class="place-rstbox clearfix">

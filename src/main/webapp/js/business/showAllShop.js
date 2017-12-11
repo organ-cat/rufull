@@ -23,6 +23,7 @@ var search = new BMap.LocalSearch("中国", {
     }//这一段可以不要，只不过是为学习更深层次应用而加入的。
 });
 
+
 //计算用户到商家距离
 function compto(userLat,userLon,shopLat,shopLon){
     //lng经,lat纬
@@ -44,7 +45,7 @@ function compto(userLat,userLon,shopLat,shopLon){
 
 
 //维护一个变量记录商家的id，用于查询是缩小商家搜索的范围
-var shopIdArray = [];
+var shopArray = [];
 //添加用户查看到的商家，这段js添加不进js文件。
 $(function(){
     for(var i = 0; i < shopList.length; i++){
@@ -72,12 +73,75 @@ $(function(){
                     "<div class='rstblock-activity'></div>"+
             "</div>"+
             "</a>");
-        shopIdArray.push(shopList[i].id);
+        shopArray.push(shopList[i]);
     }
 //        }
 });
 
+// 查询不同类型的美食：通过前端输入的不同商家类型来查找对应不同的商家
+//在第一次已经赛选出来的情况下已经得到一个shop类型的数组：shopArray
 
+function getDifferentTypeShop(type,tab) {
+    // 添加点击后底色
+    $("#shopType a").removeClass("focus");
+    $(tab).addClass("focus");
+
+    /*    商家类型：
+
+        美食、异国料理、特色菜 ：0
+        甜品、饮品、小吃：1
+        午餐、晚餐：早餐、下午茶、夜宵：2
+        快餐、便当：3
+        果蔬生鲜：4
+        超市商店：5
+        鲜花绿植：6
+        医药健康：7
+        全部    : 8
+    */
+    if(type == 8){
+        addShopList(shopArray);
+    }else {
+        var sameShopTypeList = [];
+        for(var i = 0; i < shopArray.length; i++){
+            if (type == shopArray[i].shopType){
+                sameShopTypeList.push(shopArray[i]);
+            }
+        }
+        addShopList(sameShopTypeList);
+    }
+
+
+}
+
+//添加对应的元素
+function addShopList(typeShopList) {
+    //先删除所有元素
+    $("#shopListDiv").empty();
+    //再添加所需要的元素
+    for(var i = 0; i < typeShopList.length; i++){
+        $("#shopListDiv").append(
+            "<a href='"+contextPath+"/shop/showShopDetail?id="+typeShopList[i].id+"'"+
+            "target='blank' class='rstblock'>" +
+            "<div class='rstblock-logo'>" +
+            "<img " +"src='"+contextPath+"/upload/shop/"+typeShopList[i].shopPhoto+"'"+
+            "width='70' height='70' alt='"+typeShopList[i].shopName+"'class='rstblock-logo-icon'/>"+
+            "<span class='rstblock-left-timeout'>"+typeShopList[i].shippingTime+ "分钟</span>"+
+            "</div>"+
+
+            "<div class='rstblock-content'>"+
+            "<div class='rstblock-title'>"+typeShopList[i].shopName+"</div>"+
+            "<div class='rating-star r8'></div>"+
+            "<span class='rstblock-monthsales'>月售3单</span>"+
+
+            "<div class='rstblock-cost'>"+
+            "配送费用: "+typeShopList[i].shippingFee+
+            "</div>"+
+            "<div class='rstblock-activity'></div>"+
+            "</div>"+
+            "</a>");
+
+    }
+}
 
 
 

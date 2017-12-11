@@ -18,13 +18,13 @@
 
 <body class="bodybox">
         <div class="indexfont">
-            <b>加入rufull 开店赚大钱</b>
+            <b>Join Us Make Money Easily</b>
         </div>
 
         <div class="statistics">
             <div class="statistic">
                 <div class="data">
-                    <span class="number ng-binding">12</span>
+                    <span class="number ng-binding">24</span>
                     <span class="unit">小时</span>
                 </div>
                 <div class="description">极速开店</div>

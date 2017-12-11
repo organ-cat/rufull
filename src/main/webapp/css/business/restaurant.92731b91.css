@@ -706,7 +706,7 @@ body.ui_no_scroll {
 /*用到*/
 .rst-flavor {
 	float: left;
-	max-width: 125px;
+	max-width:200px;
 	color: #999;
 	font-size: 14px
 }
@@ -783,6 +783,7 @@ body.ui_no_scroll {
 	content: "";
 	position: absolute;
 	left: 0;
+
 }
 
 .rst-subheader-nav-right{

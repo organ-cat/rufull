@@ -20,22 +20,24 @@
 footer {
 	background-color: #eee;
 }
-
-/*商家登录页面css*/
+.mynav{
+	margin-bottom: 0px;
+}
+	/*商家登录页面css*/
 .bodybox{
 	width: 1349px;
 	margin: 0 auto;
-	background:url(../../image/business/joinBusiness.jpg) no-repeat center;
+	background:url(../../image/business/joinBusiness3.jpg) no-repeat center;
 }
 
 .indexfont{
 	font-size: 60px;
 	font-weight: 300;
 	text-align: center;
-	color: #fff;
+	color: #7047a3;
 }
 .statistics{
-	margin-top: 250px;
+	margin-top: 100px;
 	overflow: hidden;
 	position: relative;
 	right: 20px;
@@ -48,7 +50,7 @@ footer {
 	text-align: center;
 }
 .data{
-	color: #fff000;
+	color: #0a246a;
 	position: relative;
 }
 .number {
@@ -60,11 +62,14 @@ footer {
 	font-size: 26px;
 }
 .description {
-	font-size: 20px;
+	font-size: 25px;
 	font-weight: 300;
 	margin-top: -27px;
+	color:#a81a1a;
+
 }
 .btn-join-wrapper {
+	padding-top: 50px;
 	text-align: center;
 	margin: 60px auto 55px;
 	overflow: hidden;
@@ -78,7 +83,7 @@ footer {
 	width: 280px;
 	height: 66.5px;
 	border-radius: 6px;
-	background-color: #0091ea;
+	background-color: #285e8e;
 	border: 0;
 	font-size: 32px;
 	line-height: 1.5;
