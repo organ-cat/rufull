@@ -1,4 +1,4 @@
-package com.cat.rufull.test;
+package com.cat.rufull.test.business;
 
 import com.cat.rufull.domain.mapper.favor.FavorMapper;
 import com.cat.rufull.domain.model.Favor;
@@ -37,6 +37,17 @@ public class FavorMapperTest {
 
     @Test
     public void deleteFavorByAccountIdAndShopId(){
-        favorMapper.deleteShopByAccountIdAndShopId(3,2);
+        favorMapper.deleteShopByAccountIdAndShopId(1,1);
+    }
+
+    @Test
+    public void findFavorByShopIdAndAccountId(){
+        Favor favor = favorMapper.findFavorByAccountIdAndShopId(1, 2);
+        System.out.println("favor:"+favor);
+    }
+
+    @Test
+    public void deleteFavorById(){
+        favorMapper.deleteByFavorId(2);
     }
 }

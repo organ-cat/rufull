@@ -21,10 +21,22 @@
     where account_id = #{id}
   </select>
 
+  <!--查询对应的收藏通过商店id和用户id-->
+  <select id="findFavorByAccountIdAndShopId" resultMap="FavorResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Favor_Column_List" />
+    from favor
+    where account_id = #{0} And shop_id = #{1}
+  </select>
   <!--// 通过用户Id删除喜爱的商店-->
   <delete id="deleteShopByAccountIdAndShopId" parameterType="java.lang.Integer">
     delete from favor
     where account_id = #{0} and shop_id = #{1}
+  </delete>
+
+  <delete id="deleteByFavorId" parameterType="java.lang.Integer">
+    delete from favor
+    where id = #{id}
   </delete>
 
   <!--// 添加用户喜爱的商店-->

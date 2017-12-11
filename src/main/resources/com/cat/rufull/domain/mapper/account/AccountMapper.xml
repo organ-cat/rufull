@@ -34,9 +34,9 @@
         insert
         into
         ACCOUNT
-        (phone,password,email,register_time)
+        (phone,password,email,role,register_time)
         values
-        (#{phone},#{password},#{email},#{registerTime})
+        (#{phone},#{password},#{email},#{role},#{registerTime})
     </insert>
 
     <select id="login" resultType="Account" parameterType="Account">
