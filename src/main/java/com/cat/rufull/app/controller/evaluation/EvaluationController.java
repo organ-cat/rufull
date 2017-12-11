@@ -15,10 +15,21 @@ public class EvaluationController {
     @Resource
     private EvaluationService evaluationService;
 
+    @RequestMapping("openEvaluation")
+    public String openEvaluation(){
+        return "evaluation/evaluation";
+    }
+
     @RequestMapping("/findOrderEvaluation")
     public String findOrderEvaluation(Integer id, Model model) throws Exception {
         List<OrderEvaluation> orderEvaluation = evaluationService.findOrderEvaluation(id);
         model.addAttribute("orderEvaluation", orderEvaluation);
         return "evaluation/evaluation";
+    }
+
+    @RequestMapping("addOrderEvaluation")
+    public String addOrderEvaluation(OrderEvaluation orderEvaluation) throws Exception{
+        evaluationService.addOrderEvaluation(orderEvaluation);
+        return "";
     }
 }

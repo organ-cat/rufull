@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EvaluationService {
     public List<OrderEvaluation> findOrderEvaluation(Integer id) throws Exception;
+
+    public void addOrderEvaluation(OrderEvaluation orderEvaluation) throws Exception;
 }
