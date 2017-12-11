@@ -47,8 +47,8 @@ public class ManageAccountController {
      * @param session
      * @return
      */
-    @RequestMapping("/getAccount/{id}")
-    public String getAccount(@PathVariable Integer id, Model model, HttpSession session) {
+    @RequestMapping("/getAccount")
+    public String getAccount(Integer id, Model model, HttpSession session) {
         session.removeAttribute("updateAccerror");
         Account account = accountService.findAccountById(id);
         model.addAttribute("maccount", account);
@@ -117,8 +117,8 @@ public class ManageAccountController {
      * @param session
      * @return
      */
-    @RequestMapping("/delaccount/{id}")
-    public String delManager(@PathVariable Integer id, HttpSession session){
+    @RequestMapping("/delaccount")
+    public String delManager(Integer id, HttpSession session){
         session.removeAttribute("delAccerror");
         session.removeAttribute("delAccsuccess");
         session.removeAttribute("logerror");

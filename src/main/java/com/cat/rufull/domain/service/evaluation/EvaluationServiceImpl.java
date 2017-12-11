@@ -22,7 +22,8 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public List<OrderEvaluation> findByName(String name) {
+    public List<OrderEvaluation> findByShopName(String shopname) {
         return null;
     }
+
 }

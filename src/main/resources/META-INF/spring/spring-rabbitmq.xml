@@ -17,7 +17,7 @@
 
     <rabbit:queue name="delay_queue" auto-declare="true">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="#{60*1000}" value-type="java.lang.Long" />
+            <entry key="x-message-ttl" value="#{10*1000}" value-type="java.lang.Long" />
             <entry key="x-dead-letter-exchange" value="exchange_delay" />
             <entry key="x-dead-letter-routing-key" value="task_queue" />
         </rabbit:queue-arguments>

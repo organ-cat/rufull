@@ -173,10 +173,13 @@ public class ManageController {
      */
 
     @RequestMapping("/editManagerInfo")
-    public String editManagerInfo(Manager manager,HttpSession session){
+    public String editManagerInfo(@RequestParam(value = "file")MultipartFile file,
+                                  Manager manager,HttpSession session,
+                                  HttpServletRequest request){
         session.removeAttribute("editInfosuccess");
         session.removeAttribute("editInfoerror");
-        int i = manageService.updateManager(manager);
+        Manager newManager = ManagerUtils.uploadManager(file,manager,request);
+        int i = manageService.updateManager(newManager);
         if(i >=1 )
         {
             session.setAttribute("editInfosuccess","更新成功");
@@ -279,7 +282,7 @@ public class ManageController {
             old.setEmail(manager.getEmail());
             old.setPhone(manager.getPhone());
             old.setUsername(manager.getUsername());
-            old.setPassword(EncryptByMD5.encrypt(manager.getPassword()));
+            old.setPassword(manager.getPassword());
 
             int i = manageService.updateManager(old);
             if (i >= 1) {

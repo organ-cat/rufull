@@ -1,10 +1,7 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Business;
-import com.cat.rufull.domain.model.ManageLog;
-import com.cat.rufull.domain.model.Manager;
+import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
@@ -33,6 +30,8 @@ public class ManageShopController {
     private ManagerLogService logService;
     @Resource
     private AccountService accountService;
+    @Resource
+    private ShopService shopService;
 
     private ManageLog log;
     private Date date = new Date();
@@ -76,10 +75,12 @@ public class ManageShopController {
                               Model model) throws Exception{
         session.removeAttribute("examerror");
         session.removeAttribute("examsuccess");
-        session.removeAttribute("examerror");
+        session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        int i = businessService.updateById(business);
+        //int i = businessService.updateById(business);
+        //int i = accountService.updateBytAccount(business.getAccount());
+        int i =1;
         if (i >= 1) {
             session.setAttribute("examsuccess","审核成功!");
             System.out.println(business.getAccount().getPhone()+":你好，您申请的商家已通过审核");
@@ -117,7 +118,7 @@ public class ManageShopController {
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
        // business.getAccount().setStatus(Business.BId(business.geUSINESS_STATUS_SETTLED_NOTPASS);
-        //    int i = accountService.updateBytAccount());
+        //    int i = accountService.updateBytAccount(business.getAccount());
         int i = 1;
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone()+":你好，您申请的商家未通过审核");
@@ -141,15 +142,15 @@ public class ManageShopController {
     }
 
     /**
-     * 列出所有的商家
+     * 列出所有的商店
      * @param model
      * @return
      */
     @RequestMapping("/findBusiness")
     public String findBusiness(Model model){
-        List<Business> bussBusinessList = businessService.findAll();
-        model.addAttribute("mbusinesslist",bussBusinessList);
-        return "system/shop/allbusiness";
+        List<Shop> bussBusinessList = shopService.findAll();
+        model.addAttribute("mshoplist",bussBusinessList);
+        return "system/shop/allshop";
     }
 
     /**
@@ -161,10 +162,10 @@ public class ManageShopController {
     @RequestMapping("/findByCondition")
     public String findByCondition(@RequestParam("condition") String condition, Model model) {
 
-       //List<Business> conditionBusiness= businessService.findByCondition(condition);
+       //List<Shop> shop = shopService.fuzzyFindByShopName(condition);
 
-        //        model.addAttribute("mbusinesslist",conditionBusiness);
-        return "system/shop/allbusiness";
+        //        model.addAttribute("mshoplist",shop);
+        return "system/shop/allshop";
     }
 
     /**

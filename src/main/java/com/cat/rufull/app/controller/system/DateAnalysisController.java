@@ -167,8 +167,8 @@ public class DateAnalysisController {
         double eva = 0.0;
         List<Shop> shopList = shopService.findAll();
         for (Shop shop : shopList) {
-            String name = shop.getShopName();
-            List<OrderEvaluation> evaluationList = evaluationService.findByName(name);
+            String shopname = shop.getShopName();
+            List<OrderEvaluation> evaluationList = evaluationService.findByShopName(shopname);
             if (evaluationList != null){
                 for (OrderEvaluation evaluation : evaluationList) {
                     double avg = 0.0;

@@ -14,6 +14,10 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
     <script src="${pageContext.request.contextPath}/js/system/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        var loginerror = "${sessionScope.loginerror}";
+    </script>
 </head>
 <body>
 
