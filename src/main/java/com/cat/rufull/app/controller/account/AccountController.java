@@ -59,7 +59,7 @@ public class AccountController {
 
     //跳转到个人中心，显示个人信息和浏览过的商家足迹
     @RequestMapping(value = "/center", method = RequestMethod.GET)
-    public ModelAndView center(@RequestParam("id") int id, HttpSession session) {
+    public ModelAndView center(@RequestParam("id") int id) {
         //获取用户足迹集合
         List<Footprint> footprintList = footprintService.findFootprintList(id);
         //用户浏览过的商店集合
