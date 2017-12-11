@@ -16,14 +16,6 @@
     <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-<c:if test="${!empty loginerror}">
-    <script type='text/javascript'>
-        $(function () {
-            var txt=  "管理员登录信息不正确！";
-            window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);
-        })
-    </script>
-</c:if>
 
 <div class="signin">
     <div class="signin-head "><img src="${pageContext.request.contextPath}/image/system/atm.png" class="imgsize"></div>

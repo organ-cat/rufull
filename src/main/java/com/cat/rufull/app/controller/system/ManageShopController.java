@@ -1,9 +1,11 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
@@ -29,6 +31,8 @@ public class ManageShopController {
     private BusinessService businessService;
     @Resource
     private ManagerLogService logService;
+    @Resource
+    private AccountService accountService;
 
     private ManageLog log;
     private Date date = new Date();
@@ -40,7 +44,7 @@ public class ManageShopController {
      */
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model) {
-        //List<Business> businessesList = businessService.getNotSettledShop();
+        //List<Business> businessesList = businessService.findNotSettledShop();
         //model.addAttribute("notSettleShop", businessesList);
         return "system/shop/notSettleShop";
     }
@@ -51,11 +55,10 @@ public class ManageShopController {
      * @param model
      * @return
      */
-    @RequestMapping("/getBusiness/{id}")
+    @RequestMapping("/getBusiness")
     public String getShop(@PathVariable Integer id, Model model) {
         Business business = businessService.findById(id);
         model.addAttribute("mbusiness", business);
-        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         return "system/shop/examineShop";
     }
 
@@ -74,7 +77,6 @@ public class ManageShopController {
         session.removeAttribute("examerror");
         session.removeAttribute("examsuccess");
         session.removeAttribute("examerror");
-
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         int i = businessService.updateById(business);
@@ -114,8 +116,9 @@ public class ManageShopController {
         session.removeAttribute("npexamsuccess");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
-       // business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_NOTPASS);
-        int i = businessService.updateById(business);
+       // business.getAccount().setStatus(Business.BId(business.geUSINESS_STATUS_SETTLED_NOTPASS);
+        //    int i = accountService.updateBytAccount());
+        int i = 1;
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone()+":你好，您申请的商家未通过审核");
             session.setAttribute("npexamsuccess","审核结果为不通过!");
@@ -165,14 +168,14 @@ public class ManageShopController {
     }
 
     /**
-     * 根据id查询商家
+     * 根据id删除商家
      * @param id
      * @param model
      * @param session
      * @return
      */
-    @RequestMapping("/delBusiness/{id}")
-    public String delBusiness(@PathVariable Integer id,Model model,
+    @RequestMapping("/delBusiness")
+    public String delBusiness(Integer id,Model model,
                               HttpSession session) {
         session.removeAttribute("delBsuccess");
         session.removeAttribute("delBerror");
@@ -180,7 +183,9 @@ public class ManageShopController {
         Manager mana = (Manager) session.getAttribute("manager");
         Business business = businessService.findById(id);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
-        int i = businessService.updateById(business);
+//      int i = accountService.updateById(business.getAccount());
+//        int i = businessService.updateById(business);
+        int i = 1;
         if (i >= 1) {
             session.setAttribute("delBsuccess","删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));

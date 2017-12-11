@@ -193,7 +193,7 @@ public class ManageController {
      */
     @RequestMapping("/addManager")
     public String saveManager(HttpSession session) {
-        session.removeAttribute("adderror");
+        session.removeAttribute("addMerror");
         return "system/manager/addmanager";
     }
 
