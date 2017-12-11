@@ -68,7 +68,7 @@
         </interceptor>
     </interceptors>
 
-    <!--购物车Map-->
+    <!-- 购物车Map -->
     <beans:bean id="carts" class="com.cat.rufull.domain.model.Carts" scope="session">
         <aop:scoped-proxy/>
     </beans:bean>
