@@ -56,12 +56,11 @@
         ACCOUNT.role = #{role}
     </select>
 
-    <update id="updateAccountPhoto" parameterType="Account">
+    <update id="updateAccountPhoto">
         UPDATE
         ACCOUNT
         SET
-        ACCOUNT.photo = #{photo},
-        ACCOUNT.nickname = #{nickname}
+        ACCOUNT.photo = #{photo}
         WHERE
         account.id = #{id}
     </update>

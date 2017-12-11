@@ -10,7 +10,7 @@ public interface AccountService {
 
     public void register(Account account);
 
-    public void updateAccountPhoto(Account account);
+    public void updateAccountPhoto(Integer id ,String photo);
 
     public void deleteAccount(Integer id);
 

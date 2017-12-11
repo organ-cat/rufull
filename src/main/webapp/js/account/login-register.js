@@ -21,6 +21,7 @@ var SNED_REMOTE_CODE_SUCCESS = "104";//异地登陆验证码发送成功
              4.已经创建商店                          202
              5.被管理员停业整顿                      203
              6.被管理员删除                          204
+             7.商家入驻通过                          205
 
 
     */
@@ -236,7 +237,7 @@ $(function(){
                     $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == PASSWORD_ERROR) {
                     shakeModal("账号或密码不正确");
-                    $("#hideDiv").attr("style","display:block;");
+                    // $("#hideDiv").attr("style","display:block;");
                 }else if(result == REMOTE_LOGIN){
                     shakeModal("您是异地登陆，请进行身份验证");
                     $("#hideDiv").attr("style","display:block;");

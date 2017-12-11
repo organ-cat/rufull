@@ -23,19 +23,9 @@
     <!-- app css -->
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
-
     <!-- center css -->
     <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
     <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
-
-    <!-- address css -->
-    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
-
-
-    <!-- address js -->
-    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
-    <script src="${address_js_url}" type="text/javascript"></script>
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -77,10 +67,11 @@
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
-    <spring:url value="/address/add" var="add_address_url"/>
-    <spring:url value="/address/update" var="update_address_url"/>
+
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
+
+    <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -171,7 +162,8 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo" class="text-muted"  href="${infomationUrl}">个人资料</a></li>
+                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}" >个人资料</a></li>
+                            <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
@@ -182,35 +174,60 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                            <h3>地址管理</h3>
-                            <br/>
-                            <br/>
-<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
-                        <div class="container-fluid" id="content">
-                            <div class="row">
-                                <div id="footprint">
-                                    <c:forEach items="${addressList}" var="address">
-                                        <div class="addressShow">
-                                            <span class="addresssChange">
-                                                <a href="javascript: updateAddress(${address.id})"  class="updateAddress">修改</a>
-                                                <a href="${pageContext.request.contextPath}/address/delete?id=${address.id}&accountId=${account.id}" class="deleteAddress">删除</a>
-                                            </span>
-                                            <a href="#" target="_self">
-                                                <div class="rstblock-content">
-                                                    <div class="rstblock-title">${address.receiver}</div>
-                                                    <div class="rstblock-cost">${address.detail}</div>
-                                                    <span class="rstblock-monthsales">${address.phone}</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </c:forEach>
-
-                                    <div class="addAddress" onclick="addAddress()">
-                                            <span id="deleteLabel" class="glyphicon glyphicon-plus" >添加新地址地址</span>
-                                    </div>
-                                </div>
+                        <h1><small>安全中心</small></h1><br/><hr/><br/>
+                            <div class="security">
+                                <table>
+                                    <tr class="securityLevel">
+                                        <td></td>
+                                        <td colspan="3">
+                                            <span>安全等级：</span>
+                                            <div class="security-level-bar">
+                                                <span class="security-level-progress low"
+                                                      ng-style="{'width': level.width, 'background-color': level.color}"
+                                                      style="width: 50%; background-color: rgb(148, 200, 82);"></span>
+                                            </div>
+                                            <span>高</span>
+                                            <span style="color: #F49600">建议你启动全部安全设置，以保障账户及资金安全！</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="securityImg">
+                                            <span class="glyphicon glyphicon-ok-circle isBinded"></span>
+                                        </td>
+                                        <td class="securityAttru">登陆密码</td>
+                                        <td class="securityContent">互联网存在被盗风险，建议您定期更改密码以保护安全。</td>
+                                        <td class="securityChoose">
+                                            <a href="${changePasswordUrl}">更改密码</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="securityImg">
+                                            <span class="glyphicon glyphicon-remove-circle noBinded"></span>
+                                        </td>
+                                        <td class="securityAttru">手机验证</td>
+                                        <td class="securityContent">
+                                            <p>您还没有绑定邮箱</p>
+                                            <p>验证后可用户快速找回密码，接受账户提醒邮件</p>
+                                        </td>
+                                        <td class="securityChoose">
+                                            <a href="#" class="bindNow">立即绑定</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="securityImg">
+                                            <span class="glyphicon glyphicon-ok-circle isBinded"></span>
+                                        </td>
+                                        <td class="securityAttru">邮箱验证</td>
+                                        <td class="securityContent">已绑定邮箱${account.email}</td>
+                                        <td class="securityChoose">
+                                            <a href="#">更改邮箱</a>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </div>
+
+
+<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
                     </div>
                 </div>
             </div>
@@ -244,78 +261,5 @@
             </div>
         </div>
     </footer>
-
-    <div class="modal fade" id="addAddressId">
-        <div class="modal-dialog login animated">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">添加地址</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="box">
-                        <div class="content">
-                            <div class="error"></div>
-                            <div class="form loginBox">
-                                <form method="post" action="${add_address_url}" accept-charset="UTF-8">
-                                    <input type="hidden" name="accountId" value="${account.id}"/>
-                                    姓名<input class="form-control" type="text" placeholder="您的名字" name="receiver">
-                                    手机<input class="form-control" type="text" placeholder="您的手机" name="phone">
-                                    位置<input class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
-                                    详细地址<input class="form-control" type="text" placeholder="单位、门牌号" name="detail">
-                                    <br/>
-                                    <span class="defaultSpan">是否是默认地址</span>
-                                    <label for="AddYes">是</label>
-                                    <input type="radio" id="AddYes" class="radioChecked" checked="checked" name="status" value="1" />
-                                    <label for="AddNo">否</label>
-                                    <input type="radio" id="AddNo" class="radioChecked" name="status" value="0" />
-                                    <br/><br/>
-                                    <input class="saveBtn" type="submit" value="保存">
-                                    <input class="cancelBtn" onclick="hideView()"  type="button" value="取消">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="updateAddressId">
-        <div class="modal-dialog login animated">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">修改地址</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="box">
-                        <div class="content">
-                            <div class="error"></div>
-                            <div class="form loginBox">
-                                <form method="post" action="${update_address_url}" accept-charset="UTF-8">
-                                    <input id="accountId" type="hidden" name="accountId" value="${account.id}"/>
-                                    <input id="id" type="hidden" name="id"/>
-                                    姓名<input id="receiver"  class="form-control" type="text" placeholder="您的名字" name="receiver">
-                                    手机<input id="phone" class="form-control" type="text" placeholder="您的手机" name="phone">
-                                    位置<input id="location" class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
-                                    详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
-                                    <br/>
-                                    <span class="defaultSpan">是否是默认地址</span>
-                                    <label>是</label>
-                                    <input type="radio" id="radioChecked" class="radioChecked" checked="checked" name="status" value="1" />
-                                    <label>否</label>
-                                    <input type="radio" class="radioChecked" name="status" value="0" />
-                                    <br/>
-                                    <input class="saveBtn" type="submit" value="保存">
-                                    <input class="cancelBtn" onclick="hideView()"  type="button" value="取消">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

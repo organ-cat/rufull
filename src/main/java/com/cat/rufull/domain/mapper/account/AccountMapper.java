@@ -35,9 +35,10 @@ public interface AccountMapper {
 
     /**
      * 更新用户的头像
-     * @param account
+     * @param id
+     * @param photo
      */
-    void updateAccountPhoto(Account account);
+    void updateAccountPhoto(@Param("id") Integer id, @Param("photo") String photo);
 
     /**
      * 删除用户，待确定

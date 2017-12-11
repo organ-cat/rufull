@@ -74,8 +74,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAccountPhoto(Account account) {
-        accountMapper.updateAccountPhoto(account);
+    public void updateAccountPhoto(Integer id, String photo) {
+        accountMapper.updateAccountPhoto(id, photo);
     }
 
     @Override

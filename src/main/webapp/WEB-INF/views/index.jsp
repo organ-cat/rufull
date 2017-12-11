@@ -159,7 +159,7 @@
     </div>
 
     <footer class="homepage-footer" style="background-color: #00000000">
-        <a class="footer-nav" href="" target="_blank">我要开店</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" target="_blank">我要开店</a>
         <a class="footer-nav" href="" target="_blank">问题答疑</a>
         <a class="footer-nav" href="" target="_blank">规则中心</a>
     </footer>

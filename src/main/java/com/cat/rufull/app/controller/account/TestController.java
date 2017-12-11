@@ -71,7 +71,7 @@ public class TestController {
         String fileName = "A" +account.getId()+ photo.getOriginalFilename();
         account.setPhoto(fileName);
         FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
-        accountService.updateAccountPhoto(account);
+//        accountService.updateAccountPhoto(account);
         session.setAttribute("account",account);
         return "account/loginSuccess";
     }
@@ -86,4 +86,13 @@ public class TestController {
         return "account/test";
 
     }
+
+    @RequestMapping("/code")
+    public String code(HttpServletResponse response) {
+        
+        return "account/test";
+
+    }
+
+
 }

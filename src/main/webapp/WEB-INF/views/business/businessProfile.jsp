@@ -93,7 +93,7 @@
                                     <a class="btn btn-info" href="${pageContext.request.contextPath}/shop/addShopUI"
                                        role="button">创建商店</a>
                                 </c:if>
-                                <a class="btn btn-info" href="${pageContext.request.contextPath}/shop/addProductUI"
+                                <a class="btn btn-info" href="${pageContext.request.contextPath}/product/addProductUI"
                                    role="button">创建商品</a>
                             </div>
                         </div>

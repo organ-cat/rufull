@@ -23,6 +23,7 @@ var search = new BMap.LocalSearch("中国", {
     }//这一段可以不要，只不过是为学习更深层次应用而加入的。
 });
 
+//计算用户到商家距离
 function compto(userLat,userLon,shopLat,shopLon){
     //lng经,lat纬
 //        console.log(new Number(userLat));
@@ -40,6 +41,43 @@ function compto(userLat,userLon,shopLat,shopLon){
 //        map.addOverlay(polyline);     //添加折线到地图上
     return distance;
 }
+
+
+//维护一个变量记录商家的id，用于查询是缩小商家搜索的范围
+var shopIdArray = [];
+//添加用户查看到的商家，这段js添加不进js文件。
+$(function(){
+    for(var i = 0; i < shopList.length; i++){
+        var account2ShopDistance = compto(uLat,uLon,shopList[i].lat,shopList[i].lon);
+        //在测试中先把判断用户到商家的距离去掉  shippingDistanced单位是公里所以要 * 1000;
+//            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
+        //把商家添加到商家
+        $("#shopListDiv").append(
+            "<a href='"+contextPath+"/shop/showShopDetail?id="+shopList[i].id+"'"+
+            "target='blank' class='rstblock'>" +
+                    "<div class='rstblock-logo'>" +
+                        "<img " +"src='"+contextPath+"/upload/shop/"+shopList[i].shopPhoto+"'"+
+                        "width='70' height='70' alt='"+shopList[i].shopName+"'class='rstblock-logo-icon'/>"+
+                        "<span class='rstblock-left-timeout'>"+shopList[i].shippingTime+ "分钟</span>"+
+                    "</div>"+
+
+                    "<div class='rstblock-content'>"+
+                    "<div class='rstblock-title'>"+shopList[i].shopName+"</div>"+
+                    "<div class='rating-star r8'></div>"+
+                    "<span class='rstblock-monthsales'>月售${查询订单出结果}单</span>"+
+
+                    "<div class='rstblock-cost'>"+
+                         "￥ "+shopList[i].shippingFee+
+                    "</div>"+
+                    "<div class='rstblock-activity'></div>"+
+            "</div>"+
+            "</a>");
+        shopIdArray.push(shopList[i].id);
+    }
+//        }
+});
+
+
 
 
 
