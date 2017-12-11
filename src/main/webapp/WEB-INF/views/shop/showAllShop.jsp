@@ -118,17 +118,17 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
-                            <c:if test="${empty user}">
+                            <c:if test="${empty account}">
                                 <li class="hidden-sm hidden-md">
                                     <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
                                         登录/注册
                                     </a></li>
                             </c:if>
 
-                            <c:if test="${!empty user}">
+                            <c:if test="${!empty account}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-haspopup="true" aria-expanded="false">${sessionScope.user.nickname}
+                                       aria-haspopup="true" aria-expanded="false">${sessionScope.account.nickname}
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">

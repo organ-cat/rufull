@@ -1,19 +1,23 @@
 body {
 	background:url(../../image/system/login_bg_0.jpg) #f8f6e9;
 }
+.signin-border{
+    border-radius: 5px;
+}
 
 .signin {
+
 	width:477px;
 	height:479px;
 	background:url(../../image/system/login_bg.png) no-repeat;
 	margin:0 auto;
-	
 	position:absolute;
 	top:50%;
 	left:50%;
 	margin-top:-239px;
 	margin-left:-238px;
 }
+
 .signin-head {
 	margin:0 auto;
 	padding-top:30px;

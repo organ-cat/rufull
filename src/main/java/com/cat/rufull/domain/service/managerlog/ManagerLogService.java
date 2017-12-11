@@ -9,7 +9,9 @@ import java.util.List;
  * Created by Luckily on 2017/11/30.
  */
 public interface ManagerLogService {
-    public List<ManageLog> findAllLog();
+    List<ManageLog> findManageLog();
+
+    List<ManageLog> findAccountLog();
 
     int addLog(ManageLog log);
 
