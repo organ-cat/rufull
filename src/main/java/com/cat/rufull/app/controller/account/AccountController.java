@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.account;
 
+import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.common.util.ReturnCode;
 import com.cat.rufull.domain.common.util.RufullCookie;
@@ -17,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -120,13 +121,26 @@ public class AccountController {
         accountService.bindEmail(account);
         return "account/loginSuccess";
     }
+
     /**
      * 退出的功能
+     *
      * @param session
      * @return
      */
     @RequestMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session, HttpServletRequest request,HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equalsIgnoreCase(RufullCookie.RUFULLCOOKIE)) {
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                }
+            }
+        }
         session.invalidate();
         return "index";
     }
@@ -177,9 +191,7 @@ public class AccountController {
     public String businessRegister(@RequestParam("phone") String phoneOrEmail,
                                    @RequestParam("password") String password,
                                    @RequestParam("checkCode") String checkCode,
-                                   HttpSession httpSession,
-                                   HttpServletRequest request,
-                                   Model model) {
+                                   HttpSession httpSession) {
         return register(phoneOrEmail, password, checkCode, httpSession, Account.BUSINESS_ROLE);
     }
     /**
@@ -205,11 +217,16 @@ public class AccountController {
      * 商家登陆
      * @param username     用户登陆的方式，可以是用户名/手机/邮箱
      * @param password     登陆的密码
+     * @param ip            登陆的IP
+     * @param city          登陆的位置具体是xx省xx市
+     * @param remoteCode   异地登陆的验证码
      * @param session      HttpSession
      * @param response     HttpServletResponse
      */
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username, @RequestParam("password") String password,
+                              @RequestParam("ip") String ip, @RequestParam("city") String city,
+                              @RequestParam("remoteCode") String remoteCode,
                               HttpSession session, HttpServletResponse response) {
 //        商家没有校验异地登陆功能，如果需要，需要更新login_log表，添加business_id外键对应business的主键
 //        loginCheckIsRemote(username, password, Account.ACCOUNT_ROLE, ip, city,
@@ -235,8 +252,13 @@ public class AccountController {
                                    String remoteCode, String sessionName,String sessionRemoteCode) {
         //从session中获取异地登陆的验证码
         String recode = (String) session.getAttribute(sessionRemoteCode);
+
+        System.out.println("session中的验证码"+recode);
+
         //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
         if (recode == null) {
+
+            System.out.println("不是异地登陆"+recode);
             //判断是否是异地登陆
             boolean isRemote = checkLoglog(ip, city, username, role);
             if (isRemote) {//true ，不是异地登陆
@@ -250,6 +272,8 @@ public class AccountController {
                 returnMessage(response, ReturnCode.REMOTE_LOGIN);//异地登陆
             }
         } else {//非第一次登陆
+
+            System.out.println("异地登陆----"+recode);
             //判断输入的异地登陆的验证码是否正确
             if (remoteCode.equals(remoteCode)) {//正确
                 this.login(username, password, role, session,
@@ -309,22 +333,22 @@ public class AccountController {
         } else {//登陆成功
             //用户登陆成功
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
-                //存入session中
-                session.setAttribute(sessionName, login);
-                if (!ip.equals("")&&!city.equals("")) {
+                if (login.getStatus() >= 100) {
+                    //存入session中
+                    session.setAttribute(sessionName, login);
                     //添加登陆日志
                     addLoginLog(ip, city, login);
+                    //添加到cookie中
+                    addRufullCookie(response, login);
+                    result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                } else {
+                    result = ReturnCode.ACCOUNT_ABNORMAL;
                 }
-                //添加到cookie中
-                addRufullCookie(response, login);
-                result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
             }
 /******************************************************************************************/
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
-                System.out.println("商家成功登陆。。。。");
-                session.setAttribute("registerBusiness", login);
-                result = login.getStatus()+"";             //商家状态。
+                result =  ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
             }
 /******************************************************************************************/
         }
@@ -340,6 +364,8 @@ public class AccountController {
      * @return boolean
      */
     private boolean checkLoglog(String ip, String city, String username,int role) {
+
+        System.out.println(ip + "+" + city + "+" + username + "+" + role);
         boolean isUsername = RegEx.regExUsername(username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
@@ -357,11 +383,13 @@ public class AccountController {
         List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
         //若为0，代表第一次登陆
         if (logList.size() == 0) {
+            System.out.println("1111");
             return true;
         } else {
             //不为空，则是登陆过了，遍历登陆日志
             for (LoginLog log : logList) {
                 if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equals(city)) {
+                    System.out.println("2222");
                     return true;
                 }
             }
@@ -419,14 +447,7 @@ public class AccountController {
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-                    //将注册的商家的id传到addBusinessUI页面中,我需要的是用户的id
-//                    System.out.println("商家手机注册...");
-//                    System.out.println("phoneOrEmail:"+phoneOrEmail);
-//                    System.out.println("role:"+Account.BUSINESS_ROLE);
-                    Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
-//                    System.out.println("Account:"+registerBusiness);
-                    httpSession.setAttribute("registerBusiness",registerBusiness);
-                    return "forward:/business/addBusinessUI";
+                    return "account/registerSuccess";
                 }
 /******************************************************************************************/
             } else {
@@ -437,13 +458,13 @@ public class AccountController {
         //注册方式是邮箱
         if (isEmail) {
             //根据邮箱查找用户账号
-            Account user = accountService.findAccountByEmail(phoneOrEmail,role);
+            Account user = accountService.findAccountByEmail(phoneOrEmail,Account.ACCOUNT_ROLE);
             //用户账号不存在,可以注册
             if (user == null) {
                 //设置账号的邮箱
                 account.setEmail(phoneOrEmail);
                 //发送激活账号邮箱
-//                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
+                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
                 //注册账号
                 accountService.register(account);
                 if (role == Account.ACCOUNT_ROLE) {
@@ -453,13 +474,7 @@ public class AccountController {
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-//                    System.out.println("商家邮箱注册...");
-//                    System.out.println("phoneOrEmail:"+phoneOrEmail);
-//                    System.out.println("role:"+Account.BUSINESS_ROLE);
-                    Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
-//                    System.out.println("Account:"+registerBusiness);
-                    httpSession.setAttribute("registerBusiness",registerBusiness);
-                    return "forward:/business/addBusinessUI";
+                    return "account/registerSuccess";
                 }
 /******************************************************************************************/
             } else {

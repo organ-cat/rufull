@@ -86,22 +86,28 @@ public class AccountServiceImpl implements AccountService {
     //管理员获得所有用户
     @Override
     public List<Account> findAllAccount() {
-        return null;
+        return accountMapper.findAllAccount();
     }
 
-    //管理员更新用户
+
+    //管理员更新用户 手机，用户名，邮箱，密码
     @Override
     public int mUpdateAccount(Account account) {
-        return 0;
-    }
-    //管理员删除用户
-    @Override
-    public int mdelAccount(Integer id) {
-        return 0;
+        return accountMapper.mUpdateAccount(account);
     }
 
+    //管理员删除用户 删除等于修改状态，设置为0
     @Override
-    public List<Account> findName(String findname) {
-        return null;
+    public int mdelAccount(Integer id) {
+        return accountMapper.mdelAccount(id);
+    }
+    //根据用户名，手机，邮箱查找用户
+    @Override
+    public List<Account> findName(String findName) {
+        return accountMapper.findName(findName);
+    }
+    @Override
+    public void updateAccountStatus(int id, int status) {
+        accountMapper.updateAccountStatus(id, status);
     }
 }
