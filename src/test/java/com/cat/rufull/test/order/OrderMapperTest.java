@@ -29,7 +29,7 @@ public class OrderMapperTest {
     public void testFindOrderByAccountId() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("accountId", 1);
-        List<Order> orderList = orderMapper.findOrderByAccountId(map);
+        List<Order> orderList = orderMapper.findOrdersByAccountId(map);
 
         logger.info("OrderMapper.FindOrderByAccountId: " + 1);
         listOrder(orderList);

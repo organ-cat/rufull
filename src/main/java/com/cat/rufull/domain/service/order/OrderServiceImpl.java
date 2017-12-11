@@ -24,7 +24,7 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    private AmqpTemplate amqpTemplate;
+//    private AmqpTemplate amqpTemplate;
 
     private OrderMapper orderMapper;
 
@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("accountId", accountId);
 
-        return orderMapper.findOrderByAccountId(map);
+        return orderMapper.findOrdersByAccountId(map);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         map.put("accountId", accountId);
         map.put("searchBy", "unrated");
 
-        return orderMapper.findOrderByAccountId(map);
+        return orderMapper.findOrdersByAccountId(map);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         map.put("accountId", accountId);
         map.put("searchBy", "refund");
 
-        return orderMapper.findOrderByAccountId(map);
+        return orderMapper.findOrdersByAccountId(map);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
         lineItemMapper.insertLineItems(items);
 
         // 将订单id放进延时队列,15分钟后若未支付则自动关闭
-        amqpTemplate.convertAndSend(order.getId());
+//        amqpTemplate.convertAndSend(order.getId());
     }
 
     @Override
@@ -179,6 +179,25 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.findOrdersBetween(map);
     }
 
+    @Override
+    public List<Order> findOrdersByAccountIdBetween(Integer accountId, Date beginDate, Date endDate) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("accountId", accountId);
+        if (beginDate != null) map.put("beginDate", beginDate);
+        if (endDate != null) map.put("endDate", endDate);
+        return orderMapper.findOrdersByAccountIdBetween(map);
+    }
+
+    @Override
+    public List<Order> findAllOrders() {
+        return orderMapper.findAllOrders();
+    }
+
+    @Override
+    public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus) {
+        return orderMapper.findShopOrdersByStatus(shopId, orderStatus);
+    }
+
     private static String createOrderNumber() {
         return UUIDUtil.uuid();
     }
@@ -193,8 +212,8 @@ public class OrderServiceImpl implements OrderService {
         this.lineItemMapper = lineItemMapper;
     }
 
-    @Autowired
-    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
-        this.amqpTemplate = amqpTemplate;
-    }
+//    @Autowired
+//    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
+//        this.amqpTemplate = amqpTemplate;
+//    }
 }
