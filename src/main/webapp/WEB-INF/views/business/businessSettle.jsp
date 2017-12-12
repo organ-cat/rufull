@@ -2,14 +2,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+
     <title>商家入驻页面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
-    <script src="${pageContext.request.contextPath}/js/business//jquery-2.2.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/business/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/fileinput.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput_locale_zh.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/index.js"></script>
+
 
 </head>
 <body>
@@ -78,8 +75,8 @@
                         </div>
                     </div>
 
-                    <%--用户id外键--%>
-                    <input type="hidden" name="account.id" value="${account.id}"/>
+                    <%--对应注册用户id--%>
+                    <input type="hidden" name="accountId" value="${sessionScope.registerBusiness.id}">
 
                     <div class="form-group">
                         <input class="form-control btn btn-primary" id="submit" value="立&nbsp;&nbsp;即&nbsp;&nbsp;入&nbsp;&nbsp;驻" type="submit">
@@ -90,27 +87,17 @@
                     </div>
                 </div>
 
+
             </form>
         </div>
     </div>
 </body>
 
-<script>
+<script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/business/fileinput_locale_zh.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/business/index.js"></script>
 
-    function initFileInput(ctrlName, uploadUrl) {
-        var control = $('#' + ctrlName);
 
-        control.fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: uploadUrl, //上传的地址
-            allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
-            showUpload: true, //是否显示上传按钮
-            showCaption: false,//是否显示标题
-            browseClass: "btn btn-primary", //按钮样式
-            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-        });
-    }
-
-    initFileInput("file-Portrait", "/User/EditPortrait");
-</script>
 </html>

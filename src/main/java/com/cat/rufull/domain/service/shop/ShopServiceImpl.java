@@ -97,6 +97,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public List<Shop> fuzzyFindByShopName(String shopName) {
+        return shopMapper.fuzzyFindByShopName(shopName);
+    }
+
+    @Override
     public Shop findShopByBusinessId(Integer id) {
         return shopMapper.findShopByBusinessId(id);
     }

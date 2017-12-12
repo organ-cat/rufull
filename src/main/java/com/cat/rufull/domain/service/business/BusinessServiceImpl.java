@@ -1,10 +1,12 @@
 package com.cat.rufull.domain.service.business;
 
 import com.cat.rufull.domain.mapper.business.BusinessMapper;
+import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("businessService")
@@ -12,6 +14,9 @@ public class BusinessServiceImpl implements BusinessService{
 
     @Autowired
     private BusinessMapper businessMapper;
+
+    @Autowired
+    private ShopMapper shopMapper;
 
 
     @Override
@@ -101,5 +106,24 @@ public class BusinessServiceImpl implements BusinessService{
         *@returncom.cat.rufull.domain.model.Business
         */
         return businessMapper.findBusinessByAccountId(id);
+    }
+
+    @Override
+    public List<Business> findNotSettledBusiness() {
+        /**
+        *@Author:Caoxin
+        *@Description:查询出所有填写了入驻信息的商家，但是没有通过管理员验证
+        *@Date:8:57 2017/12/11
+        *@param[]
+        *@returnjava.util.List<com.cat.rufull.domain.model.Business>
+        */
+        List<Business> allBusiness = findAll();
+        List<Business> businessList = new ArrayList<Business>();
+        for (Business business : allBusiness) {
+            if (business.getAccount().getStatus().equals(Business.BUSINESS_STATUS_SETTLED)){
+                businessList.add(business);
+            }
+        }
+        return businessList;
     }
 }
