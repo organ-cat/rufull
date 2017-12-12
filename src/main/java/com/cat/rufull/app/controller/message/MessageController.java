@@ -1,6 +1,7 @@
 package com.cat.rufull.app.controller.message;
 
 import com.cat.rufull.domain.model.Message;
+import com.cat.rufull.domain.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -12,6 +13,8 @@ public class MessageController {
 
     private SimpMessagingTemplate simpMessagingTemplate;
 
+    private MessageService messageService;
+
     /**
      * 请求催单
      * @param message
@@ -19,8 +22,7 @@ public class MessageController {
     @MessageMapping("/applyUrgeMessage")
     @SendToUser("/receiveApplyUrgeMessage")
     public void applyUrgeMessage(Message message) {
-        // 持久化
-        // ...
+        messageService.insertMessage(message);
 
         String shopId = message.getReceiverId().toString();
         Integer orderId = message.getOrderId();
@@ -36,11 +38,11 @@ public class MessageController {
     @MessageMapping("/replyUrgeMessage")
     @SendToUser("/receiveReplyUrgeMessage")
     public void replyUrgeMessage(Message message) {
-        // 持久化
-        // ...
+        messageService.updateMessage(message);
 
         String accountId = message.getSenderId().toString();
         Integer orderId = message.getOrderId();
+
         simpMessagingTemplate.convertAndSendToUser(
                 accountId,"/" + orderId + "/receiveReplyUrgeMessage", message);
     }
@@ -48,5 +50,10 @@ public class MessageController {
     @Autowired
     public void setSimpMessagingTemplate(SimpMessagingTemplate simpMessagingTemplate) {
         this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
+    @Autowired
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
     }
 }
