@@ -20,18 +20,25 @@ public class Shop implements Serializable {
     public static final Integer SHOP_STATUS_DELETE = 3;            // 商店状态：删除
     
     
-/*    商家状态：
+/*    商家类型：
 
     美食、异国料理、特色菜 ：0
     甜品、饮品、小吃：1
-    午餐、晚餐：2
-    早餐、下午茶、夜宵：3
-    快餐、便当：4
-    果蔬生鲜：5
-    超市商店：6
-    鲜花绿植：7
-    医药健康：8
+    午餐、晚餐：早餐、下午茶、夜宵：2
+    快餐、便当：3
+    果蔬生鲜：4
+    超市商店：5
+    鲜花绿植：6
+    医药健康：7
 */
+    public static final Integer SHOP_TYPE_SPECIALTY = 0;            // 商店类型：
+    public static final Integer SHOP_TYPE_SNACK = 1;                // 商店类型：
+    public static final Integer SHOP_TYPE_ALLTIMEFOOD = 2;          // 商店类型：
+    public static final Integer SHOP_TYPE_FASTFOOD = 3;             // 商店类型：
+    public static final Integer SHOP_TYPE_FRESHFRUIT = 4;           // 商店类型：
+    public static final Integer SHOP_TYPE_MARKET = 5;               // 商店类型：
+    public static final Integer SHOP_TYPE_FLOWERS= 6;               // 商店类型：
+    public static final Integer SHOP_TYPE_MEDICALHEALTH = 7;       // 商店类型：
 
     private Integer id;                         // 商店id主键
 

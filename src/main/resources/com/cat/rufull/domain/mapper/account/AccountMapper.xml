@@ -34,9 +34,9 @@
         insert
         into
         ACCOUNT
-        (phone,password,email,register_time)
+        (phone,password,email,role,register_time)
         values
-        (#{phone},#{password},#{email},#{registerTime})
+        (#{phone},#{password},#{email},#{role},#{registerTime})
     </insert>
 
     <select id="login" resultType="Account" parameterType="Account">
@@ -99,12 +99,63 @@
     </update>
 
     <update id="setUsername" parameterType="Account">
-    UPDATE
-    ACCOUNT
-    SET
-    ACCOUNT.username = #{username}
-    WHERE
-    ACCOUNT.id = #{id}
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.username = #{username}
+        WHERE
+        ACCOUNT.id = #{id}
     </update>
+
+    <update id="updateAccountStatus">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.status = #{status}
+        WHERE
+        ACCOUNT.id = #{id}
+    </update>
+
+
+    <select id="findAllAccount" resultType="Account">
+        SELECT
+        *
+        FROM
+        ACCOUNT
+    </select>
+
+    <update id="mUpdateAccount" parameterType="Account">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.username = #{status},
+        ACCOUNT.phone = #{phone},
+        ACCOUNT.email = #{email},
+        ACCOUNT.password = #{password}
+        WHERE
+        ACCOUNT.id = #{id}
+    </update>
+
+
+    <update id="mdelAccount" parameterType="int">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.status = 0
+        WHERE
+        ACCOUNT.id = #{id}
+    </update>
+    <select id="findName" parameterType="String" resultType="Account">
+        SELECT
+        *
+        FROM
+        ACCOUNT
+        WHERE
+        ACCOUNT.username  LIKE CONCAT(CONCAT('%',#{findName}),'%')
+        OR
+        ACCOUNT.phone  LIKE CONCAT(CONCAT('%',#{findName}),'%')
+        OR
+        ACCOUNT.email  LIKE CONCAT(CONCAT('%',#{findName}),'%')
+    </select>
 
 </mapper>

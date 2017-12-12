@@ -1,4 +1,4 @@
-package com.cat.rufull.test;
+package com.cat.rufull.test.business;
 
 import com.cat.rufull.domain.mapper.product.ProductMapper;
 import com.cat.rufull.domain.model.Product;

@@ -32,7 +32,6 @@
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <jsr349.version>1.1.0.Final</jsr349.version>
         <hibernate.validator.version>5.1.0.Final</hibernate.validator.version>
-        <jackson.version>1.9.13</jackson.version>
         <commons.io.version>2.4</commons.io.version>
         <javax.mail.version>1.4.7</javax.mail.version>
         <cglib.version>2.2.2</cglib.version>
@@ -77,6 +76,16 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <!-- mybatis -->
@@ -165,11 +174,16 @@
             <version>${javax.servlet.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- json -->
+        <!-- jackson -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-lgpl</artifactId>
-            <version>${jackson.version}</version>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.1.1</version>
         </dependency>
         <!-- io -->
         <dependency>
@@ -217,6 +231,12 @@
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
             <version>${spring.amqp.version}</version>
+        </dependency>
+        <!-- websocket -->
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <build>

@@ -19,5 +19,7 @@ public interface ShopService {
 
     int updateById(Shop shop);                       // 通过Id更新商家
 
+    List<Shop> fuzzyFindByShopName(String shopName);   // 通过商店名字模糊查询查找对应的商店
+
 
 }

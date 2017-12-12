@@ -48,8 +48,10 @@ public interface AccountService {
 
     /**
      * 根据字段 用户名邮箱手机其中一个都可以查询到用户？（模糊查询）
-     * @param findname
+     * @param findName
      * @return
      */
-    List<Account> findName(String findname);
+    List<Account> findName(String findName);
+
+    void updateAccountStatus(int id, int status);
 }

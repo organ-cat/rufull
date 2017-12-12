@@ -1,4 +1,4 @@
-package com.cat.rufull.test;
+package com.cat.rufull.test.business;
 
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/spring/root-context.xml"})
@@ -50,6 +51,7 @@ public class ShopMapperTest {
     @Test
     public void  testFindById(){
         Shop shop = shopMapper.findById(2);
+        System.out.println("shop:"+shop);
        if(shop.getProductList() != null){
            logger.info(shop.getProductList().toString());
        }else {
@@ -68,5 +70,11 @@ public class ShopMapperTest {
     @Test
     public void testDelete(){
         shopMapper.deleteById(4);
+    }
+
+    @Test
+    public void testFuzzyFindByShopName(){
+        List<Shop> shopList = shopMapper.fuzzyFindByShopName("士");
+        System.out.println("shopList:"+shopList);
     }
 }

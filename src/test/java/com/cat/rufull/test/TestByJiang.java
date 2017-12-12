@@ -302,10 +302,9 @@ public class TestByJiang {
 
     @Test
     public void test(){
-        List<Complaint> complaintList = complaintService.findAllComplaint();
-        for (Complaint c : complaintList) {
-            System.out.println(c.toString());
-        }
+        int id = 1;
+        int status = 100;
+        accountService.updateAccountStatus(id, status);
     }
 
     @Test
@@ -316,15 +315,52 @@ public class TestByJiang {
         complaint.setCompletedTime(new Date());
         complaint.setSolver(1);
         complaint.setStatus(9);
-
         int id = 1;
         int status = 777;
         int handlering = complaintService.handlerComplaint(id, status);
         System.out.println("处理过程结果——" + handlering);
         int handerResult = complaintService.completedComplaint(complaint);
         System.out.println("处理结果——"+handerResult);
-
     }
+
+/*************************************************************************************************/
+//大哥的测试
+    @Test
+    public void findAllAccount(){
+        List<Account> list = accountService.findAllAccount();
+        for (Account account : list) {
+            System.out.println(account.toString());
+        }
+    }
+
+    @Test
+    public void mUpdateAccount(){
+        Account account = new Account();
+        account.setId(8);
+        account.setUsername("大哥");
+        account.setPhone("12345678910");
+        account.setEmail("qqqqqq@qq.com");
+        account.setPassword("setPassword");
+        int result = accountService.mUpdateAccount(account);
+        System.out.println("mUpdateAccount执行结果"+result);
+    }
+
+    @Test
+    public void mdelAccount(){
+        int id = 9;
+        int result = accountService.mdelAccount(id);
+        System.out.println("mUpdateAccount执行结果" + result);
+    }
+    @Test
+    public void findName(){
+        String name = "@";
+        List<Account> list = accountService.findName(name);
+        for (Account account : list) {
+            System.out.println(account.toString());
+        }
+    }
+
+/*************************************************************************************************/
 
 }
 

@@ -1,9 +1,10 @@
-package com.cat.rufull.test;
+package com.cat.rufull.test.business;
 
 import com.cat.rufull.domain.mapper.account.AccountMapper;
 import com.cat.rufull.domain.mapper.business.BusinessMapper;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Business;
+import com.cat.rufull.domain.service.business.BusinessService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ public class BusinessMapperTest {
 
     @Autowired
     private AccountMapper accountMapper;
+
+    @Autowired
+    private BusinessService businessService;
     //
     @Test
     public void testCRUD(){
@@ -80,5 +84,11 @@ public class BusinessMapperTest {
         business.setIdFrontPhoto("商家身份证正面照");
         System.out.println(business.getAccount());
         businessMapper.updateByIdSelective(business);
+    }
+
+    @Test
+    public void testFindAllNotPassBusiness(){
+        List<Business> notSettledBusiness = businessService.findNotSettledBusiness();
+       System.out.println("business:"+notSettledBusiness);
     }
 }

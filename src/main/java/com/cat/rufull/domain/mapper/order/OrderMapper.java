@@ -2,6 +2,7 @@ package com.cat.rufull.domain.mapper.order;
 
 
 import com.cat.rufull.domain.model.Order;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public interface OrderMapper {
     //  下单内容:商店名,商店图片,每个订单项的商品名和数量,总商品数量(统计得出),订单号
     //  支付金额:总额,支付方式
     //  订单状态
-    public List<Order> findOrderByAccountId(Map<String, Object> map);
+    public List<Order> findOrdersByAccountId(Map<String, Object> map);
 
     // 用id查询订单详情
     // 内容:
@@ -28,4 +29,10 @@ public interface OrderMapper {
     public void insertOrder(Order order);
 
     List<Order> findOrdersBetween(Map<String, Object> map);
+
+    List<Order> findOrdersByAccountIdBetween(Map<String, Object> map);
+
+    List<Order> findAllOrders();
+
+    List<Order> findShopOrdersByStatus(@Param("shopId") Integer shopId, @Param("orderStatus") String orderStatus);
 }

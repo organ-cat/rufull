@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <script type="text/javascript">
+        // 声明消息对象
+        var message;
+
+        // 创建Stomp客户端
+        var stomp = Stomp.over(new SockJS("/rufull/ws"));
+
+        // 收到订阅消息后的界面变化
+        // 注意: 你主要完成这里
+        function displayMessage(frame) {
+            message = JSON.parse(frame.body);
+            console.log(message);
+        }
+
+        var connectCallback = function () {
+            // stomp.subscribe('/user/[shopId]/[orderId]/receiveApplyUrgeMessage', displayMessage)
+            // 注意: 你需要使用EL表达式为url中的shopId和orderId赋值
+            stomp.subscribe('/user/3/4/receiveApplyUrgeMessage', displayMessage);
+        };
+
+        var errorCallback = function (error) {
+            alert(error.headers.message);
+        };
+
+        // 连接服务端
+        stomp.connect("guest", "guest", connectCallback, errorCallback);
+
+        $(document).ready(function(e) {
+            $('#replyBtn').click(function (e) {
+                e.preventDefault();
+                if (message) {
+                    message.status = '已回复';
+
+                    var jsonstr = JSON.stringify(message);
+                    stomp.send("/app/replyUrgeMessage", {}, jsonstr);
+                } else {
+                    console.log('未收到催单请求');
+                }
+
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="replyBtn" type="button" class="btn btn-info">回复催单</button>
+</body>
+</html>
