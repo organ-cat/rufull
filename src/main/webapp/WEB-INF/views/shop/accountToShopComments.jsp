@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>用户查看商店评论</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/style.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/restaurant.92731b91.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/global.2730d877.css">
@@ -23,7 +23,7 @@
 <!-- 留着用来作导航条 -->
 <!-- 导航条 -->
 <div class="my-header-nav">
-    <nav class="navbar navbar-default">
+    <nav class="mynav navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -99,7 +99,34 @@
                     </div>
                     <!-- 商店图标 类型-->
                     <div class="rst-misc">
-                        <span class="rst-flavor text-overflow" title="${shop.shopType}">${shop.shopType}</span>
+                        <span class="rst-flavor text-overflow" title="${shop.shopType}">
+                             <c:choose>
+                                 <c:when test="${shop.shopType == 0}">
+                                     美食、异国料理、特色菜
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 1}">
+                                     甜品、饮品、小吃
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 2}">
+                                     午餐、晚餐：早餐、下午茶、夜宵
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 3}">
+                                     快餐、便当
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 4}">
+                                     果蔬生鲜
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 5}">
+                                     超市商店
+                                 </c:when>
+                                 <c:when test="${shop.shopType == 6}">
+                                     鲜花绿植
+                                 </c:when>
+                                 <c:otherwise>
+                                     医药健康
+                                 </c:otherwise>
+                             </c:choose>
+                        </span>
                     </div>
                 </div>
             </header>
@@ -130,13 +157,12 @@
         </div>
 
         <div class="rst-header-info-shipping_fee">
-
             <h3>配送费</h3>
-            <c:if test="0.00 == ${shop.shippingFee}">
+            <c:if test="${shop.shippingFee == '0.00'}">
                 <b>免费配送</b>
             </c:if>
-            <c:if test="0.00 != ${shop.shippingFee}">
-                <b>${shop.shippingFee}</b>
+            <c:if test="${shop.shippingFee != '0.00'}">
+                <b>¥${shop.shippingFee }</b>
             </c:if>
         </div>
 
@@ -152,7 +178,7 @@
 <div class="restaurant-subheader">
     <div class="container">
         <div class="rst-subheader-nav">
-            <a class="rst-subheader-nav-left "  href="${pageContext.request.contextPath}/shop/showShopDetail?$id={shop.id}">
+            <a class="rst-subheader-nav-left "  href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
                 菜单列表
             </a>
 

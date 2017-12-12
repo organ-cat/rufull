@@ -79,7 +79,7 @@ public class AccountController {
 
     @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
     public String updatePassword() {
-        return "account/login/u2pdatePassword";
+        return "account/login/updatePassword";
     }
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public String security() {

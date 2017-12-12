@@ -24,6 +24,9 @@
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
 
+    <script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
     <script src="${jquery_url}" type="text/javascript"></script>
@@ -64,17 +67,43 @@
     <spring:url value="/cart" var="showCartUrl"/>
 
     <script type="text/javascript">
+        <c:if test="${'PAID'.equals(order.status) or 'ACCEPTED'.equals(order.status) or 'DELIVERY'.equals(order.status)}">
+            var stomp = Stomp.over(new SockJS("/rufull/ws"));
+
+            function displayMessage(frame) {
+                var message = JSON.parse(frame.body);
+                console.log(message);
+            }
+
+            var connectCallback = function () {
+                stomp.subscribe('/user/${order.accountId}/${order.id}/receiveReplyUrgeMessage', displayMessage);
+            };
+
+            var errorCallback = function (error) {
+                alert(error.headers.message);
+            };
+
+            stomp.connect("guest", "guest", connectCallback, errorCallback);
+        </c:if>
+
         $(document).ready(function(e) {
-//            if (window.history && window.history.pushState) {
-//                $(window).on('popstate', function () {
-//                    window.history.pushState('forward', null);
-//                    window.history.forward(1);
-//                    location.replace(document.referrer); // 刷新
-//                });
-//            }
-//
-//            window.history.pushState('forward', null); // 在IE中必须得有这两行
-//            window.history.forward(1);
+            $('#orderUrgeBtn').click(function (e) {
+                e.preventDefault();
+
+                var jsonstr = JSON.stringify({
+                    'type': '催单',
+                    'content': '催单',
+                    'status': '未回复',
+                    'orderId': ${order.id},
+                    'senderId': ${account.id},
+                    'receiverId': ${order.shop.id}
+                });
+
+                stomp.send("/app/applyUrgeMessage", {}, jsonstr);
+
+
+                return false;
+            });
 
             $('#orderRateBtn').click(function () {
                 $('#orderRateForm').submit();
@@ -84,9 +113,6 @@
             });
             $('#orderCancelBtn').click(function () {
                 $('#orderCancelForm').submit();
-            });
-            $('#orderUrgeBtn').click(function () {
-                $('#orderUrgeForm').submit();
             });
             $('#orderConfirmBtn').click(function () {
                 $('#orderConfirmForm').submit();

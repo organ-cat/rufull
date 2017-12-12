@@ -15,10 +15,15 @@ import java.util.List;
 public class ManagerLogServiceImpl implements ManagerLogService {
     @Resource
     private ManagerLogMapper managerLogMapper;
+
     @Override
-    public List<ManageLog> findAllLog() {
-        List<ManageLog> list = managerLogMapper.findAllLog();
-        return list;
+    public List<ManageLog> findManageLog() {
+        return managerLogMapper.findAllmLog();
+    }
+
+    @Override
+    public List<ManageLog> findAccountLog() {
+        return managerLogMapper.findAllLog();
     }
 
     @Override
