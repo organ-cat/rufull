@@ -63,7 +63,7 @@
                             </c:if>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
-                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/address/addressManage?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/logout" class="aLabel"><span class="glyphicon glyphicon-off"></span> 退出登录</a></li>

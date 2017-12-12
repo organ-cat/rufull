@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface AddressService {
 
-    List<Address> queryAddressList(Integer id);
+    List<Address> queryAddressList(Integer accountId);
 
-    void addAddress(Address address);
+    boolean addAddress(Address address);
 
     Address findAddressById(Integer id);
 
