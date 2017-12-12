@@ -157,4 +157,23 @@
         ACCOUNT.email  LIKE CONCAT(CONCAT('%',#{findName}),'%')
     </select>
 
+    <select id="findAccountPassword" resultType="Account">
+        SELECT
+        *
+        FROM
+        ACCOUNT
+        WHERE
+        ACCOUNT.password = #{oldPassword}
+        AND
+        ACCOUNT.id = #{id};
+    </select>
+    <update id="updatePassword">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.password = #{newPassword}
+        WHERE
+        ACCOUNT.id = #{id};
+    </update>
+
 </mapper>

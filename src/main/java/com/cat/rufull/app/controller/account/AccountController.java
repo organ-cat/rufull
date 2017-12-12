@@ -51,15 +51,14 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    //登陆成功页面——测试使用
-    @RequestMapping("/loginSuccess")
-    public String loginSuccess(){
-        return "account/loginSuccess";
-    }
+
+
+
 
     //跳转到个人中心，显示个人信息和浏览过的商家足迹
     @RequestMapping(value = "/center", method = RequestMethod.GET)
     public ModelAndView center(@RequestParam("id") int id, HttpSession session) {
+
         //获取用户足迹集合
         List<Footprint> footprintList = footprintService.findFootprintList(id);
         //用户浏览过的商店集合
@@ -77,10 +76,24 @@ public class AccountController {
         return "account/login/infomation";
     }
 
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
-    public String updatePassword() {
+    @RequestMapping(value = "/updatePasswordPage", method = RequestMethod.GET)
+    public String updatePasswordPage() {
         return "account/login/updatePassword";
     }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public void updatePassword(@RequestParam("id") int id,
+                               @RequestParam("newPassword") String newPassword,
+                               @RequestParam("oldPassword") String oldPassword,
+                               HttpServletResponse response) {
+        boolean isSuccess = accountService.updatePassword(id, newPassword, oldPassword);
+        if (isSuccess) {
+            returnMessage(response, ReturnCode.UPDATE_PASSWORD_SUCCESS);
+        } else {
+            returnMessage(response, ReturnCode.UPDATE_PASSWORD_FAIL);
+        }
+    }
+
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public String security() {
         return "account/login/security";
@@ -98,7 +111,9 @@ public class AccountController {
         Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
         String path = request.getServletContext().getRealPath("upload/account");
         String fileName = "A" + id + photo.getOriginalFilename();
+        System.out.println("fileName——"+fileName);
         if (!fileName.equalsIgnoreCase("A" + id)) {
+            account.setPhoto(fileName);
             try {
                 FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
             } catch (IOException e) {
@@ -106,13 +121,9 @@ public class AccountController {
             }
         }
         accountService.updateAccountPhoto(id, fileName);
-        account.setPhoto(fileName);
         session.setAttribute(Account.ACCOUNT_SESSION, account);
         return "account/login/infomation";
     }
-
-
-
 
 //测试使用的视图，待商家模块完成后转移过去
     @RequestMapping(value = "/showshowshow", method = RequestMethod.GET)

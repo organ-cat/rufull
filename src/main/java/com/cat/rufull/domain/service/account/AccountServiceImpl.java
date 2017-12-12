@@ -110,4 +110,15 @@ public class AccountServiceImpl implements AccountService {
     public void updateAccountStatus(int id, int status) {
         accountMapper.updateAccountStatus(id, status);
     }
+
+    @Override
+    public boolean updatePassword(int id, String newPassword, String oldPassword) {
+        Account account = accountMapper.findAccountPassword(id, oldPassword);
+        if (account == null) {
+            return false;
+        } else {
+            accountMapper.updatePassword(id, newPassword);
+            return true;
+        }
+    }
 }

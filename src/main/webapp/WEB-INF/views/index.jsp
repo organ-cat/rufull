@@ -20,16 +20,19 @@
     <link href="${pageContext.request.contextPath}/css/service/city-picker.css" rel="stylesheet" type="text/css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
-    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/service/bootstrap3/css/font-awesome.css">
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
     <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css">
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js"></script>
+
     <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 </head>
 <body class="homepage">
@@ -56,7 +59,7 @@
                     <c:if test="${!empty account}">
                         <ul id="ulSize">
                             <c:if test="${account.photo == null &&account.username == null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/photo.png" alt="头像" /> <span >Hi,美食家</span></a></li>
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/rufull.png" alt="头像" /> <span >Hi,美食家</span></a></li>
                             </c:if>
                             <c:if test="${account.photo != null}">
                                 <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
@@ -117,7 +120,6 @@
                                 </div>
                                 <div class="error"></div>
                                 <div class="form loginBox">
-
                                     <form method="post" accept-charset="UTF-8">
                                         <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
                                         <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
@@ -126,7 +128,6 @@
                                             <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
                                             <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
                                         </div>
-
                                         <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
                                     </form>
                                 </div>

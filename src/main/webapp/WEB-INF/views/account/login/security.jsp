@@ -54,7 +54,7 @@
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/account/infomation" var="infomationUrl"/>
     <spring:url value="/account/showInfo" var="showInfoUrl"/>
-    <spring:url value="/account/updatePassword" var="changePasswordUrl"/>
+    <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
     <spring:url value="/rate" var="addRateUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>

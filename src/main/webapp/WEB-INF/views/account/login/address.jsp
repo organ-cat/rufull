@@ -24,18 +24,7 @@
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
 
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 
-    <!-- address css -->
-    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
-
-
-    <!-- address js -->
-    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
-    <script src="${address_js_url}" type="text/javascript"></script>
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -64,7 +53,7 @@
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/account/infomation" var="infomationUrl"/>
     <spring:url value="/account/showInfo" var="showInfoUrl"/>
-    <spring:url value="/account/updatePassword" var="changePasswordUrl"/>
+    <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
     <spring:url value="/rate" var="addRateUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
@@ -101,12 +90,22 @@
             });
         });
     </script>
-
-    <link href="../css/service/pagevendor.css" rel="stylesheet">
-
-    <link href="../css/service/pagemain.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
+    <!-- jinag css -->
+    <spring:url value="/resources/css/service/pagevendor.css" var="pagevendor_css_url"/>
+    <link rel="stylesheet" href="${pagevendor_css_url}"/>
+    <spring:url value="/resources/css/service/pagemain.css" var="pagemain_css_url"/>
+    <link rel="stylesheet" href="${pagemain_css_url}"/>
+    <spring:url value="/resources/css/account/font-awesome.css" var="font_awesome_css_url"/>
+    <link rel="stylesheet" href="${font_awesome_css_url}"/>
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+    <!-- address css -->
+    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
+    <!-- address js -->
+    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
+    <script src="${address_js_url}" type="text/javascript"></script>
 
 </head>
 <body>
@@ -197,7 +196,7 @@
                                             </span>
                                             <a href="#" target="_self">
                                                 <div class="rstblock-content">
-                                                    <div class="rstblock-title">${address.receiver}</div>
+                                                    <div class="rstblock-title"><b>${address.receiver}<b/></div>
                                                     <div class="rstblock-cost">${address.detail}</div>
                                                     <span class="rstblock-monthsales">${address.phone}</span>
                                                 </div>

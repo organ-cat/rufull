@@ -54,7 +54,7 @@
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/account/infomation" var="infomationUrl"/>
     <spring:url value="/account/showInfo" var="showInfoUrl"/>
-    <spring:url value="/account/updataPassword" var="changePasswordUrl"/>
+    <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
     <spring:url value="/rate" var="addRateUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
@@ -72,6 +72,7 @@
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/updatePassword.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -177,22 +178,25 @@
                         <h1><small>修改密码</small></h1><br/><hr/><br/>
                         <p>饱了么提示你：使用大小写字母，数字与下划线“_”的组合，可以大幅提升帐号安全！</p><br/>
                         <div class="updateInPassworDiv">
+                            <div class="updateInPassworMessage">
+                                <span id="messageId"></span>
+                            </div>
                             <table>
                                 <tr>
                                     <td class="tableLife">当前密码</td>
-                                    <td class="tableRight"><input placeholder="请输入当前密码"/></td>
+                                    <td class="tableRight"><input id="oldPassword" type="password" placeholder="请输入当前密码"/></td>
                                 </tr>
                                 <tr>
                                     <td class="tableLife">新的密码</td>
-                                    <td class="tableRight"><input placeholder="请输入新的密码"/></td>
+                                    <td class="tableRight"><input id="newPassword" type="password" placeholder="请输入新的密码"/></td>
                                 </tr>
                                 <tr>
                                     <td class="tableLife">确认密码</td>
-                                    <td class="tableRight"><input placeholder="请输入确认密码"/></td>
+                                    <td class="tableRight"><input id="confirmPassword" type="password" placeholder="请输入确认密码"/></td>
                                 </tr>
                                 <tr>
-                                    <td class="tableLife"></td>
-                                    <td class="tableRight"><input type="submit" class="submit" value="确认"/></td>
+                                    <td class="tableLife"><input id="id" type="hidden" name="id" value="${account.id}"/></td>
+                                    <td class="tableRight"><input id="updatePassword" type="button" class="submit" value="确认"/></td>
                                 </tr>
                             </table>
                         </div>

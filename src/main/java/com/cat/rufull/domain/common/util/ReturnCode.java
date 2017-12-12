@@ -45,4 +45,11 @@ public class ReturnCode {
     public static final String BUSINESS_STATUS_DELETE = "204";
 
     public static final String BUSINESS_STATUS_SETTLED_NOTPASS = "205";
+
+
+    public static final String UPDATE_PASSWORD_SUCCESS = "300";
+
+    public static final String UPDATE_PASSWORD_FAIL = "301";
+
+
 }

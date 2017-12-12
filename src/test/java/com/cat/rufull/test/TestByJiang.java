@@ -362,6 +362,18 @@ public class TestByJiang {
 
 /*************************************************************************************************/
 
+    @Test
+    public void updatePassword() {
+        int id = 1;
+        String newPassword = "123456";
+        String oldPassword = "aaaaaa";
+        boolean b = accountService.updatePassword(id, newPassword, oldPassword);
+        if (b) {
+            System.out.println("1111111111111111"+b);
+        } else {
+            System.out.println("0000000000000000"+b);
+        }
+    }
 }
 
 

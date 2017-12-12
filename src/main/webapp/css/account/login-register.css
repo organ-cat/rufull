@@ -183,7 +183,7 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 150;
-    padding: 10px 30px;
+    padding: 10px;
     text-transform: uppercase;
     transition: all 0.3s ease 0s;
 }
@@ -191,10 +191,10 @@
     background-color: #C9302C;
     color: #FFFFFF;
     border-color: #c9302c;
-    height: 43px;
-
+    height: 34px;
 }
 .big-register{
+    border: solid #D5514d;
     background-color: rgba(0,0,0,.0);
     color: #ffffff;
     border-color: #D5514d;
@@ -203,7 +203,7 @@
     background-color: #c9302c;
     color: #FFFFFF;
     border-color: #c9302c;
-    height: 43px;
+    height: 34px;
 }
 
 #checkcode{

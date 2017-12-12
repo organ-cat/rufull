@@ -101,4 +101,7 @@ public interface AccountMapper {
 
     List<Account> findName(@Param("findName") String findName);
 
+    Account findAccountPassword(@Param("id")int id, @Param("oldPassword")String oldPassword);
+
+    void updatePassword(@Param("id")int id, @Param("newPassword")String newPassword);
 }
