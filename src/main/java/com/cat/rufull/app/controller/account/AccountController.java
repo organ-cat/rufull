@@ -139,7 +139,7 @@ public class AccountController {
         view.addObject(Footprint.FOOTPRINT_LIST, shopList);
         return view;
     }
-    //设置用户名，已测试，但未完成
+    //已测试，但未完成
     @RequestMapping("/setUsername")
     public String setUsername(@RequestParam("username") String username, HttpSession session) {
         Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
