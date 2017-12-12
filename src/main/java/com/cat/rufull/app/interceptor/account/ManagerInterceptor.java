@@ -11,20 +11,19 @@ public class ManagerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //获取session中管理员对象
-        Manager manger = (Manager) request.getSession().getAttribute("manger");
-        manger.getRole();
+        Manager manger = (Manager) request.getSession().getAttribute("manager");
         //判断管理员是否登陆
         if (manger == null) {
             //未登陆，请求转发到指定页面
-            request.getRequestDispatcher("/error/error").forward(request, response);
+            System.out.println("管理员未登录");
+            response.getWriter().write("<script type='text/javascript'>alert('管理员未登录！')</script>");
+            response.setHeader("Refresh", "0.2;url=/rufull/adminLogin/adminLogin");
             //不放行
             return false;
         } else {
             //已经登陆
             //判断管理员的角色
-            if (!manger.getRole().equals(2)) {
-                request.getRequestDispatcher("/error/error").forward(request, response);
-            }
+            System.out.println("放行");
             return true;
         }
     }
