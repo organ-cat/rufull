@@ -1,6 +1,8 @@
 package com.cat.rufull.app.controller.account;
 
-import com.cat.rufull.domain.common.util.*;
+import com.cat.rufull.domain.common.util.RegEx;
+import com.cat.rufull.domain.common.util.ReturnCode;
+import com.cat.rufull.domain.common.util.RufullCookie;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Footprint;
 import com.cat.rufull.domain.model.LoginLog;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -174,7 +177,9 @@ public class AccountController {
     public String businessRegister(@RequestParam("phone") String phoneOrEmail,
                                    @RequestParam("password") String password,
                                    @RequestParam("checkCode") String checkCode,
-                                   HttpSession httpSession) {
+                                   HttpSession httpSession,
+                                   HttpServletRequest request,
+                                   Model model) {
         return register(phoneOrEmail, password, checkCode, httpSession, Account.BUSINESS_ROLE);
     }
     /**
@@ -200,16 +205,11 @@ public class AccountController {
      * 商家登陆
      * @param username     用户登陆的方式，可以是用户名/手机/邮箱
      * @param password     登陆的密码
-     * @param ip            登陆的IP
-     * @param city          登陆的位置具体是xx省xx市
-     * @param remoteCode   异地登陆的验证码
      * @param session      HttpSession
      * @param response     HttpServletResponse
      */
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username, @RequestParam("password") String password,
-                              @RequestParam("ip") String ip, @RequestParam("city") String city,
-                              @RequestParam("remoteCode") String remoteCode,
                               HttpSession session, HttpServletResponse response) {
 //        商家没有校验异地登陆功能，如果需要，需要更新login_log表，添加business_id外键对应business的主键
 //        loginCheckIsRemote(username, password, Account.ACCOUNT_ROLE, ip, city,
@@ -311,8 +311,10 @@ public class AccountController {
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
                 //存入session中
                 session.setAttribute(sessionName, login);
-                //添加登陆日志
-                addLoginLog(ip, city, login);
+                if (!ip.equals("")&&!city.equals("")) {
+                    //添加登陆日志
+                    addLoginLog(ip, city, login);
+                }
                 //添加到cookie中
                 addRufullCookie(response, login);
                 result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
@@ -320,7 +322,9 @@ public class AccountController {
 /******************************************************************************************/
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
-                result =  ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                System.out.println("商家成功登陆。。。。");
+                session.setAttribute("registerBusiness", login);
+                result = login.getStatus()+"";             //商家状态。
             }
 /******************************************************************************************/
         }
@@ -415,7 +419,14 @@ public class AccountController {
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-                    return "account/registerSuccess";
+                    //将注册的商家的id传到addBusinessUI页面中,我需要的是用户的id
+//                    System.out.println("商家手机注册...");
+//                    System.out.println("phoneOrEmail:"+phoneOrEmail);
+//                    System.out.println("role:"+Account.BUSINESS_ROLE);
+                    Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
+//                    System.out.println("Account:"+registerBusiness);
+                    httpSession.setAttribute("registerBusiness",registerBusiness);
+                    return "forward:/business/addBusinessUI";
                 }
 /******************************************************************************************/
             } else {
@@ -426,13 +437,13 @@ public class AccountController {
         //注册方式是邮箱
         if (isEmail) {
             //根据邮箱查找用户账号
-            Account user = accountService.findAccountByEmail(phoneOrEmail,Account.ACCOUNT_ROLE);
+            Account user = accountService.findAccountByEmail(phoneOrEmail,role);
             //用户账号不存在,可以注册
             if (user == null) {
                 //设置账号的邮箱
                 account.setEmail(phoneOrEmail);
                 //发送激活账号邮箱
-                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
+//                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
                 //注册账号
                 accountService.register(account);
                 if (role == Account.ACCOUNT_ROLE) {
@@ -442,7 +453,13 @@ public class AccountController {
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-                    return "account/registerSuccess";
+//                    System.out.println("商家邮箱注册...");
+//                    System.out.println("phoneOrEmail:"+phoneOrEmail);
+//                    System.out.println("role:"+Account.BUSINESS_ROLE);
+                    Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
+//                    System.out.println("Account:"+registerBusiness);
+                    httpSession.setAttribute("registerBusiness",registerBusiness);
+                    return "forward:/business/addBusinessUI";
                 }
 /******************************************************************************************/
             } else {

@@ -42,11 +42,20 @@
         FROM SHOP
     </select>
 
+
+   <select id="fuzzyFindByShopName" resultMap="ShopResultMap" resultType="list">
+        SELECT
+        <include refid="Shop_Column_List"/>
+        FROM SHOP
+       WHERE shop_name LIKE "%"#{shopName}"%"
+    </select>
+    <!--查询没有休息的商家-->
     <select id="findAllOnlineShop" resultMap="ShopResultMap" resultType="list">
         SELECT
         <include refid="Shop_Column_List"/>
         FROM SHOP WHERE operate_state = 0;
     </select>
+    <!--查询休息的商家-->
     <select id="findAllNotOnlineShop" resultMap="ShopResultMap" resultType="list">
         SELECT
         <include refid="Shop_Column_List"/>
