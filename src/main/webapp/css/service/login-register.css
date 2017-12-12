@@ -1,77 +1,67 @@
-/*
- *
- * login-register modal
- * Autor: Creative Tim
- * Web-autor: creative.tim
- * Web script: #
- * 
- */
- 
-/*  Shake animation  */
 
 @charset "UTF-8";
 
 .animated {
-  -webkit-animation-duration: 1s;
-	   -moz-animation-duration: 1s;
-	     -o-animation-duration: 1s;
-	        animation-duration: 1s;
-	-webkit-animation-fill-mode: both;
-	   -moz-animation-fill-mode: both;
-	     -o-animation-fill-mode: both;
-	        animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .animated.hinges {
-	-webkit-animation-duration: 2s;
-	   -moz-animation-duration: 2s;
-	     -o-animation-duration: 2s;
-	        animation-duration: 2s;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -o-animation-duration: 2s;
+    animation-duration: 2s;
 }
 
 .animated.slow {
-	-webkit-animation-duration: 3s;
-	   -moz-animation-duration: 3s;
-	     -o-animation-duration: 3s;
-	        animation-duration: 3s;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    -o-animation-duration: 3s;
+    animation-duration: 3s;
 }
 
 .animated.snail {
-	-webkit-animation-duration: 4s;
-	   -moz-animation-duration: 4s;
-	     -o-animation-duration: 4s;
-	        animation-duration: 4s;
+    -webkit-animation-duration: 4s;
+    -moz-animation-duration: 4s;
+    -o-animation-duration: 4s;
+    animation-duration: 4s;
 }
 
 @-webkit-keyframes shake {
-	0%, 100% {-webkit-transform: translateX(0);}
-	10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);}
-	20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);}
+    0%, 100% {-webkit-transform: translateX(0);}
+    10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);}
+    20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);}
 }
 
 @-moz-keyframes shake {
-	0%, 100% {-moz-transform: translateX(0);}
-	10%, 30%, 50%, 70%, 90% {-moz-transform: translateX(-10px);}
-	20%, 40%, 60%, 80% {-moz-transform: translateX(10px);}
+    0%, 100% {-moz-transform: translateX(0);}
+    10%, 30%, 50%, 70%, 90% {-moz-transform: translateX(-10px);}
+    20%, 40%, 60%, 80% {-moz-transform: translateX(10px);}
 }
 
 @-o-keyframes shake {
-	0%, 100% {-o-transform: translateX(0);}
-	10%, 30%, 50%, 70%, 90% {-o-transform: translateX(-10px);}
-	20%, 40%, 60%, 80% {-o-transform: translateX(10px);}
+    0%, 100% {-o-transform: translateX(0);}
+    10%, 30%, 50%, 70%, 90% {-o-transform: translateX(-10px);}
+    20%, 40%, 60%, 80% {-o-transform: translateX(10px);}
 }
 
 @keyframes shake {
-	0%, 100% {transform: translateX(0);}
-	10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
-	20%, 40%, 60%, 80% {transform: translateX(10px);}
+    0%, 100% {transform: translateX(0);}
+    10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+    20%, 40%, 60%, 80% {transform: translateX(10px);}
 }
 
 .shake {
-	-webkit-animation-name: shake;
-	-moz-animation-name: shake;
-	-o-animation-name: shake;
-	animation-name: shake;
+    -webkit-animation-name: shake;
+    -moz-animation-name: shake;
+    -o-animation-name: shake;
+    animation-name: shake;
 }
 
 .login .modal-dialog{
@@ -85,10 +75,10 @@
 .login .modal-header {
     border: 0 none;
     padding: 15px 15px 15px;
-/*     padding: 11px 15px; */
+    /*     padding: 11px 15px; */
 }
 .login .modal-body{
-/*     background-color: #eeeeee; */
+    /*     background-color: #eeeeee; */
 }
 .login .division {
     float: none;
@@ -120,10 +110,6 @@
     text-align: center;
 }
 
-.loi{
-	min-width: 310px;
-}
-
 .login .social .circle{
     background-color: #EEEEEE;
     color: #FFFFFF;
@@ -132,28 +118,7 @@
     margin: 0 17px;
     padding: 15px;
 }
-.login .social .circle .fa{
-    font-size: 16px;
-}
-.login .social .facebook{
-    background-color: #455CA8;
-    color: #FFFFFF;
-}
-.login .social .google{
-    background-color: #F74933;
-}
-.login .social .github{
-    background-color: #403A3A;
-}
-.login .facebook:hover{
-    background-color: #6E83CD;
-}
-.login .google:hover{
-    background-color: #FF7566;
-}
-.login .github:hover{
-    background-color: #4D4D4d;;
-}
+
 .login .forgot {
     color: #797979;
     margin-left: 0;
@@ -168,7 +133,7 @@
     color: #FFFFFF;
     display: block;
     margin: 0 auto;
-    padding: 10px 30px;
+    padding: 15px 50px;
     text-transform: uppercase;
     width: 100%;
 }
@@ -201,6 +166,7 @@
     width: 100%;
 }
 
+
 @media (max-width:400px){
     .login .modal-dialog{
         width: 100%;
@@ -209,26 +175,126 @@
 
 .big-login, .big-register{
     background-color: #D5514D;
+    margin: 10px;
+    font-size: 18px;
     color: #FFFFFF;
     border-radius: 7px;
     border-width: 2px;
     font-size: 14px;
     font-style: normal;
-    font-weight: 200;
-    padding: 5px 15px;
+    font-weight: 150;
+    padding: 10px 30px;
     text-transform: uppercase;
     transition: all 0.3s ease 0s;
 }
-.big-login:hover{
-    background-color: #c9302c;
+.big-login:hover {
+    background-color: #C9302C;
     color: #FFFFFF;
+    border-color: #c9302c;
+    height: 43px;
+
 }
 .big-register{
     background-color: rgba(0,0,0,.0);
     color: #ffffff;
-    border-color: #d9534f;
+    border-color: #D5514d;
 }
 .big-register:hover{
+    background-color: #c9302c;
+    color: #FFFFFF;
     border-color: #c9302c;
-    color:  #c9302c;
+    height: 43px;
+}
+
+#checkcode{
+    width: 49%;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+    color: #000000;
+}
+
+#checkcode:hover{
+    background-color: rgba(0,0,0,.16);
+}
+#checkcode:focus{
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+    background-color: rgba(0,0,0,0.23);
+    color: #000000;
+}
+
+
+
+#getCheckCodeButton {
+    width: 49%;
+    height: 47px;
+    margin-left: 1px;
+    margin-top: 1px;
+    text-align: center;
+    background-color: #00BBFF;
+    border-radius: 3px;
+    border-color: #00BBFF;
+    border-width: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+
+#getCheckCodeButton:hover{
+    background-color: #00A4E4;
+    color: #FFFFFF;
+}
+
+.loi{
+    min-width: 290px;
+    max-width: 290px;
+}
+
+.loh{
+    min-width: 141px;
+    max-width: 141px;
+}
+
+
+#remoteCode{
+    width: 49%;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+    color: #000000;
+}
+
+#remoteCode:hover{
+    background-color: rgba(0,0,0,.16);
+}
+#remoteCode:focus{
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+    background-color: rgba(0,0,0,0.23);
+    color: #000000;
+}
+
+
+
+#loginCodeBtn {
+    width: 49%;
+    height: 48px;
+    margin-left: 1px;
+    margin-top: 1px;
+    text-align: center;
+    background-color: #00BBFF;
+    border-radius: 3px;
+    border-color: #00BBFF;
+    border-width: 0;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+
+#loginCodeBtn:hover{
+    background-color: #00A4E4;
+    color: #FFFFFF;
+}
+
+#hideDiv{
+    display: none;
 }

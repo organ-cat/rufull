@@ -3,11 +3,11 @@ package com.cat.rufull.app.controller.system;
 import com.cat.rufull.domain.common.util.DateFormat;
 import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.ManagerUtils;
-import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.system.ManageService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,7 +83,7 @@ public class ManageController {
     }
 
     /**
-     * 获得自己的个人信息
+     * 跳转到密码修改界面
      * @return
      */
     @RequestMapping("/changePwd")
@@ -126,6 +126,14 @@ public class ManageController {
         return null;
     }
 
+    /**重复密码是否与前密码一致
+     *
+     * @param pwd1
+     * @param pwd2
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("repeatPwd")
     public String repeatPwd(String pwd1,String pwd2,
                            HttpServletResponse response) throws Exception{
@@ -147,7 +155,12 @@ public class ManageController {
         return null;
     }
 
-
+    /**
+     * 确定修改密码
+     * @param pwd1
+     * @param session
+     * @return
+     */
     @RequestMapping("/editPwd")
     public String editPwd(String pwd1,HttpSession session){
         session.removeAttribute("editpwdsuccess");
@@ -165,6 +178,29 @@ public class ManageController {
         return "system/manager/managerinfo";
     }
 
+
+    @RequestMapping("/resetPhoto")
+
+    public String resetPhoto(@RequestParam(value="file")MultipartFile file,HttpServletRequest request, HttpSession session,
+                             HttpServletResponse response) throws Exception{
+        String path = null;
+        Manager manager = (Manager) session.getAttribute("manager");
+        try {
+            Manager newManager = ManagerUtils.uploadManager(file,manager,request);
+            manageService.updateManager(newManager);
+            path = "{pageContext.request.contextPath}/img/manager/"+newManager.getPhoto().toString();
+            System.out.print("成功上传路径名："+path);
+        }
+        catch (Exception e){
+            path = "{pageContext.request.contextPath}/img/manager/profile-pic.jpg";
+            System.out.print("失败上传路径名："+path);
+        }
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(path);
+        return null;
+
+    }
+
     /**
      * 自己修改个人信息
      * @param manager
@@ -172,14 +208,14 @@ public class ManageController {
      * @return
      */
 
+
+
     @RequestMapping("/editManagerInfo")
-    public String editManagerInfo(@RequestParam(value = "file")MultipartFile file,
-                                  Manager manager,HttpSession session,
+    public String editManagerInfo(Manager manager,HttpSession session,
                                   HttpServletRequest request){
         session.removeAttribute("editInfosuccess");
         session.removeAttribute("editInfoerror");
-        Manager newManager = ManagerUtils.uploadManager(file,manager,request);
-        int i = manageService.updateManager(newManager);
+        int i = manageService.updateManager(manager);
         if(i >=1 )
         {
             session.setAttribute("editInfosuccess","更新成功");
