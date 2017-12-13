@@ -126,6 +126,7 @@ a:hover{
 .attributeList {
     width: 250px;
     height: 30px;
+    margin-right: 30px;
 }
 .infoPhoto{
     height: 150px;
@@ -263,4 +264,15 @@ a:hover{
     height: 30px;
     margin-top: 20px;
     margin-left: 37px;
+}
+#username {
+    font-size: 8px;
+    width: 280px;
+    height: 20px;
+    border: none;
+}
+#nickname {
+    width: 280px;
+    height: 20px;
+    border: none;
 }

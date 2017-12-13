@@ -187,13 +187,26 @@
                                 <table>
                                     <tr>
                                         <td class="attributeName">昵称</td>
-                                        <td class="attributeList">${account.nickname}</td>
-                                        <td><a href="#">修改</a></td>
+                                        <td class="attributeList">
+                                            <input id="nickname" value="${account.nickname}">
+                                        </td>
+                                        <td>
+                                            <a id="aNick" >修改</a>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td class="attributeName">用户名</td>
-                                        <td class="attributeList">${account.username}</td>
-                                        <td><a href="#">修改</a></td>
+                                        <c:if test="${account.username == null}">
+                                            <td class="attributeName">用户名</td>
+                                            <td class="attributeList">
+                                                <input id="username" type="text" placeholder="字母 数字和“_”组成 字母开头 仅能修改一次"/>
+                                            </td>
+                                            <td><a id="aUser">修改</a></td>
+                                        </c:if>
+                                        <c:if test="${account.username != null}">
+                                            <td class="attributeName">用户名</td>
+                                            <td class="attributeList">${account.username}</td>
+                                            <td>不能修改</td>
+                                        </c:if>
                                     </tr>
                                     <tr>
                                         <td class="attributeName">手机号</td>

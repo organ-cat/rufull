@@ -39,13 +39,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateNickname(Account account) {
-        accountMapper.updateNickname(account);
+    public void updateNickname(Integer id,String nickname) {
+        accountMapper.updateNickname(id, nickname);
     }
 
     @Override
-    public void setUsername(Account account) {
-        accountMapper.setUsername(account);
+    public void setUsername(Integer id,String username) {
+        accountMapper.setUsername(id, username);
     }
 
 
@@ -120,5 +120,10 @@ public class AccountServiceImpl implements AccountService {
             accountMapper.updatePassword(id, newPassword);
             return true;
         }
+    }
+
+    @Override
+    public int mredelAccount(Integer id) {
+        return accountMapper.mredelAccount(id);
     }
 }

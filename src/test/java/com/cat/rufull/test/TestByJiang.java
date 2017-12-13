@@ -58,13 +58,7 @@ public class TestByJiang {
         accountService.register(account);
     }
 
-    @Test
-    public void setUsername() {
-        Account account = new Account();
-        account.setUsername("ahhhhhhh");
-        accountService.setUsername(account);
 
-    }
 
     @Test
     public void UUid() {
@@ -221,11 +215,11 @@ public class TestByJiang {
     public void deleteFootprint() {
         int accountId = 1;
         int shopId = 2;
-        footprintService.deleteFootprint(accountId,shopId);
+        footprintService.deleteFootprint(accountId, shopId);
     }
 
     @Test
-    public void findFootprintList(){
+    public void findFootprintList() {
         int account_id = 1;
         List<Footprint> footprints = footprintService.findFootprintList(account_id);
         for (Footprint f : footprints) {
@@ -248,9 +242,9 @@ public class TestByJiang {
     }
 
     @Test
-    public void fingLoginLogList(){
+    public void fingLoginLogList() {
         int account_id = 8;
-        List<LoginLog> logList =  loginLogService.fingLoginLogList(account_id);
+        List<LoginLog> logList = loginLogService.fingLoginLogList(account_id);
         System.out.println(logList == null);
         boolean flag = false;
         for (LoginLog log : logList) {
@@ -276,39 +270,39 @@ public class TestByJiang {
     }
 
     @Test
-    public void json(){
+    public void json() {
         String email = "email";
         String password = "password";
         String phone = "password";
         String username = "password";
-        String json = "{ \"email\": \"" + email + "\",\"password\": \""+password+"\", \"phone\": \""+phone+"\",\"username\": \""+username+"\"}";
+        String json = "{ \"email\": \"" + email + "\",\"password\": \"" + password + "\", \"phone\": \"" + phone + "\",\"username\": \"" + username + "\"}";
         Gson gson = new Gson();
         Account account = gson.fromJson(json, Account.class);
         System.out.println(account.toString());
     }
 
     @Test
-    public void findfootprint(){
+    public void findfootprint() {
         List<Footprint> footprintList = footprintService.findFootprintList(1);
         Footprint footprint = footprintList.get(0);
 
         Footprint footprint1 = footprintList.get(1);
 
-        System.out.println("0"+footprint.toString());
-        System.out.println("1"+footprint1.toString());
+        System.out.println("0" + footprint.toString());
+        System.out.println("1" + footprint1.toString());
 
     }
 
 
     @Test
-    public void test(){
+    public void test() {
         int id = 1;
         int status = 100;
         accountService.updateAccountStatus(id, status);
     }
 
     @Test
-    public void completedComplaint(){
+    public void completedComplaint() {
         Complaint complaint = new Complaint();
         complaint.setId(1);
         complaint.setResult(9);
@@ -320,13 +314,20 @@ public class TestByJiang {
         int handlering = complaintService.handlerComplaint(id, status);
         System.out.println("处理过程结果——" + handlering);
         int handerResult = complaintService.completedComplaint(complaint);
-        System.out.println("处理结果——"+handerResult);
+        System.out.println("处理结果——" + handerResult);
     }
 
-/*************************************************************************************************/
+    /*************************************************************************************************/
 //大哥的测试
     @Test
-    public void findAllAccount(){
+    public void mredelAccount(){
+        int id = 5;
+        int isSuccess = accountService.mredelAccount(id);
+        System.out.println("恢复删除——"+isSuccess);
+    }
+
+    @Test
+    public void findAllAccount() {
         List<Account> list = accountService.findAllAccount();
         for (Account account : list) {
             System.out.println(account.toString());
@@ -334,7 +335,7 @@ public class TestByJiang {
     }
 
     @Test
-    public void mUpdateAccount(){
+    public void mUpdateAccount() {
         Account account = new Account();
         account.setId(8);
         account.setUsername("大哥");
@@ -342,17 +343,18 @@ public class TestByJiang {
         account.setEmail("qqqqqq@qq.com");
         account.setPassword("setPassword");
         int result = accountService.mUpdateAccount(account);
-        System.out.println("mUpdateAccount执行结果"+result);
+        System.out.println("mUpdateAccount执行结果" + result);
     }
 
     @Test
-    public void mdelAccount(){
+    public void mdelAccount() {
         int id = 9;
         int result = accountService.mdelAccount(id);
         System.out.println("mUpdateAccount执行结果" + result);
     }
+
     @Test
-    public void findName(){
+    public void findName() {
         String name = "@";
         List<Account> list = accountService.findName(name);
         for (Account account : list) {
@@ -360,7 +362,7 @@ public class TestByJiang {
         }
     }
 
-/*************************************************************************************************/
+    /*************************************************************************************************/
 
     @Test
     public void updatePassword() {
@@ -369,10 +371,20 @@ public class TestByJiang {
         String oldPassword = "aaaaaa";
         boolean b = accountService.updatePassword(id, newPassword, oldPassword);
         if (b) {
-            System.out.println("1111111111111111"+b);
+            System.out.println("1111111111111111" + b);
         } else {
-            System.out.println("0000000000000000"+b);
+            System.out.println("0000000000000000" + b);
         }
+    }
+
+    @Test
+    public void nickname() {
+        int id = 1;
+        String nickname = "nickname";
+        String username = "jiang";
+        accountService.updateNickname(id, nickname);
+        accountService.setUsername(id, username);
+
     }
 }
 

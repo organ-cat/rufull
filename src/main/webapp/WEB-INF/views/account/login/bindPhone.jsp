@@ -72,7 +72,6 @@
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#orderCancelBtn').click(function () {
@@ -96,9 +95,10 @@
     <link href="../css/service/pagevendor.css" rel="stylesheet">
 
     <link href="../css/service/pagemain.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
-
+    <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">--%>
+    <spring:url value="/resources/css/account/bind.css" var="bind_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${bind_css_url}"/>
+    <script src="${pageContext.request.contextPath}/js/account/bind.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- 导航条 -->
@@ -162,7 +162,7 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}" >个人资料</a></li>
+                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}">个人资料</a></li>
                             <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
@@ -174,60 +174,63 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                        <h1><small>安全中心</small></h1><br/><hr/><br/>
-                            <div class="security">
-                                <table>
-                                    <tr class="securityLevel">
+                        <h1><small>绑定手机</small></h1><br/><hr/><br/>
+                        <div class="bindDiv">
+                            <table width="800">
+                                <th>
+                                <td width="50">
+                                    <div id="show1">1</div>
+                                </td>
+                                <td width="180" id="showSpan1">验证手机号码</td>
+                                <td width="130">
+                                    <span class="spanShow"></span>
+                                </td>
+                                <td width="50">
+                                    <div id="show2">2</div>
+                                </td>
+                                <td width="180" id="showSpan2">绑定新手机号码</td>
+                                <td width="130">
+                                    <span class="spanShow"></span>
+                                </td>
+                                <td width="50">
+                                    <div id="show3">3</div>
+                                </td>
+                                <td width="180"id="showSpan3">修改成功</td>
+                                <th/>
+                            </table>
+                            <div class="bindTable">
+                                <table width="500" >
+                                    <tr width="500px" height="60px">
+                                        <td colspan="2">
+                                            <p>为保障你的账号安全，请先帮助我们验证你的身份！</p>
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td>
+                                            <input id="inputPhone" type="text" readonly value="当前的手机">
+                                        </td>
+                                        <td>
+                                            <input id="phone" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td>
+                                            <input id="inputCode" type="text" readonly value="获取验证码">
+                                        </td>
+                                        <td>
+                                            <input id="checkCode" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td colspan="2"><p id="returnMessage">为保障账号安全，请先对你的身份进行验证</p></td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
                                         <td></td>
-                                        <td colspan="3">
-                                            <span>安全等级：</span>
-                                            <div class="security-level-bar">
-                                                <span class="security-level-progress low"
-                                                      ng-style="{'width': level.width, 'background-color': level.color}"
-                                                      style="width: 50%; background-color: rgb(148, 200, 82);"></span>
-                                            </div>
-                                            <span>高</span>
-                                            <span style="color: #F49600">建议你启动全部安全设置，以保障账户及资金安全！</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="securityImg">
-                                            <span class="glyphicon glyphicon-ok-circle isBinded"></span>
-                                        </td>
-                                        <td class="securityAttru">登陆密码</td>
-                                        <td class="securityContent">互联网存在被盗风险，建议您定期更改密码以保护安全。</td>
-                                        <td class="securityChoose">
-                                            <a href="${changePasswordUrl}">更改密码</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="securityImg">
-                                            <span class="glyphicon glyphicon-remove-circle noBinded"></span>
-                                        </td>
-                                        <td class="securityAttru">手机验证</td>
-                                        <td class="securityContent">
-                                            <p>您还没有绑定邮箱</p>
-                                            <p>验证后可用户快速找回密码，接受账户提醒邮件</p>
-                                        </td>
-                                        <td class="securityChoose">
-                                            <a href="#" class="bindNow">立即绑定</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="securityImg">
-                                            <span class="glyphicon glyphicon-ok-circle isBinded"></span>
-                                        </td>
-                                        <td class="securityAttru">邮箱验证</td>
-                                        <td class="securityContent">已绑定邮箱</td>
-                                        <td class="securityChoose">
-                                            <a href="${pageContext.request.contextPath}/account/bindEmailPage">更改邮箱</a>
-                                        </td>
+                                        <td><input id="button" type="button" value="下一步"></td>
                                     </tr>
                                 </table>
                             </div>
-
-
-<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
+                        </div>
                     </div>
                 </div>
             </div>

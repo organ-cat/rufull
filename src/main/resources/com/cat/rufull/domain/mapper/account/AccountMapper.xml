@@ -88,16 +88,16 @@
     </update>
 
 
-    <update id="updateNickname" parameterType="Account">
-    UPDATE
-    ACCOUNT
-    SET
-    ACCOUNT.nickname = #{nickname}
-    WHERE
-    ACCOUNT.id = #{id}
+    <update id="updateNickname">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.nickname = #{nickname}
+        WHERE
+        ACCOUNT.id = #{id}
     </update>
 
-    <update id="setUsername" parameterType="Account">
+    <update id="setUsername">
         UPDATE
         ACCOUNT
         SET
@@ -127,7 +127,7 @@
         UPDATE
         ACCOUNT
         SET
-        ACCOUNT.username = #{status},
+        ACCOUNT.username = #{username},
         ACCOUNT.phone = #{phone},
         ACCOUNT.email = #{email},
         ACCOUNT.password = #{password}
@@ -172,6 +172,14 @@
         ACCOUNT
         SET
         ACCOUNT.password = #{newPassword}
+        WHERE
+        ACCOUNT.id = #{id};
+    </update>
+    <update id="mredelAccount" parameterType="int">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.status = 100
         WHERE
         ACCOUNT.id = #{id};
     </update>

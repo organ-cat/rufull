@@ -55,9 +55,10 @@ public interface AccountMapper {
 
     /**
      * 修改用户的昵称
-     * @param account
+     * @param id
+     * @param nickname
      */
-    void updateNickname(Account account);
+    void updateNickname(@Param("id") Integer id,@Param("nickname") String nickname);
 
     /**
      * 更改用户的信息
@@ -67,9 +68,10 @@ public interface AccountMapper {
 
     /**
      * 设置账号的用户名
-     * @param account
+     * @param id
+     * @param username
      */
-    void setUsername(Account account);
+    void setUsername(@Param("id")Integer id,@Param("username")String username);
 
     /**
      * 根据用户名查询用户
@@ -104,4 +106,6 @@ public interface AccountMapper {
     Account findAccountPassword(@Param("id")int id, @Param("oldPassword")String oldPassword);
 
     void updatePassword(@Param("id")int id, @Param("newPassword")String newPassword);
+
+    int mredelAccount(Integer id);
 }

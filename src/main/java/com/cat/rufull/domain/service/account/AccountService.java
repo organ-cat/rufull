@@ -20,9 +20,9 @@ public interface AccountService {
 
     Account login(Account account);
 
-    void updateNickname(Account account);
+    void updateNickname(Integer id, String nickname);
 
-    void setUsername(Account account);
+    void setUsername(Integer id, String username);
 
     public Account findAccountByUsername(String username, Integer role);
 
@@ -57,4 +57,5 @@ public interface AccountService {
 
     boolean updatePassword(int id, String newPassword, String oldPassword);
 
+    int mredelAccount(Integer id);
 }

@@ -51,6 +51,180 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
+    //已测试，但未完成
+    @RequestMapping("/setUsername")
+    public void setUsername(@RequestParam("username") String username,
+                              HttpSession session, HttpServletResponse response) {
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        account.setUsername(username);
+        Account accountByUsername = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
+
+        if (accountByUsername == null) {
+            accountService.setUsername(account.getId(), username);
+            account.setUsername(username);
+            session.setAttribute(Account.ACCOUNT_SESSION, account);
+            returnMessage(response, "11111111111111");
+        } else {
+            returnMessage(response, "00000000000000");
+        }
+
+    }
+
+    @RequestMapping("/updateNickname")
+    public void updateNickname(@RequestParam("nickname") String nickname,
+                               HttpSession session, HttpServletResponse response) {
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        accountService.updateNickname(account.getId(), nickname);
+        account.setNickname(nickname);
+        session.setAttribute(Account.ACCOUNT_SESSION, account);
+        returnMessage(response, "111111111111");
+    }
+
+    //绑定手机号，已测试，但未完成
+    @RequestMapping("/bindPhonePage")
+    public String bindPhonePage(){
+        return "account/login/bindPhone";
+    }
+
+
+    //绑定手机号，已测试，但未完成
+    @RequestMapping(value = "/bindPhone", method = RequestMethod.POST)
+    public void bindPhone(@RequestParam("phone") String phone, @RequestParam("checkCode") String checkCode,
+                          HttpSession session, HttpServletResponse response) {
+        //第一次验证码
+        String phoneSeesion = (String) session.getAttribute(Account.PHONE_CHECK_CODE);
+        //第二次验证码
+        String newCheckCode = (String) session.getAttribute(Account.NEW_PHONE_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        //第一次手机身份验证
+        if (phoneSeesion != null && newCheckCode == null) {
+            if (phoneSeesion.equals(checkCode)) {
+                if (phone.equals(account.getPhone())) {
+                    returnMessage(response, ReturnCode.PHONE_CHECK_CODE_RIGHT);
+                    session.removeAttribute(Account.PHONE_CHECK_CODE);
+                } else {
+                    returnMessage(response, ReturnCode.PHONE_ERROR);
+                }
+            } else {
+                returnMessage(response, ReturnCode.PHONE_CHECK_CODE_ERROR);
+            }
+        }
+        //第二次手机身份验证
+        if (phoneSeesion == null && newCheckCode != null) {
+            if (newCheckCode.equals(checkCode)) {
+                account.setPhone(phone);
+                accountService.bindPhone(account);
+                session.removeAttribute(Account.NEW_PHONE_CHECK_CODE);
+                returnMessage(response, ReturnCode.NEW_PHONE_CHECK_CODE_RIGHT);
+            } else {
+                returnMessage(response, ReturnCode.NEW_PHONE_CHECK_CODE_ERROR);
+            }
+        }
+
+    }
+    //绑定手机号，已测试，但未完成
+    @RequestMapping("/bindEmailPage")
+    public String bindEmailPage(){
+        return "account/login/bindEmail";
+    }
+    //绑定手机号，已测试，但未完成
+    @RequestMapping(value = "/bindEmail", method = RequestMethod.POST)
+    public void bindEmail(@RequestParam("email") String email, @RequestParam("checkCode") String checkCode,
+                          HttpSession session, HttpServletResponse response) {
+        //第一次验证码
+        String emailSeesion = (String) session.getAttribute(Account.EMAIL_CHECK_CODE);
+        //第二次验证码
+        String newCheckCode = (String) session.getAttribute(Account.NEW_EMAIL_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        //第一次手机身份验证
+        if (emailSeesion != null && newCheckCode == null) {
+            if (emailSeesion.equals(checkCode)) {
+                if (email.equals(account.getEmail())) {
+                    returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_RIGHT);
+                    session.removeAttribute(Account.EMAIL_CHECK_CODE);
+                } else {
+                    returnMessage(response, ReturnCode.EMAIL_ERROR);
+                }
+            } else {
+                returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_ERROR);
+            }
+        }
+        //第二次手机身份验证
+        if (emailSeesion == null && newCheckCode != null) {
+            if (newCheckCode.equals(checkCode)) {
+                account.setEmail(email);
+                accountService.bindEmail(account);
+                session.removeAttribute(Account.NEW_EMAIL_CHECK_CODE);
+                returnMessage(response, ReturnCode.NEW_EMAIL_CHECK_CODE_RIGHT);
+            } else {
+                returnMessage(response, ReturnCode.NEW_EMAIL_CHECK_CODE_ERROR);
+            }
+        }
+
+    }
+
+    @RequestMapping("addEmailPage")
+    public String addEmailPage() {
+        return "account/login/addEmail";
+    }
+    @RequestMapping("addPhonePage")
+    public String addPhonePage() {
+        return "account/login/addPhone";
+    }
+    @RequestMapping("addEmail")
+    public void addEmail(@RequestParam("email") String email, @RequestParam("checkCode") String checkCode,
+                           HttpSession session, HttpServletResponse response) {
+        String code = (String) session.getAttribute(Account.EMAIL_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        System.out.println("code" + code);
+        System.out.println("addPhone——" + email + "—|—" + checkCode);
+        if (code != null) {
+            if (code.equals(checkCode)) {
+                Account user = accountService.findAccountByEmail(email, Account.ACCOUNT_ROLE);
+                if (user == null) {
+                    account.setEmail(email);
+                    accountService.bindEmail(account);
+                    session.removeAttribute(Account.EMAIL_CHECK_CODE);
+                    returnMessage(response, ReturnCode.EMAIL_PASSED);
+                    System.out.println("成功");
+                } else {
+                    System.out.println("邮箱已经存在了");
+                    returnMessage(response, ReturnCode.EMAIL_REGISTERED);
+                }
+            } else {
+                System.out.println("验证码错误");
+                returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_ERROR);
+            }
+        } else {
+            System.out.println("请重新获取验证码！");
+        }
+
+    }
+
+    @RequestMapping("addPhone")
+    public void addPhone(@RequestParam("phone") String phone, @RequestParam("checkCode") String checkCode,
+                         HttpSession session, HttpServletResponse response) {
+        String code = (String) session.getAttribute(Account.PHONE_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        System.out.println("addPhone——" + phone + "—|—" + checkCode);
+        if (code.equals(checkCode)) {
+            Account user = accountService.findAccountByPhone(phone, Account.ACCOUNT_ROLE);
+            if (user == null) {
+                account.setPhone(phone);
+                accountService.bindPhone(account);
+                session.removeAttribute(Account.PHONE_CHECK_CODE);
+                returnMessage(response, ReturnCode.PHONE_PASSED);
+                System.out.println("成功");
+            } else {
+                System.out.println("手机已经存在了");
+                returnMessage(response, ReturnCode.PHONE_REGISTERED);
+            }
+        } else {
+            System.out.println("验证码错误");
+            returnMessage(response, ReturnCode.PHONE_CHECK_CODE_ERROR);
+        }
+
+    }
 
 
 
@@ -150,30 +324,7 @@ public class AccountController {
         view.addObject(Footprint.FOOTPRINT_LIST, shopList);
         return view;
     }
-    //已测试，但未完成
-    @RequestMapping("/setUsername")
-    public String setUsername(@RequestParam("username") String username, HttpSession session) {
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setUsername(username);
-        accountService.setUsername(account);
-        return "account/loginSuccess";
-    }
-    //绑定手机号，已测试，但未完成
-    @RequestMapping("/bindPhone")
-    public String bindPhone(@RequestParam("phone") String phone, HttpSession session){
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setPhone(phone);
-        accountService.bindPhone(account);
-        return "account/loginSuccess";
-    }
-    //绑定邮箱，已测试，但未完成
-    @RequestMapping("/bindEmail")
-    public String bindEmail(@RequestParam("email") String email, HttpSession session){
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setEmail(email);
-        accountService.bindEmail(account);
-        return "account/loginSuccess";
-    }
+
     /**
      * 退出的功能
      * @param session

@@ -51,5 +51,30 @@ public class ReturnCode {
 
     public static final String UPDATE_PASSWORD_FAIL = "301";
 
+    public static final String PHONE_CHECK_CODE_RIGHT = "400";
+
+    public static final String PHONE_CHECK_CODE_ERROR = "401";
+
+    public static final String NEW_PHONE_CHECK_CODE_RIGHT = "402";
+
+    public static final String NEW_PHONE_CHECK_CODE_ERROR = "403";
+
+    public static final String PHONE_ERROR = "405";
+
+    public static final String ADD_PHONE_FAIL = "406";
+
+    public static final String ADD_PHONE_SUCCESS = "407";
+
+    public static final String EMAIL_CHECK_CODE_RIGHT = "500";
+
+    public static final String EMAIL_CHECK_CODE_ERROR = "501";
+
+    public static final String NEW_EMAIL_CHECK_CODE_RIGHT = "502";
+
+    public static final String NEW_EMAIL_CHECK_CODE_ERROR = "503";
+
+    public static final String EMAIL_ERROR = "505";
+
+
 
 }
