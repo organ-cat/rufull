@@ -22,7 +22,7 @@ public interface ManagerMapper {
 
     int reDelManager(Integer id);
 
-    List<Manager> findName(String findname);
+    List<Manager> findName(@Param(value = "findname") String findname);
 
     int updateManagerPhoto(Manager manager);
 }

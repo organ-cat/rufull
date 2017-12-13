@@ -59,8 +59,7 @@ public class ManageOrderController {
      */
     @RequestMapping("/findOrdersList")
     public String findOrdersList(Model model) {
-        List<Order> orderList =null;
-                //orderService.findAllOrders();
+        List<Order> orderList = orderService.findAllOrders();
         model.addAttribute("morderlist", orderList);
         return "system/order/ordersList";
     }

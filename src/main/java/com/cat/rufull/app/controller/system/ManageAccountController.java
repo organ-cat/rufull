@@ -36,7 +36,7 @@ public class ManageAccountController {
     @Resource
     private ManagerLogService logService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
     private Date date = new Date();
 
 
@@ -145,6 +145,41 @@ public class ManageAccountController {
     }
 
     /**
+     * 管理员恢复删除用户
+     * @param id
+     * @param session
+     * @return
+     */
+    @RequestMapping("/redelaccount")
+    public String redelManager(Integer id, HttpSession session){
+        session.removeAttribute("delAccerror");
+        session.removeAttribute("delAccsuccess");
+        session.removeAttribute("logerror");
+        Manager mana = (Manager) session.getAttribute("manager");
+        Account account = new Account();
+        account.setId(id);
+        //int i = accountService.mredelAccount(id);
+        int i = 1;
+        if (i >= 1) {
+            session.setAttribute("delAccsuccess","删除成功！");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("删除用户！");
+            log.setManager((Manager) session.getAttribute("manager"));
+            log.setType(2);
+            log.setAccount(account);
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:getAccountList";
+            } else
+                session.setAttribute("logerror","日志写入失败！");
+            return "redirect:manageAcc/getAccountList";
+        } else
+            session.setAttribute("delAccerror","删除失败！");
+        return "redirect:getAccountList";
+    }
+
+
+    /**
      * 管理员通过某一字段查询用户
      * @param findname
      * @param model
@@ -152,13 +187,14 @@ public class ManageAccountController {
      * @return
      */
     @RequestMapping("/findaccount")
-    public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
+    public String findaccount(String findname, Model model, HttpSession session){
         session.removeAttribute("logerror");
+        Manager mana = (Manager) session.getAttribute("manager");
         List<Account> findlist = accountService.findName(findname);
         model.addAttribute("allalist", findlist);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询用户！");
-        log.setManager((Manager) session.getAttribute("manager"));
+        log.setManager(mana);
         log.setType(2);
         int a = logService.addLog(log);
         if (a >= 1) {

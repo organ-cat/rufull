@@ -18,7 +18,7 @@ public class ManagerUtils {
                                    Manager manager,
                                    HttpServletRequest request){
         //上传文件：
-        String uploadPath = request.getServletContext().getRealPath("/img/manager");
+        String uploadPath = request.getServletContext().getRealPath("/upload/manager");
         String fileName = UUID.randomUUID()+file.getOriginalFilename();
 
         try {

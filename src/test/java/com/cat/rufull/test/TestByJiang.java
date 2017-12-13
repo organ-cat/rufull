@@ -3,6 +3,7 @@ package com.cat.rufull.test;
 
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
+import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import com.google.gson.Gson;
 import org.junit.Test;
@@ -36,7 +37,8 @@ public class TestByJiang {
     private MailSender mailSender;
     @Autowired
     private SimpleMailMessage mailMessage;
-
+    @Autowired
+    private ManagerLogService managerLogService;
     @Test
     public void login() {
         Account account = new Account();
@@ -361,6 +363,24 @@ public class TestByJiang {
     }
 
 /*************************************************************************************************/
+    @Test
+    public void test1() {
+        List<ManageLog> accountLog = managerLogService.findAccountLog();
+        for(ManageLog manageLog:accountLog){
+            System.out.println(manageLog.toString());
+            System.out.println("-----------------------------");
+            System.out.println(manageLog.getAccount()+","+manageLog.getManager());
+        }
+    }
+    @Test
+    public void test2() {
+        List<ManageLog> accountLog = managerLogService.findLogsByCondition(null,null,"%查询%");
+        for(ManageLog manageLog:accountLog){
+            System.out.println(manageLog.toString());
+            System.out.println("-----------------------------");
+            System.out.println(manageLog.getAccount()+","+manageLog.getManager());
+        }
+    }
 
 }
 

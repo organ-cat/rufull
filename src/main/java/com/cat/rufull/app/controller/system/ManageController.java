@@ -7,6 +7,7 @@ import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.system.ManageService;
+import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,14 +38,9 @@ public class ManageController {
     @Resource
     private ManagerLogService logService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
 
     private Date date = new Date();
-
-    @RequestMapping("/testlogin")
-    public String testlogin() {
-        return "system/index";
-    }
 
 
     /**
@@ -106,7 +103,8 @@ public class ManageController {
         String flag="1";
         try {
             Manager manager = (Manager) session.getAttribute("manager");
-            if(EncryptByMD5.encrypt(password).equals(manager.getPassword().toString()))
+            //if(EncryptByMD5.encrypt(password).equals(manager.getPassword().toString()))
+            if(password.equals(manager.getPassword().toString()))
             {
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print(flag);
@@ -120,10 +118,7 @@ public class ManageController {
         }catch (Exception e){
                 flag = "0";
         }
-
-        response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().print(flag);
-        return null;
+            return  null;
     }
 
     /**重复密码是否与前密码一致
@@ -162,10 +157,14 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/editPwd")
-    public String editPwd(String pwd1,HttpSession session){
+    public String editPwd(String password,String pwd1,HttpSession session){
         session.removeAttribute("editpwdsuccess");
         session.removeAttribute("editpwderror");
         Manager manager = (Manager) session.getAttribute("manager");
+        if(!password.equals(manager.getPassword()))
+        {
+            return "redirect:changePwd";
+        }
         manager.setPassword(pwd1);
         int i = manageService.updateManager(manager);
         if(i >=1 )
@@ -183,16 +182,19 @@ public class ManageController {
 
     public String resetPhoto(@RequestParam(value="file")MultipartFile file,HttpServletRequest request, HttpSession session,
                              HttpServletResponse response) throws Exception{
+        String picpath = null;
         String path = null;
         Manager manager = (Manager) session.getAttribute("manager");
         try {
             Manager newManager = ManagerUtils.uploadManager(file,manager,request);
             manageService.updateManager(newManager);
-            path = "{pageContext.request.contextPath}/img/manager/"+newManager.getPhoto().toString();
+            picpath = "upload/manager/"+newManager.getPhoto().toString();
+            path ="{\"path\":\""+picpath+"\"}";
             System.out.print("成功上传路径名："+path);
         }
         catch (Exception e){
-            path = "{pageContext.request.contextPath}/img/manager/profile-pic.jpg";
+            picpath = "upload/manager/profile-pic.jpg";
+            path ="{\"path\":\""+picpath+"\"}";
             System.out.print("失败上传路径名："+path);
         }
         response.setContentType("text/html;charset=UTF-8");
@@ -208,16 +210,19 @@ public class ManageController {
      * @return
      */
 
-
-
     @RequestMapping("/editManagerInfo")
     public String editManagerInfo(Manager manager,HttpSession session,
                                   HttpServletRequest request){
         session.removeAttribute("editInfosuccess");
         session.removeAttribute("editInfoerror");
-        int i = manageService.updateManager(manager);
+        Manager newManager = (Manager) session.getAttribute("manager");
+        newManager.setUsername(manager.getUsername());
+        newManager.setEmail(manager.getEmail());
+        newManager.setPhone(manager.getPhone());
+        int i = manageService.updateManager(newManager);
         if(i >=1 )
         {
+            session.setAttribute("manager",newManager);
             session.setAttribute("editInfosuccess","更新成功");
         }
         else {
@@ -231,7 +236,7 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/addManager")
-    public String saveManager(HttpSession session) {
+    public String addManager(HttpSession session) {
         session.removeAttribute("addMerror");
         return "system/manager/addmanager";
     }
@@ -250,7 +255,6 @@ public class ManageController {
 
     /**
      * 保存管理员
-     * @param file
      * @param manager
      * @param model
      * @param session
@@ -258,15 +262,17 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/saveManager")
-    public String saveManager(@RequestParam(value = "file")MultipartFile file,
-                              Manager manager, Model model, HttpSession session,
+    public String saveManager(Manager manager, Model model, HttpSession session,
                               HttpServletRequest request)  {
         session.removeAttribute("logerror");
         session.removeAttribute("addMerror");
         session.removeAttribute("addMsuccess");
+        manager.setCreatedTime(DateFormat.getNewdate(date));
+        manager.setPhoto("profile-pic.jpg");
+        manager.setStatus(1);
+        manager.setRole(2);
         Manager mana = (Manager) session.getAttribute("manager");
-        Manager newManager = ManagerUtils.uploadManager(file,manager,request);
-            int i = manageService.saveManager(newManager);
+            int i = manageService.saveManager(manager);
             if (i >= 1) {
                 session.setAttribute("addMsuccess","成功了！");
                 log.setCreateTime(DateFormat.getNewdate(date));
@@ -318,8 +324,6 @@ public class ManageController {
             old.setEmail(manager.getEmail());
             old.setPhone(manager.getPhone());
             old.setUsername(manager.getUsername());
-            old.setPassword(manager.getPassword());
-
             int i = manageService.updateManager(old);
             if (i >= 1) {
                 session.setAttribute("updatesuccess","成功了！");
@@ -339,16 +343,14 @@ public class ManageController {
             attr.addAttribute("id", id);
             return "redirect : getManager";
         }
-
-
     /**
      * 删除管理员
      * @param id
      * @param session
      * @return
      */
-    @RequestMapping("/delManager/{id}")
-    public String delManager(@PathVariable Integer id,
+    @RequestMapping("/delManager")
+    public String delManager(Integer id,
                              HttpSession session) {
         session.removeAttribute("delerror");
         session.removeAttribute("delsuccess");
@@ -413,10 +415,11 @@ public class ManageController {
      * @param session
      * @return
      */
-    @RequestMapping("/find")
-    public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
+    @RequestMapping("/findbycondition")
+    public String findbycondition(String findname, Model model, HttpSession session){
+        System.out.println("查找的字段为："+findname);
         session.removeAttribute("logerror");
-        List<Manager> findlist = manageService.findName(findname);
+        List<Manager> findlist = manageService.findName("%" + findname + "%");
         model.addAttribute("allmlist", findlist);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询管理员！");

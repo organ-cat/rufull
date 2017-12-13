@@ -29,6 +29,8 @@ $citypicker.citypicker();
 
 var lng = "";
 var lat = "";
+var slng = "";
+var slat = "";
 var province = "";
 var city = "";
 var region = "";
@@ -65,33 +67,33 @@ function searchByStationName() {
     map.clearOverlays();//清空原来的标注
     var keyword = document.getElementById("address").value;
     localSearch.setSearchCompleteCallback(function (searchResult) {
-        var last=JSON.stringify(searchResult.wr[0].address);
+        var last = JSON.stringify(searchResult.wr[0].address);
 
-        var q=searchResult.province + "/" + searchResult.city + "/"+null;
+        var q = searchResult.province + "/" + searchResult.city + "/" + null;
         //alert(q);
         var region = document.getElementById("city").value;
-        var strs= new Array(); //定义一数组
+        var strs = new Array(); //定义一数组
         strs = region.split(" -- ");
-        var name="";
-        for(var a=0;a<strs.length;a++){
-            name =name+strs[a];
+        var name = "";
+        for (var a = 0; a < strs.length; a++) {
+            name = name + strs[a];
         }
-        if(name!=searchResult.wr[0].address.substr(0,name.length)){
+        if (name != searchResult.wr[0].address.substr(0, name.length)) {
             //alert(searchResult.wr[0].address.substr(0,name.length))
             $citypicker.val(q);
             $citypicker.citypicker('refresh');
         }
-        else{
-            var q="";
-            for(var a=0;a<(2);a++){
-                q =q+strs[a] + "/";
+        else {
+            var q = "";
+            for (var a = 0; a < (2); a++) {
+                q = q + strs[a] + "/";
             }
-            q =q + strs[2];
+            q = q + strs[2];
             $citypicker.val(q);
             $citypicker.citypicker('refresh');
         }
 
-        addressvalue = strs[1]+keyword;
+        addressvalue = strs[1] + keyword;
         var poi = searchResult.getPoi(0);
         lng = poi.point.lng;
         lat = poi.point.lat;
@@ -101,7 +103,8 @@ function searchByStationName() {
         map.addOverlay(marker);
         var content = document.getElementById("address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
         var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
-        marker.addEventListener("click", function () { this.openInfoWindow(infoWindow);
+        marker.addEventListener("click", function () {
+            this.openInfoWindow(infoWindow);
 
         });
     });
@@ -174,6 +177,45 @@ function setPlace() {
     document.getElementById("address").value = myValue;
     local.search(myValue);
 }
+
+
+function getAddressPoin(accountAddress, shopAddress) {
+    var localSearch = new BMap.LocalSearch(map);
+    localSearch.setSearchCompleteCallback(
+        function (searchResult) {
+            var poi = searchResult.getPoi(0);
+            lng = poi.point.lng;
+            lat = poi.point.lat;
+
+        });
+    localSearch.search(accountAddress);
+
+    var localSearch2 = new BMap.LocalSearch(map);
+    localSearch2.setSearchCompleteCallback(
+        function (searchResult) {
+            var poi = searchResult.getPoi(0);
+            slng = poi.point.lng;
+            slat = poi.point.lat;
+        });
+    localSearch2.search(shopAddress);
+
+    //return (lng,lat,slng,slat);
+}
+
+function comptoDistance(distance) {
+    var pointA = new BMap.Point(lng, lat);  // 创建点坐标A
+    var pointB = new BMap.Point(slng, slat);  // 创建点坐标B
+    //距离
+    var newdistance = (map.getDistance(pointA, pointB)).toFixed(2);
+    if (newdistance > distance * 1000) {
+        return false;
+    }
+    else(newdistance <= distance * 1000)
+    {
+        return true;
+    }
+}
+
 
 $('#searcher').click(function () {
     var region = document.getElementById("city").value;

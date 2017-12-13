@@ -26,7 +26,7 @@ public class AdminLoginController {
      * 跳转管理员登录界面
      * @return
      */
-    @RequestMapping("/adminLogin")
+    @RequestMapping("/admin")
     public String adminLogin(HttpSession session) {
         return "system/managerlogin";
     }
@@ -63,6 +63,6 @@ public class AdminLoginController {
         }
         else
             session.setAttribute("loginerror","管理员不存在");
-            return "redirect:adminLogin";
+            return "redirect:admin";
     }
 }

@@ -43,8 +43,7 @@ public class DateAnalysisController {
         int c = 0;
         int d = 0;
         int e = 0;
-        List<Order> orderList = null;
-               // orderService.findAllOrders();
+        List<Order> orderList =  orderService.findAllOrders();
         Order oList = new Order();
         if(orderList!=null) {
             for (Order order : orderList) {

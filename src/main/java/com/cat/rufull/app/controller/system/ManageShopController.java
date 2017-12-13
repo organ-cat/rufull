@@ -162,9 +162,8 @@ public class ManageShopController {
     @RequestMapping("/findByCondition")
     public String findByCondition(@RequestParam("condition") String condition, Model model) {
 
-       //List<Shop> shop = shopService.fuzzyFindByShopName(condition);
-
-        //        model.addAttribute("mshoplist",shop);
+       List<Shop> shop = shopService.fuzzyFindByShopName(condition);
+       model.addAttribute("mshoplist",shop);
         return "system/shop/allshop";
     }
 

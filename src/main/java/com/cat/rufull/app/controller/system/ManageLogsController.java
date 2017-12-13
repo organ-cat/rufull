@@ -4,11 +4,16 @@ import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.omg.CORBA.MARSHAL;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +25,6 @@ import java.util.List;
 public class ManageLogsController {
     @Resource
     private ManagerLogService managerLogService;
-
     /**
      * 展示管理日志
      * @param model
@@ -29,7 +33,7 @@ public class ManageLogsController {
     @RequestMapping("/showManagelog")
     public String showManagelog(Model model) {
         List<ManageLog> list = this.managerLogService.findManageLog();
-        model.addAttribute("list", list);
+        model.addAttribute("loglist", list);
         return "system/managelog/checklog";
     }
 
@@ -41,8 +45,8 @@ public class ManageLogsController {
     @RequestMapping("/showAccountlog")
     public String showAccountlog(Model model) {
         List<ManageLog> list = this.managerLogService.findAccountLog();
-        model.addAttribute("list", list);
-        return "system/managelog/checklog";
+        model.addAttribute("Accloglist", list);
+        return "system/managelog/checkAcclog";
     }
 
     /**
@@ -51,7 +55,7 @@ public class ManageLogsController {
      */
     @RequestMapping("goLogs")
     public String goLogs() {
-        return "system/managelog/checklog";
+        return "system/managelog/findlog";
     }
 
     /**
@@ -63,9 +67,19 @@ public class ManageLogsController {
      * @return
      */
     @RequestMapping("/checkLogs")
-    public String checkLogs(Date beginTime,Date endTime,String keyword, Model model){
-        List<ManageLog> manageLogs = managerLogService.findLogsByCondition(beginTime,endTime,keyword);
+    public String checkLogs(String beginTime,String endTime, String keyword, Model model)
+    throws  Exception{
+        System.out.println("我执行了");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begin = null;
+        Date end = null;
+        if(beginTime!=null&&beginTime!="") {
+            begin = formatter.parse(beginTime);
+        }if(endTime!=null&&endTime!=""){
+            end = formatter.parse(endTime);
+        }
+        List<ManageLog> manageLogs = managerLogService.findLogsByCondition(begin,end,"%"+keyword+"%");
         model.addAttribute("Logslist", manageLogs);
-        return "system/managelog/checklog";
+        return "system/managelog/findlog";
     }
 }

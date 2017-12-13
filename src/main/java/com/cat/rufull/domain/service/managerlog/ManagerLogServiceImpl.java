@@ -33,6 +33,6 @@ public class ManagerLogServiceImpl implements ManagerLogService {
 
     @Override
     public List<ManageLog> findLogsByCondition(Date beginTime, Date endTime, String keyword) {
-        return null;
+        return managerLogMapper.findLogsByCondition(beginTime,endTime,keyword);
     }
 }

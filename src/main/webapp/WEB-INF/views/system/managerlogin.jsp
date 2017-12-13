@@ -23,7 +23,7 @@
 
 <div class="signin">
     <div class="signin-head "><img src="${pageContext.request.contextPath}/image/system/atm.png" class="imgsize"></div>
-    <form class="form-signin" role="form" action="${pageContext.request.contextPath}/adminLogin/Login.do">
+    <form class="form-signin" role="form" action="${pageContext.request.contextPath}/adminLogin/Login">
         <input type="text" name="loginname" class="form-control" placeholder="请填写用户名/手机号/邮箱" required autofocus />
         <input type="password" name="password" class="form-control" placeholder="请填写密码" required />
         <button class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
