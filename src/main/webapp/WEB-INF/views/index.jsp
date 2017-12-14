@@ -58,11 +58,11 @@
                     </c:if>
                     <c:if test="${!empty account}">
                         <ul id="ulSize">
-                            <c:if test="${account.photo == null &&account.username == null}">
+                            <c:if test="${account.photo == null &&account.nickname == null}">
                                 <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/rufull.png" alt="头像" /> <span >Hi,美食家</span></a></li>
                             </c:if>
                             <c:if test="${account.photo != null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.username}</span></a></li>
+                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.nickname}</span></a></li>
                             </c:if>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>

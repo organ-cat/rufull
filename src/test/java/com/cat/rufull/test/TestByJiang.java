@@ -3,6 +3,7 @@ package com.cat.rufull.test;
 
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
+import com.cat.rufull.domain.service.favor.FavorService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import com.google.gson.Gson;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +38,8 @@ public class TestByJiang {
     private MailSender mailSender;
     @Autowired
     private SimpleMailMessage mailMessage;
+    @Autowired(required=true)
+    private FavorService favorService;
 
     @Test
     public void login() {
@@ -198,6 +202,16 @@ public class TestByJiang {
             System.out.println(c.toString());
         }
     }
+
+    @Test
+    public void findAllComplaintList() {
+        List<Complaint> list = complaintService.findAllComplaint();
+        for (Complaint c : list) {
+            System.out.println(c.toString());
+        }
+    }
+
+
 //    **************************************************************************************************************/
 //足迹测试
 //    **************************************************************************************************************/
@@ -362,10 +376,27 @@ public class TestByJiang {
         }
     }
 
+    @Test
+    public void select(){
+        Date creatTime = new Date();
+        Date complaitTime = new Date();
+//        long time = 1513233656796L;
+//        creatTime.setTime(time);
+        System.out.println(creatTime);
+        System.out.println(complaitTime);
+
+        String content = "a";
+
+        List<Complaint> complaints = complaintService.findComplaintByTime(null, null, content);
+        for (Complaint com : complaints) {
+            System.out.println(com.toString());
+        }
+    }
     /*************************************************************************************************/
 
     @Test
     public void updatePassword() {
+
         int id = 1;
         String newPassword = "123456";
         String oldPassword = "aaaaaa";
@@ -385,6 +416,28 @@ public class TestByJiang {
         accountService.updateNickname(id, nickname);
         accountService.setUsername(id, username);
 
+    }
+
+/***********************************************************************************************************/
+//收藏
+    @Test
+    public void selectFavor() {
+        int id = 1;
+        List<Shop> shopList = new ArrayList<>();
+        List<Favor> list = favorService.findShopByAccountId(1);
+        System.out.println(list.size());
+        for (Favor favor : list) {
+            shopList.add(shopService.findById(favor.getShopId()));
+        }
+        for (Shop s : shopList) {
+            System.out.println(s.toString());
+        }
+    }
+    @Test
+    public void deleteFavor(){
+        int id = 1;
+        int i = favorService.deleteByFavorId(id);
+        System.out.println("删除收藏"+i);
     }
 }
 

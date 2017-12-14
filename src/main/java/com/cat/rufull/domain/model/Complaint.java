@@ -28,6 +28,19 @@ public class Complaint implements Serializable {
 
     private Integer shopId;     // 被投诉的商店
 
+    public static final Integer NO_MEALS_ON_WHEELS = 1;
+    public static final Integer FOOD_HEALTH_SECURITY_PROBLEM = 2;
+    public static final Integer OTHER_PROBLEM = 3;
+
+    public static final Integer COMPLAINTED = 1;
+    public static final Integer HANDLING = 2;
+    public static final Integer COMPLETED_COMPLAINTION = 3;
+
+    public static final Integer RESULT_TRUE = 1;
+    public static final Integer RESULT_FAKE = 2;
+
+
+
     public Complaint() {
     }
 
