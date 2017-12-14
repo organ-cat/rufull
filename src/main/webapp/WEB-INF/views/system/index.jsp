@@ -72,8 +72,8 @@
 
 
                 <li class="light-blue"><a data-toggle="dropdown" href="#"
-                                          class="dropdown-toggle"> <img class="nav-user-photo"
-                                                                        src="${pageContext.request.contextPath}/image/system/admin.png"/>
+                                          class="dropdown-toggle"> <img class="nav-user-photo" style="width: 40px;height: 40px;"
+                                                                        src="${pageContext.request.contextPath}/upload/manager/${manager.photo}"/>
                     <span
                             class="user-info"> <strong>${manager.username}</strong>
 						</span> <i class="icon-caret-down"></i>
@@ -272,7 +272,10 @@
 
                     <ul class="submenu">
                         <li><a href="${findAllComp}" target="mainframe"> <i
-                                class="icon-double-angle-right"></i> 查看信息
+                                class="icon-double-angle-right"></i> 未处理信息
+                        </a></li>
+                        <li><a href="${findAllComp}" target="mainframe"> <i
+                                class="icon-double-angle-right"></i> 已处理信息
                         </a></li>
 
                     </ul>

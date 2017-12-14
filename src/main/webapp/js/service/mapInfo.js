@@ -67,8 +67,11 @@ function searchByStationName() {
     map.clearOverlays();//清空原来的标注
     var keyword = document.getElementById("address").value;
     localSearch.setSearchCompleteCallback(function (searchResult) {
-        var last = JSON.stringify(searchResult.wr[0].address);
 
+        var poi = searchResult.getPoi(0);
+        lng = poi.point.lng;
+        lat = poi.point.lat;
+        var last = JSON.stringify(searchResult.wr[0].address);
         var q = searchResult.province + "/" + searchResult.city + "/" + null;
         //alert(q);
         var region = document.getElementById("city").value;
@@ -94,9 +97,7 @@ function searchByStationName() {
         }
 
         addressvalue = strs[1] + keyword;
-        var poi = searchResult.getPoi(0);
-        lng = poi.point.lng;
-        lat = poi.point.lat;
+
         //alert( lng + "," + lat);
         map.centerAndZoom(poi.point, 15);
         var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat));  // 创建标注，为要查询的地方对应的经纬度

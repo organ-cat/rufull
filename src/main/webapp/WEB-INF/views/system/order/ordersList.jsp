@@ -44,13 +44,16 @@
             elem: '#endTime'
             ,type: 'datetime'
         });
-        function findLog() {
-            document.findLog.submit();
+        function findallorders() {
+            document.findorder.submit();
+        }
+        function getdetail(id) {
+            window.location.href="${pageContext.request.contextPath}/ordermanage/getOrder?id="+id;
         }
     </script>
 </head>
 <body>
-<form class="form-inline" name="findLog" action="${pageContext.request.contextPath}/manageLog/checkLogs"
+<form class="form-inline" name="findorder" action="${pageContext.request.contextPath}/ordermanage/getOrdersbycondition"
       method="post">
     <div class="col-sm-12">
         <div class="form-group" style="padding-left: 20%;padding-top: 50px;padding-bottom: 10px;">
@@ -58,11 +61,9 @@
             <input  type="text" class="form-control input-lg" id="beginTime" placeholder="请填写开始时间"
                     name="beginTime" style="min-width: 200px;max-width: 200px;">----
             <input type="text" class="form-control input-lg" id="endTime" placeholder="请填写结束时间"
-                   name="endTime" style="min-width: 200px;max-width: 200px;">&nbsp;&nbsp;
-            <input type="text" class="form-control input-lg"
-                   id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
+                   name="endTime" style="min-width: 200px;max-width: 200px;">
             &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
-                                class="btn btn-lg" onclick="findLog();">查找
+                                class="btn btn-lg" onclick="findallorders();">查找
         </button>
         </div>
     </div>
@@ -71,46 +72,61 @@
     <div class="panel panel-default">
 
         <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
-            <h4>用户管理日志列表展示</h4>
+            <h4>订单列表展示</h4>
         </div>
         <table class="table table-bordered">
             <tr>
-                <th>日志内容</th>
-                <th>登记时间</th>
-                <th>用户姓名</th>
-                <th>用户角色</th>
-                <th>登记者</th>
-                <th>登记者角色</th>
+                <th>订单号</th>
+                <th>创建时间</th>
+                <th>商店名称</th>
+                <th>支付方式</th>
+                <th>订单总额</th>
+                <th>订单状态</th>
+                <th>操作</th>
             </tr>
-            <c:forEach items="${Logslist}" var="list">
+            <c:forEach items="${morderlist}" var="list">
                 <tr>
-                    <td>${list.detail}</td>
-                    <td><fmt:formatDate value="${list.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <c:if test="${list.account.id!=null}">
-                        <td>${list.account.username}</td>
+                    <td>${list.orderNumber}</td>
+                    <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>${list.shop.shopName}</td>
+                    <c:if test="${list.paymentMethod=='ONLINE'}">
+                            <td>在线支付</td>
+                        </c:if>
+                        <c:if test="${list.paymentMethod=='OFFLINE'}">
+                            <td>货到付款</td>
+                        </c:if>
+                    <td>${list.total}</td>
+                    <c:if test="${list.status=='UNPAID'}">
+                        <td>未付款</td>
                     </c:if>
-                    <c:if test="${list.account.id==null}">
-                        <td>无</td>
+                    <c:if test="${list.status=='PAID'}">
+                        <td>已付款</td>
                     </c:if>
-                    <c:if test="${list.account.id!=null}">
-                    <c:if test="${list.account.role=='1'}">
-                        <td>普通用户</td>
+                    <c:if test="${list.status=='CANCELED'}">
+                        <td>已取消</td>
                     </c:if>
-                    <c:if test="${list.account.role=='2'}">
-                        <td>商家</td>
+                    <c:if test="${list.status=='ACCEPTED'}">
+                        <td>已接单</td>
                     </c:if>
+                    <c:if test="${list.status=='DELIVERY'}">
+                        <td>运送中</td>
                     </c:if>
-                    <c:if test="${list.account.id==null}">
-                        <td>无</td>
+                    <c:if test="${list.status=='COMPLETED'}">
+                        <td>已完成</td>
                     </c:if>
-
-                    <td>${list.manager.username}</td>
-                    <c:if test="${list.manager.role=='1'}">
-                        <td>超级管理员</td>
+                    <c:if test="${list.status=='AUDITING'}">
+                        <td>审核中</td>
                     </c:if>
-                    <c:if test="${list.manager.role=='2'}">
-                        <td>管理员</td>
+                    <c:if test="${list.status=='UNCOMPLETED'}">
+                        <td>未完成</td>
                     </c:if>
+                    <c:if test="${list.status=='EVALUATED'}">
+                        <td>已评价</td>
+                    </c:if>
+                    <td>
+                        <input type="button" class="btn btn-primary" value="查看详情"
+                               onclick="getdetail(${list.id});"/>
+                    </td>
                 </tr>
             </c:forEach>
         </table>

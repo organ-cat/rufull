@@ -36,7 +36,7 @@
     </select>
 
     <select id="findAllmLog" resultMap="ManagerLogResult">
-        SELECT *
+        SELECT MANAGE_LOG.* , manager.username sname,manager.role srole
             FROM (manage_log AS manage_log
                  INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
             WHERE
