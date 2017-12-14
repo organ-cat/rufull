@@ -9,6 +9,8 @@ public interface ProductService {
 
     List<Product> findProductByShopId(Integer id);      // 通过商店Id查询商品
 
+    List<Product> fuzzyFindByProductNameAndProductDesc(String searchContext); //通过商品名字和商品描述查询并去除重复商家
+
     Product findProductById(Integer id);                 //通过id查询商品
 
     int deleteById(Integer id);                         // 通过Id删除商品

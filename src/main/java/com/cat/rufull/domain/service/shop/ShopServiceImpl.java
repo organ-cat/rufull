@@ -1,18 +1,23 @@
 package com.cat.rufull.domain.service.shop;
 
+import com.cat.rufull.domain.mapper.product.ProductMapper;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
+import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+@Transactional
 @Service("shopService")
 public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopMapper shopMapper;
 
+    @Autowired
+    private ProductMapper productMapper;
     @Override
     public List<Shop> findAll() {
         /**
@@ -98,11 +103,63 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<Shop> fuzzyFindByShopName(String shopName) {
+        /**
+        *@Author:Caoxin
+        *@Description:通过商家名字模糊查询商家
+        *@Date:10:31 2017/12/14
+        *@param[shopName]
+        *@returnjava.util.List<com.cat.rufull.domain.model.Shop>
+        */
         return shopMapper.fuzzyFindByShopName(shopName);
     }
 
     @Override
+    public List<Shop> fuzzyFindByShopAndProduct(String searchContext) {
+        /**
+        *@Author:Caoxin
+        *@Description：通过查询内容查询出商家
+        *@Date:10:32 2017/12/14
+        *@param[searchContext]
+        *@returnjava.util.List<com.cat.rufull.domain.model.Shop>
+        */
+
+        List<Shop> shopListSearchOfProduct = new LinkedList<Shop>();
+        //通过查询内容查询不重复shop_id的商品
+        List<Product> products =
+                productMapper.fuzzyFindByProductNameAndProductDesc(searchContext);
+        //通过商品查询出对应的商店
+        for (Product product:products
+             ) {
+            Shop shop = shopMapper.findById(product.getShopId());
+            shopListSearchOfProduct.add(shop);
+        }
+        //通过商店名称模糊查询出对应的名称
+        List<Shop> shopListSearchOfShop = shopMapper.fuzzyFindByShopName(searchContext);
+
+        //组装成ShopList
+        shopListSearchOfShop.addAll(shopListSearchOfProduct);
+
+        //通过HashSet去除重复的商店
+        HashSet<Shop> shopSet = new HashSet<Shop>(shopListSearchOfShop);
+
+        //组装成List集合
+       LinkedList<Shop> shopLinkedList =  new LinkedList<Shop>();
+        Iterator<Shop> shopIterator = shopSet.iterator();
+        while (shopIterator.hasNext()){
+            shopLinkedList.add(shopIterator.next());
+        }
+        return shopLinkedList;
+    }
+
+    @Override
     public Shop findShopByBusinessId(Integer id) {
+        /**
+        *@Author:Caoxin
+        *@Description:通过商家Id，查询出对应的商店
+        *@Date:10:31 2017/12/14
+        *@param[id]
+        *@returncom.cat.rufull.domain.model.Shop
+        */
         return shopMapper.findShopByBusinessId(id);
     }
 }

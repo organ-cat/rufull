@@ -143,6 +143,28 @@ function addShopList(typeShopList) {
     }
 }
 
+//通过查询对应的美食和商店查询出全部的商店
+function searchShopAndFood() {
+    $("#searchShopAndFoodImg").click(function () {
+
+        var searchContext = $("#globalsearch").val();
+
+        var url = "/rufull/shop/findFuzzySearchShop?searchContext="+searchContext;
+        var sendData = null;
+        console.log(searchContext);
+        $.get(url,sendData,function(backData,textStaut,ajax){
+            var jsonShopList = ajax.responseText;
+
+            var searchShopList = eval('('+jsonShopList+')');
+
+            addShopList(searchShopList);
+
+            shopArray = searchShopList;
+        });
+    });
+
+}
+
 
 
 

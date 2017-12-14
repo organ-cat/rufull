@@ -15,10 +15,11 @@
 
 
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/fileinput.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap-select.css">
-
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/css/business/bootstrapValidator.min.css">
 
 
 </head>
@@ -97,5 +98,7 @@
 <%--下拉列表--%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/bootstrap-select.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/defaults-zh_CN.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/bootstrapValidator.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/productSettleValidator.js"></script>
 
 </html>

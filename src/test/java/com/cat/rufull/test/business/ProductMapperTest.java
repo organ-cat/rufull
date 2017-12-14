@@ -20,6 +20,8 @@ public class ProductMapperTest {
 
     @Autowired
     private ProductMapper productMapper;
+
+
     //    商店测试
     @Test
     public void testaddProduct(){
@@ -64,4 +66,12 @@ public class ProductMapperTest {
     public void testDelete(){
         productMapper.deleteById(16);
     }
+
+    @Test
+    public  void  testFuzzyFindProductNameAndDesc(){
+        List<Product> productList = productMapper.fuzzyFindByProductNameAndProductDesc("虾");
+        System.out.println("productList:"+productList.size());
+    }
+
+
 }

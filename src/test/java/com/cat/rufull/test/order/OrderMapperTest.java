@@ -164,4 +164,9 @@ public class OrderMapperTest {
             System.out.println("    " + lineItem);
         }
     }
+    @Test
+    public void testFindOrderByShopIdAndStatus(){
+        System.out.println("123");
+
+    }
 }

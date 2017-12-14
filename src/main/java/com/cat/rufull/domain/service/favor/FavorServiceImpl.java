@@ -3,9 +3,13 @@ package com.cat.rufull.domain.service.favor;
 import com.cat.rufull.domain.mapper.favor.FavorMapper;
 import com.cat.rufull.domain.model.Favor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service("favorService")
 public class FavorServiceImpl implements FavorService{
     @Autowired
     private FavorMapper favorMapper;
@@ -22,6 +26,11 @@ public class FavorServiceImpl implements FavorService{
     @Override
     public int deleteByFavorId(Integer id) {
         return favorMapper.deleteByFavorId(id);
+    }
+
+    @Override
+    public Favor findFavorByAccountIdAndShopId(Integer accountId, Integer shopId) {
+        return favorMapper.findFavorByAccountIdAndShopId(accountId, shopId);
     }
 
     @Override

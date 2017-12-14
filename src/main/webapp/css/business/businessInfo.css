@@ -1,0 +1,71 @@
+a:link {
+	color: #757575;
+} 
+a:visited {
+	color: #757575;
+} 
+a:hover{
+	color: #757575;
+	text-decoration: none;
+} 
+a:active {
+	color: #757575;
+} 
+
+.businessImage{
+	float: left;
+	flex: 1;
+    text-align: center;
+    margin-top: 10%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.businessPhoto{
+	margin-top: 50%;
+	width: 92px;
+	height: 92px;
+	border: none;
+}
+
+.textLine{
+	clear: both;
+	margin: 30px 0 20px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 9px;
+}
+
+.photo_a>p{
+	 margin-top: 5px;
+	margin-left: 30px;
+}
+
+.edit_a{
+	float:right;
+	
+}
+.businessInfo{
+	float: left;
+}
+
+.idphoto{
+	width: 330px;
+	height:210px;
+}
+.bshopPhoto{
+	width: 330px;
+	height: 250px;
+}
+
+.businessLicence{
+	width: 400px;
+	height: 300px;
+}
+
+.resetpassword{
+	height: 495px;
+}
+
+
