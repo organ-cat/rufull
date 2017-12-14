@@ -53,7 +53,7 @@ public interface AccountService {
      */
     List<Account> findName(String findName);
 
-    void updateAccountStatus(int id, int status);
+    int updateAccountStatus(int id, int status);
 
     boolean updatePassword(int id, String newPassword, String oldPassword);
 

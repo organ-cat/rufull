@@ -59,7 +59,7 @@ public class ComplaintController {
 
     }
 
-    @RequestMapping(value = "/addComplaint", method = RequestMethod.GET)
+    @RequestMapping(value = "/getComplaintByShop", method = RequestMethod.GET)
     public ModelAndView getComplaintByAccount(@RequestParam("accountId") int accountId) {
         List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
         ModelAndView view = new ModelAndView();
@@ -68,7 +68,7 @@ public class ComplaintController {
         return view;
     }
 
-    @RequestMapping(value = "/addComplaint", method = RequestMethod.GET)
+    @RequestMapping(value = "/getComplaintByShop", method = RequestMethod.GET)
     public ModelAndView getComplaintByShop(@RequestParam("shopId") int shopId) {
         List<Complaint> list = complaintService.findShopComplaintListById(shopId);
         ModelAndView view = new ModelAndView();
