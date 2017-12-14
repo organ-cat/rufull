@@ -117,67 +117,59 @@
 </nav>
 <!-- 主界面 -->
 <div id="main">
-    <form:form id="orderSubmitForm" action="${submitOrderUrl}">
-        <input type="hidden" name="total" value="${cart.subTotal}">
-        <input type="hidden" name="accountId" value="${account.id}">
-        <input type="hidden" name="shop.id" value="${cart.shopId}">
-
+    <div class="container-fluid">
         <div class="container-fluid">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="page-header">
-                            <h3>订单详情</h3>
-                        </div>
-                        <table class="table text-center">
-                            <thead>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="page-header">
+                        <h3>订单详情</h3>
+                    </div>
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th class="text-center">商品</th>
+                            <th class="text-center">份数</th>
+                            <th class="text-center">小计（元）</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="item" items="${cart.cartItemList}" varStatus="status">
                             <tr>
-                                <th class="text-center">商品</th>
-                                <th class="text-center">份数</th>
-                                <th class="text-center">小计（元）</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="item" items="${cart.cartItemList}" varStatus="status">
-                                <input type="hidden" name="lineItems[${status.index}].productName" value="${item.product.productName}">
-                                <input type="hidden" name="lineItems[${status.index}].price" value="${item.product.price}">
-                                <input type="hidden" name="lineItems[${status.index}].quantity" value="${item.quantity}">
-                                <input type="hidden" name="lineItems[${status.index}].productId" value="${item.product.id}">
-                                <tr>
-                                    <td>
-                                        <p class="text-muted">${item.product.productName}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted">${item.quantity}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted">${item.total}</p>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            <tr>
-                                <td colspan="3" class="text-right">
-                                    <span class="text-danger">¥</span>
-                                    <span class="h2 text-danger">${cart.subTotal}</span>
-                                    <p class="text-muted">共 ${cart.totalQuantity} 份商品</p>
+                                <td>
+                                    <p class="text-muted">${item.product.productName}</p>
+                                </td>
+                                <td>
+                                    <p class="text-muted">${item.quantity}</p>
+                                </td>
+                                <td>
+                                    <p class="text-muted">${item.total}</p>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <span class="h3">收货地址</span>
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    <span>
-                                        <a class="text-muted" href="${addAddressUrl}/${account.id}">添加新地址</a>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row">
+                        </c:forEach>
+                        <tr>
+                            <td colspan="3" class="text-right">
+                                <span class="text-danger">¥</span>
+                                <span class="h2 text-danger">${cart.subTotal}</span>
+                                <p class="text-muted">共 ${cart.totalQuantity} 份商品</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 checkout-form">
+                    <form:form id="orderSubmitForm" action="${submitOrderUrl}" cssClass="form-horizontal">
+                        <input type="hidden" name="total" value="${cart.subTotal}">
+                        <input type="hidden" name="accountId" value="${account.id}">
+                        <input type="hidden" name="shop.id" value="${cart.shopId}">
+                        <c:forEach var="item" items="${cart.cartItemList}" varStatus="status">
+                            <input type="hidden" name="lineItems[${status.index}].productName" value="${item.product.productName}">
+                            <input type="hidden" name="lineItems[${status.index}].price" value="${item.product.price}">
+                            <input type="hidden" name="lineItems[${status.index}].quantity" value="${item.quantity}">
+                            <input type="hidden" name="lineItems[${status.index}].productId" value="${item.product.id}">
+                        </c:forEach>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">收货地址</label>
+                            <div class="col-sm-10">
                                 <div class="btn-group" data-toggle="buttons">
                                     <c:forEach var="address" items="${addresses}">
                                         <label class="btn btn-default">
@@ -189,46 +181,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <h3>付款方式</h3>
-                            <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default">
-                                    <input type="radio" name="paymentMethod" value="ONLINE">
-                                    在线支付
-                                </label>
-                                <label class="btn btn-default">
-                                    <input type="radio" name="paymentMethod" value="OFFLINE">
-                                    货到付款
-                                </label>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">付款方式</label>
+                            <div class="col-sm-10">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="paymentMethod" value="ONLINE">
+                                        在线支付
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="paymentMethod" value="OFFLINE">
+                                        货到付款
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <h3>其他信息</h3>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    配送方式
-                                </div>
-                                <div class="col-md-10">
-                                    本订单由 [<span class="text-info">${cart.shopName}</span>] 提供配送
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    订单备注
-                                </div>
-                                <div class="col-md-10">
-                                    <input type="text" name="notes" value="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <button id="orderSubmitBtn" type="button" class="btn btn-danger">确认下单</button>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">配送方式</label>
+                            <div class="col-sm-10">
+                                本订单由 [<span class="text-info">${cart.shopName}</span>] 提供配送
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">订单备注</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="notes" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="orderSubmitBtn" type="submit" class="btn btn-danger">确认下单</button>
+                            </div>
+                        </div>
+                    </form:form>
                 </div>
             </div>
         </div>
-    </form:form>
+    </div>
 </div>
 <footer class="container-fluid">
     <div class="row">

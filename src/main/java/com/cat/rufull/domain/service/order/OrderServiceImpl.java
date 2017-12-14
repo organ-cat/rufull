@@ -1,6 +1,7 @@
 package com.cat.rufull.domain.service.order;
 
 import com.cat.rufull.domain.common.exception.OrderException;
+import com.cat.rufull.domain.common.util.DateUtils;
 import com.cat.rufull.domain.common.util.UUIDUtil;
 import com.cat.rufull.domain.mapper.lineItem.LineItemMapper;
 import com.cat.rufull.domain.mapper.order.OrderMapper;
@@ -14,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service("orderService")
 @Transactional
@@ -115,9 +114,15 @@ public class OrderServiceImpl implements OrderService {
     public void submitOrder(Order order) {
         Shop shop = order.getShop();
 
-        // 商店营业中
-        // 订单收货地址在商店的配送范围之内
-        // 订单总额达到商店的起送价
+        // 商店不是营业中,抛出异常
+        if (!Shop.SHOP_STATUS_NORMAL.equals(shop.getOperateState()))
+            throw new OrderException("商店休息中");
+        // 订单收货地址不在商店的配送范围之内,抛出异常
+        if (false)
+            throw new OrderException("订单的收货地址不在商店的配送范围之内");
+        // 订单总额未达到商店的起送价,抛出异常
+        if (order.getTotal().compareTo(shop.getShippingPrice()) < 0)
+            throw new OrderException("订单总额未达到商店的起送价");
 
         // 设置创建时间
         order.setCreatedTime(new Date());
@@ -196,6 +201,41 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus) {
         return orderMapper.findShopOrdersByStatus(shopId, orderStatus);
+    }
+
+    @Override
+    public List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus) {
+        return orderMapper.findBusinessOrdersByStatus(businessId, orderStatus);
+    }
+
+    @Override
+    public Integer getMonthlySales(Integer shopId) {
+        // 获取今日 yyyy-MM-dd 00:00:00
+        Calendar today = DateUtils.getCalendarToday();
+
+        // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
+        Calendar todayLastMonth = new GregorianCalendar();
+        todayLastMonth.setTime(today.getTime());
+        todayLastMonth.add(Calendar.MONTH, -1);
+        todayLastMonth.add(Calendar.DATE, 1);
+        todayLastMonth.add(Calendar.SECOND, -1);
+
+        return orderMapper.getMonthlySales(shopId, today.getTime(), todayLastMonth.getTime());
+    }
+
+    @Override
+    public BigDecimal getMonthlyTotal(Integer shopId) {
+        // 获取今日 yyyy-MM-dd 00:00:00
+        Calendar today = DateUtils.getCalendarToday();
+
+        // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
+        Calendar todayLastMonth = new GregorianCalendar();
+        todayLastMonth.setTime(today.getTime());
+        todayLastMonth.add(Calendar.MONTH, -1);
+        todayLastMonth.add(Calendar.DATE, 1);
+        todayLastMonth.add(Calendar.SECOND, -1);
+
+        return orderMapper.getMonthlyTotal(shopId, today.getTime(), todayLastMonth.getTime());
     }
 
     private static String createOrderNumber() {

@@ -231,7 +231,7 @@ CREATE TABLE COMPLAINT (
   id INT(11) NOT NULL AUTO_INCREMENT, /*主键*/
   type INT(11) NOT NULL,              /*投诉类型*/
   content VARCHAR(255),               /*投诉内容*/
-  evindence VARCHAR(255),             /*证据图片名*/
+  evidence VARCHAR(255),              /*证据图片名*/
   created_time TIMESTAMP NOT NULL,     /*投诉时间*/
   status INT(11) NOT NULL,            /*状态*/
   completed_time TIMESTAMP,           /*处理完成时间*/
@@ -251,11 +251,11 @@ CREATE TABLE MESSAGE (
   type VARCHAR(255),                  /*消息类型*/
   content VARCHAR(255),               /*消息内容*/
   status VARCHAR(255) NOT NULL,       /*消息状态*/
-  order_id INT(11) NOT NULL,          /*订单id,外键,引用Order表*/
+  order_id INT(11),                   /*订单id,外键,引用Order表*/
   sender_id INT(11) NOT NULL,         /*发送方,外键,引用ACCOUNT表*/
   receiver_id INT(11) NOT NULL,       /*接收方,外键,引用ACCOUNT表*/
   PRIMARY KEY (id),
   FOREIGN KEY (order_id) REFERENCES `ORDER` (id),
   FOREIGN KEY (sender_id) REFERENCES ACCOUNT (id),
-  FOREIGN KEY (receiver_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (receiver_id) REFERENCES SHOP (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
