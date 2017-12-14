@@ -12,6 +12,7 @@ public class ManagerInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //获取session中管理员对象
         Manager manger = (Manager) request.getSession().getAttribute("manger");
+        manger.getRole();
         //判断管理员是否登陆
         if (manger == null) {
             //未登陆，请求转发到指定页面

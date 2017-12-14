@@ -1,11 +1,10 @@
 package com.cat.rufull.test;
 
 
-import com.cat.rufull.domain.common.util.RegEx;
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Address;
-import com.cat.rufull.domain.service.account.AccountService;
-import com.cat.rufull.domain.service.account.AddressService;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.*;
+import com.cat.rufull.domain.service.shop.ShopService;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,188 +13,319 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类
 @ContextConfiguration(locations = {"classpath:META-INF/spring/root-context.xml"})
 public class TestByJiang {
     @Autowired
     private AccountService accountService;
-
     @Autowired
     private AddressService addressService;
-
+    @Autowired
+    private ComplaintService complaintService;
+    @Autowired
+    private FootprintService footprintService;
+    @Autowired
+    private LoginLogService loginLogService;
+    @Autowired
+    private ShopService shopService;
     @Autowired
     private MailSender mailSender;
     @Autowired
     private SimpleMailMessage mailMessage;
 
     @Test
-    public void findAccountById() {
-        int id = 11;
-        Account account = accountService.findAccountById(id);
-        System.out.println("账户" + account.getId());
-        System.out.println("账户" + account.getUsername());
-        System.out.println("账户" + account.getPassword());
-
-    }
-
-    @Test
-    public void findAccountByPhone() {
-        String phone = "6632380";
-        Account account = accountService.findAccountByPhone(phone);
-        System.out.println("手机" + account.getId());
-        System.out.println("账户" + account.getUsername());
-        System.out.println("账户" + account.getPassword());
-
-    }
-
-    @Test
-    public void findAccountByEmail() {
-        String email = "jiang@qq.com";
-        Account account = accountService.findAccountByEmail(email);
-        System.out.println("手机" + account.getId());
-        System.out.println("账户" + account.getUsername());
-        System.out.println("账户" + account.getPassword());
-
+    public void login() {
+        Account account = new Account();
+        account.setPassword("123456");
+        account.setUsername("jiang");
+        account.setPhone("");
+        account.setEmail("");
+        Account login = accountService.login(account);
+        System.out.println("登陆后的：" + login.toString());
     }
 
     @Test
     public void register() {
         Account account = new Account();
-        account.setPhone("110");
-        account.setPassword("110");
-        accountService.regitser(account);
-        System.out.println(account.getPhone());
-        System.out.println(account.getPassword());
-    }
-
-    @Test
-    public void login() {
-        Account account = new Account();
         account.setPassword("123456");
-//        account.setPhone("6632380");
-//        account.setEmail("jiang@qq.com");
-        account.setUsername("jiang");
-        Account user = accountService.login(account);
-        if (user == null) {
-            System.out.println("没有该用户");
+        account.setPhone("setPhone");
+        account.setEmail("setEmail");
+        account.setRegisterTime(new Date());
+        accountService.register(account);
+    }
+
+    @Test
+    public void setUsername() {
+        Account account = new Account();
+        account.setUsername("ahhhhhhh");
+        accountService.setUsername(account);
+
+    }
+
+    @Test
+    public void UUid() {
+        for (int i = 0; i < 10; i++) {
+            String s = UUID.randomUUID().toString().replaceAll("-", "");
+            System.out.println("UUID   ---   " + s);
+        }
+    }
+
+    @Test
+    public void fingUser() {
+        Account accountByPhone = accountService.findAccountByPhone("13413600394", 2);
+        Account account = accountService.findAccountByEmail("jiang@qq.com", 1);
+        if (account == null) {
+            System.out.println("000000000000000000000000000");
         } else {
-            System.out.println();
-            System.out.println("账户" + user.toString());
-            System.out.println();
+            System.out.println(account.toString());
         }
     }
 
     @Test
-    public void update() {
-        Account account = new Account();
-        account.setId(16);
-        account.setPhoto("http:www.baidu.com");
-        accountService.updateAccountPhoto(account);
-    }
-
-    @Test
-    public void updateNickname() {
-        Account account = new Account();
-        account.setId(1);
-        account.setNickname("呢称");
-        accountService.updateNickname(account);
-    }
-
-    @Test
-    public void queryAddressById() {
-        Address address = new Address();
-        address.setId(1);
-        Address address1 = addressService.queryAddressById(address);
-        System.out.println("详细地址——" + address1.toString());
-    }
-
-    @Test
-    public void queryAddress() {
-        Account account = new Account();
-        account.setId(1);
-        List<Address> addresses = addressService.queryAddress(account);
-
-        for (Address address : addresses) {
-            System.out.println("详细地址——" + address.toString());
+    public void checkUsername() {
+        Account account = accountService.findAccountByUsername("jiang", 1);
+        System.out.println();
+        if (account != null) {
+            System.out.println(account.toString());
+        } else {
+            System.out.println("?????????????????????????????????????");
         }
+        System.out.println();
     }
 
-    @Test   //根据id查询个人总的地址数量
-    public void queryAddressCount() {
-        Account account = new Account();
-        account.setId(1);
-        int count = addressService.queryAddressCount(account);
-        System.out.println("详细地址总数——" + count);
-    }
 
-    @Test   //修改地址
-    public void updateAddress() {
-        Address address = new Address();
-        address.setId(1);
-        address.setAccountId(1);
-        address.setReceiver("中国");
-        address.setPhone("119");
-        address.setLocation("中国");
-        address.setDetail("广东");
-        address.setStatus(1);
-        addressService.updateAddress(address);
+//    **************************************************************************************************************/
+//地址测试
+//    **************************************************************************************************************/
 
-        queryAddress();
-    }
-
-    @Test   //添加地址
+    @Test
     public void addAddress() {
         Address address = new Address();
-        address.setReceiver("钟儿子");
-        address.setPhone("12345678990");
-        address.setLocation("佛山顺德");
-        address.setDetail("xx村");
+        address.setReceiver("江");
+        address.setPhone("111111111111");
+        address.setLocation("中国中国");
+        address.setDetail("广东广东");
         address.setStatus(1);
-        address.setAccountId(2);
+        address.setAccountId(1);
         addressService.addAddress(address);
     }
 
+    ;
 
     @Test
-    public void deleteAddress(){
-        Address address = new Address();
-        address.setId(1);
-        addressService.deleteAddress(address);
+    public void queryAddressList() {
+        List<Address> addressList = addressService.queryAddressList(2);
+        for (Address a : addressList) {
+            System.out.println(a.toString());
+        }
     }
-    @Test
-    public void regular(){
-//        String phone = "13413000394";
-//        boolean b = RegEx.regExPhone(phone);
-//
-//        String username = "1mn ";
-//        boolean b1 = RegEx.regExUsername(username);
 
-        String emial = "jias@163.com";
-        boolean b2 = RegEx.regExEmail(emial);
-        if (b2) {
-            System.out.println("是是是是是是是是是是是是是是是是是是是是是是是");
+    @Test
+    public void findAddressById() {
+        int id = 2;
+        Address address = addressService.findAddressById(id);
+        System.out.println(address.toString());
+    }
+
+    @Test
+    public void findAddressCount() {
+        int account_id = 2;
+        int address = addressService.findAddressCount(account_id);
+        System.out.println(address);
+    }
+
+    @Test
+    public void deleteAddressById() {
+        int id = 2;
+        addressService.deleteAddressById(id);
+    }
+
+    @Test
+    public void updateAddress() {
+        Address address = new Address();
+        address.setId(3);
+        address.setReceiver("江");
+        address.setPhone("22222222222");
+        address.setLocation("中国中国");
+        address.setDetail("广东广东");
+        address.setStatus(1);
+        address.setAccountId(1);
+        addressService.updateAddress(address);
+    }
+
+    //    **************************************************************************************************************/
+//投诉测试
+//    **************************************************************************************************************/
+    @Test
+    public void complaint() {
+        Complaint complaint = new Complaint();
+        complaint.setType(1);
+        complaint.setContent(null);
+        complaint.setEvindence(null);
+        complaint.setCreatedTime(new Date());
+        complaint.setStatus(1);
+        complaint.setCompletedTime(null);
+        complaint.setResult(1);
+        complaint.setSolver(1);
+        complaint.setAccountId(1);
+        complaint.setShopId(1);
+        complaintService.addComplaint(complaint);
+    }
+
+    @Test
+    public void findAccountComplaintById() {
+        int id = 1;
+        Complaint complaint = complaintService.findComplaintById(id);
+        if (complaint != null) {
+            System.out.println(complaint.toString());
         } else {
-            System.out.println("否否否否否否否否否否否否否否否否否否否否否否否");
+            System.out.println("nononoonononononon");
+        }
+    }
+
+    @Test
+    public void findAccountComplaintListById() {
+        int account_id = 1;
+        List<Complaint> list = complaintService.findAccountComplaintListById(account_id);
+        for (Complaint c : list) {
+            System.out.println(c.toString());
+        }
+    }
+
+    @Test
+    public void findShopComplaintListById() {
+        int shop_id = 1;
+        List<Complaint> list = complaintService.findShopComplaintListById(shop_id);
+        for (Complaint c : list) {
+            System.out.println(c.toString());
+        }
+    }
+//    **************************************************************************************************************/
+//足迹测试
+//    **************************************************************************************************************/
+
+    @Test
+    public void addFootprint() {
+        Footprint footprint = new Footprint();
+        footprint.setAccessTime(new Date());
+        footprint.setAccountId(1);
+        footprint.setShopId(1);
+        footprintService.addFootprint(footprint);
+    }
+
+    @Test
+    public void deleteFootprint() {
+        int accountId = 1;
+        int shopId = 2;
+        footprintService.deleteFootprint(accountId,shopId);
+    }
+
+    @Test
+    public void findFootprintList(){
+        int account_id = 1;
+        List<Footprint> footprints = footprintService.findFootprintList(account_id);
+        for (Footprint f : footprints) {
+            System.out.println(f.toString());
+        }
+    }
+
+//    **************************************************************************************************************/
+//异地登陆测试
+//    **************************************************************************************************************/
+
+    @Test
+    public void addLoginLog() {
+        LoginLog log = new LoginLog();
+        log.setAccountId(1);
+        log.setIp("127.0.0.1");
+        log.setLocation("广东湛江");
+        log.setLoginTime(new Date());
+        loginLogService.addLoginLog(log);
+    }
+
+    @Test
+    public void fingLoginLogList(){
+        int account_id = 8;
+        List<LoginLog> logList =  loginLogService.fingLoginLogList(account_id);
+        System.out.println(logList == null);
+        boolean flag = false;
+        for (LoginLog log : logList) {
+            System.out.println(log.toString());
+            if (log.getLocation().equals("广东湛江")) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            System.out.println("可以可以可以可以可以可以可以可以");
+        } else {
+            System.out.println("不不不不不不不不不不不不不不不不");
         }
     }
 
 
+    @Test
+    public void uuid() {
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+        System.out.println(UUID.randomUUID().toString().replaceAll("-", ""));
+    }
+
+    @Test
+    public void json(){
+        String email = "email";
+        String password = "password";
+        String phone = "password";
+        String username = "password";
+        String json = "{ \"email\": \"" + email + "\",\"password\": \""+password+"\", \"phone\": \""+phone+"\",\"username\": \""+username+"\"}";
+        Gson gson = new Gson();
+        Account account = gson.fromJson(json, Account.class);
+        System.out.println(account.toString());
+    }
+
+    @Test
+    public void findfootprint(){
+        List<Footprint> footprintList = footprintService.findFootprintList(1);
+        Footprint footprint = footprintList.get(0);
+
+        Footprint footprint1 = footprintList.get(1);
+
+        System.out.println("0"+footprint.toString());
+        System.out.println("1"+footprint1.toString());
+
+    }
 
 
+    @Test
+    public void test(){
+        List<Complaint> complaintList = complaintService.findAllComplaint();
+        for (Complaint c : complaintList) {
+            System.out.println(c.toString());
+        }
+    }
 
+    @Test
+    public void completedComplaint(){
+        Complaint complaint = new Complaint();
+        complaint.setId(1);
+        complaint.setResult(9);
+        complaint.setCompletedTime(new Date());
+        complaint.setSolver(1);
+        complaint.setStatus(9);
 
+        int id = 1;
+        int status = 777;
+        int handlering = complaintService.handlerComplaint(id, status);
+        System.out.println("处理过程结果——" + handlering);
+        int handerResult = complaintService.completedComplaint(complaint);
+        System.out.println("处理结果——"+handerResult);
 
-
-
-
-
-
-
-
-
-
-
+    }
 
 }
+
+

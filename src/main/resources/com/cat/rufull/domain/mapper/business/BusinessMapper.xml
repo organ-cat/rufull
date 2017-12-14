@@ -43,6 +43,13 @@
     where id = #{id}
   </select>
 
+  <!--通过用户id查询对应的商家-->
+  <select id="findBusinessByAccountId" resultMap="BusinessResultMap">
+    select
+    <include refid="Business_Column_List" />
+    from business
+    where account_id = #{id}
+  </select>
   <!-- 通过id查询对应的删除 -->
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from business

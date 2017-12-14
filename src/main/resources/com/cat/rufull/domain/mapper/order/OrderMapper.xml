@@ -9,6 +9,7 @@
     <id column="shop_id" property="id"/>
     <result column="shop_name" property="shopName"/>
     <result column="shop_photo" property="shopPhoto"/>
+    <result column="shop_phone" property="shopPhone"/>
   </resultMap>
 
   <resultMap id="AddressReuslt" type="com.cat.rufull.domain.model.Address">
@@ -41,7 +42,7 @@
     <collection property="lineItems" resultMap="com.cat.rufull.domain.mapper.lineItem.LineItemMapper.LineItemResult" />
   </resultMap>
 
-  <select id="findOrderByAccountId" parameterType="int" resultMap="OrderResult">
+  <select id="findOrderByAccountId" parameterType="hashmap" resultMap="OrderResult">
     SELECT
       O.ID AS ORDER_ID,ACCOUNT_ID,CREATED_TIME,ORDER_NUMBER,
       TOTAL,PAYMENT_METHOD,STATUS AS ORDER_STATUS,
@@ -51,6 +52,17 @@
       LEFT OUTER JOIN LINE_ITEM I ON O.ID=I.ORDER_ID
       LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
     WHERE O.ACCOUNT_ID=#{accountId}
+    <choose>
+      <when test="searchBy == 'unrated'">
+        AND O.STATUS='EVALUATED'
+      </when>
+      <when test="searchBy == 'refund'">
+        AND O.STATUS='UNCOMPLETED'
+      </when>
+      <otherwise>
+
+      </otherwise>
+    </choose>
   </select>
 
   <select id="findOrderById" parameterType="int" resultMap="OrderResult">
@@ -59,7 +71,7 @@
       ACCEPTED_TIME,O.STATUS AS ORDER_STATUS,PAYMENT_METHOD,PAYMENT_STATUS,
       SHIPPING_STATUS,NOTES,TOTAL,O.ACCOUNT_ID,O.SHOP_ID,O.BUSINESS_ID,O.ADDRESS_ID,
       I.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,PRODUCT_ID,
-      S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO,
+      S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO,SHOP_PHONE,
       A.ID AS ADDRESS_ID,RECEIVER,PHONE,LOCATION,DETAIL,A.STATUS AS ADDRESS_STATUS
     FROM `ORDER` O
       LEFT OUTER JOIN LINE_ITEM I ON O.ID=I.ORDER_ID
@@ -88,4 +100,26 @@
            #{status},#{paymentMethod},#{paymentStatus},#{shippingStatus},
            #{notes},#{total},#{accountId},#{shop.id},#{businessId},#{address.id})
   </insert>
+
+  <select id="findOrdersBetween" parameterType="hashmap" resultMap="OrderResult">
+    SELECT
+    O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,
+    ACCEPTED_TIME,O.STATUS AS ORDER_STATUS,PAYMENT_METHOD,PAYMENT_STATUS,
+    SHIPPING_STATUS,NOTES,TOTAL,O.ACCOUNT_ID,O.SHOP_ID,O.BUSINESS_ID,O.ADDRESS_ID,
+    I.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,PRODUCT_ID,
+    S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO,SHOP_PHONE,
+    A.ID AS ADDRESS_ID,RECEIVER,PHONE,LOCATION,DETAIL,A.STATUS AS ADDRESS_STATUS
+    FROM `ORDER` O
+    LEFT OUTER JOIN LINE_ITEM I ON O.ID=I.ORDER_ID
+    LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
+    LEFT OUTER JOIN ADDRESS A ON O.ADDRESS_ID=A.ID
+    <where>
+    <if test="beginDate != null">
+      CREATED_TIME &gt;= #{beginDate}
+    </if>
+    <if test="endDate != null">
+      AND CREATED_TIME &lt;= #{endDate}
+    </if>
+    </where>
+  </select>
 </mapper>

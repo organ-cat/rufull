@@ -1,0 +1,355 @@
+.full-content-wrapper {
+    display: block
+}
+
+#topbar {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    background-color: #222;
+    background-image: -webkit-linear-gradient(270deg, #262626, #1a1a1a);
+    background-image: linear-gradient(180deg, #262626, #1a1a1a);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-family: "Helvetica Neue", Arial, "Microsoft Yahei", sans-serif
+}
+
+#topbar .container {
+    background-color: #222;
+    background-image: -webkit-linear-gradient(270deg, #262626, #1a1a1a);
+    background-image: linear-gradient(180deg, #262626, #1a1a1a)
+}
+
+#topbar a {
+    text-decoration: none
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    *zoom: 1
+}
+
+.container:before, .container:after {
+    display: table;
+    content: ""
+}
+
+.container:after {
+    clear: both
+}
+
+.container:before, .container:after {
+    display: table;
+    content: "";
+    line-height: 0
+}
+
+.container:after {
+    clear: both
+}
+
+p {
+    margin: 0 0 9px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px
+}
+
+p small {
+    font-size: 11px;
+    color: #999
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    text-rendering: optimizelegibility
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+    font-weight: normal;
+    color: #999
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 36px
+}
+
+h1 small {
+    font-size: 18px
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 36px
+}
+
+h2 small {
+    font-size: 18px
+}
+
+h3 {
+    line-height: 27px;
+    font-size: 18px
+}
+
+h3 small {
+    font-size: 14px
+}
+
+h4, h5, h6 {
+    line-height: 18px
+}
+
+h4 {
+    font-size: 14px
+}
+
+h4 small {
+    font-size: 12px
+}
+
+h5 {
+    font-size: 12px
+}
+
+h6 {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase
+}
+
+
+ul, ol {
+    padding: 0;
+    margin: 0 0 9px 25px
+}
+
+ul ul, ul ol, ol ol, ol ul {
+    margin-bottom: 0
+}
+
+ul {
+    list-style: none;
+}
+
+ol {
+    list-style: decimal
+}
+
+li {
+    line-height: 18px
+}
+
+ul.unstyled, ol.unstyled {
+    margin-left: 0;
+    list-style: none
+}
+
+
+.help {
+    background: #f3f3f3;
+    position: relative
+}
+
+.help a {
+    text-decoration: none
+}
+
+.help ul, .help ol {
+
+    margin-left: 0
+}
+.help .help-site {
+    position: fixed;
+    width: 236px;
+    top: 0
+}
+
+.help .help-site ul {
+    margin: 80px 10px 10px 10px;
+    font-size: 14px;
+    border: 1px solid #f2f2f2
+}
+
+.list-group{
+	position: fixed;
+}
+
+.help .help-site ul a {
+    box-sizing: border-box;
+    display: block;
+    padding: 10px 10px 10px 22px;
+    border-top: 1px solid #f2f2f2;
+    color: #666;
+    background: #fff
+}
+
+.help .help-site ul a:after {
+    content: '';
+    float: right;
+    display: inline-block;
+    width: 9px;
+    height: 15px;
+    margin-top: 2px;
+    background:  no-repeat 0 0
+}
+
+.help .help-site ul a.active, .help .help-site ul a:hover {
+    color: #fff;
+    background: #0098e9
+}
+
+.help .help-site ul a.active:after, .help .help-site ul a:hover:after {
+    background:  no-repeat -9px 0
+}
+
+.help .help-site ul li:first-child a {
+    border-top: 0
+}
+
+.input-prepend .active, .input-append .active {
+    background-color: #a9dba9;
+    border-color: #46a546
+}
+.help .help-content {
+    margin-left: 236px;
+    background: #fff;
+    padding: 10px 40px 50px;
+    font-size: 14px
+}
+
+.help .help-content h3 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #303030
+}
+
+.help .help-content h1 {
+    font-size: 18px
+}
+
+.help .help-content .answer-sub-list, .help .help-content .ouranswer-sub-list {
+    counter-reset: addNumber 0
+}
+
+.help .help-content .answer-sub-list > li, .help .help-content .ouranswer-sub-list > li {
+    counter-increment: addNumber 1;
+    margin: 12px 0
+}
+
+.help .help-content .answer-sub-list {
+    margin-left: 30px
+}
+
+.help .help-content .answer-sub-list > li {
+    margin: 12px 0
+}
+
+.help .help-content .answer-sub-list > li a {
+    color: #0086cc
+}
+
+.help .help-content .answer-sub-list > li a:before {
+    content: "Q" counter(addNumber) " : ";
+    float: left;
+    margin-left: -30px
+}
+
+.help .help-content .answer-list {
+    margin-top: 10px;
+    border-top: 2px solid #f2f2f2
+}
+
+.help .help-content .answer-list > li {
+    margin-top: 24px
+}
+
+.help .help-content .answer-list > li:first-child {
+    margin-top: 16px
+}
+
+.help .help-content .ouranswer-list {
+    margin: 30px 0 0;
+    padding-top: 4px;
+    border-top: 1px dashed #f2f2f2
+}
+
+.help .help-content .ouranswer-list p {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.5
+}
+
+.help .help-content .ouranswer-list img {
+    max-width: 100%
+}
+
+.help .help-content .ouranswer-list > li {
+    margin-top: 24px
+}
+
+.help .help-content .ouranswer-sub-list > li {
+    margin: 18px 0
+}
+
+.help .help-content .ouranswer-sub-list > li > h4 {
+    margin-bottom: 8px;
+    margin-left: 30px
+}
+
+.help .help-content .ouranswer-sub-list > li > h4:before {
+    content: "Q" counter(addNumber) " : ";
+    float: left;
+    margin-left: -30px
+}
+
+.help .help-content .ouranswer-sub-list > li .list-with-icon li, .help .help-content .ouranswer-sub-list > li .list-with-number li {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.5
+}
+
+.help .help-content .ouranswer-sub-list > li .list-with-icon li {
+    padding-left: 20px;
+    background:  no-repeat 8px 8px
+}
+
+
+.help .help-content .ouranswer-sub-list > li .list-with-number {
+    list-style: decimal;
+    margin-left: 20px
+}
+
+.help .help-content .ouranswer-sub-list > li:first-child {
+    margin-top: 14px
+}
+
+.help .help-content .ouranswer-sub-list .restaurant-icons {
+    display: inline-block;
+    float: none
+}
+
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #333;
+    background-color: #fff
+}
+
+a {
+    color: #08c;
+    text-decoration: none
+}
+
+a:hover {
+    color: #08c;
+    text-decoration: underline
+}
+

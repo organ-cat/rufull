@@ -21,7 +21,6 @@ public class EncryptByMD5 {
         }
         return strDes;
     }
-
     //转十六进制字符串
     public static String bytes2Hex(byte[] bts)
     {

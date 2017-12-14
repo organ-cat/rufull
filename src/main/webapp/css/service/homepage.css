@@ -1,0 +1,84 @@
+html, body {
+    min-width: 960px;
+    min-height: 500px;
+    width: 100%;
+    height: 100%
+}
+
+body {
+    background: url("../../image/service/bg.a6667897.jpg") no-repeat #f4f4f4;
+    background-size: cover;
+    font: 14px/1.6 "Helvetica Neue", Arial, "Microsoft Yahei", sans-serif
+}
+
+.homepage-container {
+    position: absolute;
+    top: 12%;
+    bottom: 10%;
+    left: 3%;
+    right: 3%
+}
+
+@media (min-width: 1280px) {
+    .homepage-container {
+        left: 10%;
+        right: 10%
+    }
+}
+
+.map-block {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35)
+}
+
+.map-block.dark {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 4px 15px -5px rgba(0, 0, 0, 0.3)
+}
+
+
+
+.homepage-header {
+    margin-top: -48px;
+    width: 100%;
+    height: 48px;
+    background: #3397e4;
+    border-radius: 2px 2px 0 0;
+    color: #fff;
+    line-height: 48px
+}
+
+.header-logo {
+    margin: 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal
+}
+
+
+.header-account {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.header-account > .link {
+    color: #fff
+}
+
+.homepage-footer {
+    position: absolute;
+    top: 100%;
+    margin-top: 10px;
+    width: 100%;
+    text-align: right;
+    background-color: transparent;
+}
+
+
+
+
+

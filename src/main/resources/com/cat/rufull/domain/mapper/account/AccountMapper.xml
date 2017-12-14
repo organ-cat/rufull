@@ -2,64 +2,109 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cat.rufull.domain.mapper.account.AccountMapper">
-  <select id="findAccountById" resultType="Account" parameterType="int">
-    SELECT
-      *
-    FROM ACCOUNT
-    WHERE ACCOUNT.id = #{id}
-  </select>
+    <select id="findAccountById" resultType="Account" parameterType="int">
+        SELECT
+        *
+        FROM ACCOUNT
+        WHERE ACCOUNT.id = #{id}
+    </select>
 
-  <select id="findAccountByPhone" resultType="Account" parameterType="String">
-    SELECT
-    *
-    FROM ACCOUNT
-    WHERE ACCOUNT.phone = #{phone}
-  </select>
+    <select id="findAccountByUsername" resultType="Account">
+        SELECT
+        *
+        FROM ACCOUNT
+        WHERE ACCOUNT.username = #{username} AND ACCOUNT.role = #{role}
+    </select>
 
-  <select id="findAccountByEmail" resultType="Account" parameterType="String">
-    SELECT
-    *
-    FROM ACCOUNT
-    WHERE ACCOUNT.email = #{email}
-  </select>
+    <select id="findAccountByPhone" resultType="Account">
+        SELECT
+        *
+        FROM ACCOUNT
+        WHERE ACCOUNT.phone = #{phone} AND ACCOUNT.role = #{role}
+    </select>
 
-  <insert id="register" parameterType="Account" useGeneratedKeys="true">
-    insert
-    into
-      ACCOUNT
-      (phone,password)
-    values
-      (#{phone},#{password})
-  </insert>
+    <select id="findAccountByEmail" resultType="Account">
+        SELECT
+        *
+        FROM ACCOUNT
+        WHERE ACCOUNT.email = #{email} AND ACCOUNT.role = #{role}
+    </select>
 
-  <select id="login" resultType="Account" parameterType="Account">
-      SELECT
-      *
-      FROM
-      ACCOUNT
-      WHERE
-      ACCOUNT.phone = #{phone} AND ACCOUNT.password  = #{password}
-      OR
-      ACCOUNT.username = #{username} AND ACCOUNT.password  = #{password}
-      OR
-      ACCOUNT.email = #{email} AND ACCOUNT.password = #{password}
-  </select>
+    <insert id="register" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+        insert
+        into
+        ACCOUNT
+        (phone,password,email,register_time)
+        values
+        (#{phone},#{password},#{email},#{registerTime})
+    </insert>
 
-  <update id="updateAccountPhoto" parameterType="Account">
-     UPDATE
-     account
-     SET
-     account.photo = #{photo}
-     WHERE
-     account.id = #{id}
-  </update>
-  <update id="updateNickname" parameterType="Account">
-     UPDATE
-     ACCOUNT
-     SET
-     ACCOUNT.nickname = #{nickname}
-     WHERE
-     ACCOUNT.id = #{id}
-  </update>
+    <select id="login" resultType="Account" parameterType="Account">
+        SELECT
+        *
+        FROM
+        ACCOUNT
+        WHERE
+        (
+        ACCOUNT.phone = #{phone} AND ACCOUNT.password  = #{password}
+        OR
+        ACCOUNT.username = #{username} AND ACCOUNT.password  = #{password}
+        OR
+        ACCOUNT.email = #{email} AND ACCOUNT.password = #{password}
+        )
+        AND
+        ACCOUNT.role = #{role}
+    </select>
+
+    <update id="updateAccountPhoto" parameterType="Account">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.photo = #{photo},
+        ACCOUNT.nickname = #{nickname}
+        WHERE
+        account.id = #{id}
+    </update>
+
+    <update id="bindPhone" parameterType="Account">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.phone = #{phone}
+        WHERE
+        ACCOUNT.id = #{id}
+        AND
+        ACCOUNT.role = #{role}
+    </update>
+
+    <update id="bindEmail" parameterType="Account">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.email = #{email}
+        WHERE
+        ACCOUNT.id = #{id}
+        AND
+        ACCOUNT.role = #{role}
+    </update>
+
+
+    <update id="updateNickname" parameterType="Account">
+    UPDATE
+    ACCOUNT
+    SET
+    ACCOUNT.nickname = #{nickname}
+    WHERE
+    ACCOUNT.id = #{id}
+    </update>
+
+    <update id="setUsername" parameterType="Account">
+    UPDATE
+    ACCOUNT
+    SET
+    ACCOUNT.username = #{username}
+    WHERE
+    ACCOUNT.id = #{id}
+    </update>
 
 </mapper>

@@ -1,10 +1,7 @@
 package com.cat.rufull.test;
 
 import com.cat.rufull.domain.mapper.favor.FavorMapper;
-import com.cat.rufull.domain.mapper.shop.ShopMapper;
-import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Favor;
-import com.cat.rufull.domain.model.Shop;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)

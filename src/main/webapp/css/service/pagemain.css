@@ -1,0 +1,543 @@
+.excavator {
+    border: 1px solid #e6e6e6;
+    width: 100%
+}
+
+.excavator a {
+    color: #666
+}
+
+.excavator-filter {
+    line-height: 26px;
+    padding: 10px 10px 10px 7em;
+    background-color: #fff;
+    position: relative
+}
+
+.excavator-line {
+    border-top: 1px #f5f5f5 solid
+}
+
+.excavator-filter-item, .excavator-filter-name {
+    padding: 0 10px;
+    margin-right: 8px
+}
+
+.excavator-filter-name {
+    position: absolute;
+    left: 10px;
+    top: 13px;
+    color: #999
+}
+
+.excavator-filter-item {
+    white-space: nowrap;
+    display: inline-block;
+    margin: 5px 6px
+}
+
+.excavator-filter-item:hover {
+    background-color: #f6f6f6;
+    border-radius: 3px
+}
+
+.excavator-filter-item.premium {
+    color: #f74342
+}
+
+.excavator-filter-item.focus {
+    color: #fff;
+    background-color: #0089dc;
+    border-radius: 3px
+}
+
+.excavator-sort .focus, .excavator-sort-dropdown > a:hover {
+    color: #0089dc
+}
+
+.excavator-filter-item.active {
+    line-height: 36px;
+    background-color: #f6f6f6;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 16px;
+    height: 38px
+}
+
+.excavator-filter-subbox {
+    background-color: #f6f6f6;
+    padding: 6px 0
+}
+
+.excavator-bgbar {
+    background-color: #f5f5f5
+}
+
+.excavator-bgbar .place-search {
+    margin: 2px 0;
+    display: none
+}
+
+.excavator-sticky .excavator {
+    margin-bottom: 61px
+}
+
+.excavator-sticky .excavator-bgbar {
+    position: fixed;
+    top: 0;
+    margin-left: -1px;
+    width: 960px;
+    border: 1px solid #e6e6e6;
+    margin-top: 0;
+    box-shadow: 0 3px 3px -3px rgba(0, 0, 0, .2);
+    z-index: 5
+}
+
+.excavator-sticky .excavator-bgbar .excavator-option {
+    float: left;
+    margin-right: 0
+}
+
+.excavator-sticky .excavator-bgbar .excavator-option-item + .excavator-option-item, .excavator-sticky .excavator-bgbar .excavator-sort {
+    margin-left: 0
+}
+
+.excavator-sticky .excavator-bgbar .place-search {
+    display: block;
+    float: right;
+    margin-right: 4px
+}
+
+.excavator-sticky .excavator-bgbar .place-search input {
+    width: 114px
+}
+
+@media (min-width: 1260px) {
+    .excavator-sticky .excavator-bgbar {
+        width: 1180px
+    }
+
+    .excavator-sticky .excavator-bgbar .excavator-option-item + .excavator-option-item {
+        margin-left: 10px
+    }
+
+    .excavator-sticky .excavator-bgbar .excavator-sort-item {
+        padding: 0 10px
+    }
+
+    .excavator-sticky .excavator-bgbar .place-search input {
+        width: 260px
+    }
+}
+
+.excavator-option {
+    float: right;
+    margin: 3px 10px 3px 0;
+    line-height: 34px;
+    border-left: 1px #e6e6e6 solid;
+    padding: 0 10px
+}
+
+.excavator-option-item + .excavator-option-item, .excavator-sort {
+    margin-left: 10px
+}
+
+.excavator-option-item {
+    cursor: pointer
+}
+
+.excavator-option-item input {
+    margin-right: 3px;
+    vertical-align: middle
+}
+
+.excavator-sort {
+    float: left;
+    line-height: 40px
+}
+
+.excavator-sort-item {
+    padding: 0 7px;
+    float: left;
+    position: relative
+}
+
+.excavator-sort-item .icon-arrow-down {
+    vertical-align: middle
+}
+
+.excavator-sort-item .icon-arrow-up {
+    display: none;
+    vertical-align: middle
+}
+
+.excavator-sort-item:hover > a:first-child {
+    position: relative;
+    z-index: 999
+}
+
+.excavator-sort-item:hover .excavator-sort-dropdown {
+    display: block
+}
+
+.excavator-sort-item:hover .icon-arrow-down {
+    display: none
+}
+
+.excavator-sort-item:hover .icon-arrow-up {
+    display: inline-block
+}
+
+.excavator-sort-dropdown {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 97px;
+    background-color: #fff;
+    line-height: 30px;
+    padding: 40px 3px 4px 14px;
+    border: 1px solid #f5f5f5;
+    border-width: 0 1px 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    z-index: 6
+}
+
+.excavator-sort-dropdown > a {
+    display: block
+}
+
+.excavator-sort-dropdown i {
+    color: inherit
+}
+
+.excavator-sort-dropdown.wide {
+    width: 135px
+}
+
+.place-search [for=globalsearch], .searchbox {
+    display: none
+}
+
+.place-search {
+    float: right;
+    margin: 10px 0;
+    height: 32px;
+    border: 1px solid #ccc;
+    background: #fff;
+    position: relative;
+    z-index: 3
+}
+
+.place-search .searchbox {
+    top: 36px;
+    right: 0
+}
+
+.place-search-btn, .place-search-input {
+    padding: 0 8px;
+    margin: 4px 0;
+    line-height: 24px
+}
+
+.place-search-input {
+    width: 236px;
+    border: 0;
+    outline: 0;
+    transition: width .3s ease-in-out
+}
+
+.place-search-input:focus {
+    width: 306px
+}
+
+.place-search-btn {
+    float: right;
+    width: 46px;
+    text-align: center;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    outline: 0;
+    background-color: transparent
+}
+
+.place-search-btn:hover {
+    color: #0089dc
+}
+
+.searchbox {
+    position: absolute;
+    z-index: 3;
+    width: 360px;
+    color: #999;
+    background: #fff;
+    border: 1px solid #ededed;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2)
+}
+
+.searchbox-list {
+    padding-left: 60px;
+    position: relative;
+    background-color: #ededed
+}
+
+.searchbox-list:before {
+    content: "";
+    font-size: 14px;
+    color: #666;
+    position: absolute;
+    left: 8px;
+    top: 6px
+}
+
+.searchbox-list li, .searchbox-list li .name {
+    font-size: 14px;
+    color: #333
+}
+
+.searchbox-list ul {
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    list-style: none
+}
+
+.searchbox-list li {
+    padding: 0 10px;
+    white-space: nowrap;
+    height: 37px;
+    overflow: hidden
+}
+
+.searchbox-list li a {
+    text-decoration: none
+}
+
+.searchbox-list.show-separator ul {
+    position: relative;
+    padding-bottom: 10px
+}
+
+.searchbox-list.show-separator ul:after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-top: 1px solid #ececec;
+    height: 0
+}
+
+.searchbox-list.searchbox-foodlist:before {
+    content: "美食"
+}
+
+.searchbox-list.searchbox-rstlist:before {
+    content: "商家"
+}
+
+.searchbox-list.searchbox-rstlist li a {
+    display: block;
+    padding: 8px 0
+}
+
+.searchbox-list.searchbox-rstlist .time {
+    font-size: 12px;
+    color: #999;
+    float: right
+}
+
+.searchbox-list.searchbox-foodlist .searchbox-rstlist {
+    font-size: 12px;
+    color: #ccc;
+    margin-left: 5px
+}
+
+.searchbox-list.searchbox-foodlist a {
+    display: inline-block;
+    padding: 8px 0
+}
+
+.searchbox-list.searchbox-foodlist .price {
+    padding: 8px 0;
+    float: right;
+    font-size: 14px;
+    color: #999;
+    cursor: default
+}
+
+.searchbox-list.searchbox-foodlist .food-wrapper {
+    display: block;
+    overflow: hidden
+}
+
+.searchbox-list.searchbox-foodlist .food-wrapper > .restaurant {
+    margin-left: 5px;
+    color: #ccc;
+    font-size: 12px
+}
+
+.searchbox-list li.active, .searchbox-list li:hover {
+    background-color: #f3f3f3
+}
+
+.place-ad {
+    margin-bottom: 10px;
+    clear: both
+}
+
+@media (min-width: 1260px) {
+    .activity-carousel, .activity-carousel .carousel-block {
+        height: 98px
+    }
+}
+
+.place-rstnum {
+    float: right;
+    width: 200px;
+    text-align: right;
+    padding-top: 10px;
+    line-height: 30px;
+    color: #666
+}
+
+.place-rstnum span {
+    color: #f63
+}
+
+.place-tab {
+    font-size: 18px;
+    border-bottom: 1px #e6e6e6 solid;
+    text-align: right
+}
+
+.place-fetchtakeout {
+    margin-bottom: 6px;
+    display: inline-block;
+    width: 186px;
+    height: 42px;
+    position: relative;
+    cursor: pointer;
+    z-index: 2
+}
+
+.place-fetchtakeout img {
+    width: 186px;
+    height: 55px;
+    vertical-align: middle
+}
+
+.place-tab-line {
+    float: left;
+    height: 24px;
+    width: 1px;
+    margin: 8px 0;
+    background-color: #f5f5f5;
+    display: inline-block
+}
+
+.place-tips {
+    margin-top: 10px;
+    line-height: 40px;
+    padding: 0 10px;
+    background-color: #fffdee;
+    border: 1px solid #ffe4b9
+}
+
+.place-tips var {
+    font-style: normal;
+    color: #f63;
+    font-size: 20px
+}
+
+.place-tips a {
+    color: #0089dc
+}
+
+.place-tips span + span {
+    border-left: 1px solid #d9d9d9;
+    padding-left: 20px;
+    margin-left: 20px
+}
+
+.place-premiumrstbox, .place-rstbox {
+    position: relative;
+    border: 1px solid #e6e6e6;
+    border-bottom: 0;
+    margin-top: 20px;
+    background: #fff
+}
+
+.place-premiumrstbox:after, .place-rstbox:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background: #e6e6e6;
+    height: 1px;
+    font-size: 1px
+}
+
+.place-premiumrstbox {
+    height: 182px;
+    clear: both
+}
+
+.place-premiumrstbox > .viewmore {
+    float: right;
+    margin-right: 10px;
+    color: #666;
+    line-height: 34px
+}
+
+.place-premiumrstbox > .viewmore > strong {
+    color: #0089dc;
+    font-weight: 700
+}
+
+.place-premiumrstbox > .viewmore > span.icon-arrow-right {
+    line-height: 34px
+}
+
+.place-premiumrstbox > .viewmore > span.icon-arrow-right:before {
+    font-size: 20px;
+    display: block;
+    float: right;
+    color: #ccc
+}
+
+.place-premiumrstbox-content {
+    overflow: hidden;
+    height: 140px
+}
+
+.place-rstbox-nodata {
+    text-align: center;
+    padding: 80px 20px
+}
+
+.premium-title {
+    font-size: 20px;
+    margin-right: 15px
+}
+
+.premium-desc {
+    color: #999;
+    font-size: 14px
+}
+
+.premium-title {
+    font-size: 20px;
+    margin-right: 15px
+}
+
+.premium-desc {
+    color: #999;
+    font-size: 14px
+}
+
+.place-tab.premium {
+    text-align: left
+}

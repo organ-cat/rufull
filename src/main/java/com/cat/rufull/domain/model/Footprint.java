@@ -4,10 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Footprint implements Serializable {
+
     private Integer id;         // 足迹的id
+
     private Date accessTime;    // 进入商家的时间
+
     private Integer accountId;  // 账号的id
+
     private Integer shopId;     // 浏览的商家
+
+    public static final String FOOTPRINT_LIST = "footprintList";
 
     public Footprint() {
     }

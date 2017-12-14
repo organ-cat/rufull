@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cat.rufull.domain.mapper.manager.ManagerMapper">
+    <resultMap id="ManagerResultMap" type="com.cat.rufull.domain.model.Manager">
+        <id column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="photo" property="photo"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="role" property="role"/>
+    </resultMap>
+    <select id="findAll" resultType="Manager" parameterType="Manager">
+        SELECT
+        *
+        FROM MANAGER
+    </select>
+
+    <select id="getManagerById" resultMap="ManagerResultMap" parameterType="int">
+        SELECT *
+        FROM MANAGER WHERE id = #{id}
+
+    </select>
+    <update id="updateManager" parameterType="Manager">
+        UPDATE MANAGER
+        SET
+        MANAGER.username = #{username},
+        MANAGER.password = #{password},
+        MANAGER.email = #{email},
+        MANAGER.phone = #{phone},
+        MANAGER.photo = #{photo}
+        WHERE MANAGER.id = #{id}
+    </update>
+
+    <select id="findName" resultMap="ManagerResultMap">
+        SELECT *
+        FROM
+        MANAGER
+        <where>(
+            manager.phone LIKE '%'+#{keyword}+'%' OR
+            manager.email LIKE '%'+#{keyword}+'%' OR
+            manager.username LIKE '%'+#{keyword}+'%'
+            )
+        </where>
+    </select>
+
+
+    <insert id="saveManager" parameterType="Manager" useGeneratedKeys="true" keyProperty="id">
+        insert
+        into
+        MANAGER
+        (username,phone,password,email,created_time,status,role)
+        values
+        (#{username},#{phone},#{password},#{email},#{createdTime},#{status},#{role})
+    </insert>
+
+    <select id="login" resultType="Manager" parameterType="Manager">
+        SELECT
+        *
+        FROM
+        MANAGER
+        WHERE
+        (
+        MANAGER.phone = #{phone} AND MANAGER.password  = #{password}
+        OR
+        MANAGER.username = #{username} AND MANAGER.password  = #{password}
+        OR
+        MANAGER.email = #{email} AND MANAGER.password = #{password}
+        )
+        AND
+        MANAGER.role = #{role} AND MANAGER.status = 1
+    </select>
+
+    <update id="delManager" parameterType="int">
+        UPDATE MANAGER
+        SET
+        MANAGER.status = 0
+        WHERE
+        MANAGER.id = #{id}
+
+    </update>
+
+
+    <update id="reDelManager" parameterType="int">
+        UPDATE MANAGER
+        SET
+        MANAGER.status =1
+        WHERE
+        MANAGER.id = #{id}
+
+    </update>
+
+    <update id="updateManagerPhoto" parameterType="Manager">
+        UPDATE
+        MANAGER
+        SET
+        MANAGER.photo = #{photo}
+        WHERE
+        MANAGER.id = #{id}
+    </update>
+
+
+
+
+</mapper>

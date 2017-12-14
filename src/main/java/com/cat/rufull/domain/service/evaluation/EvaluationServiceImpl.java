@@ -22,7 +22,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public void addOrderEvaluation(OrderEvaluation orderEvaluation) throws Exception {
-        orderEvaluatiomMapper.addOrderEvaluation(orderEvaluation);
+    public List<OrderEvaluation> findByName(String name) {
+        return null;
     }
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cat.rufull.domain.mapper.account.ComplaintMapper">
+    <insert id="addComplaint" keyProperty="id" parameterType="Complaint" useGeneratedKeys="true">
+        INSERT
+        INTO
+        COMPLAINT
+        (
+            type,
+            content,
+            evindence,
+            created_time,
+            status,
+            completed_time,
+            result,
+            solver,
+            account_id,
+            shop_id
+        )
+        VALUES
+        (
+        #{type},
+        #{content},
+        #{evindence},
+        #{createdTime},
+        #{status},
+        #{completedTime},
+        #{result},
+        #{solver},
+        #{accountId},
+        #{shopId}
+        )
+    </insert>
+
+    <select id="findComplaintById" parameterType="int" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT
+        WHERE id = #{id};
+    </select>
+
+    <select id="findAccountComplaintListById" parameterType="int" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT
+        WHERE account_id = #{accountId};
+    </select>
+
+    <select id="findShopComplaintListById" parameterType="int" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT
+        WHERE shop_id= #{shopId};
+    </select>
+    <select id="findAllComplaint" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT;
+    </select>
+
+    <update id="completedComplaint">
+        UPDATE
+        COMPLAINT
+        SET
+        COMPLAINT.result = #{result},
+        COMPLAINT.solver = #{solver},
+        COMPLAINT.status = #{status},
+        COMPLAINT.completed_time = #{completedTime}
+        WHERE
+        id = #{id};
+    </update>
+
+    <update id="handlerComplaint">
+        UPDATE
+        COMPLAINT
+        SET
+        COMPLAINT.status = #{status}
+        WHERE
+        COMPLAINT.id = #{id};
+    </update>
+
+
+</mapper>

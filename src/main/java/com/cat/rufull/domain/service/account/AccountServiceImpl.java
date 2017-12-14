@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
+
 @Service("accountService")
 @Transactional
 public class AccountServiceImpl implements AccountService {
@@ -20,14 +23,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public Account findAccountByPhone(String phone) {
-        return accountMapper.findAccountByPhone(phone);
+    public Account findAccountByPhone(String phone,Integer role) {
+        return accountMapper.findAccountByPhone(phone, role);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Account findAccountByEmail(String email) {
-        return accountMapper.findAccountByEmail(email);
+    public Account findAccountByEmail(String email, Integer role) {
+        return accountMapper.findAccountByEmail(email, role);
     }
 
     @Override
@@ -41,7 +44,32 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void regitser(Account account) {
+    public void setUsername(Account account) {
+        accountMapper.setUsername(account);
+    }
+
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Account findAccountByUsername(String username, Integer role) {
+        return accountMapper.findAccountByUsername(username, role);
+    }
+
+    @Override
+    public void bindPhone(Account account) {
+        accountMapper.bindPhone(account);
+    }
+
+    @Override
+    public void bindEmail(Account account) {
+        accountMapper.bindEmail(account);
+    }
+
+    @Override
+    public void register(Account account) {
+        //设置账号注册时间
+        account.setRegisterTime(new Date());
         accountMapper.register(account);
     }
 
@@ -53,5 +81,27 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(Integer id) {
         accountMapper.deleteAccount(id);
+    }
+
+    //管理员获得所有用户
+    @Override
+    public List<Account> findAllAccount() {
+        return null;
+    }
+
+    //管理员更新用户
+    @Override
+    public int mUpdateAccount(Account account) {
+        return 0;
+    }
+    //管理员删除用户
+    @Override
+    public int mdelAccount(Integer id) {
+        return 0;
+    }
+
+    @Override
+    public List<Account> findName(String findname) {
+        return null;
     }
 }

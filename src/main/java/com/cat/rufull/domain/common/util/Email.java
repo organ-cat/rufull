@@ -17,7 +17,7 @@ public class Email {
                 "\t\t来自广东海洋大学体育馆管理系统官方激活邮件!点下面链接完成激活操作!\n" +
                 "\t</h3>\n" +
                 "\t<h5>\n" +
-                "\t\t<a href='http://localhost:8080/rufull/account/register'>\n" +
+                "\t\t<a href='http://localhost:8080/rufull/'>\n" +
                 "\t\t\t点击我就就可以绑定邮箱了！\n" +
                 "\t\t</a>\n" +
                 "\t</h5>\n" +

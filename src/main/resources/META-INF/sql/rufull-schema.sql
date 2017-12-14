@@ -205,15 +205,12 @@ CREATE TABLE ORDER_EVALUATION (
   score INT(11) NOT NULL,             /*评分*/
   comment VARCHAR(255),               /*评论*/
   reply VARCHAR(255),                 /*商家回复*/
-  image VARCHAR(255),                 /*评价图片名*/
   eval_time TIMESTAMP NOT NULL,       /*评价时间*/
-  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   order_id INT(11) NOT NULL,          /*外键,引用ORDER表*/
-  business_id INT(11) NOT NULL,       /*外键,引用BUSINESS表*/
+  shop_id INT(11) NOT NULL,           /*外键,引用SHOP表*/
   PRIMARY KEY (id),
   FOREIGN KEY (order_id) REFERENCES `ORDER` (id),
-  FOREIGN KEY (business_id) REFERENCES BUSINESS (id),
-  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (shop_id) REFERENCES SHOP (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 /*商品评价表*/
@@ -222,11 +219,11 @@ CREATE TABLE PRODUCT_EVALUATION (
   score VARCHAR(255),                 /*评分*/
   comment VARCHAR(255),               /*评论*/
   eval_time TIMESTAMP NOT NULL,       /*评论时间*/
-  account_id INT(11) NOT NULL,        /*外键,引用ACCOUNT表*/
   item_id INT(11) NOT NULL,           /*外键,引用LINE_ITEM表*/
+  order_eval_id INT(11) NOT NULL,     /*外键,引用ORDER_EVALUATION表*/
   PRIMARY KEY (id),
   FOREIGN KEY (item_id) REFERENCES LINE_ITEM (id),
-  FOREIGN KEY (account_id) REFERENCES ACCOUNT (id)
+  FOREIGN KEY (order_eval_id) REFERENCES ORDER_EVALUATION (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 /*投诉表*/

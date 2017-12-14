@@ -4,7 +4,6 @@ import com.cat.rufull.domain.mapper.account.AccountMapper;
 import com.cat.rufull.domain.mapper.business.BusinessMapper;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Business;
-import com.cat.rufull.domain.model.Favor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

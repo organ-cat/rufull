@@ -1,7 +1,6 @@
 package com.cat.rufull.domain.service.account;
 
 import com.cat.rufull.domain.mapper.account.AddressMapper;
-import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,27 +15,8 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Address> queryAddress(Account account) {
-        return addressMapper.queryAddress(account);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public int queryAddressCount(Account account) {
-        return addressMapper.queryAddressCount(account);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public void updateAddress(Address address) {
-        Address oldAdress = queryAddressById(address);
-        oldAdress.setAccountId(null);
-        // address.setStatus();
-        addressMapper.updateAddress(oldAdress);
-
-        address.setId(null);
-        addressMapper.addAddress(address);
+    public List<Address> queryAddressList(Integer id) {
+        return addressMapper.queryAddressList(id);
     }
 
     @Override
@@ -45,16 +25,28 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Address queryAddressById(Address address) {
-        return addressMapper.queryAddressById(address);
+    public Address findAddressById(Integer id) {
+        return addressMapper.findAddressById(id);
     }
 
     @Override
-    public void deleteAddress(Address address) {
-        Address  deletedAddress = queryAddressById(address);
-        deletedAddress.setAccountId(null);
-        // address.setStatus();
-        addressMapper.updateAddress(deletedAddress);
+    public int findAddressCount(int account_id) {
+        return addressMapper.findAddressCount(account_id);
+    }
+
+    @Override
+    public void deleteAddressById(int id) {
+        Address address = addressMapper.findAddressById(id);
+        address.setAccountId(null);
+        addressMapper.updateAddress(address);
+    }
+
+    @Override
+    public void updateAddress(Address address) {
+        Address oldAddress = addressMapper.findAddressById(address.getId());
+        oldAddress.setAccountId(null);
+        addressMapper.updateAddress(oldAddress);
+        address.setId(null);
+        addressMapper.addAddress(address);
     }
 }

@@ -26,6 +26,19 @@ public class Account implements Serializable {
 
     private Date registerTime;   // 账号的注册时间
 
+    private Integer role;         // 账号的角色
+
+    private String code;          // 账号的激活码
+
+
+    public final static int ACCOUNT_ROLE = 1;//用户角色编号
+    public final static int BUSINESS_ROLE = 2;//商家角色编号
+    public final static String ACCOUNT_SESSION = "account"; //session中用户的名称
+    public final static String BUSINESS_SESSION = "business";//session中商家的名称
+    public final static String REMOTE_CODE_SESSION = "remoteCode";//session中异地登陆验证码的名称
+    public final static String CHECKCODE_SESSION = "checkcode";//session中异地登陆验证码的名称
+
+
     public Account() {
     }
 
@@ -122,6 +135,22 @@ public class Account implements Serializable {
         this.registerTime = registerTime;
     }
 
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -135,6 +164,8 @@ public class Account implements Serializable {
                 ", balance=" + balance +
                 ", status=" + status +
                 ", registerTime=" + registerTime +
+                ", role=" + role +
+                ", code='" + code + '\'' +
                 '}';
     }
 }

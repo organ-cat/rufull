@@ -78,13 +78,13 @@ INSERT INTO FAVOR(id, account_id, shop_id) VALUES(6,3,1);
 
 /*订单表数据*/
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
-VALUES(1,'2017112901','2017-11-29 10:00:00','2017-11-29 13:00:00','2017-11-29 10:00:05','已完成','在线支付','完成支付','已送达','这是一个已完成的订单',37.00,1,1,1,1);
+VALUES(1,'2017112901','2017-11-29 10:00:00','2017-11-29 13:00:00','2017-11-29 10:00:05','COMPLETED','ONLINE','PAID','ARRIVED','这是一个已完成的订单',37.00,1,1,1,1);
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
-VALUES(2,'2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10:16:24','已完成','在线支付','完成支付','已送达','测试特殊字符<&lt;',22.00,2,2,2,2);
+VALUES(2,'2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10:16:24','COMPLETED','ONLINE','PAID','ARRIVED','测试特殊字符<&lt;',22.00,2,2,2,2);
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
-VALUES(3,'2017112903','2017-11-29 13:00:00',NULL,NULL,'已取消','在线支付','未支付','可为null','这是一个取消的订单',13.50,2,3,3,3);
+VALUES(3,'2017112903','2017-11-29 13:00:00',NULL,NULL,'UNPAID','ONLINE','UNPAID',null,'这是一个要取消的订单',13.50,2,3,3,3);
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
-VALUES(4,'2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','等待收货','在线支付','完成支付','已发货','这是一个未确认的订单',32.50,2,3,3,2);
+VALUES(4,'2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','DELIVERY','ONLINE','PAID','SHIPPING','这是一个未确认的订单',32.50,2,3,3,2);
 
 /*订单项表数据*/
 INSERT INTO LINE_ITEM(id, product_name, price, quantity, order_id, product_id)
@@ -105,32 +105,32 @@ INSERT INTO LINE_ITEM(id, product_name, price, quantity, order_id, product_id)
 VALUES(8,'红烧日本豆腐饭','10.00',2,4,'15');
 
 /*订单评价表数据*/
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES(1,5,'很满足','已送餐','image1.png','2017-11-30 09:41:32',1,1,1);
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES(2,4,'很满足','已送餐','image1.png','2017-11-30 09:41:32',1,2,1);
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES(3,3,'很满足','已送餐','image1.png','2017-11-30 09:41:32',2,3,2);
-INSERT INTO ORDER_EVALUATION(id, score, comment, reply, image, eval_time, account_id, order_id, business_id)
-VALUES(4,3,'很满足','已送餐','image1.png','2017-11-30 09:41:32',3,4,3);
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, eval_time, order_id, shop_id)
+VALUES(1,5,'很满足','已送餐','2017-11-30 09:41:32',1,1);
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, eval_time, order_id, shop_id)
+VALUES(2,4,'很满足','已送餐','2017-11-30 09:41:32',2,1);
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, eval_time, order_id, shop_id)
+VALUES(3,3,'很满足','已送餐','2017-11-30 09:41:32',3,2);
+INSERT INTO ORDER_EVALUATION(id, score, comment, reply, eval_time, order_id, shop_id)
+VALUES(4,3,'很满足','已送餐','2017-11-30 09:41:32',4,3);
 
 /*商品评价表数据*/
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(1,3,'很满足','2017-11-30 09:41:32',1,1,1);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(2,4,'很满足','2017-11-30 09:41:32',1,2,1);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(3,5,'很满足','2017-11-30 09:41:32',2,3,1);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(4,3,'很满足','2017-11-30 09:41:32',2,4,2);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(5,3,'很满足','2017-11-30 09:41:32',2,5,2);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(6,5,'很满足','2017-11-30 09:41:32',3,6,3);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(7,2,'很满足','2017-11-30 09:41:32',3,7,4);
-INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, account_id, item_id, order_eval_id)
-VALUES(8,3,'很满足','2017-11-30 09:41:32',3,8,4);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(1,3,'很满足','2017-11-30 09:41:32',1,1);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(2,4,'很满足','2017-11-30 09:41:32',2,1);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(3,5,'很满足','2017-11-30 09:41:32',3,1);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(4,3,'很满足','2017-11-30 09:41:32',4,2);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(5,3,'很满足','2017-11-30 09:41:32',5,2);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(6,5,'很满足','2017-11-30 09:41:32',6,3);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(7,2,'很满足','2017-11-30 09:41:32',7,4);
+INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eval_id)
+VALUES(8,3,'很满足','2017-11-30 09:41:32',8,4);
 
 /*管理日志表*/
 INSERT  INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)

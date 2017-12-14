@@ -9,8 +9,12 @@ import java.util.*;
  */
 public class Cart implements Serializable {
 
+    private Integer shopId;
+
+    private String shopName;
+
     private final Map<Integer, CartItem> itemMap = Collections
-            .synchronizedMap(new HashMap<Integer, CartItem>());
+            .synchronizedMap(new HashMap<Integer, CartItem>()); // key:商品id, value:购物车条目
 
     private final List<CartItem> itemList = new ArrayList<CartItem>();
 
@@ -22,8 +26,14 @@ public class Cart implements Serializable {
         return itemList;
     }
 
+    public Cart(Integer shopId, String shopName) {
+        this.shopId = shopId;
+        this.shopName = shopName;
+    }
+
     /**
      * 得到所有商品的数量
+     *
      * @return
      */
     public int getNumberOfItems() {
@@ -36,6 +46,7 @@ public class Cart implements Serializable {
 
     /**
      * 新增购物车条目
+     *
      * @param product
      */
     public void addItem(Product product) {
@@ -52,18 +63,20 @@ public class Cart implements Serializable {
 
     /**
      * 增加购物车条目数量
+     *
      * @param productId
      */
-    public void increaseQuantityById(String productId) {
+    public void increaseQuantityById(Integer productId) {
         CartItem cartItem = itemMap.get(productId);
         cartItem.increaseQuantity();
     }
 
     /**
      * 移除购物车条目
+     *
      * @param productId
      */
-    public Product removeItemById(String productId) {
+    public Product removeItemById(Integer productId) {
         CartItem cartItem = itemMap.remove(productId);
         if (cartItem == null) {
             return null;
@@ -75,16 +88,18 @@ public class Cart implements Serializable {
 
     /**
      * 修改购物车条目数量
+     *
      * @param productId
      * @param quantity
      */
-    public void setQuantityById(String productId, int quantity) {
+    public void setQuantityById(Integer productId, int quantity) {
         CartItem cartItem = itemMap.get(productId);
         cartItem.setQuantity(quantity);
     }
 
     /**
      * 得到购物车小计
+     *
      * @return
      */
     public BigDecimal getSubTotal() {
@@ -100,5 +115,40 @@ public class Cart implements Serializable {
             subTotal = subTotal.add(price.multiply(quantity));
         }
         return subTotal;
+    }
+
+    public Integer getTotalQuantity() {
+        Iterator<CartItem> items = getCartItems();
+        Integer totalQuantity = 0;
+
+        while (items.hasNext()) {
+            CartItem cartItem = (CartItem) items.next();
+            totalQuantity = totalQuantity + cartItem.getQuantity();
+        }
+        return totalQuantity;
+    }
+
+    /**
+     * 购物车是否为空
+     * @return
+     */
+    public boolean isEmpty() {
+        return itemList.isEmpty();
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

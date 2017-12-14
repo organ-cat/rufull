@@ -1,0 +1,35 @@
+
+@charset "UTF-8";
+
+#accountImgId{
+    margin-right:10px;
+}
+.photoShow{
+    height:20px;
+    width:20px;
+    margin-right: 10px;
+}
+ul li{
+    list-style-type:none;
+    font-size: 15px;
+    color:#FFFFFF;
+}
+.hideImg {
+    display: none;
+}
+.aLabel{
+    text-decoration:none;
+    color: #FFFFFF;
+    vertical-align:middle
+}
+a img{border:none}
+.aLabel:hover{
+    text-decoration:none;
+    color:#FF0000;
+}
+
+#ulSize {
+    width: 150px;
+    height: 130px;
+}
+

@@ -2,6 +2,7 @@ package com.cat.rufull.domain.service.managerlog;
 
 import com.cat.rufull.domain.model.ManageLog;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,4 +10,9 @@ import java.util.List;
  */
 public interface ManagerLogService {
     public List<ManageLog> findAllLog();
+
+    int addLog(ManageLog log);
+
+    List<ManageLog> findLogsByCondition(Date beginTime, Date endTime, String keyword);
+
 }
