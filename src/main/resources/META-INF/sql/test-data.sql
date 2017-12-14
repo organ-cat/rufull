@@ -16,9 +16,11 @@ VALUES(3,'钟仔','12345678990','广东省湛江市麻章区','广东海洋大�
 
 /*管理员表数据*/
 INSERT INTO MANAGER(id,username,password,phone,email,photo,status,created_time,role)
-VALUES(1,'超级管理员','123456','98765432100','admin@qq.com','www.google.com',1,'2017-11-01 16:23:41',1);
+VALUES(1,'chen','123456','13420255560','admin@qq.com','87e6c27a-2862-4435-9e4b-4e101db3e81a_MG_0470-1451179739 (1).JPG',1,'2017-12-12 17:41:16',1);
 INSERT INTO MANAGER(id,username,password,phone,email,photo,status,created_time,role)
-VALUES(2,'管理员','123456','12345678990','manager@qq.com','www.baidu.com',1,'2017-11-07 16:22:24',2);
+VALUES(2,'hong','123456','13525352635','manager@qq.com','www.baidu.com',0,'2017-12-13 00:23:07',2);
+INSERT INTO MANAGER(id,username,password,phone,email,photo,status,created_time,role)
+VALUES(3,'xin','000000','15856966586','xin@qq.com','profile-pic.jpg',1,'2017-12-13 00:53:22',2);
 
 /*商家表数据*/
 INSERT INTO BUSINESS(id, front_photo, inside_photo, id_back_photo, id_front_photo, identifier, business_licence, catering_service_license, account_id)

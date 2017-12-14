@@ -33,7 +33,7 @@ CREATE TABLE MANAGER (
   password VARCHAR(255) NOT NULL,     /*密码*/
   phone VARCHAR(255) NOT NULL,        /*手机*/
   email VARCHAR(255) NOT NULL,        /*邮箱*/
-  photo VARCHAR(255) NOT NULL,        /*头像图片名*/
+  photo VARCHAR(255),                 /*头像图片名*/
   status INT(11) NOT NULL,            /*状态*/
   created_time TIMESTAMP NOT NULL,    /*创建时间*/
   role INT(11) NOT NULL,              /*角色*/
