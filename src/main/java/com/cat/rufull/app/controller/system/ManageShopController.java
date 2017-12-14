@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -81,9 +82,7 @@ public class ManageShopController {
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        //int i = businessService.updateById(business);
-        //int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("examsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
@@ -120,9 +119,8 @@ public class ManageShopController {
         session.removeAttribute("logerror");
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
-       business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
-        //    int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
+        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家未通过审核");
             session.setAttribute("npexamsuccess", "审核结果为不通过!");
@@ -151,8 +149,19 @@ public class ManageShopController {
      */
     @RequestMapping("/findBusiness")
     public String findBusiness(Model model) {
-        List<Shop> bussBusinessList = shopService.findAll();
-        model.addAttribute("mshoplist", bussBusinessList);
+        List<Shop> shopList = new ArrayList<Shop>();
+        List<Shop> bussBusinessList = null;
+        //shopService.findAllShop();
+        if (bussBusinessList != null) {
+            for (Shop shop : bussBusinessList) {
+                if (shop.getBusiness().getAccount().getStatus() == 201 || shop.getBusiness().getAccount().getStatus() == 202 ||
+                        shop.getBusiness().getAccount().getStatus() == 203 || shop.getBusiness().getAccount().getStatus() == 204
+                        ) {
+                    shopList.add(shop);
+                }
+            }
+        }
+        model.addAttribute("mshoplist", shopList);
         return "system/shop/allshop";
     }
 
@@ -165,7 +174,6 @@ public class ManageShopController {
      */
     @RequestMapping("/findByCondition")
     public String findByCondition(String condition, Model model) {
-
         List<Shop> shop = shopService.fuzzyFindByShopName(condition);
         model.addAttribute("mshoplist", shop);
         return "system/shop/allshop";
@@ -188,9 +196,10 @@ public class ManageShopController {
         Manager mana = (Manager) session.getAttribute("manager");
         Business business = businessService.findById(id);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
-//      int i = accountService.updateById(business.getAccount());
-//        int i = businessService.updateById(business);
-        int i = 1;
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_DELETE);
+        shopService.updateByIdSelective(shop);
+        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("delBsuccess", "删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
@@ -212,6 +221,47 @@ public class ManageShopController {
 
 
     /**
+     * 根据id删除商家
+     *
+     * @param id
+     * @param model
+     * @param session
+     * @return
+     */
+    @RequestMapping("/rogBusiness")
+    public String rogBusiness(Integer id, Model model,
+                              HttpSession session) {
+        session.removeAttribute("delBsuccess");
+        session.removeAttribute("delBerror");
+        session.removeAttribute("logerror");
+        Manager mana = (Manager) session.getAttribute("manager");
+        Business business = businessService.findById(id);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_RECITIFY);
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_RETIFY);
+        shopService.updateByIdSelective(shop);
+        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        if (i >= 1) {
+            session.setAttribute("delBsuccess", "删除成功！");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("管理员删除商家信息！");
+            log.setManager(mana);
+            log.setType(2);
+            log.setAccount(business.getAccount());
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:findBusiness";
+            } else
+                model.addAttribute("mbusiness", business);
+            session.setAttribute("logerror", "写入日志失败！");
+            return "redirect:findBusiness";
+        } else
+            session.setAttribute("delBerror", "失败了！");
+        return "redirect:findBusiness";
+    }
+
+    /**
+     * 恢复商家
      *
      * @param id
      * @param session
@@ -222,16 +272,17 @@ public class ManageShopController {
      */
     @RequestMapping("/redelBusiness")
     public String redelBusiness(Integer id, HttpSession session, RedirectAttributes attr,
-                              Model model) throws Exception {
+                                Model model) throws Exception {
         session.removeAttribute("redelerror");
         session.removeAttribute("redelsuccess");
         session.removeAttribute("logerror");
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_NORMAL);
+        shopService.updateByIdSelective(shop);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        //int i = businessService.updateById(business);
-        //int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("redelsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
@@ -252,8 +303,6 @@ public class ManageShopController {
         attr.addAttribute("id", id);
         return "redirect : findBusiness";
     }
-
-
 
 
 }

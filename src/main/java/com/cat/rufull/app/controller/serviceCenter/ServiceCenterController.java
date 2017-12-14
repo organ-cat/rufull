@@ -140,25 +140,27 @@ public class ServiceCenterController {
         int cc = 0;
         int dd = 0;
         int ee = 0;
-        for (Order order : list) {
-            if (0 < Double.parseDouble(order.getTotal().toString()) &&
-                    Double.parseDouble(order.getTotal().toString()) <= 10.0) {
-                aa = aa + 1;
-            }
-            if (10.0 < Double.parseDouble(order.getTotal().toString()) &&
-                    Double.parseDouble(order.getTotal().toString()) < 20.0) {
-                bb = bb + 1;
-            }
-            if (20.0 < Double.parseDouble(order.getTotal().toString()) &&
-                    Double.parseDouble(order.getTotal().toString()) <= 30.0) {
-                cc = cc + 1;
-            }
-            if (40.0 < Double.parseDouble(order.getTotal().toString()) &&
-                    Double.parseDouble(order.getTotal().toString()) <= 50.0) {
-                dd = dd + 1;
-            }
-            if (50.0 < Double.parseDouble(order.getTotal().toString())) {
-                ee = ee + 1;
+        if(list!=null) {
+            for (Order order : list) {
+                if (0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) <= 10.0) {
+                    aa = aa + 1;
+                }
+                if (10.0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) < 20.0) {
+                    bb = bb + 1;
+                }
+                if (20.0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) <= 30.0) {
+                    cc = cc + 1;
+                }
+                if (40.0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) <= 50.0) {
+                    dd = dd + 1;
+                }
+                if (50.0 < Double.parseDouble(order.getTotal().toString())) {
+                    ee = ee + 1;
+                }
             }
         }
         int i = Integer.parseInt(type);

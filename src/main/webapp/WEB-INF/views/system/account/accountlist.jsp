@@ -24,12 +24,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript"
-            charset="utf-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/css/system/xcComfirm/js/promptbox.js"></script>
 
     <script type="text/javascript">
         function getAccount(id) {
@@ -89,7 +84,7 @@
                         <td>用户</td>
                     </c:if>
                     <c:if test="${list.role=='2'}">
-                        <td>管理员</td>
+                        <td>商家</td>
                     </c:if>
 
                     <td align="center">
@@ -106,7 +101,8 @@
                                 </c:if>
                         </c:if>
                         <c:if test="${list.role==2}">
-                            属于商家
+                            <input type="button" class="btn btn-primary" value="商家资料修改"
+                                   onclick="getAccount(${list.id});"/>
                         </c:if>
                     </td>
                 </tr>

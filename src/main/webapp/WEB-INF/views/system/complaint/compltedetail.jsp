@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>审核投诉详情</title>
+    <title>投诉详情</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
@@ -28,37 +28,29 @@
             width: 200px;
             height: 200px
         }
-
-        .picbtn {
-            width: 120px;
-            height: 60px;
-            font-size: 20px;
-        }
-
-        .picbtn:hover {
-            width: 160px;
-            margin-top: -20px;
-            margin-left: -20px;
-            height: 80px;
-            font-size: 30px;
-        }
     </style>
 </head>
 <script>
-    function passcomp(id) {
-        window.location.href = "${pageContext.request.contextPath}/ManageCom/replyComp?id=" + id;
+
+    function returnlast() {
+        history.go(-1);
     }
-    function notpasscomp(id) {
-        window.location.href = "${pageContext.request.contextPath}/ManageCom/replyfalseComp?id=" + id;
-    }
+
 </script>
 <body>
-<div class="col-sm-9">
-    <div class="col-sm-12" style="align:center;">
+<div class="col-sm-9" style="padding-left:80px;">
+    <div class="col-sm-9" style="align:center;">
 
         <label style="font-size: 20px;">
-            <h2>审核投诉</h2>
+            <h2>投诉详情</h2>
         </label>
+    </div>
+    <div class="col-sm-3" style="padding-top:20px;">
+
+            <button type="button" class="btn btn-warning"
+                    onclick="returnlast()">返回
+            </button>
+
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
 
@@ -134,6 +126,27 @@
         </label>
     </div>
 
+    <div class="col-sm-6" style="padding-top: 30px;">
+        <label style="font-size: 20px;">
+            处理人：
+        </label>
+        <label style="font-size: 20px;">
+            <td>${solver.username}</td>
+        </label>
+    </div>
+    <div class="col-sm-6" style="padding-top: 30px;">
+        <label style="font-size: 20px;">
+            处理结果：
+        </label>
+        <label style="font-size: 20px;">
+            <c:if test="${managecomp.result==1}">
+                <td>情况属实</td>
+            </c:if>
+            <c:if test="${managecomp.result==2}">
+                <td>情况作假</td>
+            </c:if>
+        </label>
+    </div>
     <div class="col-sm-4" style="padding-top: 30px;">
         <div class="panel panel-default">
             <label style="font-size: 20px;">
@@ -147,21 +160,8 @@
             </div>
         </div>
     </div>
-</div>
-    <div class="col-sm-3">
 
-        <div class="col-sm-3" style="padding-top:200px;">
-            <div class="col-sm-12">
-                <button type="button" class="btn btn-primary picbtn"
-                        onclick="passcomp(${managecomp.id})">符合事实
-                </button>
-            </div>
-            <div class="col-sm-12" style="margin-top: 160px;">
-                <button type="button" class="btn btn-warning picbtn"
-                        onclick="notpasscomp(${managecomp.id})">不符合事实
-                </button>
-            </div>
-        </div>
-    </div>
+</div>
+
 </body>
 </html>

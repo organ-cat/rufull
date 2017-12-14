@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>用户日志获取</title>
+    <title>已经处理成功的投诉</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
@@ -23,79 +23,64 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
-
+    <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
     <script type="text/javascript">
-        var isCheckAll = false;
-        function swapCheck() {
-            if (isCheckAll) {
-                $("input[type='checkbox']").each(function() {
-                    this.checked = false;
-                });
-                isCheckAll = false;
-            } else {
-                $("input[type='checkbox']").each(function() {
-                    this.checked = true;
-                });
-                isCheckAll = true;
-            }
-        }
+        $(function () {
+            lay('#version').html('-v' + laydate.v);
+            laydate.render({
+                elem: '#end'
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#begin'
+                , type: 'datetime'
+            });
+        });
 
-
-        function getComp(id) {
-            window.location.href="${pageContext.request.contextPath}/ManageCom/getAccComp?id="+id;
+        function getCompdetail(id) {
+            window.location.href = "${pageContext.request.contextPath}/ManageCom/getCompdetail?id=" + id;
         }
-        function completeAll() {
-            var str=document.getElementsByName("id");
-            var obj=str.length;
-            var ids=new Array();
-            for (var i=0;i<obj;i++) {
-                if (str[i].checked == true) {
-                    ids[i] = str[i].value;
-                }
-            }
-            window.location.href="${pageContext.request.contextPath}/ManageCom/replyAllComp?result=1&id="+ids;
-        }
-        function CancelAll() {
-            var str=document.getElementsByName("id");
-            var obj=str.length;
-            var ids=new Array();
-            for (var i=0;i<obj;i++) {
-                if (str[i].checked == true) {
-                    ids[i] = str[i].value;
-                }
-            }
-            window.location.href="${pageContext.request.contextPath}/ManageCom/replyAllComp?result=2&id="+ids;
+        function findcomp() {
+            document.findcomp.submit();
         }
     </script>
 </head>
 <body>
+<form class="form-inline" name="findcomp" action="${pageContext.request.contextPath}/ManageCom/checkComp"
+      method="post">
+    <div class="col-sm-12">
+        <div class="form-group" style="padding-left: 20%;padding-top: 20px;">
 
-<div class="col-sm-12" style="padding:80px;">
-    <div class="col-sm-4">
-        <tr>
-            <td><input type="checkbox" onclick="swapCheck()"/>&nbsp;&nbsp;全选&nbsp;&nbsp;</td>
-            <td><input type="button" class="btn btn-primary" onclick="completeAll();" value="一键处理"/></td>&nbsp;&nbsp;&nbsp;
-            <td><input type="button" class="btn btn-warning" onclick="CancelAll()" value="一键取消"/></td>
-        </tr>
+            <input type="text" class="form-control input-lg" id="begin"
+                   name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
+            <input type="text" class="form-control input-lg" id="end"
+                   name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
+            <input type="text" class="form-control input-lg"
+                   id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
+            &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
+                                class="btn btn-lg" onclick="findcomp();">查找
+        </button>
+
+        </div>
     </div>
+</form>
+<div class="col-sm-12" style="padding:40px;">
+
     <div class="panel panel-default">
 
         <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
-            <h4>用户投诉列表展示</h4>
+            <h4>已处理投诉列表展示</h4>
         </div>
         <table class="table table-bordered">
             <tr>
-                <th>ID</th>
                 <th>投诉类型</th>
                 <th>投诉内容</th>
                 <th>投诉时间</th>
-                <th>处理状态</th>
+                <th>处理结果</th>
                 <th>操作</th>
             </tr>
             <c:forEach items="${managecomp}" var="list">
                 <tr>
-                    <td><input type="checkbox" class="checkbox" name="id" value="${list.id }"></td>
                     <c:if test="${list.type==1}">
                         <td>商家已接单但未送餐</td>
                     </c:if>
@@ -107,15 +92,15 @@
                     </c:if>
                     <td>${list.content}</td>
                     <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <c:if test="${list.status==1}">
-                         <td>未审核</td>
+                    <c:if test="${list.result==1}">
+                        <td>情况属实</td>
                     </c:if>
-                    <c:if test="${list.status==2}">
-                         <td>处理中</td>
+                    <c:if test="${list.result==2}">
+                        <td>情况作假</td>
                     </c:if>
                     <td align="center">
-                        <input type="button" class="btn btn-primary" value="审核"
-                               onclick="getComp(${list.id});"/>
+                        <input type="button" class="btn btn-primary" value="详情"
+                               onclick="getCompdetail(${list.id});"/>
                     </td>
                 </tr>
             </c:forEach>

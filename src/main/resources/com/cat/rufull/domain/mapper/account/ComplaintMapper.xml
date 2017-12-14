@@ -60,7 +60,9 @@
         SELECT
         *
         FROM
-        COMPLAINT;
+        COMPLAINT
+        WHERE
+        COMPLAINT.status != 3;
     </select>
 
     <update id="completedComplaint">
@@ -83,6 +85,33 @@
         WHERE
         COMPLAINT.id = #{id};
     </update>
+    <select id="completedComplaintList" resultType="Complaint">
+        SELECT
+        *
+        FROM
+        COMPLAINT
+        WHERE
+        COMPLAINT.status = 3;
 
+    </select>
+
+    <select id="findComplaintByTime" resultType="Complaint">
+        SELECT *
+        FROM
+        COMPLAINT
+        WHERE
+        1 = 1
+        AND
+        COMPLAINT.status = 3
+        <if test="creatTime != null">
+            AND COMPLAINT.created_time &gt; #{creatTime}
+        </if>
+        <if test="completedTime != null">
+            AND COMPLAINT.completed_time &lt; #{completedTime}
+        </if>
+        <if test="content !=null and content !=''">
+            and COMPLAINT.content LIKE CONCAT(CONCAT('%',#{content}),'%')
+        </if>
+    </select>
 
 </mapper>

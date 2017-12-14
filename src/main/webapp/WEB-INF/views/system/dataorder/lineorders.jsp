@@ -84,7 +84,7 @@
         <li>ушоъ╥жнЖ</li>
     </ul>
 </div>
-<form class="form-inline" name="findorders" action="${pageContext.request.contextPath}/manageData/getOrdersByTime?type=1"
+<form class="form-inline" name="findorders" action="${pageContext.request.contextPath}/manageData/getOrdersByTime?type=3"
       method="post">
     <div class="col-sm-12">
         <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">

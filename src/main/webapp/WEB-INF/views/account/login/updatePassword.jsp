@@ -23,8 +23,9 @@
     <!-- app css -->
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
-
-
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -66,11 +67,12 @@
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
-    <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
+
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/updatePassword.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -93,16 +95,15 @@
     </script>
 
     <link href="../css/service/pagevendor.css" rel="stylesheet">
+
     <link href="../css/service/pagemain.css" rel="stylesheet">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+
 </head>
 <body>
     <!-- 导航条 -->
-    <nav class="navbar navbar-default navo-color">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -162,7 +163,7 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo"  class="text-muted"  href="${infomationUrl}">个人资料</a></li>
+                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}">个人资料</a></li>
                             <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
@@ -174,68 +175,32 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                        <div id="personalInfo">
-                            <div class="accountPhoto">
-                                <a href="${infomationUrl}">
-                                    <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
-                                    <span class="editInfo">编辑信息</span>
-                                </a>
+                        <h1><small>修改密码</small></h1><br/><hr/><br/>
+                        <p>饱了么提示你：使用大小写字母，数字与下划线“_”的组合，可以大幅提升帐号安全！</p><br/>
+                        <div class="updateInPassworDiv">
+                            <div class="updateInPassworMessage">
+                                <span id="messageId"></span>
                             </div>
-                            <div class="accountInfo">
-                                <span class="info">您好！<b>${account.username}</b></span><br/><br/>
-                                <span>订餐了吗？提前订餐送的快！</span><br/><br/>
-
-                                <span class="info">账户安全：
-                                    <span class="safe" >高</span>
-                                    <a href="${showSecurityUrl}">查看详情</a>
-                                </span><br/><br/>
-
-                                <c:if test="${account.phone != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone"></a>
-                                </c:if>
-                                <c:if test="${account.phone == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone binded"></a>
-                                </c:if>
-                                <c:if test="${account.email != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope"></a>
-                                </c:if>
-                                <c:if test="${account.email == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope binded"></a>
-                                </c:if>
-
-                            </div>
-                            <div class="accountBalance">
-                                <span class="info">账户余额</span><br/>
-                                <span class="balanceShow"><b>${account.balance}元</b></span>
-                            </div>
+                            <table>
+                                <tr>
+                                    <td class="tableLife">当前密码</td>
+                                    <td class="tableRight"><input id="oldPassword" type="password" placeholder="请输入当前密码"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tableLife">新的密码</td>
+                                    <td class="tableRight"><input id="newPassword" type="password" placeholder="请输入新的密码"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tableLife">确认密码</td>
+                                    <td class="tableRight"><input id="confirmPassword" type="password" placeholder="请输入确认密码"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="tableLife"><input id="id" type="hidden" name="id" value="${account.id}"/></td>
+                                    <td class="tableRight"><input id="updatePassword" type="button" class="submit" value="确认"/></td>
+                                </tr>
+                            </table>
                         </div>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
-                        <div class="container-fluid" id="content">
-                            <div class="row">
-                                <div id="footprint">
-                                    <h3>足迹</h3>
-                                    <hr/>
-                                    <c:forEach items="${footprintList}" var="footprint">
-                                        <div class="shoplist">
-                                            <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
-                                                <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
-                                                         width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
-                                                    <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
-                                                </div>
-                                                <div class="rstblock-content">
-                                                    <div class="rstblock-title">${footprint.shopName}</div>
-                                                    <div class="rating-star r8"></div>
-                                                    <span class="rstblock-monthsales">月售100+</span>
-                                                    <div class="rstblock-cost">￥${footprint.shippingFee}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

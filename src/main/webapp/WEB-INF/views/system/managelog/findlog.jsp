@@ -13,7 +13,6 @@
     <title>用户日志获取</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
     <!-- 可选的Bootstrap主题文件（一般不用引入） -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap-theme.min.css">
@@ -21,52 +20,54 @@
     <script src="${pageContext.request.contextPath}/js/system/jquery-1.9.0.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="${pageContext.request.contextPath}/js/system/exporting.js"></script>
-    <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
-    <script src="${pageContext.request.contextPath}/js/system/bootstrap-datetimepicker.min.js"/>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
+    <%--时间控件--%>
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript"
-            charset="utf-8"></script>
+    <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript">
-        lay('#version').html('-v'+ laydate.v);
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#beginTime'
-            ,type: 'datetime'
-        });
-        laydate.render({
-            elem: '#endTime'
-            ,type: 'datetime'
+        $(function() {
+            $(document).ready(function () {
+                lay('#version').html('-v' + laydate.v);
+                laydate.render({
+                    elem: '#end'
+                    , type: 'datetime'
+                });
+                laydate.render({
+                    elem: '#begin'
+                    , type: 'datetime'
+                });
+
+            });
         });
         function findLog() {
             document.findLog.submit();
         }
     </script>
 </head>
+
 <body>
+
 <form class="form-inline" name="findLog" action="${pageContext.request.contextPath}/manageLog/checkLogs"
       method="post">
     <div class="col-sm-12">
-        <div class="form-group" style="padding-left: 20%;padding-top: 50px;padding-bottom: 10px;">
+        <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
 
-            <input  type="text" class="form-control input-lg" id="beginTime" placeholder="请填写开始时间"
-                    name="beginTime" style="min-width: 200px;max-width: 200px;">----
-            <input type="text" class="form-control input-lg" id="endTime" placeholder="请填写结束时间"
-                   name="endTime" style="min-width: 200px;max-width: 200px;">&nbsp;&nbsp;
+            <input  type="text" class="form-control input-lg" id="begin"
+                    name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
+            <input type="text" class="form-control input-lg" id="end"
+                   name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
             <input type="text" class="form-control input-lg"
                    id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
             &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
                                 class="btn btn-lg" onclick="findLog();">查找
         </button>
+
         </div>
     </div>
 </form>
+
+
+
 <div class="col-sm-12" style="padding:20px 80px 20px 80px;">
     <div class="panel panel-default">
 

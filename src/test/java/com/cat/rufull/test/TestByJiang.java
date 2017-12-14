@@ -64,7 +64,7 @@ public class TestByJiang {
     public void setUsername() {
         Account account = new Account();
         account.setUsername("ahhhhhhh");
-        accountService.setUsername(account);
+    //    accountService.setUsername(account);
 
     }
 

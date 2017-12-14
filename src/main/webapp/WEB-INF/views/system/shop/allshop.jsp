@@ -78,6 +78,9 @@
                     <td>${list.shippingDistance}</td>
                     <td>
                         <c:if test="${list.business.account.status==201}">
+                            &nbsp;&nbsp;未创建商店
+                        </c:if>
+                        <c:if test="${list.business.account.status==202}">
                             &nbsp;&nbsp;正常开业
                         </c:if>
                         <c:if test="${list.business.account.status==203}">
@@ -91,6 +94,10 @@
 
                     <td align="center">
                         <c:if test="${list.business.account.status==201}">
+                            <input type="button" class="btn btn-danger" value="撤销入驻"
+                                   onclick="delShop(${list.business.id});"/>
+                        </c:if>
+                        <c:if test="${list.business.account.status==202}">
                             <input type="button" class="btn btn-danger" value="撤销入驻"
                                    onclick="delShop(${list.business.id});"/>
                         </c:if>

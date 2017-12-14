@@ -56,12 +56,11 @@
         ACCOUNT.role = #{role}
     </select>
 
-    <update id="updateAccountPhoto" parameterType="Account">
+    <update id="updateAccountPhoto">
         UPDATE
         ACCOUNT
         SET
-        ACCOUNT.photo = #{photo},
-        ACCOUNT.nickname = #{nickname}
+        ACCOUNT.photo = #{photo}
         WHERE
         account.id = #{id}
     </update>
@@ -89,16 +88,16 @@
     </update>
 
 
-    <update id="updateNickname" parameterType="Account">
-    UPDATE
-    ACCOUNT
-    SET
-    ACCOUNT.nickname = #{nickname}
-    WHERE
-    ACCOUNT.id = #{id}
+    <update id="updateNickname">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.nickname = #{nickname}
+        WHERE
+        ACCOUNT.id = #{id}
     </update>
 
-    <update id="setUsername" parameterType="Account">
+    <update id="setUsername">
         UPDATE
         ACCOUNT
         SET
@@ -128,7 +127,7 @@
         UPDATE
         ACCOUNT
         SET
-        ACCOUNT.username = #{status},
+        ACCOUNT.username = #{username},
         ACCOUNT.phone = #{phone},
         ACCOUNT.email = #{email},
         ACCOUNT.password = #{password}
@@ -157,5 +156,32 @@
         OR
         ACCOUNT.email  LIKE CONCAT(CONCAT('%',#{findName}),'%')
     </select>
+
+    <select id="findAccountPassword" resultType="Account">
+        SELECT
+        *
+        FROM
+        ACCOUNT
+        WHERE
+        ACCOUNT.password = #{oldPassword}
+        AND
+        ACCOUNT.id = #{id};
+    </select>
+    <update id="updatePassword">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.password = #{newPassword}
+        WHERE
+        ACCOUNT.id = #{id};
+    </update>
+    <update id="mredelAccount" parameterType="int">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.status = 100
+        WHERE
+        ACCOUNT.id = #{id};
+    </update>
 
 </mapper>

@@ -23,8 +23,9 @@
     <!-- app css -->
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
-
-
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -66,12 +67,11 @@
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
-    <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
+
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#orderCancelBtn').click(function () {
@@ -93,16 +93,16 @@
     </script>
 
     <link href="../css/service/pagevendor.css" rel="stylesheet">
-    <link href="../css/service/pagemain.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+    <link href="../css/service/pagemain.css" rel="stylesheet">
+    <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">--%>
+    <spring:url value="/resources/css/account/bind.css" var="bind_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${bind_css_url}"/>
+    <script src="${pageContext.request.contextPath}/js/account/bind.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- 导航条 -->
-    <nav class="navbar navbar-default navo-color">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -162,7 +162,7 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo"  class="text-muted"  href="${infomationUrl}">个人资料</a></li>
+                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}">个人资料</a></li>
                             <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
@@ -174,66 +174,61 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                        <div id="personalInfo">
-                            <div class="accountPhoto">
-                                <a href="${infomationUrl}">
-                                    <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
-                                    <span class="editInfo">编辑信息</span>
-                                </a>
-                            </div>
-                            <div class="accountInfo">
-                                <span class="info">您好！<b>${account.username}</b></span><br/><br/>
-                                <span>订餐了吗？提前订餐送的快！</span><br/><br/>
-
-                                <span class="info">账户安全：
-                                    <span class="safe" >高</span>
-                                    <a href="${showSecurityUrl}">查看详情</a>
-                                </span><br/><br/>
-
-                                <c:if test="${account.phone != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone"></a>
-                                </c:if>
-                                <c:if test="${account.phone == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone binded"></a>
-                                </c:if>
-                                <c:if test="${account.email != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope"></a>
-                                </c:if>
-                                <c:if test="${account.email == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope binded"></a>
-                                </c:if>
-
-                            </div>
-                            <div class="accountBalance">
-                                <span class="info">账户余额</span><br/>
-                                <span class="balanceShow"><b>${account.balance}元</b></span>
-                            </div>
-                        </div>
-<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
-                        <div class="container-fluid" id="content">
-                            <div class="row">
-                                <div id="footprint">
-                                    <h3>足迹</h3>
-                                    <hr/>
-                                    <c:forEach items="${footprintList}" var="footprint">
-                                        <div class="shoplist">
-                                            <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
-                                                <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
-                                                         width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
-                                                    <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
-                                                </div>
-                                                <div class="rstblock-content">
-                                                    <div class="rstblock-title">${footprint.shopName}</div>
-                                                    <div class="rating-star r8"></div>
-                                                    <span class="rstblock-monthsales">月售100+</span>
-                                                    <div class="rstblock-cost">￥${footprint.shippingFee}</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </c:forEach>
-                                </div>
+                        <h1><small>绑定手机</small></h1><br/><hr/><br/>
+                        <div class="bindDiv">
+                            <table width="800">
+                                <th>
+                                <td width="50">
+                                    <div id="show1">1</div>
+                                </td>
+                                <td width="180" id="showSpan1">验证手机号码</td>
+                                <td width="130">
+                                    <span class="spanShow"></span>
+                                </td>
+                                <td width="50">
+                                    <div id="show2">2</div>
+                                </td>
+                                <td width="180" id="showSpan2">绑定新手机号码</td>
+                                <td width="130">
+                                    <span class="spanShow"></span>
+                                </td>
+                                <td width="50">
+                                    <div id="show3">3</div>
+                                </td>
+                                <td width="180"id="showSpan3">修改成功</td>
+                                <th/>
+                            </table>
+                            <div class="bindTable">
+                                <table width="500" >
+                                    <tr width="500px" height="60px">
+                                        <td colspan="2">
+                                            <p>为保障你的账号安全，请先帮助我们验证你的身份！</p>
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td>
+                                            <input id="inputPhone" type="text" readonly value="当前的手机">
+                                        </td>
+                                        <td>
+                                            <input id="phone" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td>
+                                            <input id="inputCode" type="text" readonly value="获取验证码">
+                                        </td>
+                                        <td>
+                                            <input id="checkCode" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td colspan="2"><p id="returnMessage">为保障账号安全，请先对你的身份进行验证</p></td>
+                                    </tr>
+                                    <tr width="500px" height="60px">
+                                        <td></td>
+                                        <td><input id="button" type="button" value="下一步"></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

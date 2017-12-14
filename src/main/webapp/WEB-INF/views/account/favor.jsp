@@ -65,10 +65,8 @@
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
-
     <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
-    <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
-    <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
+    <spring:url value="/favor/deleteFavor" var="deleteFavorUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
 
@@ -173,62 +171,26 @@
                     </div>
                     <!-- 显示内容 -->
                     <div class="col-md-10">
-                        <%--会自动调节高度--%>
-                        <div id="personalInfo">
-                            <div class="accountPhoto">
-                                <a href="${infomationUrl}">
-                                    <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
-                                    <span class="editInfo">编辑信息</span>
-                                </a>
-                            </div>
-                            <div class="accountInfo">
-                                <span class="info">您好！<b>${account.username}</b></span><br/><br/>
-                                <span>订餐了吗？提前订餐送的快！</span><br/><br/>
-
-                                <span class="info">账户安全：
-                                    <span class="safe" >高</span>
-                                    <a href="${showSecurityUrl}">查看详情</a>
-                                </span><br/><br/>
-
-                                <c:if test="${account.phone != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone"></a>
-                                </c:if>
-                                <c:if test="${account.phone == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-phone binded"></a>
-                                </c:if>
-                                <c:if test="${account.email != null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope"></a>
-                                </c:if>
-                                <c:if test="${account.email == null}">
-                                    <a href="${showSecurityUrl}" class="glyphicon glyphicon-envelope binded"></a>
-                                </c:if>
-
-                            </div>
-                            <div class="accountBalance">
-                                <span class="info">账户余额</span><br/>
-                                <span class="balanceShow"><b>${account.balance}元</b></span>
-                            </div>
-                        </div>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
                         <div class="container-fluid" id="content">
                             <div class="row">
                                 <div id="footprint">
-                                    <h3>足迹</h3>
+                                    <h3>我的收藏</h3>
                                     <hr/>
-                                    <c:forEach items="${footprintList}" var="footprint">
+                                    <c:forEach items="${favorList}" var="favor">
                                         <div class="shoplist">
-                                            <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
+                                            <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${favor.id}" class="deleteFootprint">删除</a>
+                                            <a href="${showShopDetailUrl}?shopid=${favor.id} " target="_self">
                                                 <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
-                                                         width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
-                                                    <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
+                                                    <img src="${pageContext.request.contextPath}/upload/account/${favor.shopPhoto}"
+                                                         width="70" height="70" alt="${favor.shopName}" class="rstblock-logo-icon">
+                                                    <span class="rstblock-left-timeout">${favor.shippingTime}+分钟</span>
                                                 </div>
                                                 <div class="rstblock-content">
-                                                    <div class="rstblock-title">${footprint.shopName}</div>
+                                                    <div class="rstblock-title">${favor.shopName}</div>
                                                     <div class="rating-star r8"></div>
                                                     <span class="rstblock-monthsales">月售100+</span>
-                                                    <div class="rstblock-cost">￥${footprint.shippingFee}</div>
+                                                    <div class="rstblock-cost">￥${favor.shippingFee}</div>
                                                 </div>
                                             </a>
                                         </div>

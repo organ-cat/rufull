@@ -1,6 +1,5 @@
 package com.cat.rufull.app.controller.account;
 
-import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.common.util.ReturnCode;
 import com.cat.rufull.domain.common.util.RufullCookie;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,15 +51,188 @@ public class AccountController {
     @Autowired
     private SimpleMailMessage mailMessage;
 
-    //登陆成功页面——测试使用
-    @RequestMapping("/loginSuccess")
-    public String loginSuccess(){
-        return "account/loginSuccess";
+    //已测试，但未完成
+    @RequestMapping("/setUsername")
+    public void setUsername(@RequestParam("username") String username,
+                              HttpSession session, HttpServletResponse response) {
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        account.setUsername(username);
+        Account accountByUsername = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
+
+        if (accountByUsername == null) {
+            accountService.setUsername(account.getId(), username);
+            account.setUsername(username);
+            session.setAttribute(Account.ACCOUNT_SESSION, account);
+            returnMessage(response, "11111111111111");
+        } else {
+            returnMessage(response, "00000000000000");
+        }
+
     }
+
+    @RequestMapping("/updateNickname")
+    public void updateNickname(@RequestParam("nickname") String nickname,
+                               HttpSession session, HttpServletResponse response) {
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        accountService.updateNickname(account.getId(), nickname);
+        account.setNickname(nickname);
+        session.setAttribute(Account.ACCOUNT_SESSION, account);
+        returnMessage(response, "111111111111");
+    }
+
+    //绑定手机号，已测试，但未完成
+    @RequestMapping("/bindPhonePage")
+    public String bindPhonePage(){
+        return "account/login/bindPhone";
+    }
+
+
+    //绑定手机号，已测试，但未完成
+    @RequestMapping(value = "/bindPhone", method = RequestMethod.POST)
+    public void bindPhone(@RequestParam("phone") String phone, @RequestParam("checkCode") String checkCode,
+                          HttpSession session, HttpServletResponse response) {
+        //第一次验证码
+        String phoneSeesion = (String) session.getAttribute(Account.PHONE_CHECK_CODE);
+        //第二次验证码
+        String newCheckCode = (String) session.getAttribute(Account.NEW_PHONE_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        //第一次手机身份验证
+        if (phoneSeesion != null && newCheckCode == null) {
+            if (phoneSeesion.equals(checkCode)) {
+                if (phone.equals(account.getPhone())) {
+                    returnMessage(response, ReturnCode.PHONE_CHECK_CODE_RIGHT);
+                    session.removeAttribute(Account.PHONE_CHECK_CODE);
+                } else {
+                    returnMessage(response, ReturnCode.PHONE_ERROR);
+                }
+            } else {
+                returnMessage(response, ReturnCode.PHONE_CHECK_CODE_ERROR);
+            }
+        }
+        //第二次手机身份验证
+        if (phoneSeesion == null && newCheckCode != null) {
+            if (newCheckCode.equals(checkCode)) {
+                account.setPhone(phone);
+                accountService.bindPhone(account);
+                session.removeAttribute(Account.NEW_PHONE_CHECK_CODE);
+                returnMessage(response, ReturnCode.NEW_PHONE_CHECK_CODE_RIGHT);
+            } else {
+                returnMessage(response, ReturnCode.NEW_PHONE_CHECK_CODE_ERROR);
+            }
+        }
+
+    }
+    //绑定手机号，已测试，但未完成
+    @RequestMapping("/bindEmailPage")
+    public String bindEmailPage(){
+        return "account/login/bindEmail";
+    }
+    //绑定手机号，已测试，但未完成
+    @RequestMapping(value = "/bindEmail", method = RequestMethod.POST)
+    public void bindEmail(@RequestParam("email") String email, @RequestParam("checkCode") String checkCode,
+                          HttpSession session, HttpServletResponse response) {
+        //第一次验证码
+        String emailSeesion = (String) session.getAttribute(Account.EMAIL_CHECK_CODE);
+        //第二次验证码
+        String newCheckCode = (String) session.getAttribute(Account.NEW_EMAIL_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        //第一次手机身份验证
+        if (emailSeesion != null && newCheckCode == null) {
+            if (emailSeesion.equals(checkCode)) {
+                if (email.equals(account.getEmail())) {
+                    returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_RIGHT);
+                    session.removeAttribute(Account.EMAIL_CHECK_CODE);
+                } else {
+                    returnMessage(response, ReturnCode.EMAIL_ERROR);
+                }
+            } else {
+                returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_ERROR);
+            }
+        }
+        //第二次手机身份验证
+        if (emailSeesion == null && newCheckCode != null) {
+            if (newCheckCode.equals(checkCode)) {
+                account.setEmail(email);
+                accountService.bindEmail(account);
+                session.removeAttribute(Account.NEW_EMAIL_CHECK_CODE);
+                returnMessage(response, ReturnCode.NEW_EMAIL_CHECK_CODE_RIGHT);
+            } else {
+                returnMessage(response, ReturnCode.NEW_EMAIL_CHECK_CODE_ERROR);
+            }
+        }
+
+    }
+
+    @RequestMapping("addEmailPage")
+    public String addEmailPage() {
+        return "account/login/addEmail";
+    }
+    @RequestMapping("addPhonePage")
+    public String addPhonePage() {
+        return "account/login/addPhone";
+    }
+    @RequestMapping("addEmail")
+    public void addEmail(@RequestParam("email") String email, @RequestParam("checkCode") String checkCode,
+                           HttpSession session, HttpServletResponse response) {
+        String code = (String) session.getAttribute(Account.EMAIL_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        System.out.println("code" + code);
+        System.out.println("addPhone——" + email + "—|—" + checkCode);
+        if (code != null) {
+            if (code.equals(checkCode)) {
+                Account user = accountService.findAccountByEmail(email, Account.ACCOUNT_ROLE);
+                if (user == null) {
+                    account.setEmail(email);
+                    accountService.bindEmail(account);
+                    session.removeAttribute(Account.EMAIL_CHECK_CODE);
+                    returnMessage(response, ReturnCode.EMAIL_PASSED);
+                    System.out.println("成功");
+                } else {
+                    System.out.println("邮箱已经存在了");
+                    returnMessage(response, ReturnCode.EMAIL_REGISTERED);
+                }
+            } else {
+                System.out.println("验证码错误");
+                returnMessage(response, ReturnCode.EMAIL_CHECK_CODE_ERROR);
+            }
+        } else {
+            System.out.println("请重新获取验证码！");
+        }
+
+    }
+
+    @RequestMapping("addPhone")
+    public void addPhone(@RequestParam("phone") String phone, @RequestParam("checkCode") String checkCode,
+                         HttpSession session, HttpServletResponse response) {
+        String code = (String) session.getAttribute(Account.PHONE_CHECK_CODE);
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        System.out.println("addPhone——" + phone + "—|—" + checkCode);
+        if (code.equals(checkCode)) {
+            Account user = accountService.findAccountByPhone(phone, Account.ACCOUNT_ROLE);
+            if (user == null) {
+                account.setPhone(phone);
+                accountService.bindPhone(account);
+                session.removeAttribute(Account.PHONE_CHECK_CODE);
+                returnMessage(response, ReturnCode.PHONE_PASSED);
+                System.out.println("成功");
+            } else {
+                System.out.println("手机已经存在了");
+                returnMessage(response, ReturnCode.PHONE_REGISTERED);
+            }
+        } else {
+            System.out.println("验证码错误");
+            returnMessage(response, ReturnCode.PHONE_CHECK_CODE_ERROR);
+        }
+
+    }
+
+
+
 
     //跳转到个人中心，显示个人信息和浏览过的商家足迹
     @RequestMapping(value = "/center", method = RequestMethod.GET)
     public ModelAndView center(@RequestParam("id") int id, HttpSession session) {
+
         //获取用户足迹集合
         List<Footprint> footprintList = footprintService.findFootprintList(id);
         //用户浏览过的商店集合
@@ -72,6 +245,60 @@ public class AccountController {
         view.setViewName("account/login/center");
         return view;
     }
+    @RequestMapping(value = "/infomation", method = RequestMethod.GET)
+    public String infomation() {
+        return "account/login/infomation";
+    }
+
+    @RequestMapping(value = "/updatePasswordPage", method = RequestMethod.GET)
+    public String updatePasswordPage() {
+        return "account/login/updatePassword";
+    }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public void updatePassword(@RequestParam("id") int id,
+                               @RequestParam("newPassword") String newPassword,
+                               @RequestParam("oldPassword") String oldPassword,
+                               HttpServletResponse response) {
+        boolean isSuccess = accountService.updatePassword(id, newPassword, oldPassword);
+        if (isSuccess) {
+            returnMessage(response, ReturnCode.UPDATE_PASSWORD_SUCCESS);
+        } else {
+            returnMessage(response, ReturnCode.UPDATE_PASSWORD_FAIL);
+        }
+    }
+
+    @RequestMapping(value = "/security", method = RequestMethod.GET)
+    public String security() {
+        return "account/login/security";
+    }
+    @RequestMapping("uploadPage")
+    public String upload(){
+        return "account/login/upload";
+    }
+
+    @RequestMapping(value = "/upload")
+    public String uploadPhoto(@RequestParam("photo") MultipartFile photo,
+                              @RequestParam("id") int id,
+                              HttpServletRequest request,
+                              HttpSession session) {
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+        String path = request.getServletContext().getRealPath("upload/account");
+        String fileName = "A" + id + photo.getOriginalFilename();
+        System.out.println("fileName——"+fileName);
+        if (!fileName.equalsIgnoreCase("A" + id)) {
+            account.setPhoto(fileName);
+            try {
+                FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        accountService.updateAccountPhoto(id, fileName);
+        session.setAttribute(Account.ACCOUNT_SESSION, account);
+        return "account/login/infomation";
+    }
+
 //测试使用的视图，待商家模块完成后转移过去
     @RequestMapping(value = "/showshowshow", method = RequestMethod.GET)
     public ModelAndView addFootprint(@RequestParam("shopId") int shopId , @RequestParam("accountId") int accountId) {
@@ -97,73 +324,32 @@ public class AccountController {
         view.addObject(Footprint.FOOTPRINT_LIST, shopList);
         return view;
     }
-    //设置用户名，已测试，但未完成
-    @RequestMapping("/setUsername")
-    public String setUsername(@RequestParam("username") String username, HttpSession session) {
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setUsername(username);
-        accountService.setUsername(account);
-        return "account/loginSuccess";
-    }
-    //绑定手机号，已测试，但未完成
-    @RequestMapping("/bindPhone")
-    public String bindPhone(@RequestParam("phone") String phone, HttpSession session){
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setPhone(phone);
-        accountService.bindPhone(account);
-        return "account/loginSuccess";
-    }
-    //绑定邮箱，已测试，但未完成
-    @RequestMapping("/bindEmail")
-    public String bindEmail(@RequestParam("email") String email, HttpSession session){
-        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        account.setEmail(email);
-        accountService.bindEmail(account);
-        return "account/loginSuccess";
-    }
 
     /**
      * 退出的功能
-     *
      * @param session
      * @return
      */
     @RequestMapping("/logout")
-    public String logout(HttpSession session, HttpServletRequest request,HttpServletResponse response) {
+    public String logout(HttpSession session,HttpServletRequest request,HttpServletResponse response){
+        //获取用户的cookie
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        if (null != cookies){
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equalsIgnoreCase(RufullCookie.RUFULLCOOKIE)) {
+                //判断是否存在rufullCookie，即本网站的cookie
+                if (cookie.getName().equals(RufullCookie.RUFULLCOOKIE)) {
                     cookie.setValue(null);
-                    cookie.setMaxAge(0);
+                    cookie.setMaxAge(0);// 立即销毁cookie
                     cookie.setPath("/");
                     response.addCookie(cookie);
+                    break;
                 }
             }
         }
         session.invalidate();
         return "index";
     }
-    //用户上传头像，已经测试，但是未完成
-    @RequestMapping(value = "/uploadPhoto")
-    public String uploadPhoto(@RequestParam("photo") MultipartFile photo,
-                              @RequestParam("nickname") String nickname,
-                              HttpServletRequest request) {
-        String path = request.getServletContext().getRealPath("upload/account");
-        Account account = (Account) request.getSession().getAttribute("account");
-        String fileName = "A" + account.getId() + photo.getOriginalFilename();
-        if (!fileName.equalsIgnoreCase("A" + account.getId())) {
-            account.setPhoto(fileName);
-            try {
-                FileUtils.copyInputStreamToFile(photo.getInputStream(), new File(path, fileName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        account.setNickname(nickname);
-        accountService.updateAccountPhoto(account);
-        return "account/loginSuccess";
-    }
+
     /**
      * 用户注册
      * @param phoneOrEmail  用户的注册方式，可以手机/邮箱
@@ -191,7 +377,9 @@ public class AccountController {
     public String businessRegister(@RequestParam("phone") String phoneOrEmail,
                                    @RequestParam("password") String password,
                                    @RequestParam("checkCode") String checkCode,
-                                   HttpSession httpSession) {
+                                   HttpSession httpSession,
+                                   HttpServletRequest request,
+                                   Model model) {
         return register(phoneOrEmail, password, checkCode, httpSession, Account.BUSINESS_ROLE);
     }
     /**
@@ -217,21 +405,12 @@ public class AccountController {
      * 商家登陆
      * @param username     用户登陆的方式，可以是用户名/手机/邮箱
      * @param password     登陆的密码
-     * @param ip            登陆的IP
-     * @param city          登陆的位置具体是xx省xx市
-     * @param remoteCode   异地登陆的验证码
      * @param session      HttpSession
      * @param response     HttpServletResponse
      */
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username, @RequestParam("password") String password,
-                              @RequestParam("ip") String ip, @RequestParam("city") String city,
-                              @RequestParam("remoteCode") String remoteCode,
                               HttpSession session, HttpServletResponse response) {
-//        商家没有校验异地登陆功能，如果需要，需要更新login_log表，添加business_id外键对应business的主键
-//        loginCheckIsRemote(username, password, Account.ACCOUNT_ROLE, ip, city,
-//                session, response, remoteCode, Account.ACCOUNT_SESSION, Account.REMOTE_CODE_SESSION);
-        //只是登陆校验是否密码错误
         login(username, password, Account.BUSINESS_ROLE, session, response, Account.BUSINESS_SESSION, null, null);
     }
     /**
@@ -252,13 +431,8 @@ public class AccountController {
                                    String remoteCode, String sessionName,String sessionRemoteCode) {
         //从session中获取异地登陆的验证码
         String recode = (String) session.getAttribute(sessionRemoteCode);
-
-        System.out.println("session中的验证码"+recode);
-
         //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
         if (recode == null) {
-
-            System.out.println("不是异地登陆"+recode);
             //判断是否是异地登陆
             boolean isRemote = checkLoglog(ip, city, username, role);
             if (isRemote) {//true ，不是异地登陆
@@ -272,8 +446,6 @@ public class AccountController {
                 returnMessage(response, ReturnCode.REMOTE_LOGIN);//异地登陆
             }
         } else {//非第一次登陆
-
-            System.out.println("异地登陆----"+recode);
             //判断输入的异地登陆的验证码是否正确
             if (remoteCode.equals(remoteCode)) {//正确
                 this.login(username, password, role, session,
@@ -333,22 +505,22 @@ public class AccountController {
         } else {//登陆成功
             //用户登陆成功
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
-                if (login.getStatus() >= 100) {
-                    //存入session中
-                    session.setAttribute(sessionName, login);
+                //存入session中
+                session.setAttribute(sessionName, login);
+                if (!ip.equals("")&&!city.equals("")) {
                     //添加登陆日志
                     addLoginLog(ip, city, login);
-                    //添加到cookie中
-                    addRufullCookie(response, login);
-                    result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
-                } else {
-                    result = ReturnCode.ACCOUNT_ABNORMAL;
                 }
+                //添加到cookie中
+                addRufullCookie(response, login);
+                result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
             }
 /******************************************************************************************/
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
-                result =  ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                System.out.println("商家成功登陆。。。。");
+                session.setAttribute("registerBusiness", login);
+                result = login.getStatus()+"";             //商家状态。
             }
 /******************************************************************************************/
         }
@@ -364,8 +536,6 @@ public class AccountController {
      * @return boolean
      */
     private boolean checkLoglog(String ip, String city, String username,int role) {
-
-        System.out.println(ip + "+" + city + "+" + username + "+" + role);
         boolean isUsername = RegEx.regExUsername(username);
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
@@ -383,13 +553,11 @@ public class AccountController {
         List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
         //若为0，代表第一次登陆
         if (logList.size() == 0) {
-            System.out.println("1111");
             return true;
         } else {
             //不为空，则是登陆过了，遍历登陆日志
             for (LoginLog log : logList) {
                 if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equals(city)) {
-                    System.out.println("2222");
                     return true;
                 }
             }
@@ -441,13 +609,17 @@ public class AccountController {
                 account.setPhone(phoneOrEmail);
                 accountService.register(account);
                 if (role == Account.ACCOUNT_ROLE) {
+                    Account registerSuccess =accountService.findAccountByPhone(phoneOrEmail, role);
+                    System.out.println(registerSuccess.toString());
                     httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
                     return "index";
                 }
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-                    return "account/registerSuccess";
+                    Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
+                    httpSession.setAttribute("registerBusiness",registerBusiness);
+                    return "forward:/business/addBusinessUI";
                 }
 /******************************************************************************************/
             } else {
@@ -458,23 +630,27 @@ public class AccountController {
         //注册方式是邮箱
         if (isEmail) {
             //根据邮箱查找用户账号
-            Account user = accountService.findAccountByEmail(phoneOrEmail,Account.ACCOUNT_ROLE);
+            Account user = accountService.findAccountByEmail(phoneOrEmail,role);
             //用户账号不存在,可以注册
             if (user == null) {
                 //设置账号的邮箱
                 account.setEmail(phoneOrEmail);
                 //发送激活账号邮箱
-                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
+//                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
                 //注册账号
                 accountService.register(account);
                 if (role == Account.ACCOUNT_ROLE) {
-                    httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
-                    return "account/registerSuccess";
+                    Account registerSuccess =accountService.findAccountByEmail(phoneOrEmail, role);
+                    System.out.println(registerSuccess.toString());
+                    httpSession.setAttribute(Account.ACCOUNT_SESSION, registerSuccess);
+                    return "index";
                 }
 /******************************************************************************************/
                 //如果是商家注册，跳转到对应页面
                 if (role == Account.BUSINESS_ROLE) {
-                    return "account/registerSuccess";
+                    Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
+                    httpSession.setAttribute("registerBusiness",registerBusiness);
+                    return "forward:/business/addBusinessUI";
                 }
 /******************************************************************************************/
             } else {

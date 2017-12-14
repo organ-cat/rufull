@@ -24,18 +24,7 @@
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
 
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 
-    <!-- address css -->
-    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
-
-
-    <!-- address js -->
-    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
-    <script src="${address_js_url}" type="text/javascript"></script>
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -53,17 +42,18 @@
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
     <spring:url value="#" var="showCooperationUrl"/>
     <spring:url value="#" var="showAgreementUrl"/>
-    <spring:url value="#" var="showProfileUrl"/>
+    <spring:url value="/account/center" var="showProfileUrl"/>
     <spring:url value="/favor" var="showFavorUrl"/>
-    <spring:url value="/footprint" var="footprintUrl"/>
+    <spring:url value="/account/center" var="footprintUrl"/>
     <spring:url value="/address/addressManage" var="showAddressUrl"/>
-    <spring:url value="/security" var="showSecurityUrl"/>
+    <spring:url value="/account/security" var="showSecurityUrl"/>
     <spring:url value="/account/logout" var="logoutUrl"/>
     <spring:url value="/place" var="showPlaceUrl"/>
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
+    <spring:url value="/account/infomation" var="infomationUrl"/>
     <spring:url value="/account/showInfo" var="showInfoUrl"/>
-    <spring:url value="/security/changepassword" var="changePasswordUrl"/>
+    <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
     <spring:url value="/rate" var="addRateUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
@@ -100,12 +90,22 @@
             });
         });
     </script>
-
-    <link href="../css/service/pagevendor.css" rel="stylesheet">
-
-    <link href="../css/service/pagemain.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-
+    <!-- jinag css -->
+    <spring:url value="/resources/css/service/pagevendor.css" var="pagevendor_css_url"/>
+    <link rel="stylesheet" href="${pagevendor_css_url}"/>
+    <spring:url value="/resources/css/service/pagemain.css" var="pagemain_css_url"/>
+    <link rel="stylesheet" href="${pagemain_css_url}"/>
+    <spring:url value="/resources/css/account/font-awesome.css" var="font_awesome_css_url"/>
+    <link rel="stylesheet" href="${font_awesome_css_url}"/>
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+    <!-- address css -->
+    <spring:url value="/resources/css/account/address.css" var="address_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${address_css_url}"/>
+    <!-- address js -->
+    <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
+    <script src="${address_js_url}" type="text/javascript"></script>
 
 </head>
 <body>
@@ -132,9 +132,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
                             <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
-                            <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
+                            <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
                             <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
@@ -162,7 +162,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <ul class="list-group text-center">
-                            <li class="list-group-item list-group-item-info"><strong><a class="text-muted" href="${showProfileUrl}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
+                            <li class="list-group-item list-group-item-info"><strong><a class="text-muted" href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>我的订单</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
@@ -170,12 +170,12 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo" class="text-muted" >个人资料</a></li>
-                            <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}">地址管理</a></li>
+                            <li class="list-group-item"><a id="infoinfo" class="text-muted"  href="${infomationUrl}">个人资料</a></li>
+                            <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
@@ -196,7 +196,7 @@
                                             </span>
                                             <a href="#" target="_self">
                                                 <div class="rstblock-content">
-                                                    <div class="rstblock-title">${address.receiver}</div>
+                                                    <div class="rstblock-title"><b>${address.receiver}<b/></div>
                                                     <div class="rstblock-cost">${address.detail}</div>
                                                     <span class="rstblock-monthsales">${address.phone}</span>
                                                 </div>

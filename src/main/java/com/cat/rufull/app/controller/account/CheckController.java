@@ -20,6 +20,86 @@ public class CheckController {
     @Autowired
     private AccountService accountService;
 
+    @RequestMapping("/checkUsername")
+    public void checkUsername(@RequestParam("username") String username, HttpServletResponse response) {
+        Account account = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
+        if (account == null) {
+            returnMessage(response, "1");
+            System.out.println("11111111111");
+        } else {
+            returnMessage(response, "2");
+            System.out.println("22222222222");
+        }
+    }
+    // 校验手机
+    @RequestMapping(value = "/checkPhone")
+    public void checkPhone(@RequestParam("phone") String phone,
+                              HttpServletResponse response) {
+        boolean isPhone = RegEx.regExPhone(phone);
+        if (isPhone) {
+            Account account = accountService.findAccountByPhone(phone, Account.ACCOUNT_ROLE);
+            if (account == null) {
+                returnMessage(response, ReturnCode.PHONE_PASSED);
+            } else {
+                returnMessage(response, ReturnCode.PHONE_REGISTERED);
+            }
+        } else {
+            returnMessage(response, ReturnCode.PHONE_FORMAT_ERROR);
+        }
+
+    }
+    // 校验邮箱
+    @RequestMapping(value = "/checkEmail")
+    public void checkEmail(@RequestParam("email") String email,
+                           HttpServletResponse response) {
+        boolean isEmail = RegEx.regExEmail(email);
+        if (isEmail) {
+            Account account = accountService.findAccountByEmail(email, Account.ACCOUNT_ROLE);
+            if (account == null) {
+                returnMessage(response, ReturnCode.EMAIL_PASSED);
+            } else {
+                returnMessage(response, ReturnCode.EMAIL_REGISTERED);
+            }
+        } else {
+            returnMessage(response, ReturnCode.EMAIL_FORMAT_ERROR);
+        }
+    }
+    //手机
+    @RequestMapping(value = "/sendbindPhone")
+    public void sendbindPhone(@RequestParam("phone") String phone,
+                              HttpSession session) {
+        String checkCode = getCode();
+        session.setAttribute(Account.PHONE_CHECK_CODE, checkCode);
+        System.out.println("绑定手机" + phone + "收到验证码是：" + checkCode);
+    }
+
+    @RequestMapping(value = "/sendbindNewPhone")
+    public void sendbindNewPhone(@RequestParam("phone") String phone,
+                              HttpSession session) {
+        System.out.println(phone);
+        String checkCode = getCode();
+        session.setAttribute(Account.NEW_PHONE_CHECK_CODE, checkCode);
+        System.out.println("绑定-新-手机" + phone + "收到验证码是：" + checkCode);
+    }
+    //邮箱
+    @RequestMapping(value = "/sendbindEmail")
+    public void sendbindEmail(@RequestParam("email") String email,
+                              HttpSession session) {
+        String checkCode = getCode();
+        session.setAttribute(Account.EMAIL_CHECK_CODE, checkCode);
+        System.out.println("绑定邮箱" + email + "收到验证码是：" + checkCode);
+    }
+
+    @RequestMapping(value = "/sendbindNewEmail")
+    public void sendbindNewEmail(@RequestParam("email") String email,
+                                 HttpSession session) {
+        String checkCode = getCode();
+        session.setAttribute(Account.NEW_EMAIL_CHECK_CODE, checkCode);
+        System.out.println("绑定-新-邮箱" + email + "收到验证码是：" + checkCode);
+    }
+
+
+
     /**
      * 检验用户注册方式是否被使用
      * @param response      HttpServletResponse
