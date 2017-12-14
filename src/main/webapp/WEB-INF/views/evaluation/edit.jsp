@@ -180,7 +180,9 @@
                                 </div>
                             </div>
                             <div class="row eval-form">
-                                <form:form modelAttribute="orderEvaluation" action="${addEvaluationUrl}" id="evaluationCreateForm" cssClass="form-horizontal">
+                                <form:form modelAttribute="orderEvaluation" action="add_eval" id="evaluationCreateForm" cssClass="form-horizontal">
+                                    <input type="hidden" value="${order.id}" name="order.id">
+                                    <input type="hidden" value="${order.shop.id}" name="shopId">
                                     <div class="form-group">
                                         <label for="orderEvalScore" class="col-md-2 control-label">商家服务 评分</label>
                                         <div class="col-md-6">
@@ -194,6 +196,7 @@
                                         </div>
                                     </div>
                                     <c:forEach var="productEvaluation" items="${orderEvaluation.productEvaluations}" varStatus="status">
+                                        <input type="hidden" value="${productEvaluation.item.id}" name="productEvaluations[${status.index}].item.id">
                                         <div class="form-group">
                                             <label for="productEvalScore${status.index}" class="col-md-2 control-label">${productEvaluation.item.productName} 评分</label>
                                             <div class="col-md-6">

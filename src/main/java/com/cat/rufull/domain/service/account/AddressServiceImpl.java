@@ -15,13 +15,18 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
 
     @Override
-    public List<Address> queryAddressList(Integer id) {
-        return addressMapper.queryAddressList(id);
+    public List<Address> queryAddressList(Integer accountId) {
+        return addressMapper.queryAddressList(accountId);
     }
 
     @Override
-    public void addAddress(Address address) {
-        addressMapper.addAddress(address);
+    public boolean addAddress(Address address) {
+        int count = addressMapper.findAddressCount(address.getAccountId());
+        if (count <= 12) {
+            addressMapper.addAddress(address);
+            return true;
+        }
+        return false;
     }
 
     @Override

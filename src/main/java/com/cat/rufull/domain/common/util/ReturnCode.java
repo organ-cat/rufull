@@ -1,6 +1,9 @@
 package com.cat.rufull.domain.common.util;
 
 public class ReturnCode {
+
+    public static final String ACCOUNT_ABNORMAL = "0";        //用户账号异常
+
     public static final String PHONE_PASSED = "10";            //手机号码通过
 
     public static final String PHONE_REGISTERED = "11";        //手机号码被注册了
@@ -40,4 +43,6 @@ public class ReturnCode {
     public static final String BUSINESS_STATUS_RECITIFY = "203";
 
     public static final String BUSINESS_STATUS_DELETE = "204";
+
+    public static final String BUSINESS_STATUS_SETTLED_NOTPASS = "205";
 }

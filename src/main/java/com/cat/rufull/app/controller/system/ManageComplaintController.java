@@ -44,7 +44,7 @@ public class ManageComplaintController {
      */
     @RequestMapping("/findAllComp")
     public String findAllComp(Model model, HttpSession session) {
-        session.removeAttribute("getcomperror");
+        session.removeAttribute("getacccomperror");
         List<Complaint> complaintList = complaintService.findAllComplaint();
         model.addAttribute("managecomp", complaintList);
         return "system/complaint/allcomplaint";

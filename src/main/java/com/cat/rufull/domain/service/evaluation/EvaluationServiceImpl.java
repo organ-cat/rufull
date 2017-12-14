@@ -14,15 +14,22 @@ import java.util.List;
 public class EvaluationServiceImpl implements EvaluationService {
 
     @Autowired
-    private EvaluationMapper orderEvaluatiomMapper;
+    private EvaluationMapper evaluationMapper;
 
     @Override
     public List<OrderEvaluation> findOrderEvaluation(Integer id) throws Exception {
-        return orderEvaluatiomMapper.selectOrderEvaluationByBusinessId(id);
+        return evaluationMapper.selectOrderEvaluationByBusinessId(id);
     }
 
     @Override
-    public List<OrderEvaluation> findByName(String name) {
+    public List<OrderEvaluation> findByShopName(String shopname) {
         return null;
     }
+
+    //根据商店id查询评价
+    @Override
+    public List<OrderEvaluation> findEvalByShopId(Integer id) throws Exception {
+        return evaluationMapper.findEvalByShopId(id);
+    }
+
 }

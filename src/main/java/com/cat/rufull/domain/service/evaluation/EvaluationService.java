@@ -7,5 +7,8 @@ import java.util.List;
 public interface EvaluationService {
     public List<OrderEvaluation> findOrderEvaluation(Integer id) throws Exception;
 
-    List<OrderEvaluation> findByName(String name);
+    List<OrderEvaluation> findByShopName(String shopname);
+
+    //根据商店id查询评价
+    public List<OrderEvaluation> findEvalByShopId(Integer id) throws Exception;
 }

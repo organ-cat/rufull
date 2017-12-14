@@ -40,12 +40,10 @@ public class EvaluationController {
 
 
     @RequestMapping("/add_eval")
-    public String add_eval(Order order){
-        String shopName = shopService.findById(order.getShop().getId()).getShopName();//获取商店名称
-        //根据订单id查询订单项
-        //List<CartItem> Items = orderService
-
-        return "evaluation/add_eval";
+    public String add_eval(@ModelAttribute("orderEvaluation") OrderEvaluation orderEvaluation){
+        //System.out.println(orderEvaluation);
+        //evaluationService.addEvaluation();
+        return "order/show";
     }
 
     @RequestMapping("/findOrderEvaluation")

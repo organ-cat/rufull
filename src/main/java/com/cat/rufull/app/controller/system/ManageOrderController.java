@@ -45,10 +45,22 @@ public class ManageOrderController {
      * @param endTime
      * @return
      */
-    @RequestMapping("/getOrdersList")
-    public String getOrdersList(@RequestParam("beginTime") Date beginTime,
+    @RequestMapping("/getOrdersbycondition")
+    public String getOrdersbycondition(@RequestParam("beginTime") Date beginTime,
                                 @RequestParam("endTime") Date endTime, Model model) {
         List<Order> orderList = orderService.findOrdersBetween(beginTime, endTime);
+        model.addAttribute("morderlist", orderList);
+        return "system/order/ordersList";
+    }
+    /**
+     * 获取所有订单列表
+     *
+     * @return
+     */
+    @RequestMapping("/findOrdersList")
+    public String findOrdersList(Model model) {
+        List<Order> orderList =null;
+                //orderService.findAllOrders();
         model.addAttribute("morderlist", orderList);
         return "system/order/ordersList";
     }
@@ -60,8 +72,8 @@ public class ManageOrderController {
      * @param model
      * @return
      */
-    @RequestMapping("/getOrder/{id}")
-    public String getOrder(@PathVariable Integer id, Model model) {
+    @RequestMapping("/getOrder")
+    public String getOrder(Integer id, Model model) {
         Order order = orderService.findOrderById(id);
         model.addAttribute("morder", order);
         return "system/order/orderdetail";

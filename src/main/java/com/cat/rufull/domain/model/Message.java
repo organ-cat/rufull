@@ -14,6 +14,8 @@ public class Message implements Serializable {
 
     private String status;      // 消息状态
 
+    private Integer orderId;    // 订单id
+
     private Integer senderId;   // 发送方的用户id
 
     private Integer receiverId; // 接收方的用户id
@@ -50,6 +52,14 @@ public class Message implements Serializable {
         this.status = status;
     }
 
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
     public Integer getSenderId() {
         return senderId;
     }
@@ -64,5 +74,18 @@ public class Message implements Serializable {
 
     public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", content='" + content + '\'' +
+                ", status='" + status + '\'' +
+                ", orderId=" + orderId +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                '}';
     }
 }

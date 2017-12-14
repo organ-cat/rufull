@@ -4,7 +4,7 @@
 <mapper namespace="com.cat.rufull.domain.mapper.manager.ManagerMapper">
     <resultMap id="ManagerResultMap" type="com.cat.rufull.domain.model.Manager">
         <id column="id" property="id"/>
-        <result column="username" property="userName"/>
+        <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
         <result column="photo" property="photo"/>
@@ -13,10 +13,11 @@
         <result column="created_time" property="createdTime"/>
         <result column="role" property="role"/>
     </resultMap>
-    <select id="findAll" resultType="Manager" parameterType="Manager">
+    <select id="findAll" resultMap="ManagerResultMap">
         SELECT
         *
         FROM MANAGER
+        WHERE MANAGER.status != 0
     </select>
 
     <select id="getManagerById" resultMap="ManagerResultMap" parameterType="int">
@@ -70,8 +71,7 @@
         OR
         MANAGER.email = #{email} AND MANAGER.password = #{password}
         )
-        AND
-        MANAGER.role = #{role} AND MANAGER.status = 1
+        AND MANAGER.status = 1
     </select>
 
     <update id="delManager" parameterType="int">

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cat.rufull.domain.mapper.message.MessageMapper">
+
+  <cache/>
+  
+  <resultMap id="MessageResult" type="com.cat.rufull.domain.model.Message">
+    <id column="message_id" property="id"/>
+    <result column="type" property="type"/>
+    <result column="content" property="content"/>
+    <result column="status" property="status"/>
+    <result column="order_id" property="orderId"/>
+    <result column="sender_id" property="senderId"/>
+    <result column="receiver_id" property="receiverId"/>
+  </resultMap>
+
+  <update id="updateMessage" parameterType="com.cat.rufull.domain.model.Message">
+    UPDATE MESSAGE
+    SET
+      STATUS=#{status}
+    WHERE ID=#{id}
+  </update>
+
+  <insert id="insertMessage" parameterType="com.cat.rufull.domain.model.Message"
+          useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO MESSAGE(TYPE,CONTENT,STATUS,ORDER_ID,SENDER_ID,RECEIVER_ID)
+    VALUES(#{type},#{content},#{status},#{ORDER_ID},#{sender_id},#{receiver_id})
+  </insert>
+
+</mapper>

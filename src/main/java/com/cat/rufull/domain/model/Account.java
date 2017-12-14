@@ -37,6 +37,7 @@ public class Account implements Serializable {
     public final static String BUSINESS_SESSION = "business";//session中商家的名称
     public final static String REMOTE_CODE_SESSION = "remoteCode";//session中异地登陆验证码的名称
     public final static String CHECKCODE_SESSION = "checkcode";//session中异地登陆验证码的名称
+    public final static String STATUS = "checkcode";//session中异地登陆验证码的名称
 
 
     public Account() {

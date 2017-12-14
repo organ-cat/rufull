@@ -9,4 +9,7 @@ public interface EvaluationMapper {
 
     //插入订单评价
     public void addOrderEvaluation(OrderEvaluation orderEvaluation)throws Exception;
+
+    //根据商店id查询评价
+    public List<OrderEvaluation> findEvalByShopId(Integer id)throws Exception;
 }

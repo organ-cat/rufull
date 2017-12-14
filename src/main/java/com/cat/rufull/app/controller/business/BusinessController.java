@@ -2,8 +2,10 @@ package com.cat.rufull.app.controller.business;
 
 
 import com.cat.rufull.domain.common.util.BusinessUtils;
+import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,13 @@ public class BusinessController {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private AccountService accountService;
+
     //1.跳转添加商家界面
     @RequestMapping("addBusinessUI")
     public String addBusinessUI(){
+
         return "business/businessSettle";
     }
 
@@ -34,7 +40,8 @@ public class BusinessController {
     @RequestMapping("addBusiness")
     public String addBusiness(@RequestParam(value = "files")MultipartFile[] files,
                              Business business,
-                             HttpServletRequest request)throws Exception {
+                             HttpServletRequest request,
+                              Integer accountId)throws Exception {
         /**
         *@Author:Caoxin
         *@Description
@@ -43,13 +50,16 @@ public class BusinessController {
          * file:用户上传的图片信息
         *@returnjava.lang.String
         */
-        //上传文件
-         Business finishedBusiness = BusinessUtils.upload2Business(files, business, request);
+        //上传文件添加用户
+         Business finishedBusiness = BusinessUtils.upload2Business(files, business, request,accountId);
          System.out.println("finished:"+finishedBusiness);
+        businessService.add(finishedBusiness);
 
-         //添加商家:看看用户外键有没有添加进来
-        //businessService.add(finishedBusiness);
-        return "forward:/";                   //从定向到一个信息提示页面：等待页面管理员审核
+        //将商家对应状态改为：已经填写入驻信息，但是未通过管理员审核200
+        Account account = accountService.findAccountById(finishedBusiness.getAccount().getId());
+        account.setStatus(Business.BUSINESS_STATUS_SETTLED);
+//      accountService.updateAccount(account);
+        return "business/waitForReview";                   //从定向到一个信息提示页面：等待页面管理员审核
                                                 //提示完成后等待几秒钟跳转会用户界面。
     }
 
@@ -76,9 +86,9 @@ public class BusinessController {
     }
 
     //4.显示等待审核页面
-    @RequestMapping("waitingBusinessAdopt")
-    public String waitingBusinessAdopt(){
-        return "";
+    @RequestMapping("waitForReview")
+    public String waitForReview(){
+        return "business/waitForReview";
     }
 
     //5.审核没有通过，管理员可以通过给用户短信告诉用户未通过信息。
@@ -87,5 +97,16 @@ public class BusinessController {
     public String reFillSettle(){
         return "";
     }
+
+    @RequestMapping("joinBusiness")
+    public String joinBusiness(){
+        return "business/joinBusiness";
+    }
+
+    @RequestMapping("beRectified")
+    public String beRectified(){
+        return "business/beRectified";
+    }
+
 
 }

@@ -11,4 +11,8 @@ public class InterceptorController {
     public String nologin(){
         return "interceptor/nologin";
     }
+    @RequestMapping("/admin")
+    public String admin(){
+        return "system/managerlogin";
+    }
 }

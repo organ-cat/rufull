@@ -10,7 +10,7 @@ public interface AddressMapper {
      * @param id
      * @return
      */
-    List<Address> queryAddressList(Integer id);
+    List<Address> queryAddressList(Integer accountId);
 
     /**
      * 添加地址

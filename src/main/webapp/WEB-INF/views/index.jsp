@@ -16,7 +16,7 @@
     <meta name="description" content="欢迎使用RuFull" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="${pageContext.request.contextPath}/css/service/main.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/css/service/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="${pageContext.request.contextPath}/css/service/city-picker.css" rel="stylesheet" type="text/css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
@@ -24,7 +24,7 @@
     <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/service/bootstrap3/css/font-awesome.css">
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
@@ -63,7 +63,7 @@
                             </c:if>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
-                            <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
+                            <li class="hideImg"><a href="${pageContext.request.contextPath}/address/addressManage?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/logout" class="aLabel"><span class="glyphicon glyphicon-off"></span> 退出登录</a></li>
@@ -93,7 +93,12 @@
     </div>
     <div id="container" style="width:0px;height:0px;"></div>
     <div class="container">
-
+        <script type="text/javascript">
+            $("body").css("width", window.innerWidth);
+            $(window).resize(function () {
+                $("body").css("width", window.innerWidth);
+            })
+        </script>
         <div class="modal fade login" id="loginModal">
             <div class="modal-dialog login animated">
                 <div class="modal-content">
@@ -130,7 +135,9 @@
                         <div class="box">
                             <div class="content registerBox" style="display:none;">
                                 <div class="form">
-                                    <form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8">
+                                    <!--使用了c标签-->
+                                    <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
+                                    <form method="post" action="">
                                         <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
                                         <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
                                         <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
@@ -159,7 +166,7 @@
     </div>
 
     <footer class="homepage-footer" style="background-color: #00000000">
-        <a class="footer-nav" href="" target="_blank">我要开店</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" target="_blank">我要开店</a>
         <a class="footer-nav" href="" target="_blank">问题答疑</a>
         <a class="footer-nav" href="" target="_blank">规则中心</a>
     </footer>
