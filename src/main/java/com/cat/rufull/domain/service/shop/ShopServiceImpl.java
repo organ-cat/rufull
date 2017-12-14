@@ -126,7 +126,7 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> shopListSearchOfProduct = new LinkedList<Shop>();
         //通过查询内容查询不重复shop_id的商品
         List<Product> products =
-                productMapper.fuzzyFindByProductNameAndProductDesc(searchContext);
+                productMapper.fuzzyFindByProductNameAndProductDesc("%" + searchContext + "%");
         //通过商品查询出对应的商店
         for (Product product:products
              ) {
@@ -134,7 +134,7 @@ public class ShopServiceImpl implements ShopService {
             shopListSearchOfProduct.add(shop);
         }
         //通过商店名称模糊查询出对应的名称
-        List<Shop> shopListSearchOfShop = shopMapper.fuzzyFindByShopName(searchContext);
+        List<Shop> shopListSearchOfShop = shopMapper.fuzzyFindByShopName("%" + searchContext + "%");
 
         //组装成ShopList
         shopListSearchOfShop.addAll(shopListSearchOfProduct);

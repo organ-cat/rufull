@@ -35,9 +35,10 @@ public interface AccountMapper {
 
     /**
      * 更新用户的头像
-     * @param account
+     * @param id
+     * @param photo
      */
-    void updateAccountPhoto(Account account);
+    void updateAccountPhoto(@Param("id") Integer id, @Param("photo") String photo);
 
     /**
      * 删除用户，待确定
@@ -54,9 +55,10 @@ public interface AccountMapper {
 
     /**
      * 修改用户的昵称
-     * @param account
+     * @param id
+     * @param nickname
      */
-    void updateNickname(Account account);
+    void updateNickname(@Param("id") Integer id,@Param("nickname") String nickname);
 
     /**
      * 更改用户的信息
@@ -66,9 +68,10 @@ public interface AccountMapper {
 
     /**
      * 设置账号的用户名
-     * @param account
+     * @param id
+     * @param username
      */
-    void setUsername(Account account);
+    void setUsername(@Param("id")Integer id,@Param("username")String username);
 
     /**
      * 根据用户名查询用户
@@ -90,7 +93,7 @@ public interface AccountMapper {
      */
     void bindEmail(Account account);
 
-    void updateAccountStatus(@Param("id") int id, @Param("status") int status);
+    int updateAccountStatus(@Param("id") int id, @Param("status") int status);
 
     List<Account> findAllAccount();
 
@@ -100,4 +103,9 @@ public interface AccountMapper {
 
     List<Account> findName(@Param("findName") String findName);
 
+    Account findAccountPassword(@Param("id")int id, @Param("oldPassword")String oldPassword);
+
+    void updatePassword(@Param("id")int id, @Param("newPassword")String newPassword);
+
+    int mredelAccount(Integer id);
 }

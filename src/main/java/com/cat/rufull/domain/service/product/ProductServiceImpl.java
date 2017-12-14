@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         *@param[searchContext:模糊查询的内容]
         *@returnjava.util.List<com.cat.rufull.domain.model.Product>
         */
-        return productMapper.fuzzyFindByProductNameAndProductDesc(searchContext);
+        return productMapper.fuzzyFindByProductNameAndProductDesc("%" + searchContext + "%");
     }
 
     @Override

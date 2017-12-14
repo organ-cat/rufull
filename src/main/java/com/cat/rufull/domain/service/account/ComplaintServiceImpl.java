@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("complaintService")
@@ -44,8 +45,20 @@ public class ComplaintServiceImpl implements ComplaintService {
         return complaintMapper.completedComplaint(complaint);
     }
 
+
+
     @Override
     public int handlerComplaint(int id, int status) {
         return complaintMapper.handlerComplaint(id, status);
+    }
+
+    @Override
+    public List<Complaint> completedComplaintList() {
+        return complaintMapper.completedComplaintList();
+    }
+
+    @Override
+    public List<Complaint> findComplaintByTime(Date creatTime, Date completedTime, String content) {
+        return complaintMapper.findComplaintByTime(creatTime, completedTime, content);
     }
 }

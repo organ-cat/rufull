@@ -11,7 +11,7 @@
 <head>
     <title>商家登录</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
-    <link href="${pageContext.request.contextPath}/css//login-register.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/business/style.css" rel="stylesheet"/>
 </head>

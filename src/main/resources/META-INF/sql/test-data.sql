@@ -4,7 +4,22 @@ VALUES(1,'jiang','123456','13413600394','jiang@qq.com','新健','http://edu.ruan
 INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
 VALUES(2,'zhong','123456','13432111111','zhong@163.com','钟仔','http://edu.ruanko.com//images/course/logo.png',0.00,100,'2017-11-29 16:05:37',1,null);
 INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
-VALUES(3,'cao','123456','12345678990','caoxin@sina.com','操心','http://edu.ruanko.com//images/course/logo.png',0.00,100,'2017-11-29 16:07:27',1,null);
+VALUES(3,'cao','123456','12345678990','123456@qq.com','操心','http://edu.ruanko.com//images/course/logo.png',0.00,202,'2017-12-12 14:53:10',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(21,NULL,'123456',NULL,'110@qq.com',NULL,NULL,NULL,200,'2017-12-11 09:13:13',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(23,NULL,'123456','13002090126','120@qq.com',NULL,NULL,NULL,201,'2017-12-11 20:38:50',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(24,NULL,'123456',NULL,'119@qq.com',NULL,NULL,NULL,202,'2017-12-11 20:40:57',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(25,NULL,'123456',NULL,'118@qq.com',NULL,NULL,NULL,203,'2017-12-11 20:40:58',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(26,NULL,'123456',NULL,'117@qq.com',NULL,NULL,NULL,204,'2017-12-11 20:40:59',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(27,NULL,'123456',NULL,'116@qq.com',NULL,NULL,NULL,205,'2017-12-11 20:41:00',2,NULL);
+INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,status,register_time,role,code)
+VALUES(28,NULL,'123456',NULL,'113@qq.com',NULL,NULL,NULL,100,'2017-12-12 11:26:59',2,NULL);
+
 
 /*地址表数据*/
 INSERT INTO ADDRESS(id,receiver,phone,location,detail,status,account_id)
@@ -135,7 +150,7 @@ INSERT INTO PRODUCT_EVALUATION(id, score, comment, eval_time, item_id, order_eva
 VALUES(8,3,'很满足','2017-11-30 09:41:32',8,4);
 
 /*管理日志表*/
-INSERT  INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
+INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
 VALUES(1,'添加管理员',1,'2017-11-08 19:19:33',1,NULL);
 INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
 VALUES(2,'审核商家入驻',2,'2017-11-08 19:19:58',2,1);
@@ -143,3 +158,17 @@ INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
 VALUES(3,'删除管理员',1,'2017-11-09 19:20:37',1,NULL);
 INSERT INTO MANAGE_LOG(id,detail,type,created_time,manager_id,account_id)
 VALUES(4,'查看商家数据分析',2,'2017-11-15 19:21:22',2,NULL);
+
+/*足迹表*/
+INSERT INTO footprint(id,access_time,account_id,shop_id)
+VALUES(4,'2017-12-13',1,1);
+INSERT  INTO footprint(id,access_time,account_id,shop_id)
+VALUES(5,'2017-12-13',1,2);
+INSERT  INTO footprint(id,access_time,account_id,shop_id)
+VALUES(6,'2017-12-13',1,3);
+
+/*登录日志表*/
+INSERT INTO login_log(id,ip,location,login_time,account_id)
+VALUES(1,'125.90.49.145','广东省湛江市','2017-12-14 17:12:21',1);
+INSERT INTO login_log(id,ip,location,login_time,account_id)
+VALUES(2,'127.0.0.1','广东咯','2017-12-14 17:12:58',2);

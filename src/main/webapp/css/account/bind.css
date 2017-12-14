@@ -1,0 +1,147 @@
+/*公共*/
+#show1{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 28px;
+    color: #FFFFFF;
+    background-color: #0089DC;
+}
+#show2{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 28px;
+    border:1px solid #AAAAAA;
+    color: #AAAAAA;
+    background-color: #FFFFFF;
+}
+#show3{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 28px;
+    border:1px solid #AAAAAA;
+    color: #AAAAAA;
+    background-color: #FFFFFF;
+}
+#showSpan1{
+    color: #0089DC;
+}
+#showSpan2{
+    color: #AAAAAA;
+}
+#showSpan3{
+    color: #AAAAAA;
+}
+
+.spanShow{
+    width: 100px;
+    height: 2px;
+    display:block;
+    background-color: #AAAAAA;
+}
+table {
+    margin: 0 auto;
+}
+.bindDiv {
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+}
+.bindTable {
+    position: relative;
+    top: 40px;
+    left: 100px;
+    width: 500px;
+    height: 300px;
+    font-size: 15px;
+}
+/*手机*/
+#phone,#checkCode {
+    width: 300px;
+    height: 40px;
+}
+#inputCode,#inputPhone {
+    width: 85px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #0086cc;
+}
+
+#button {
+    width: 300px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    background-color: #0086cc;
+}
+/*邮箱*/
+#email,#checkCode {
+    width: 300px;
+    height: 40px;
+}
+#getCode,#currentEmail {
+    width: 90px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #0086cc;
+}
+#next {
+    width: 300px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    background-color: #0086cc;
+}
+
+/*addEamil*/
+#yourPhone {
+    width: 90px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #0086cc;
+}
+#addPhone {
+    width: 300px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    background-color: #0086cc;
+}
+
+#yourEmail {
+    width: 90px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #0086cc;
+}
+#addEmail {
+    width: 300px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    background-color: #0086cc;
+}
+#obtainCode {
+    width: 90px;
+    height: 40px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #0086cc;
+}

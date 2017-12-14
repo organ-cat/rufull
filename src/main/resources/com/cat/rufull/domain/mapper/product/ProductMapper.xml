@@ -37,7 +37,7 @@
         SELECT
         <include refid="Product_Column_List"/>
         FROM PRODUCT
-        WHERE  (product_name LIKE "%"#{searchContext}"%"OR description LIKE "%"#{searchContext}"%")AND id IN (
+        WHERE (product_name LIKE #{searchContext} OR description LIKE #{searchContext}) AND id IN (
         SELECT MAX(id) FROM PRODUCT GROUP BY shop_id);
     </select>
     <!--// 通过Id查询商品-->
