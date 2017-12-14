@@ -1,8 +1,10 @@
 package com.cat.rufull.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
-
+@JsonIgnoreProperties(value = {"handler"})
 public class Business implements Serializable {
     /*
     商家状态：1.已经注册，但是没有入驻为              100

@@ -59,7 +59,7 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping(value = "/add/{shopId}/{productId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/{shopId}/{productId}", method = RequestMethod.GET)
     public String add(@PathVariable("shopId") Integer shopId,
                       @PathVariable("productId") Integer productId,
                       @RequestParam("shopName") String shopName) {

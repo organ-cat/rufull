@@ -8,14 +8,32 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class BusinessUtils {
+
     public static String uploadPath;
+    public static Map<String,String> orderUrlMap = new HashMap<String, String>();
+    static {
+        orderUrlMap.put("PAID","newOrder");
+        orderUrlMap.put("COMPLETED","finishedOrder");
+        orderUrlMap.put("ACCEPTED","acceptOrder");
+        orderUrlMap.put("AUDITING","auditingOrder");
+
+    }
     public static Business upload2Business(MultipartFile[] files,
                                            Business business,
                                            HttpServletRequest request,
                                            Integer accountId){
+        /**
+        *@Author:Caoxin
+        *@Description
+        *@Date:14:03 2017/12/12
+        *@param[files:上床的图片, business：需要封装的business, request:请求, accountId:用户iD]
+        *@returncom.cat.rufull.domain.model.Business
+        */
         /*
             文件上传的图片顺序是：
             室外照片，室内照片，身份证正面，身份证反面，商家营业执照，餐厅服务执照，身份证
@@ -51,4 +69,7 @@ public class BusinessUtils {
         business.setAccount(account);
         return business;
     }
+
+
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BusinessService {
 
-    List<Business> findAll();                        // 查询全部商家
+    List<Business> findAll();                                       // 查询全部商家
 
     Business findById(Integer id);                                  // 通过Id查询商家
 
