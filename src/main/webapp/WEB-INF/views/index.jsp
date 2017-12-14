@@ -16,11 +16,11 @@
     <meta name="description" content="欢迎使用RuFull" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="${pageContext.request.contextPath}/css/service/main.css" rel="stylesheet" type="text/css" />
-    <link href="${pageContext.request.contextPath}/css/service/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/css/service/bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="${pageContext.request.contextPath}/css/service/city-picker.css" rel="stylesheet" type="text/css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/global.css" />
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/homepage.css" />
-    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/css/service/login-register.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/normalize.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" />
@@ -83,7 +83,7 @@
                 </div>
                 <div class="form-group">
                     <div style="position: relative;" style="margin-left:-10px;">
-                        <input id="address" class="form-control" type="search" placeholder="请输入你的订餐地址（学校，写字楼或街道）"  onMouseOut = "searchByStationName()"/>
+                        <input id="address" class="form-control" style="min-width: 630px;max-width: 630px" type="search" placeholder="请输入你的订餐地址（学校，写字楼或街道）"  onMouseOut = "searchByStationName()"/>
                         <button id="searcher" class="btn btn-danger" style="width:70px;height:48px;"  type="button"><font size="4px">搜索</font></button>
                     </div>
                     <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:250px;height:auto; display:none;"></div>

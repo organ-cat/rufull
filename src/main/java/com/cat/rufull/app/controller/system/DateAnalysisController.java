@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +44,7 @@ public class DateAnalysisController {
         int c = 0;
         int d = 0;
         int e = 0;
-        List<Order> orderList = null;
-               // orderService.findAllOrders();
+        List<Order> orderList =  orderService.findAllOrders();
         Order oList = new Order();
         if(orderList!=null) {
             for (Order order : orderList) {
@@ -60,11 +60,11 @@ public class DateAnalysisController {
                         Double.parseDouble(order.getTotal().toString()) <= 30.0) {
                     c = c + 1;
                 }
-                if (40.0 < Double.parseDouble(order.getTotal().toString()) &&
-                        Double.parseDouble(order.getTotal().toString()) <= 50.0) {
+                if (30.0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) <= 40.0) {
                     d = d + 1;
                 }
-                if (50.0 < Double.parseDouble(order.getTotal().toString())) {
+                if (40.0 < Double.parseDouble(order.getTotal().toString())) {
                     e = e + 1;
                 }
                 oList = order;
@@ -99,14 +99,23 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getOrdersByTime")
-    public String getOrdersByTime( String type, Model model,
-                            @RequestParam("begin") Date begin, @RequestParam("end")Date end) {
+    public String getOrdersByTime( @RequestParam("type")String type, Model model,
+                            @RequestParam("begin") String begin, @RequestParam("end")String end)
+                            throws Exception{
         int a = 0;
         int b = 0;
         int c = 0;
         int d = 0;
         int e = 0;
-        List<Order> orderList = orderService.findOrdersBetween(begin, end);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begintime = null;
+        Date endtime = null;
+        if(begin!=null&&begin!="") {
+            begintime = formatter.parse(begin);
+        }if(end!=null&&end!=""){
+            endtime = formatter.parse(end);
+        }
+        List<Order> orderList = orderService.findOrdersBetween(begintime, endtime);
         Order oList = new Order();
         for (Order order : orderList) {
             if (0 < Double.parseDouble(order.getTotal().toString()) &&
@@ -121,11 +130,11 @@ public class DateAnalysisController {
                     Double.parseDouble(order.getTotal().toString()) <= 30.0) {
                 c = c + 1;
             }
-            if (40.0 < Double.parseDouble(order.getTotal().toString()) &&
-                    Double.parseDouble(order.getTotal().toString()) <= 50.0) {
+            if (30.0 < Double.parseDouble(order.getTotal().toString()) &&
+                    Double.parseDouble(order.getTotal().toString()) <= 40.0) {
                 d = d + 1;
             }
-            if (50.0 < Double.parseDouble(order.getTotal().toString())) {
+            if (40.0 < Double.parseDouble(order.getTotal().toString())) {
                 e = e + 1;
             }
             oList = order;
@@ -202,13 +211,13 @@ public class DateAnalysisController {
         model.addAttribute("e", e);
         int i = Integer.parseInt(type);
         if (i == 1) {
-            return "system/datashop/cyliorders";
+            return "system/datashop/cylishops";
         }
         if (i == 2) {
-            return "system/datashop/fanorders";
+            return "system/datashop/fanshops";
         }
         if (i == 3) {
-            return "system/datashop/lineorders";
+            return "system/datashop/lineshops";
         } else
             return null;
     }

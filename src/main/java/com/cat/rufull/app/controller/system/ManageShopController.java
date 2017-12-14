@@ -33,8 +33,9 @@ public class ManageShopController {
     @Resource
     private ShopService shopService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
     private Date date = new Date();
+
     /**
      * 查看未入驻的商家
      *
@@ -43,19 +44,20 @@ public class ManageShopController {
      */
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model) {
-        //List<Business> businessesList = businessService.findNotSettledShop();
-        //model.addAttribute("notSettleShop", businessesList);
+        List<Business> businessesList = businessService.findNotSettledBusiness();
+        model.addAttribute("notSettleShop", businessesList);
         return "system/shop/notSettleShop";
     }
 
     /**
      * 获得商家的详细信息并跳转到审核页面
+     *
      * @param id
      * @param model
      * @return
      */
     @RequestMapping("/getBusiness")
-    public String getShop(@PathVariable Integer id, Model model) {
+    public String getShop(Integer id, Model model) {
         Business business = businessService.findById(id);
         model.addAttribute("mbusiness", business);
         return "system/shop/examineShop";
@@ -63,7 +65,7 @@ public class ManageShopController {
 
     /**
      * 审核通过
-     * @param business
+     *
      * @param session
      * @param attr
      * @param model
@@ -71,19 +73,20 @@ public class ManageShopController {
      * @throws Exception
      */
     @RequestMapping("/examineShop")
-    public String examineShop(Business business, HttpSession session,RedirectAttributes attr,
-                              Model model) throws Exception{
+    public String examineShop(Integer id, HttpSession session, RedirectAttributes attr,
+                              Model model) throws Exception {
         session.removeAttribute("examerror");
         session.removeAttribute("examsuccess");
         session.removeAttribute("logerror");
+        Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         //int i = businessService.updateById(business);
         //int i = accountService.updateBytAccount(business.getAccount());
-        int i =1;
+        int i = 1;
         if (i >= 1) {
-            session.setAttribute("examsuccess","审核成功!");
-            System.out.println(business.getAccount().getPhone()+":你好，您申请的商家已通过审核");
+            session.setAttribute("examsuccess", "审核成功!");
+            System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核通过！");
             log.setManager(mana);
@@ -91,38 +94,38 @@ public class ManageShopController {
             log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:getNotSettledShop";
-            }else
+                return "redirect:getNotSettledBusiness";
+            } else
                 model.addAttribute("mbusiness", business);
-                session.setAttribute("logerror","写入日志失败");
-                return "redirect:getNotSettledShop";
+            session.setAttribute("logerror", "写入日志失败");
+            return "redirect:getNotSettledBusiness";
         } else
-            session.setAttribute("examerror","审核失败");
-            Integer id = business.getId();
-            attr.addAttribute("id", id);
-            return "redirect : getBusiness";
-        }
+            session.setAttribute("examerror", "审核失败");
+        attr.addAttribute("id", id);
+        return "redirect : getBusiness";
+    }
 
     /**
      * 审核不通过
-     * @param business
+     *
      * @param session
      * @param attr
      * @return
      * @throws Exception
      */
     @RequestMapping("/examineNotPass")
-    public String examineNotPass(Business business, HttpSession session,RedirectAttributes attr) throws Exception{
+    public String examineNotPass(Integer id, HttpSession session, RedirectAttributes attr) throws Exception {
         session.removeAttribute("npexamerror");
         session.removeAttribute("npexamsuccess");
         session.removeAttribute("logerror");
+        Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
-       // business.getAccount().setStatus(Business.BId(business.geUSINESS_STATUS_SETTLED_NOTPASS);
+       business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
         //    int i = accountService.updateBytAccount(business.getAccount());
         int i = 1;
         if (i >= 1) {
-            System.out.println(business.getAccount().getPhone()+":你好，您申请的商家未通过审核");
-            session.setAttribute("npexamsuccess","审核结果为不通过!");
+            System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家未通过审核");
+            session.setAttribute("npexamsuccess", "审核结果为不通过!");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核不通过！");
             log.setManager(mana);
@@ -130,53 +133,54 @@ public class ManageShopController {
             log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:getNotSettledShop";
+                return "redirect:getNotSettledBusiness";
             } else
-                session.setAttribute("logerror","日志写入失败!");
-                return "redirect:getNotSettledShop";
+                session.setAttribute("logerror", "日志写入失败!");
+            return "redirect:getNotSettledBusiness";
         } else
-            session.setAttribute("npexamerror","审核失败!");
-        Integer id = business.getId();
+            session.setAttribute("npexamerror", "审核失败!");
         attr.addAttribute("id", id);
         return "redirect : getBusiness";
     }
 
     /**
      * 列出所有的商店
+     *
      * @param model
      * @return
      */
     @RequestMapping("/findBusiness")
-    public String findBusiness(Model model){
+    public String findBusiness(Model model) {
         List<Shop> bussBusinessList = shopService.findAll();
-        model.addAttribute("mshoplist",bussBusinessList);
+        model.addAttribute("mshoplist", bussBusinessList);
         return "system/shop/allshop";
     }
 
     /**
      * 根据条件查询商家
+     *
      * @param condition
      * @param model
      * @return
      */
     @RequestMapping("/findByCondition")
-    public String findByCondition(@RequestParam("condition") String condition, Model model) {
+    public String findByCondition(String condition, Model model) {
 
-       //List<Shop> shop = shopService.fuzzyFindByShopName(condition);
-
-        //        model.addAttribute("mshoplist",shop);
+        List<Shop> shop = shopService.fuzzyFindByShopName(condition);
+        model.addAttribute("mshoplist", shop);
         return "system/shop/allshop";
     }
 
     /**
      * 根据id删除商家
+     *
      * @param id
      * @param model
      * @param session
      * @return
      */
     @RequestMapping("/delBusiness")
-    public String delBusiness(Integer id,Model model,
+    public String delBusiness(Integer id, Model model,
                               HttpSession session) {
         session.removeAttribute("delBsuccess");
         session.removeAttribute("delBerror");
@@ -188,7 +192,7 @@ public class ManageShopController {
 //        int i = businessService.updateById(business);
         int i = 1;
         if (i >= 1) {
-            session.setAttribute("delBsuccess","删除成功！");
+            session.setAttribute("delBsuccess", "删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员删除商家信息！");
             log.setManager(mana);
@@ -196,15 +200,61 @@ public class ManageShopController {
             log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
-                return "redirect:manageShop/findBusiness";
+                return "redirect:findBusiness";
             } else
                 model.addAttribute("mbusiness", business);
-            session.setAttribute("logerror","写入日志失败！");
-            return "redirect:manageShop/findBusiness";
+            session.setAttribute("logerror", "写入日志失败！");
+            return "redirect:findBusiness";
         } else
-            session.setAttribute("delBerror","失败了！");
+            session.setAttribute("delBerror", "失败了！");
         return "redirect:findBusiness";
     }
+
+
+    /**
+     *
+     * @param id
+     * @param session
+     * @param attr
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/redelBusiness")
+    public String redelBusiness(Integer id, HttpSession session, RedirectAttributes attr,
+                              Model model) throws Exception {
+        session.removeAttribute("redelerror");
+        session.removeAttribute("redelsuccess");
+        session.removeAttribute("logerror");
+        Business business = businessService.findById(id);
+        Manager mana = (Manager) session.getAttribute("manager");
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
+        //int i = businessService.updateById(business);
+        //int i = accountService.updateBytAccount(business.getAccount());
+        int i = 1;
+        if (i >= 1) {
+            session.setAttribute("redelsuccess", "审核成功!");
+            System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("管理员恢复商家入驻！");
+            log.setManager(mana);
+            log.setType(2);
+            log.setAccount(business.getAccount());
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:findBusiness";
+            } else
+                model.addAttribute("mbusiness", business);
+            session.setAttribute("logerror", "写入日志失败");
+            return "redirect:findBusiness";
+        } else
+            session.setAttribute("redelerror", "操作失败");
+        attr.addAttribute("id", id);
+        return "redirect : findBusiness";
+    }
+
+
+
 
 }
 

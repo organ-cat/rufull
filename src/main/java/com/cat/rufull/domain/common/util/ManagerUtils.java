@@ -1,8 +1,6 @@
 package com.cat.rufull.domain.common.util;
 
-import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Manager;
-import com.cat.rufull.domain.model.Shop;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +23,7 @@ public class ManagerUtils {
 
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(),new File(uploadPath,fileName));
+            System.out.print("上传路径是："+uploadPath);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("添加图片出错。。。");

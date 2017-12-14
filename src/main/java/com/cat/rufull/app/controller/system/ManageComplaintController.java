@@ -2,13 +2,11 @@ package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
 import com.cat.rufull.domain.mapper.account.ComplaintMapper;
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Complaint;
-import com.cat.rufull.domain.model.ManageLog;
-import com.cat.rufull.domain.model.Manager;
+import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.account.ComplaintService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +30,10 @@ public class ManageComplaintController {
     private ManagerLogService logService;
     @Resource
     private AccountService accountService;
+    @Resource
+    private ShopService shopService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
     private Date date = new Date();
 
     /**
@@ -61,17 +61,21 @@ public class ManageComplaintController {
     public String getAccComp(Integer id,HttpSession session,Model model){
         session.removeAttribute("getacccomperror");
         Complaint complaint = complaintService.findComplaintById(id);
-        List<Complaint> list = new ArrayList<Complaint>();
+        Shop shop = shopService.findById(complaint.getShopId());
+        Account account = accountService.findAccountById(complaint.getAccountId());
         complaint.setStatus(2);
-        list.add(complaint);
         int i = complaintService.handlerComplaint(complaint.getId(),2);
         if (i >= 1) {
-            model.addAttribute("getAccComp", list);
+            model.addAttribute("managecomp", complaint);
+            model.addAttribute("account", account);
+            model.addAttribute("shop", shop);
             return "system/complaint/accountcomplaint";
         }
         else {
             session.setAttribute("getacccomperror", "出错了");
-            model.addAttribute("managecomp", list);
+            model.addAttribute("account", account);
+            model.addAttribute("shop", shop);
+            model.addAttribute("managecomp", complaint);
             return "redirect:findAllComp";
         }
 
@@ -99,9 +103,51 @@ public class ManageComplaintController {
         complaint.setSolver(mana.getId());
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
-            session.setAttribute("replysuccess","处理成功");
+            session.setAttribute("replysuccess","处理成功，结果为真");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员处理"+account.getUsername()+"用户投诉！");
+            log.setDetail("管理员处理"+account.getUsername()+"用户投诉，结果为真！");
+            log.setManager(mana);
+            log.setType(2);
+            log.setAccount(account);
+            int a = logService.addLog(log);
+            if (a > 0) {
+                return "redirect:findAllComp";
+            } else {
+                session.setAttribute("logerror", "出错了！");
+                return "redirect:findAllComp";
+            }
+        } else {
+            session.setAttribute("replyerror","处理失败");
+            return "redirect:findAllComp";
+        }
+    }
+
+
+    /**
+     * 处理某一用户的投诉
+     * @param id
+     * @param session
+     * @return
+     */
+    @RequestMapping("/replyfalseComp")
+    public String replyfalseComp(Integer id,HttpSession session){
+        session.removeAttribute("logerror");
+        session.removeAttribute("replysuccess");
+        session.removeAttribute("replyerror");
+
+        Complaint complaint = complaintService.findComplaintById(id);
+        Account account = accountService.findAccountById(complaint.getAccountId());
+        Manager mana = (Manager) session.getAttribute("manager");
+        complaint.setStatus(3);
+        //1 处理成功  2投诉为假
+        complaint.setResult(2);
+        complaint.setCompletedTime(DateFormat.getNewdate(date));
+        complaint.setSolver(mana.getId());
+        int i = complaintService.completedComplaint(complaint);
+        if (i >= 1) {
+            session.setAttribute("replysuccess","处理成功，结果为假");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("管理员处理"+account.getUsername()+"用户投诉,结果为假！");
             log.setManager(mana);
             log.setType(2);
             log.setAccount(account);
@@ -123,10 +169,11 @@ public class ManageComplaintController {
      * 一键处理部分用户的投诉
      * @param ids
      * @param session
+     * @param result
      * @return
      */
     @RequestMapping("/replyAllComp")
-    public String replyAllComp(Integer[] ids,HttpSession session){
+    public String replyAllComp(Integer[] ids,Integer result,HttpSession session){
         session.removeAttribute("logerror");
         session.removeAttribute("replysuccess");
         session.removeAttribute("replyerror");
@@ -138,7 +185,7 @@ public class ManageComplaintController {
             complaint.setStatus(3);
             complaint.setStatus(3);
             //1 处理成功  2投诉为假
-            complaint.setResult(1);
+            complaint.setResult(result);
             complaint.setCompletedTime(DateFormat.getNewdate(date));
             complaint.setSolver(mana.getId());
             int i = complaintService.completedComplaint(complaint);
