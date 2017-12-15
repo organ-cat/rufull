@@ -3,7 +3,6 @@ package com.cat.rufull.app.controller.payment;
 import com.cat.rufull.domain.common.util.PaymentUtil;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Order;
-import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.order.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/payment")
@@ -45,6 +44,8 @@ public class PaymentController {
         }
     }
 
+
+
     /**
      * 进行支付
      * @param id
@@ -54,29 +55,29 @@ public class PaymentController {
      */
     @RequestMapping(value = "/process/{id}", method = RequestMethod.POST)
     public String process(@PathVariable("id") Integer id, // 订单id
-                         @RequestParam("pd_FrpId") String bank, // 选择银行
-                         @RequestParam("total") BigDecimal total // 支付金额
-                        ) {
-        // 省略了支付业务
-        Order order = orderService.findOrderById(id); // 获取订单详情
-        if(order.getPaymentMethod() == "ONLINE"){    //判断为在线支付
+                          @RequestParam("pd_FrpId") String bank, // 选择银行
+                          @RequestParam("total") BigDecimal total, // 支付金额
+                          HttpServletResponse response) throws Exception{
 
+        Order order = orderService.findOrderById(id); // 获取订单详情
+
+        if(order.getPaymentMethod().equals("ONLINE")){    //判断为在线支付
             // 付款:
             // 定义付款的参数:
             String p0_Cmd = "Buy";
             String p1_MerId = "10001126856";
             String p2_Order = id.toString();
-            String p3_Amt = total.toString();
+            String p3_Amt = "0.01";
             String p4_Cur = "CNY";
             String p5_Pid = "";
             String p6_Pcat = "";
             String p7_Pdesc = "";
-            String p8_Url = "http://localhost/rufull/pay/payBack";
+            String p8_Url = "http://localhost:80/rufull/payment/payBack";
             String p9_SAF = "";
             String pa_MP = "";
             String pr_NeedResponse = "1";
             String keyValue = "69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-            String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, p2_Order, p3_Amt, p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, p8_Url, p9_SAF, pa_MP,bank , pr_NeedResponse, keyValue);
+            String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, p2_Order, p3_Amt, p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, p8_Url, p9_SAF, pa_MP, bank , pr_NeedResponse, keyValue);
 
             //拼接参数
             StringBuffer pay = new StringBuffer("https://www.yeepay.com/app-merchant-proxy/node?");
@@ -97,9 +98,30 @@ public class PaymentController {
 
             //转发到第三方支付界面
             return "redirect:"+ pay.toString();
-            //response.sendRedirect(sb.toString());
         }else{                                        //判断为货到付款
             return complete(id);
+        }
+
+    }
+
+    /**
+     * 付款成功后的回调方法
+     * @param model  //包含支付结果
+     * @param r1_Code//支付结果状态码，1为成功
+     * @param r6_Order//支付订单号
+     * @param r3_Amt//支付金额
+     * @return
+     */
+    @RequestMapping("payBack")
+    public String callBack(Model model, Integer r1_Code, String r6_Order, double r3_Amt){
+
+        if(r1_Code == 1){ //支付结果：成功，跳转完成支付
+            model.addAttribute("id",r6_Order);
+            return complete(Integer.valueOf(r6_Order));
+        }else {           //支付失败
+            model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
+            //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);
+            return "payment/error";
         }
 
     }

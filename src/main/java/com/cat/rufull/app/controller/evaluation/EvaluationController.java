@@ -40,15 +40,21 @@ public class EvaluationController {
 
 
     @RequestMapping("/add_eval")
-    public String add_eval(@ModelAttribute("orderEvaluation") OrderEvaluation orderEvaluation){
+    public String add_eval(@ModelAttribute("orderEvaluation") OrderEvaluation orderEvaluation, Model uiModel){
         //System.out.println(orderEvaluation);
-        //evaluationService.addEvaluation();
+        try {
+            evaluationService.addEvaluation(orderEvaluation);
+        }catch (Exception e){
+            uiModel.addAttribute("error", "评价失败~，请重新评价.....");
+            return "evaluation/error";
+        }
+
         return "order/show";
     }
 
     @RequestMapping("/findOrderEvaluation")
     public String findOrderEvaluation(Integer id, Model model) throws Exception {
-        List<OrderEvaluation> orderEvaluation = evaluationService.findOrderEvaluation(id);
+        List<OrderEvaluation> orderEvaluation = evaluationService.findEvalByShopId(id);
         model.addAttribute("orderEvaluation", orderEvaluation);
         return "evaluation/evaluation";
     }

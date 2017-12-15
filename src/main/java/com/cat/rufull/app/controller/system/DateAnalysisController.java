@@ -158,7 +158,7 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getShops")
-    public String getShops(Model model, @RequestParam("type") String type) {
+    public String getShops(Model model, @RequestParam("type") String type) throws Exception{
         int a = 0;
         int b = 0;
         int c = 0;
@@ -167,8 +167,8 @@ public class DateAnalysisController {
         double eva = 0.0;
         List<Shop> shopList = shopService.findAll();
         for (Shop shop : shopList) {
-            String shopname = shop.getShopName();
-            List<OrderEvaluation> evaluationList = evaluationService.findByShopName(shopname);
+            Integer shopId = shop.getId();
+            List<OrderEvaluation> evaluationList = evaluationService.findEvalByShopId(shopId);
             if (evaluationList != null){
                 for (OrderEvaluation evaluation : evaluationList) {
                     double avg = 0.0;

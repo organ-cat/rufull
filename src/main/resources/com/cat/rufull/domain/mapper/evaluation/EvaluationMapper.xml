@@ -32,15 +32,6 @@
         </collection>
     </resultMap>
 
-    <!-- 添加订单评价-->
-    <insert id="addOrderEvaluation" parameterType="OrderEvaluation" >
-    insert into order_evaluation (id, score, comment,reply, eval_time,order_id, shop_id)
-    values (#{id,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR},
-      #{reply,jdbcType=VARCHAR}, #{evalTime,jdbcType=TIMESTAMP},
-      #{orderId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}
-      )
-  </insert>
-
     <!-- 根据商店id查询评价 -->
     <select id="findEvalByShopId" parameterType="Integer" resultMap="EvaluationDetail">
         SELECT oe.* ,
@@ -53,4 +44,25 @@
         AND oe.order_id = pe.order_eval_id
 	    AND pe.item_id = li.id
     </select>
+
+    <!-- 插入订单评价 -->
+    <insert id="addOrderEval" parameterType="com.cat.rufull.domain.model.OrderEvaluation"
+            useGeneratedKeys="true">
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO order_evaluation(score,comment,reply,eval_time,order_id,shop_id)
+        VALUES(#{score},#{comment},#{reply},#{evalTime},#{order.id},#{shopId})
+    </insert>
+
+    <!-- 根据订单评价id插入商品评价评价 -->
+    <insert id="addProductEval" parameterType="com.cat.rufull.domain.model.ProductEvaluation"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_evaluation(score,comment,eval_time,item_id,order_eval_id)
+        VALUES
+        <foreach collection="list" item="pro" separator=",">
+            (#{pro.score},#{pro.comment},#{pro.evalTime},#{pro.item.id},#{pro.orderEvalId})
+        </foreach>
+
+    </insert>
 </mapper>
