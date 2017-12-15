@@ -1,7 +1,6 @@
 package com.cat.rufull.test;
 
 
-import com.aliyuncs.exceptions.ClientException;
 import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
@@ -447,11 +446,7 @@ public class TestByJiang {
         String phone = "13413600394";
         String name = "新健爸爸";
         String result = "成功";
-        try {
-            SMS.sendNotification(phone, name, result);
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
+        SMS.sendNotification(phone, name, result);
     }
 }
 

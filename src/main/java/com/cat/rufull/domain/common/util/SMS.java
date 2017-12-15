@@ -16,7 +16,7 @@ public class SMS {
      * @param checkCode     验证码
      * @throws ClientException
      */
-    public static void sendSMS(String phone,String checkCode) throws ClientException {
+    public static void sendSMS(String phone,String checkCode){
         //设置超时时间-可自行调整
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
@@ -29,7 +29,11 @@ public class SMS {
         //初始化ascClient,暂时不支持多region（请勿修改）
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,
                 accessKeySecret);
-        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        try {
+            DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
         IAcsClient acsClient = new DefaultAcsClient(profile);
         //组装请求对象
         SendSmsRequest request = new SendSmsRequest();
@@ -49,7 +53,12 @@ public class SMS {
         //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
         request.setOutId("yourOutId");
         //请求失败这里会抛ClientException异常
-        SendSmsResponse sendSmsResponse = (SendSmsResponse) acsClient.getAcsResponse(request);
+        SendSmsResponse sendSmsResponse = null;
+        try {
+            sendSmsResponse = (SendSmsResponse) acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
         if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
             //请求成功
             System.out.println("send success");
@@ -57,7 +66,7 @@ public class SMS {
 
     }
 
-    public static void sendNotification(String phone,String name,String result) throws ClientException {
+    public static void sendNotification(String phone,String name,String result){
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
         //初始化ascClient需要的几个参数
@@ -69,7 +78,11 @@ public class SMS {
         //初始化ascClient,暂时不支持多region（请勿修改）
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,
                 accessKeySecret);
-        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        try {
+            DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
         IAcsClient acsClient = new DefaultAcsClient(profile);
         //组装请求对象
         SendSmsRequest request = new SendSmsRequest();
@@ -89,7 +102,12 @@ public class SMS {
         //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
         request.setOutId("yourOutId");
         //请求失败这里会抛ClientException异常
-        SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+        SendSmsResponse sendSmsResponse = null;
+        try {
+            sendSmsResponse = acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
         if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
         //请求成功
         }
