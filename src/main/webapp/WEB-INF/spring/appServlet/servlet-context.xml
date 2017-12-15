@@ -65,6 +65,14 @@
             <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
         </interceptor>
         <interceptor>
+            <mapping path="/address/*"/>
+            <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
+        </interceptor>
+        <interceptor>
+            <mapping path="/complaint/*"/>
+            <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
+        </interceptor>
+        <interceptor>
             <mapping path="/admin/*"/>
             <beans:bean class="com.cat.rufull.app.interceptor.account.AdminInterceptor"/>
         </interceptor>

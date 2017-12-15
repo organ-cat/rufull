@@ -16,7 +16,7 @@ public class SMS {
      * @param checkCode     验证码
      * @throws ClientException
      */
-    public static void sendSMS(String phone,int checkCode) throws ClientException {
+    public static void sendSMS(String phone,String checkCode) throws ClientException {
         //设置超时时间-可自行调整
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");

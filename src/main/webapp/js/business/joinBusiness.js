@@ -2,7 +2,8 @@ $("body").css("width", window.innerWidth);
 $(window).resize(function () {
     $("body").css("width", window.innerWidth);
 })
-
+var REGISTERED_SUCCESS = "1";       //注册成功
+var CHECKCODE_ERROR = "3";          //验证码错误
 var countdown=60;
 var flag = false;
 var PHONE_PASSED = "10";            //手机号码通过
@@ -99,7 +100,7 @@ $(function(){
     $("#phone").blur(function(){
         var value=$("#phone").val();
         $.ajax({
-            url:"http://localhost:8080/rufull/check/checkAccountRegisterWays",//要请求的服务器url
+            url:"http://localhost:8080/rufull/check/checkBusinessRegisterWays",//要请求的服务器url
             data:{phone:value},  //这里的phone对应表单中的name="phone"，注册方式也可替换成邮箱
             async:true,   //是否为异步请求
             cache:false,  //是否缓存结果
@@ -229,11 +230,8 @@ $(function(){
     $("#loginButton").click(function(){
         var username = $("#username").val();
         var password = $("#loginPassword").val();
-        // var ip = returnCitySN["cip"] ;
-        // var city = returnCitySN["cname"] ;
-        // var remoteCode = $("#remoteCode").val();,"ip":ip,"city":city,"remoteCode":remoteCode
         $.ajax({
-            url: "http://localhost:8080/rufull/account/businessLogin",
+            url: "http://localhost:8080/rufull/nologin/businessLogin",
             data: {"username": username,"password":password},
             async: true,
             cache: false,
@@ -295,7 +293,36 @@ $(function () {
 });
 
 
-
+//点击注册按钮登陆
+$(function(){
+    $("#registerButton").click(function(){
+        var phone = $("#phone").val();
+        var password = $("#registerPassword").val();
+        var checkCode = $("#checkcode").val();
+        $.ajax({
+            url: "http://localhost:8080/rufull/nologin/businessRegister",
+            data: {"phone": phone,"password":password,"checkCode":checkCode},
+            async: true,
+            cache: false,
+            type: "POST",
+            dataType: "json",
+            success: function (result) {
+                if (result == REGISTERED_SUCCESS) {
+                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusinessUI');
+                } else if (result == CHECKCODE_ERROR) {
+                    messageShow();
+                    shakeModal("验证码错误");
+                }else if(result == PHONE_REGISTERED){
+                    messageShow();
+                    shakeModal("手机被注册了");
+                }else if(result == EMAIL_REGISTERED){
+                    messageShow();
+                    shakeModal("邮箱被注册了");
+                }
+            }
+        });
+    })
+});
 
 
 

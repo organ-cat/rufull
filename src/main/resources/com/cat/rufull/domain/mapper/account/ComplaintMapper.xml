@@ -110,5 +110,4 @@
             and COMPLAINT.content LIKE CONCAT(CONCAT('%',#{content}),'%')
         </if>
     </select>
-
 </mapper>

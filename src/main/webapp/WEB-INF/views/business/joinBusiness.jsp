@@ -102,20 +102,16 @@
                     <div class="box">
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
-                                <%--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->--%>
-                                <form method="post"
-                                      action="${pageContext.request.contextPath}/account/businessRegister">
-                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱"
-                                           name="phone">
-                                    <input id="registerPassword" class="form-control loi" type="password"
-                                           placeholder="您的密码" name="password">
-                                    <input id="confirmationPassword" class="form-control loi" type="password"
-                                           placeholder="确认密码" name="password_confirmation">
-                                    <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
-                                    <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
-                                    <input id="registerButton" class="btn btn-default btn-register  loi" type="submit"
-                                           value="注册">
-                                </form>
+                                <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱"
+                                       name="phone">
+                                <input id="registerPassword" class="form-control loi" type="password"
+                                       placeholder="您的密码" name="password">
+                                <input id="confirmationPassword" class="form-control loi" type="password"
+                                       placeholder="确认密码" name="password_confirmation">
+                                <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                <input id="registerButton" class="btn btn-default btn-register  loi" type="button"
+                                       value="注册">
                             </div>
                         </div>
                     </div>

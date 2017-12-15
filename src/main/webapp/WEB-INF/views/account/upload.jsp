@@ -175,18 +175,17 @@
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
                         <h1><small>更改头像</small></h1><br/><hr/><br/>
-                            <div>
-                                <form method="post" enctype="multipart/form-data"  action="<c:url value="/account/upload"/>">
-                                    <br />
-                                    <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}"/>
-                                    <br /> <br />
-                                    <input id="choosePhoto" type="file" name="photo" onchange="imgPreview(this)" />
-                                    <input type="hidden" name="id" value="${account.id}" />
-                                    <br />
-                                    <input id="savePhoto" type="submit" value="保存头像"/>
-                                <form/>
-                            </div>
-<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
+                        <div>
+                            <form method="post" enctype="multipart/form-data"  action="<c:url value="/account/upload"/>">
+                                <br />
+                                <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}"/>
+                                <br /> <br />
+                                <input id="choosePhoto" type="file" name="photo" onchange="imgPreview(this)" />
+                                <input type="hidden" name="id" value="${account.id}" />
+                                <br />
+                                <input id="savePhoto" type="submit" value="保存头像"/>
+                            <form/>
+                        </div>
                     </div>
                 </div>
             </div>

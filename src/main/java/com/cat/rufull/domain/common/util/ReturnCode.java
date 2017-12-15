@@ -4,6 +4,10 @@ public class ReturnCode {
 
     public static final String ACCOUNT_ABNORMAL = "0";        //用户账号异常
 
+    public static final String REGISTERED_SUCCESS = "1";
+
+    public static final String CHECKCODE_ERROR = "3";
+
     public static final String PHONE_PASSED = "10";            //手机号码通过
 
     public static final String PHONE_REGISTERED = "11";        //手机号码被注册了
