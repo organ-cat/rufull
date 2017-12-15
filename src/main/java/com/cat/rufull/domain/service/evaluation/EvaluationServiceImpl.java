@@ -22,8 +22,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public List<OrderEvaluation> findByShopName(String shopname) {
-        return null;
+    public void addOrderEvaluation(OrderEvaluation orderEvaluation) throws Exception {
+        orderEvaluatiomMapper.addOrderEvaluation(orderEvaluation);
     }
-
 }

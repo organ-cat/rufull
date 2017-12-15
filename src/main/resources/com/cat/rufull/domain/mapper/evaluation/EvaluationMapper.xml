@@ -4,4 +4,15 @@
     <select id="selectOrderEvaluationByBusinessId" parameterType="java.lang.Integer" resultType="com.cat.rufull.domain.model.OrderEvaluation">
         SELECT * FROM ORDER_EVALUATION WHERE business_id = #{id}
     </select>
+
+    <insert id="addOrderEvaluation" parameterType="OrderEvaluation" >
+    insert into order_evaluation (id, score, comment,
+      reply, image, eval_time,
+      account_id, order_id, business_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR},
+      #{reply,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{evalTime,jdbcType=TIMESTAMP},
+      #{accountId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{businessId,jdbcType=INTEGER}
+      )
+  </insert>
 </mapper>
