@@ -312,6 +312,13 @@ body.ui_no_scroll {
 	width: 54px
 }
 
+.rst-fav-wrapper-next{
+	position: absolute;
+	top: 106px;
+	right: -68px;
+	width: 54px
+}
+
 .rst-fav {
 	margin: 0;
 	padding: 14px 7px 10px;

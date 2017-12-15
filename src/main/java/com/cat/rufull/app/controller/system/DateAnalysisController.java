@@ -167,23 +167,25 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getShops")
-    public String getShops(Model model, @RequestParam("type") String type) {
+    public String getShops(Model model, @RequestParam("type") String type) throws Exception {
         int a = 0;
         int b = 0;
         int c = 0;
         int d = 0;
         int e = 0;
         double eva = 0.0;
-        List<Shop> shopList = shopService.findAll();
+        List<Shop> shopList = null;
+                //shopService.findAll();
         for (Shop shop : shopList) {
-            String shopname = shop.getShopName();
+            Integer shopid = shop.getBusiness().getId();
             List<OrderEvaluation> evaluationList = null;
-                    //evaluationService.findByShopName(shopname);
+                    //evaluationService.findOrderEvaluation(shopid);
             if (evaluationList != null){
                 for (OrderEvaluation evaluation : evaluationList) {
                     double avg = 0.0;
                     for (int i = 0; i < evaluationList.size(); i++) {
                         avg = eva + evaluation.getScore();
+                        System.out.println(evaluation.getShopId()+","+avg+","+evaluationList.size());
                     }
                     eva = avg / evaluationList.size();
                     if (0.0 < eva && eva <= 1.0) {

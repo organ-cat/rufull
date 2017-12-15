@@ -2,6 +2,7 @@ package com.cat.rufull.domain.service.order;
 
 import com.cat.rufull.domain.model.Order;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -129,4 +130,26 @@ public interface OrderService {
      * @return
      */
     public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus);
+
+    /**
+     * 根据商家id,订单状态查询订单
+     * @param businessId
+     * @param orderStatus
+     * @return
+     */
+    public List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus);
+
+    /**
+     * 商家当月订单数
+     * @param shopId
+     * @return
+     */
+    Integer getMonthlySales(Integer shopId);
+
+    /**
+     * 商家当月订单总额
+     * @param shopId
+     * @return
+     */
+    BigDecimal getMonthlyTotal(Integer shopId);
 }

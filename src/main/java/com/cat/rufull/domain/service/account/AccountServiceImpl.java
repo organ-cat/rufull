@@ -107,8 +107,8 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.findName(findName);
     }
     @Override
-    public void updateAccountStatus(int id, int status) {
-        accountMapper.updateAccountStatus(id, status);
+    public int updateAccountStatus(int id, int status) {
+        return  accountMapper.updateAccountStatus(id, status);
     }
 
     @Override

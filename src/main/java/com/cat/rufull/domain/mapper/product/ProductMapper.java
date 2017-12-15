@@ -3,13 +3,14 @@ package com.cat.rufull.domain.mapper.product;
 
 import com.cat.rufull.domain.model.Product;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface ProductMapper {
     List<Product> findAll();                            // 查询全部商品
 
     List<Product> findProductByShopId(Integer id);      // 通过商店Id查询商品
+
+    List<Product> fuzzyFindByProductNameAndProductDesc(String searchContext);  //通过商品名字和商品描述查询并去除重复商家
 
     Product findProductById(Integer id);                 //通过id查询商品
 

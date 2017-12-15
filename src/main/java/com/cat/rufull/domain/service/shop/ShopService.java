@@ -21,5 +21,7 @@ public interface ShopService {
 
     List<Shop> fuzzyFindByShopName(String shopName);   // 通过商店名字模糊查询查找对应的商店
 
+    List<Shop> fuzzyFindByShopAndProduct(String searchContext); // 通过搜索内容模糊查询对应的商家
+
 
 }

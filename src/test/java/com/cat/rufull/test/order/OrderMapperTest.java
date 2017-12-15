@@ -136,6 +136,14 @@ public class OrderMapperTest {
         showOrder(persistOrder);
     }
 
+    @Test
+    public void testFindShopOrdersByStatus() {
+        List<Order> orderList = orderMapper.findShopOrdersByStatus(1, Order.STATUS_COMPLETED);
+
+        logger.info("OrderMapper.findShopOrdersByStatus: " + 1);
+        listOrder(orderList);
+    }
+
     public void listOrder(List<Order> orders) {
         for (Order order : orders) {
             showOrder(order);
@@ -155,5 +163,10 @@ public class OrderMapperTest {
         for (LineItem lineItem: order.getLineItems()) {
             System.out.println("    " + lineItem);
         }
+    }
+    @Test
+    public void testFindOrderByShopIdAndStatus(){
+        System.out.println("123");
+
     }
 }

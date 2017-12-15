@@ -29,6 +29,11 @@ public class FavorServiceImpl implements FavorService{
     }
 
     @Override
+    public Favor findFavorByAccountIdAndShopId(Integer accountId, Integer shopId) {
+        return favorMapper.findFavorByAccountIdAndShopId(accountId, shopId);
+    }
+
+    @Override
     public int addFavor(Favor favor) {
         return favorMapper.addFavor(favor);
     }

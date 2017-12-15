@@ -82,7 +82,7 @@ public class ManageShopController {
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        int i = accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("examsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
@@ -120,7 +120,7 @@ public class ManageShopController {
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
-        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        int i = accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家未通过审核");
             session.setAttribute("npexamsuccess", "审核结果为不通过!");
@@ -199,11 +199,11 @@ public class ManageShopController {
         Shop shop = shopService.findShopByBusinessId(business.getId());
         shop.setOperateState(Shop.SHOP_STATUS_DELETE);
         shopService.updateByIdSelective(shop);
-        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        int i =  accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("delBsuccess", "删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员删除商家信息！");
+            log.setDetail("管理员删除商家！");
             log.setManager(mana);
             log.setType(2);
             log.setAccount(business.getAccount());
@@ -231,8 +231,8 @@ public class ManageShopController {
     @RequestMapping("/rogBusiness")
     public String rogBusiness(Integer id, Model model,
                               HttpSession session) {
-        session.removeAttribute("delBsuccess");
-        session.removeAttribute("delBerror");
+        session.removeAttribute("rogBsuccess");
+        session.removeAttribute("rogBerror");
         session.removeAttribute("logerror");
         Manager mana = (Manager) session.getAttribute("manager");
         Business business = businessService.findById(id);
@@ -240,11 +240,11 @@ public class ManageShopController {
         Shop shop = shopService.findShopByBusinessId(business.getId());
         shop.setOperateState(Shop.SHOP_STATUS_RETIFY);
         shopService.updateByIdSelective(shop);
-        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        int i = accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
-            session.setAttribute("delBsuccess", "删除成功！");
+            session.setAttribute("rogBsuccess", "删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员删除商家信息！");
+            log.setDetail("管理员设置商家为整顿中！");
             log.setManager(mana);
             log.setType(2);
             log.setAccount(business.getAccount());
@@ -256,7 +256,7 @@ public class ManageShopController {
             session.setAttribute("logerror", "写入日志失败！");
             return "redirect:findBusiness";
         } else
-            session.setAttribute("delBerror", "失败了！");
+            session.setAttribute("rogBerror", "失败了！");
         return "redirect:findBusiness";
     }
 
@@ -282,7 +282,7 @@ public class ManageShopController {
         shop.setOperateState(Shop.SHOP_STATUS_NORMAL);
         shopService.updateByIdSelective(shop);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        int i = 1;// accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
+        int i =  accountService.updateAccountStatus(business.getAccount().getId(),business.getAccount().getStatus());
         if (i >= 1) {
             session.setAttribute("redelsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");

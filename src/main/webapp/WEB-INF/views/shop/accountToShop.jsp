@@ -181,43 +181,43 @@
 <div class="restaurant-subheader">
     <div class="container">
         <div class="rst-subheader-nav">
-            <a class="rst-subheader-nav-left active" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
+            <a class="rst-subheader-nav-left active"
+               href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
                 菜单列表
             </a>
 
-            <a class="rst-subheader-nav-left" href="${pageContext.request.contextPath}/shop/showShopComments?id=${shop.id}">
+            <a class="rst-subheader-nav-left"
+               href="${pageContext.request.contextPath}/shop/showShopComments?id=${shop.id}">
                 商家评价
             </a>
 
-            <a class="rst-subheader-nav-left" href="${pageContext.request.contextPath}/shop/showBusinessLicense?id=${shop.id}">
+            <a class="rst-subheader-nav-left"
+               href="${pageContext.request.contextPath}/shop/showBusinessLicense?id=${shop.id}">
                 商家资质
             </a>
 
             <span class="rst-subheader-nav-right">
-					<a class="rst-subheader-nav-right-span" href="">默认排序
+					<a id="defaultSort" onclick="sortProduct(this)" class="rst-subheader-nav-right-span" href="#">默认排序
 						<i class="rst-name-wrapper caret"></i>
 					</a>
-					<a class="rst-subheader-nav-right-span" href="">评分
+					<a id="salesSort" onclick="sortProduct(this)" class="rst-subheader-nav-right-span" href="#">销量
 						<i class="rst-name-wrapper caret"></i>
 					</a>
-					<a class="rst-subheader-nav-right-span" href="">销量
-						<i class="rst-name-wrapper caret"></i>
-					</a>
-					<a href="">价格
+					<a id="pricesSort" onclick="sortProduct(this)" href="#">价格
 						<i class="rst-name-wrapper caret"></i>
 					</a>
 				</span>
         </div>
 
-        <div class="rst-subheader-nav-search ">
-            <div id="topbar_search" class="topbar-search" role="search">
-                <form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">
-                    <i class="glyphicon glyphicon-search"></i>
-                    <input class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…"/>
+        <%--<div class="rst-subheader-nav-search ">--%>
+            <%--<div id="topbar_search" class="topbar-search" role="search">--%>
+                <%--<form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">--%>
+                    <%--<i class="glyphicon glyphicon-search"></i>--%>
+                    <%--<input class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…"/>--%>
 
-                </form>
-            </div>
-        </div>
+                <%--</form>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
 
     </div>
@@ -228,54 +228,24 @@
 <div class="container">
 
     <article id="rst_menus" class="restaurant-main">
-        <nav class="rst-block rst-cate-wrapper">
-            <h2 class="rst-cate-title">美食分类</h2>
-            <ul class="rst-cate-list">
-                <li class="cate_item cate-item" data-cateid="847669"><a class="cate_name cate-name" data-cateid="847669"
-                                                                        title="餐盒费（必点）">餐盒费（必点）</a>(1)
-                </li>
-                <li class="cate_item cate-item" data-cateid="1379591"><a class="cate_name cate-name"
-                                                                         data-cateid="1379591"
-                                                                         title="扫码领红包，最高领6元！新用户立减15元">扫码领红包，最高领6…</a>(1)
-                </li>
-                <li class="cate_item cate-item" data-cateid="920304"><a class="cate_name cate-name" data-cateid="920304"
-                                                                        title="点套餐送冰红茶">点套餐送冰红茶</a>(0)
-                </li>
-                <li class="cate_item cate-item" data-cateid="887172"><a class="cate_name cate-name" data-cateid="887172"
-                                                                        title="A套餐（12元）">A套餐（12元）</a>(2)
-                </li>
-                <li class="cate_item cate-item" data-cateid="847380"><a class="cate_name cate-name" data-cateid="847380"
-                                                                        title="B套餐（15元）">B套餐（15元）</a>(2)
-                </li>
-                <li class="cate_item cate-item" data-cateid="847458"><a class="cate_name cate-name" data-cateid="847458"
-                                                                        title="C套餐（18元）">C套餐（18元）</a>(2)
-                </li>
-                <li class="cate_item cate-item" data-cateid="847141"><a class="cate_name cate-name" data-cateid="847141"
-                                                                        title="素美套餐  18元">素美套餐 18元</a>(2)
-                </li>
-                <li class="cate_item cate-item" data-cateid="847280"><a class="cate_name cate-name" data-cateid="847280"
-                                                                        title="金领豪华套餐">金领豪华套餐</a>(2)
-                </li>
-
-            </ul>
-
-        </nav>
-
-
         <!-- 餐厅收藏 -->
         <div class="rst-fav-wrapper">
             <div id="rst_fav" class="rst-block rst-fav">
-                <i class="glyph">♥</i>
+                <a href=""><i class="glyph">♥</i></a>
                 <span class="status" data-unfaved="收藏 餐厅" data-faved="已收藏">收藏 餐厅</span>
+            </div>
+            <div id="rst_complain" class="rst-block rst-fav">
+                <a href="#"><i class="glyph">✘</i></a>
+                <span class="status" data-unfaved="投诉 餐厅" data-faved="已投诉">投诉 餐厅</span>
             </div>
         </div>
 
         <!-- 商品列表 -->
         <div class="restaurant-main">
             <div id="rating_wrap" class="rst-rating-wrapper">
-                <section class="rst-rating-column rst_rating_wrap">
+                <section id="productSelect" class="rst-rating-column rst_rating_wrap">
                     <c:forEach items="${shop.productList}" var="product">
-                    <div class="rst-block rst-rating-block">
+                        <div class="rst-block rst-rating-block">
                             <div class="product_img">
                                 <a href="/zb-eamonn" itemprop="url">
                                     <img class="rst-img"
@@ -297,9 +267,11 @@
                                 <span class="product_price_digital">${product.price}</span>
                             </div>
                             <div class="product_cart">
-                                <button class="product_cart_button">加入购物车</button>
+                                <a href="${pageContext.request.contextPath}/cart/add/${shop.id}/${product.id}?shopName=${product.productName}">
+                                    <button class="product_cart_button">加入购物车</button>
+                                </a>
                             </div>
-                    </div>
+                        </div>
                     </c:forEach>
                 </section>
             </div>
@@ -367,5 +339,16 @@
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/accountToShop.js"></script>
 
+<script type="text/javascript">
+
+    var shopId ="${shop.id}";
+    var accountId =  "${sessionScope.account.id}";
+    var shopName = "${shop.shopName}"
+    var contextPath = "${pageContext.request.contextPath}";
+
+
+
+</script>
 </html>

@@ -191,19 +191,19 @@
             </a>
         </div>
 
-        <div class="rst-subheader-nav-search " >
-            <div id="topbar_search" class="topbar-search" role="search">
-                <form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">
-                    <i id="" class="glyphicon glyphicon-search"></i>
-                    <input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />
+        <%--<div class="rst-subheader-nav-search " >--%>
+            <%--<div id="topbar_search" class="topbar-search" role="search">--%>
+                <%--<form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">--%>
+                    <%--<i id="" class="glyphicon glyphicon-search"></i>--%>
+                    <%--<input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />--%>
 
-                </form>
-            </div>
-        </div>
+                <%--</form>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
     </div>
 
-
+</div>
 
 
     <div class="container">
@@ -227,8 +227,12 @@
             <!-- 餐厅收藏 -->
             <div class="rst-fav-wrapper">
                 <div id="rst_fav" class="rst-block rst-fav">
-                    <i class="glyph">♥</i>
+                    <a href="#"><i class="glyph">♥</i></a>
                     <span class="status" data-unfaved="收藏 餐厅" data-faved="已收藏">收藏 餐厅</span>
+                </div>
+                <div id="rst_complain" class="rst-block rst-fav">
+                    <a href="#"><i class="glyph">✘</i></a>
+                    <span class="status" data-unfaved="投诉 餐厅" data-faved="已投诉">投诉 餐厅</span>
                 </div>
             </div>
 
@@ -256,6 +260,7 @@
                                 <span class="comment_date">2017年12月6日13:12:44</span>
 
                             </div>
+
                             <div class="comment_right_div">
                                 <p>
                                     <span>香辣鸡扒</span>
@@ -427,12 +432,10 @@
         <aside id="rst_aside" class="restaurant-aside">
             <section class="rst-block restaurant-board">
                 <h3 class="rst-aside-title">餐厅公告</h3>
-                <p class="rst-deliver-detail"> <i class="icon-rst-deliver"></i>起送价<span class="rst_deliver_amount"></span>元。 </p>
                 <ul class="rst-badge-list">
-                    <li class="rst-badge-item"> <i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证 </li>
+                    <li class="rst-badge-item"><i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证</li>
                     <li class="rst-badge-item"><i class="icon-rst-badge online-payment"></i>该餐厅支持在线支付</li>
-                    <li class="rst-badge-item"><i class="icon-rst-badge new-user-discount"></i>饿了么新用户首次订餐，可立减15元。(不与其他活动同享)</li>
-                    <li class="rst-badge-item"><i class="icon-rst-badge extra-discount"></i>在线支付满20减10</li>
+                    <li class="rst-badge-item"><i class="icon-rst-badge extra-discount"></i>${shop.announcement}</li>
                 </ul>
             </section>
             <section id="favor_food" class="rst-block"></section>
@@ -483,9 +486,15 @@
             </div>
         </div>
     </footer>
+
 </body>
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/index.js"></script>
+<script type="text/javascript">
 
+    var shopId ="${shop.id}";
+    var accountId =  "${sessionScope.account.id}";
+
+</script>
 </html>

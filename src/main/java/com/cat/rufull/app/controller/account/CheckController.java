@@ -194,7 +194,7 @@ public class CheckController {
                                     HttpServletResponse response) {
         boolean isPhone = RegEx.regExPhone(username);
         boolean isEmail = RegEx.regExEmail(username);
-        boolean isUsername = RegEx.regExEmail(username);
+        boolean isUsername = RegEx.regExUsername(username);
         Account account = null;
         if (isUsername) {
             account = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);

@@ -35,6 +35,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> fuzzyFindByProductNameAndProductDesc(String searchContext) {
+        /**
+        *@Author:Caoxin
+        *@Description
+        *@Date:10:17 2017/12/14
+        *@param[searchContext:模糊查询的内容]
+        *@returnjava.util.List<com.cat.rufull.domain.model.Product>
+        */
+        return productMapper.fuzzyFindByProductNameAndProductDesc("%" + searchContext + "%");
+    }
+
+    @Override
     public Product findProductById(Integer id) {
         /**
         *@Author:Caoxin

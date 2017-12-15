@@ -97,3 +97,9 @@ footer {
 }
 
 /*到此为止*/
+
+/*跳转页面*/
+.bg_forward{
+	background: url("../../image/business/forward.png");
+	height: 400px;
+}

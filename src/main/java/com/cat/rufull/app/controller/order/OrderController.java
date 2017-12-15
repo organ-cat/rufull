@@ -36,37 +36,55 @@ public class OrderController {
     @Autowired
     protected Carts carts;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String list(HttpSession session, Model uiModel) {
+    @RequestMapping(method = RequestMethod.GET, headers = "Accept=text/html")
+    public String list(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "");
+        uiModel.addAttribute("order_head", "近三个月订单");
+        return "order/list";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public List<Order> list(HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
         List<Order> orders =
                 orderService.findOrderByAccountId(account.getId()); // 查询该用户的所有订单
 
-        uiModel.addAttribute("orders", orders);
+        return orders;
+    }
 
+    @RequestMapping(value = "/unrated", method = RequestMethod.GET, headers = "Accept=text/html")
+    public String listUnrated(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "unrated");
+        uiModel.addAttribute("order_head", "待评价订单");
         return "order/list";
     }
 
-    @RequestMapping(value = "/unrated", method = RequestMethod.GET)
-    public String listUnrated(HttpSession session, Model uiModel) {
+    @RequestMapping(value = "/unrated", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public List<Order> listUnrated(HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
         List<Order> orders =
                 orderService.findUnratedOrderByAccountId(account.getId()); // 查询该用户的所有待评价订单
 
-        uiModel.addAttribute("orders", orders);
+        return orders;
+    }
 
+    @RequestMapping(value = "/refund", method = RequestMethod.GET, headers = "Accept=text/html")
+    public String listRefund(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "refund");
+        uiModel.addAttribute("order_head", "退单记录");
         return "order/list";
     }
 
-    @RequestMapping(value = "/refund", method = RequestMethod.GET)
-    public String listRefund(HttpSession session, Model uiModel) {
+    @RequestMapping(value = "/refund", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public List<Order> listRefund(HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
         List<Order> orders =
                 orderService.findRefundOrderByAccountId(account.getId()); // 查询该用户的所有退单记录
 
-        uiModel.addAttribute("orders", orders);
-
-        return "order/list";
+        return orders;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

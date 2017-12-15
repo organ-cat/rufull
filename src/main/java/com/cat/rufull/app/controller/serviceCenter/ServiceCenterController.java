@@ -7,16 +7,9 @@ import com.cat.rufull.domain.service.order.OrderService;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.Region;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.KeyDeserializer;
-import org.codehaus.jackson.map.Serializers;
-import org.mybatis.generator.config.Context;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sun.security.provider.MD2;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -24,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,12 +39,20 @@ public class ServiceCenterController {
      * @return
      */
     @RequestMapping("/getAccountOrdersBetween")
-    public String getAccountOrdersBetween(Date beginTime, Date endTime,
-                                          Model model,HttpSession session){
+    public String getAccountOrdersBetween(String beginTime, String endTime,
+                                          Model model,HttpSession session) throws Exception{
         session.removeAttribute("exportXls");
         Account account = (Account) session.getAttribute("account");
-        List<Order> list = null;
-                //orderService.findAccountOrdersBetween(account.getId(),beginTime,endTime);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date begin = null;
+        Date end = null;
+        if(beginTime!=null){
+            begin = dateFormat.parse(beginTime);
+        }
+        if(endTime!=null){
+            end = dateFormat.parse(endTime);
+        }
+        List<Order> list = orderService.findOrdersByAccountIdBetween(account.getId(),begin,end);
         model.addAttribute("getAccountOrdersBetween",list);
         session.setAttribute("exportXls",list);
         return "service/exportOrdersXls";

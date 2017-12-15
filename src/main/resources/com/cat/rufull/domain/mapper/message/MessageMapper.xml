@@ -5,16 +5,6 @@
 
   <cache/>
   
-  <resultMap id="MessageResult" type="com.cat.rufull.domain.model.Message">
-    <id column="message_id" property="id"/>
-    <result column="type" property="type"/>
-    <result column="content" property="content"/>
-    <result column="status" property="status"/>
-    <result column="order_id" property="orderId"/>
-    <result column="sender_id" property="senderId"/>
-    <result column="receiver_id" property="receiverId"/>
-  </resultMap>
-
   <update id="updateMessage" parameterType="com.cat.rufull.domain.model.Message">
     UPDATE MESSAGE
     SET
@@ -25,7 +15,7 @@
   <insert id="insertMessage" parameterType="com.cat.rufull.domain.model.Message"
           useGeneratedKeys="true" keyProperty="id">
     INSERT INTO MESSAGE(TYPE,CONTENT,STATUS,ORDER_ID,SENDER_ID,RECEIVER_ID)
-    VALUES(#{type},#{content},#{status},#{ORDER_ID},#{sender_id},#{receiver_id})
+    VALUES(#{type},#{content},#{status},#{orderId},#{senderId},#{receiverId})
   </insert>
 
 </mapper>

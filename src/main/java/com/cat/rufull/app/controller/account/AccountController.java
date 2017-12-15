@@ -519,7 +519,7 @@ public class AccountController {
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
                 System.out.println("商家成功登陆。。。。");
-                session.setAttribute("registerBusiness", login);
+                session.setAttribute(Account.BUSINESS_SESSION, login);
                 result = login.getStatus()+"";             //商家状态。
             }
 /******************************************************************************************/

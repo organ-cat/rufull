@@ -17,19 +17,33 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+    *@Author:Caoxin
+    *@Description:跳转到添加商品界面
+    *@Date:11:33 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping("addProductUI")
     public String addProductUI(){
         return "product/addProductUI";
     }
 
+    /**
+    *@Author:Caoxin
+    *@Description添加商品
+    *@Date:11:33 2017/12/13
+    *@param product,file,request
+    *@return
+    */
     @RequestMapping("addProduct")
     public String addProduct(Product product,
                              @RequestParam(value = "file")MultipartFile file,
                              HttpServletRequest request){
         Product finishedProduct = ProductUtils.upload2Product(file, product, request);
         System.out.println("finished:"+finishedProduct);
-//      productService.add(finishedProduct);
-        return "test";
+        productService.add(finishedProduct);
+        return "business/businessProfile";
     }
 }
 

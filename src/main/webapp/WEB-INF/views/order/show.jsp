@@ -72,7 +72,12 @@
 
             function displayMessage(frame) {
                 var message = JSON.parse(frame.body);
-                console.log(message);
+
+                $('.modal-body').html(message.content);
+
+                $('#myModal').modal({
+                    keyboard: true
+                })
             }
 
             var connectCallback = function () {
@@ -91,16 +96,15 @@
                 e.preventDefault();
 
                 var jsonstr = JSON.stringify({
-                    'type': '催单',
-                    'content': '催单',
-                    'status': '未回复',
+                    'type': 'URGE',
+                    'content': 'Account - id: ${order.accountId} urge to the Order - id: ${order.id}',
+                    'status': 'SEND',
                     'orderId': ${order.id},
                     'senderId': ${account.id},
                     'receiverId': ${order.shop.id}
                 });
 
                 stomp.send("/app/applyUrgeMessage", {}, jsonstr);
-
 
                 return false;
             });
@@ -174,7 +178,7 @@
                         <a class="text-muted" href="${showPlaceUrl}/需要一组字符串不知道干嘛用的">麻章区广东海洋大学(点击后跳到附近商店列表页面)</a>
                         <a href="${homeUrl}">[切换地址]</a>
                     </li>
-                    <li>近三个月订单(需要动态切换)</li>
+                    <li>订单详情</li>
                 </ol>
             </div>
             <div class="container-fluid">
@@ -183,7 +187,7 @@
                         <ul class="list-group text-center">
                             <li class="list-group-item"><strong><a class="text-muted" href="${showProfileUrl}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>我的订单</strong></li>
-                            <li class="list-group-item list-group-item-info"><a class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
+                            <li class="list-group-item"><a class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
@@ -199,7 +203,7 @@
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <div class="page-header">
-                            <h1><small>订单详情(需要动态切换)</small></h1>
+                            <h1><small>订单详情</small></h1>
                         </div>
                         <div class="container-fluid" id="content">
                             <div class="row main-time-line">
@@ -300,6 +304,21 @@
                                         </c:if>
                                         <c:if test="${'PAID'.equals(order.status) or 'ACCEPTED'.equals(order.status) or 'DELIVERY'.equals(order.status)}">
                                             <button id="orderUrgeBtn" type="button" class="btn btn-info">催单</button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel">催单回复</h4>
+                                                        </div>
+                                                        <div class="modal-body"></div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </c:if>
                                         <c:if test="${'DELIVERY'.equals(order.status)}">
                                             <button id="orderConfirmBtn" type="button" class="btn btn-success">确认收货</button>

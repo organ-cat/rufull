@@ -18,7 +18,13 @@ public class UserSearchShopController {
     @Autowired
     private ShopService shopService;
 
-    //用户输入地址后搜索商家
+    /**
+    *@Author:Caoxin
+    *@Description:用户输入地址后搜索商家
+    *@Date:11:24 2017/12/13
+    *@param定位的区域是：city,经度是：lng,维度:lat
+    *@return
+    */
     @RequestMapping(value = "/searchShop",method = RequestMethod.GET)
     private String shopHome(String city, String address, String lng, String lat, Model model, HttpSession session){
 //        System.out.println("定位的区域是："+city+"，经纬度是："+lng+","+lat);
@@ -30,18 +36,29 @@ public class UserSearchShopController {
         model.addAttribute("lng",lng);
         model.addAttribute("lon",lat);
 //        System.out.println("jsonShopList:"+shopList);
-
         return "shop/showAllShop";
     }
 
-    //重新跳转到新的主页
+   /**
+   *@Author:Caoxin
+   *@Description:重新跳转到新的主页
+   *@Date:11:25 2017/12/13
+   *@param
+   *@return
+   */
     @RequestMapping(value = "/changeAddressUI",method = RequestMethod.GET)
     private String changeAddress(){
         return "changeaddress";
     }
 
 
-    //用户更换新地址后搜索新的商家
+    /**
+    *@Author:Caoxin
+    *@Description:用户更换新地址后搜索新的商家
+    *@Date:11:26 2017/12/13
+    *@param:新的地址是newaddress,定位区域：city，经度lng，维度：lat
+    *@return
+    */
     @RequestMapping(value = "/newSearchShop",method = RequestMethod.GET)
     public String newAddress(String city,String lng,String lat,String newaddress,Model model){
 //        System.out.println("定位的区域是："+city+"，经纬度是："+lng+","+lat);

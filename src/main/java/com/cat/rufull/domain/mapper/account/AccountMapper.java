@@ -93,7 +93,7 @@ public interface AccountMapper {
      */
     void bindEmail(Account account);
 
-    void updateAccountStatus(@Param("id") int id, @Param("status") int status);
+    int updateAccountStatus(@Param("id") int id, @Param("status") int status);
 
     List<Account> findAllAccount();
 
