@@ -82,10 +82,8 @@ public class CheckController {
         Account account = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
         if (account == null) {
             returnMessage(response, "1");
-            System.out.println("11111111111");
         } else {
             returnMessage(response, "2");
-            System.out.println("22222222222");
         }
     }
 
@@ -143,7 +141,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.PHONE_CHECK_CODE, checkCode);
         System.out.println("绑定手机" + phone + "收到验证码是：" + checkCode);
-//        sendSms(phone, );
+//        sendSms(phone, checkCode);
     }
     /**
      * 发送新手机验证码
@@ -153,11 +151,10 @@ public class CheckController {
     @RequestMapping(value = "/sendbindNewPhone")
     public void sendbindNewPhone(@RequestParam("phone") String phone,
                               HttpSession session) {
-        System.out.println(phone);
         String checkCode = getCode();
         session.setAttribute(Account.NEW_PHONE_CHECK_CODE, checkCode);
         System.out.println("绑定-新-手机" + phone + "收到验证码是：" + checkCode);
-//        sendSms(phone, code);
+//        sendSms(phone, checkCode);
     }
     /**
      * 发送旧邮箱验证码
@@ -170,7 +167,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.EMAIL_CHECK_CODE, checkCode);
         System.out.println("绑定邮箱" + email + "收到验证码是：" + checkCode);
-//        Email.sendBing(mailSender, mailMessage, phone, code);
+//        Email.sendBing(mailSender, mailMessage, email, checkCode);
     }
     /**
      * 发送旧邮箱验证码
@@ -183,11 +180,8 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.NEW_EMAIL_CHECK_CODE, checkCode);
         System.out.println("绑定-新-邮箱" + email + "收到验证码是：" + checkCode);
-//        Email.sendBing(mailSender, mailMessage, phone, code);
+//        Email.sendBing(mailSender, mailMessage, email, checkCode);
     }
-
-
-
     /**
      * 检验用户注册方式是否被使用
      * @param response      HttpServletResponse
@@ -224,13 +218,13 @@ public class CheckController {
             result = ReturnCode.SNED_PHONE_CODE;//短信验证码已发送成功,请尽快确认
             //发送短信
             System.out.println("手机" + phone + "收到验证码是：" + checkCode);
-//            sendSms(phone, code);
+//            sendSms(phone, checkCode);
         }
         if (isEmail) {
             result = ReturnCode.SNED_EMAIL_CODE;//邮箱验证码已发送成功，请尽快确认
             //发送邮箱
             System.out.println("邮箱" + phone + "收到验证码是：" + checkCode);
-//            Email.sendBing(mailSender, mailMessage, phone, code);
+//            Email.sendBing(mailSender, mailMessage, phone, checkCode);
         }
         session.setAttribute(Account.CHECKCODE_SESSION,checkCode);
         returnMessage(response, result);

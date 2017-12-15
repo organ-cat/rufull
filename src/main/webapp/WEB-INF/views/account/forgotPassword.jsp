@@ -25,7 +25,7 @@
 <body>
 <div class="findPassword">
     <div class="inputDiverr">
-
+        <p id="message"></p>
     </div>
     <div class="inputDiv">
         <input id="phone" type="text" name="phone" placeholder="手机/邮箱" /><br />

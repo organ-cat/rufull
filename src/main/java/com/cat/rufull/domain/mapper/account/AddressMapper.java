@@ -37,4 +37,6 @@ public interface AddressMapper {
      * @param address
      */
     void updateAddress(Address address);
+
+    void updateStatus(Address address);
 }

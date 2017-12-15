@@ -34,6 +34,14 @@ public class NoLoginController {
         return "account/forgotPassword";
     }
 
+    /**
+     * 用户忘密码
+     * @param phone             用户输入的手机
+     * @param password          用户输入的密码
+     * @param checkCode         用户输入的验证码
+     * @param session
+     * @param response
+     */
     @RequestMapping(value = "/forgotPassword",method = RequestMethod.POST)
     public void forgotPassword(@RequestParam("phone") String phone,
                                @RequestParam("password") String password,
@@ -212,16 +220,18 @@ public class NoLoginController {
         } else {
             return false;
         }
-        //查询登陆日志
-        List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
-        //若为0，代表第一次登陆
-        if (logList.size() == 0) {
-            return true;
-        } else {
-            //不为空，则是登陆过了，遍历登陆日志
-            for (LoginLog log : logList) {
-                if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equals(city)) {
-                    return true;
+        if (account != null) {
+            //查询登陆日志
+            List<LoginLog> logList = loginLogService.fingLoginLogList(account.getId());
+            //若为0，代表第一次登陆
+            if (logList.size() == 0) {
+                return true;
+            } else {
+                //不为空，则是登陆过了，遍历登陆日志
+                for (LoginLog log : logList) {
+                    if (log.getIp().equalsIgnoreCase(ip) || log.getLocation().equals(city)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -345,11 +355,11 @@ public class NoLoginController {
                         Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
                         System.out.println(registerBusiness.toString());
                         httpSession.setAttribute(Account.BUSINESS_SESSION, account);
-                        returnMessage(response,ReturnCode.PHONE_REGISTERED);
+                        returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
                     }
                 } else {
                     System.out.println("手机被注册了");
-                    returnMessage(response,"0");
+                    returnMessage(response,ReturnCode.PHONE_REGISTERED);
                 }
             }else if (isEmail) {//注册方式是邮箱
                 //根据邮箱查找用户账号

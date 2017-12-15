@@ -79,6 +79,10 @@ a:hover{
     margin-right: 10px;
     color: #008000;
 }
+.danger {
+    margin-right: 10px;
+    color: #FF9C00;
+}
 
 #footprint{
     width: auto;
@@ -101,7 +105,9 @@ a:hover{
     right: -120px;
     top: 0px;
     z-index: 10;
-    background-color: #FFFFFF;
+    color: #0c9efc;
+    background-color: #00000000;
+    border: none;
     text-transform: none;
 }
 

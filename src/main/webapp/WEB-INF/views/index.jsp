@@ -55,11 +55,30 @@
                     </c:if>
                     <c:if test="${!empty account}">
                         <ul id="ulSize">
-                            <c:if test="${account.photo == null &&account.nickname == null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/rufull.png" alt="头像" /> <span >Hi,美食家</span></a></li>
+                            <c:if test="${account.photo == null}">
+                                <li class="usernameLiImg">
+                                    <a href="#" class="aLabel">
+                                    <img class="photoShow" src="http://localhost:8080/rufull/upload/account/rufull.png" alt="头像" />
+                                        <c:if test="${account.nickname == null}">
+                                            <span >Hi,美食家</span>
+                                        </c:if>
+                                        <c:if test="${account.nickname != null}">
+                                            <span >Hi,${account.nickname}</span>
+                                        </c:if>
+                                    </a>
+                                </li>
                             </c:if>
                             <c:if test="${account.photo != null}">
-                                <li class="usernameLiImg"><a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" /><span >${account.nickname}</span></a></li>
+                                <li class="usernameLiImg">
+                                    <a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" />
+                                        <c:if test="${account.nickname == null}">
+                                            <span >Hi,美食家</span>
+                                        </c:if>
+                                        <c:if test="${account.nickname != null}">
+                                            <span >Hi,${account.nickname}</span>
+                                        </c:if>
+                                    </a>
+                                </li>
                             </c:if>
                             <li class="hideImg"><a href="${pageContext.request.contextPath}/account/center?id=${account.id}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
                             <li class="hideImg"><a href="#" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
@@ -148,7 +167,8 @@
                     <div class="modal-footer">
                         <div class="forgot login-footer">
                             <span>打算
-                                 <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
+                                 <a href="${pageContext.request.contextPath}/nologin/forgotPasswordPage" class="alink">忘记密码？</a>
+                                <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
                             </span>
                         </div>
                         <div class="forgot register-footer" style="display:none">

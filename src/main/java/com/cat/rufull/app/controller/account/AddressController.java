@@ -1,6 +1,8 @@
 package com.cat.rufull.app.controller.account;
 
 import com.cat.rufull.domain.model.Address;
+import com.cat.rufull.domain.model.Footprint;
+import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,6 +40,8 @@ public class AddressController {
         addressService.deleteAddressById(id);
         return returnView(accountId);
     }
+
+
     @RequestMapping(value = "/findAddressById", method = RequestMethod.GET)
     public @ResponseBody
     Address findAddressById(@RequestParam("id") int id) {

@@ -30,7 +30,6 @@ $(function(){
             $(".updateInPassworMessage").attr("style", "background-color: #FFE343");
             $("#messageId").html("警告！新的密码和确认密码不一致");
         }
-
         $("#oldPassword").val("");
         $("#newPassword").val("");
         $("#confirmPassword").val("");

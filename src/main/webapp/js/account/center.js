@@ -41,24 +41,6 @@ function imgPreview(fileDom){
     };
     reader.readAsDataURL(file);
 }
-
-
-// function updateNickname() {
-//     var nickname = $("#nickname").val();
-//     var id = $("#id").val();
-//     $.ajax({
-//         url: "http://localhost:8080/rufull/account/updateNickname",
-//         data: {"id": id, "nickname": nickname},
-//         async: true,
-//         cache: false,
-//         type: "POST",
-//         dataType: "json",
-//         success: function (result) {
-//             alert(result)
-//         }
-//     });
-// }
-
 $(function () {
     $("#aNick").click(function () {
         var nickname = $("#nickname").val();

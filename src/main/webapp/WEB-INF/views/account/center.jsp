@@ -43,7 +43,7 @@
     <spring:url value="#" var="showCooperationUrl"/>
     <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="/account/center" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
     <spring:url value="/account/center" var="footprintUrl"/>
     <spring:url value="/address/addressManage" var="showAddressUrl"/>
     <spring:url value="/account/security" var="showSecurityUrl"/>
@@ -125,7 +125,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showFavorUrl}"?id=${account.id}><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
@@ -147,7 +147,7 @@
                         <a class="text-muted" href="${showPlaceUrl}/需要一组字符串不知道干嘛用的">麻章区广东海洋大学(点击后跳到附近商店列表页面)</a>
                         <a href="${homeUrl}">[切换地址]</a>
                     </li>
-                    <li>个人中心(需要动态切换)</li>
+                    <li>个人中心</li>
                 </ol>
             </div>
             <div class="container-fluid">
@@ -167,7 +167,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
@@ -177,7 +177,12 @@
                         <div id="personalInfo">
                             <div class="accountPhoto">
                                 <a href="${infomationUrl}">
-                                    <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
+                                    <c:if test="${account.photo == null}">
+                                    <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像">
+                                    </c:if>
+                                    <c:if test="${account.photo != null}">
+                                        <img class="userPhotoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
+                                    </c:if>
                                     <span class="editInfo">编辑信息</span>
                                 </a>
                             </div>
@@ -186,7 +191,12 @@
                                 <span>订餐了吗？提前订餐送的快！</span><br/><br/>
 
                                 <span class="info">账户安全：
-                                    <span class="safe" >高</span>
+                                    <c:if test="${account.phone != null && account.email != null}">
+                                        <span class="safe">高</span>
+                                    </c:if>
+                                    <c:if test="${account.phone == null || account.email == null}">
+                                        <span class="danger">低</span>
+                                    </c:if>
                                     <a href="${showSecurityUrl}">查看详情</a>
                                 </span><br/><br/>
 
@@ -206,7 +216,12 @@
                             </div>
                             <div class="accountBalance">
                                 <span class="info">账户余额</span><br/>
-                                <span class="balanceShow"><b>${account.balance}元</b></span>
+                                <c:if test="${account.balance == null}">
+                                    <span class="balanceShow"><b>0.00元</b></span>
+                                </c:if>
+                                <c:if test="${account.balance != null}">
+                                    <span class="balanceShow"><b>${account.balance}元</b></span>
+                                </c:if>
                             </div>
                         </div>
 <%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>

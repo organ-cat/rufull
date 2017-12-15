@@ -43,7 +43,7 @@
     <spring:url value="#" var="showCooperationUrl"/>
     <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="/account/center" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
     <spring:url value="/account/center" var="footprintUrl"/>
     <spring:url value="/address/addressManage" var="showAddressUrl"/>
     <spring:url value="/account/security" var="showSecurityUrl"/>
@@ -106,6 +106,7 @@
     <!-- address js -->
     <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
     <script src="${address_js_url}" type="text/javascript"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 
 </head>
 <body>
@@ -133,7 +134,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
@@ -174,7 +175,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
@@ -260,7 +261,7 @@
                                     <input type="hidden" name="accountId" value="${account.id}"/>
                                     姓名<input class="form-control" type="text" placeholder="您的名字" name="receiver">
                                     手机<input class="form-control" type="text" placeholder="您的手机" name="phone">
-                                    位置<input class="form-control" type="text" placeholder="请输入小区、大厦或学校" name="location">
+                                    位置<input class="form-control" id="address" type="text" placeholder="请输入小区、大厦或学校" name="location">
                                     详细地址<input class="form-control" type="text" placeholder="单位、门牌号" name="detail">
                                     <br/>
                                     <span class="defaultSpan">是否是默认地址</span>
@@ -301,10 +302,10 @@
                                     详细地址<input id="detail" class="form-control" type="text" placeholder="单位、门牌号" name="detail">
                                     <br/>
                                     <span class="defaultSpan">是否是默认地址</span>
-                                    <label>是</label>
-                                    <input type="radio" id="radioChecked" class="radioChecked" checked="checked" name="status" value="1" />
-                                    <label>否</label>
-                                    <input type="radio" class="radioChecked" name="status" value="0" />
+                                    <label for="radioCheckedTrue">是</label>
+                                    <input type="radio" id="radioCheckedTrue" name="status" value="1" />
+                                    <label for="radioCheckedFalse">否</label>
+                                    <input type="radio" id="radioCheckedFalse" name="status" value="0" />
                                     <br/>
                                     <input class="saveBtn" type="submit" value="保存">
                                     <input class="cancelBtn" onclick="hideView()"  type="button" value="取消">
