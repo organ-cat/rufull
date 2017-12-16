@@ -1,19 +1,20 @@
 package com.cat.rufull.app.controller.shop;
 
 import com.cat.rufull.domain.common.util.ShopUtils;
+import com.cat.rufull.domain.model.Account;
+import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,6 +23,8 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private BusinessService businessService;
     /**
     *@Author:Caoxin
     *@Description:去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
@@ -37,11 +40,16 @@ public class ShopController {
     @RequestMapping("addShop")
     public String addShop(@RequestParam(value = "file")MultipartFile file,
                           Shop shop, String[] shippingTimePart,
-                          HttpServletRequest request){
+                          HttpServletRequest request,
+                          HttpSession session){
+        Account account = (Account) session.getAttribute(Account.BUSINESS_SESSION);
 
-        ShopUtils.upload2Shop(file,shop,shippingTimePart,request);
+        Business business = businessService.findBusinessByAccountId(account.getId());   //通过查询出account来找到商家id
+
+        ShopUtils.upload2Shop(file,shop,shippingTimePart,request,business);
         shopService.add(shop);
-        return "business/businessProfile";
+
+        return "forward:/business/showBusinessProfile";
     }
 
 
@@ -137,5 +145,20 @@ public class ShopController {
         List<Shop> shopList = shopService.fuzzyFindByShopAndProduct(searchContext);
         System.out.println("shopList:"+shopList);
         return shopList;
+    }
+
+    @RequestMapping(value = "updateShopOperateState/{id}/{operateState}")
+    public String updateShopOperateState(@PathVariable("id") Integer id,
+                                          @PathVariable("operateState") Integer operateState,
+                                         HttpSession session){
+
+        if(operateState == Shop.SHOP_STATUS_NORMAL){
+            shopService.updateByIdSelective(new Shop(id,Shop.SHOP_STATUS_REST));
+        }else {
+            shopService.updateByIdSelective(new Shop(id,Shop.SHOP_STATUS_NORMAL));
+        }
+
+        session.setAttribute("shop",shopService.findById(id));
+        return "forward:/business/showBusinessProfile";
     }
 }

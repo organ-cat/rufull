@@ -12,6 +12,7 @@
 
 </head>
 <body>
+${sessionScope.business.id}
 <div class="container">
     <fieldset>
         <legend><h1 class="text-info">商家入驻</h1></legend>
@@ -83,7 +84,7 @@
                 </div>
 
                 <%--对应注册用户id--%>
-                <input type="hidden" name="accountId" value="${sessionScope.registerBusiness.id}">
+                <input type="hidden" name="accountId" value="${sessionScope.business.id}">
 
                 <br>
                 <br>

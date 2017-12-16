@@ -125,6 +125,7 @@
                                 </thead>
                                 <tbody>
                                 <c:if test="${requestScope.orderList != null}">
+
                                     <c:forEach var="order" items="${requestScope.orderList}" varStatus="st">
                                         <tr>
                                             <td>
@@ -164,13 +165,14 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">完成订单</h4>
+                                                <h4 class="text-muted">等待商家接单</h4>
                                             </td>
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <a class="btn btn-default order-btn" href="#" role="button">详情</a>
-
+                                                    <form action="${pageContext.request.contextPath}/order/accept/${order.id}" method="post">
+                                                        <button class="btn btn-info order-btn" role="button" type="submit">接单</button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
@@ -235,9 +237,12 @@
         </div>
     </div>
 </footer>
+
 </body>
 
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/index.js"></script>
+
+
 </html>

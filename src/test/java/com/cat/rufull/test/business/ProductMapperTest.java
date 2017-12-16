@@ -2,6 +2,7 @@ package com.cat.rufull.test.business;
 
 import com.cat.rufull.domain.mapper.product.ProductMapper;
 import com.cat.rufull.domain.model.Product;
+import com.cat.rufull.domain.service.product.ProductService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ public class ProductMapperTest {
     @Autowired
     private ProductMapper productMapper;
 
-
+    @Autowired
+    private ProductService productService;
     //    商店测试
     @Test
     public void testaddProduct(){
@@ -59,7 +61,7 @@ public class ProductMapperTest {
         product.setId(16);
         product.setPhoto("你妈妈.jpg");
 
-        productMapper.updateByIdSelective(product);
+        productService.updateByIdSelective(product);
     }
 
     @Test

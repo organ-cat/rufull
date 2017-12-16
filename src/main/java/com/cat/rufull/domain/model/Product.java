@@ -30,6 +30,7 @@ public class Product implements Serializable {
 
     private List<LineItem> lineItemList;
 
+    private static final long serialVersionUID = 1L;
     public Product() {
     }
 
@@ -48,7 +49,12 @@ public class Product implements Serializable {
 
 
 
-    private static final long serialVersionUID = 1L;
+
+
+    public Product(Integer id, Integer status) {
+        this.id = id;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;

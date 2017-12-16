@@ -110,11 +110,18 @@
                                     <th class="text-center">订单内容</th>
                                     <th class="text-center">支付金额（元）</th>
                                     <th class="text-center">状态</th>
-                                    <th class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:if test="${requestScope.orderList != null}">
+                                    <script>
+                                        var connectCallback = function () {
+                                            <c:forEach items="${requestScope.orderList}" var="order">
+                                            stomp.subscribe('/user/${shop.id}/${order.id}/receiveApplyUrgeMessage', displayMessage); // 订阅消息
+                                            </c:forEach>
+                                        }
+
+                                    </script>
                                     <c:forEach var="order" items="${requestScope.orderList}" varStatus="st">
                                         <tr>
                                             <td>
@@ -151,14 +158,7 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">完成订单</h4>
-                                            </td>
-
-                                            <td>
-                                                <div class="btn-group-vertical btn-group-sm">
-                                                    <a class="btn btn-default order-btn" href="#" role="button">详情</a>
-
-                                                </div>
+                                                <h4 class="text-muted">接收订单</h4>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -222,9 +222,69 @@
         </div>
     </div>
 </footer>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">催单请求</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button id="replyBtn" type="button" class="btn btn-primary">尽早发货</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/index.js"></script>
+<script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.4.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+
+<script>
+    // 声明消息对象
+    var message;
+
+    // 创建Stomp客户端
+    var stomp = Stomp.over(new SockJS("/rufull/ws"));
+
+    // 收到订阅消息后的界面变化
+    // 注意: 你主要完成这里
+    function displayMessage(frame) {
+        message = JSON.parse(frame.body);
+
+        $('.modal-body').html(message.content); // 设置消息内容
+
+        $('#myModal').modal({ // 弹出模态框
+            keyboard: true
+        })
+    }
+
+    var errorCallback = function (error) {
+        alert(error.headers.message);
+    };
+
+    // 连接服务端
+    stomp.connect("guest", "guest", connectCallback, errorCallback);
+
+    $(document).ready(function(e) {
+        $('#replyBtn').click(function (e) {
+            e.preventDefault();
+
+            message.status = 'REPLIED'; // 设置消息为已读
+
+            var jsonstr = JSON.stringify(message); // json -> str
+            stomp.send("/app/replyUrgeMessage", {}, jsonstr); // 发送消息
+
+            $('#myModal').modal('hide'); // 隐藏模态框
+
+            return false;
+        });
+    });
+</script>
 </html>

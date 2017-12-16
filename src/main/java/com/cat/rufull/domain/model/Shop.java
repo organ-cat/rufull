@@ -105,6 +105,11 @@ public class Shop implements Serializable {
         this.productList = productList;
     }
 
+    public Shop(Integer id, Integer operateState) {
+        this.id = id;
+        this.operateState = operateState;
+    }
+
     public Integer getId() {
         return id;
     }

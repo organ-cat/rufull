@@ -1,5 +1,6 @@
 package com.cat.rufull.domain.common.util;
 
+import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Shop;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,8 @@ public class ShopUtils {
         public static Shop upload2Shop(MultipartFile file,
                                        Shop shop,
                                        String[] shippingTimePart,
-                                       HttpServletRequest request){
+                                       HttpServletRequest request,
+                                       Business business){
             //上传文件：
             String uploadPath = request.getServletContext().getRealPath("/upload/shop");
             String fileName = UUID.randomUUID()+file.getOriginalFilename();
@@ -27,6 +29,7 @@ public class ShopUtils {
             }
 
             shop.setShopPhoto(fileName);
+            shop.setBusiness(business);
             shop.setOperateTime(shippingTimePart[0]+"-"+shippingTimePart[1]+","+shippingTimePart[2]+"-"+shippingTimePart[3]);
             return shop;
         }

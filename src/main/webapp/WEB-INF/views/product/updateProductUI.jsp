@@ -27,15 +27,15 @@
 
 <div class="container">
     <fieldset>
-        <legend><h1 class="text-info">商品添加</h1></legend>
+        <legend><h1 class="text-info">商品更改</h1></legend>
     </fieldset>
 
     <div>
-        <form action="${pageContext.request.contextPath}/product/addProduct" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/product/updateProduct" method="post" class="form-horizontal" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商品名称:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="productName" class="form-control">
+                    <input type="text" name="productName" value="${requestScope.product.productName}" class="form-control">
                 </div>
             </div>
 
@@ -43,17 +43,18 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商品价格:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="price" class="form-control">
+                    <input type="text" name="price" value="${requestScope.product.price}" class="form-control">
                 </div>
             </div>
 
-            <input type="hidden" name="status" value="0"/>
-            <input type="hidden" name="salesVolume" value="0"/>
-            <input type="hidden" name="shopId" value="${sessionScope.shop.id}">
+            <input type="hidden" name="status" value="${requestScope.product.status}"/>
+            <input type="hidden" name="salesVolume" value="${requestScope.product.salesVolume}"/>
+            <input type="hidden" name="shop_Id" value="${sessionScope.shop.id}">
+            <input type="hidden" name="id" value="${requestScope.product.id}">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商品描述:</label>
                 <div class="col-md-4 tl th">
-                    <textarea name="description" rows="15" cols="50"></textarea>
+                    <textarea name="description" rows="15" cols="50">${requestScope.product.description}</textarea>
                 </div>
             </div>
 

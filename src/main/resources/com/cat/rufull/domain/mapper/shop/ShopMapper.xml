@@ -74,7 +74,7 @@
         SELECT
         <include refid="Shop_Column_List"/>
         FROM SHOP
-        WHERE id = #{business_id}
+        WHERE business_id= #{business_id}
     </select>
 
     <!--// 通过Id删除商店-->

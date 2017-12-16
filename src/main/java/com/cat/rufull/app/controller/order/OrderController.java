@@ -165,6 +165,7 @@ public class OrderController {
     public String submit(Order order, HttpSession session, Model uiModel) {
         // 为订单设置商家信息
         Shop shop = shopService.findById(order.getShop().getId());
+        order.setShop(shop);
         order.setBusinessId(shop.getBusiness().getId());
 
         orderService.submitOrder(order); // 下单
