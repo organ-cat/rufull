@@ -70,10 +70,6 @@
                 });
             });
 
-            function findorderd() {
-                document.findorders.submit();
-            }
-
 
             lay('#version').html('-v'+ laydate.v);
             laydate.render({
@@ -85,6 +81,9 @@
                 ,type: 'datetime'
             });
         });
+        function findorderd() {
+            document.findorders.submit();
+        }
     </script>
 </head>
 
@@ -106,7 +105,7 @@
             <input type="text" class="form-control input-lg" id="end"
                    name="end" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
-            &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
+            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
                                 class="btn btn-lg" onclick="findorderd();">查找
         </button>
 
@@ -163,7 +162,6 @@
 
         </div>
     </div>
-
 
 </div>
 </body>

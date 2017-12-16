@@ -13,10 +13,35 @@
     <title>注册协议-agreement.html</title>
 
     <link class="usemin" rel="stylesheet" href="${pageContext.request.contextPath}/css/service/agreement.css" />
+<style type="text/css">
+    .sgBtn {
+        width: 135px;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 10px;
+        margin-top: 10px;
+        text-align: center;
+        background-color: #0095D9;
+        color: #FFFFFF;
+        float: left;
+        border-radius: 5px;
+    }
+</style>
+    <script type="text/javascript">
+        function  returnpre() {
+            history.go(-1);
+        }
+    </script>
 </head>
+
 <body>
 <article class="container">
+    <div>
     <p class="no-indent">尊敬的用户，欢迎阅读吃货宝注册协议。</p>
+    </div>
+    <div style="padding-left: 80%;">
+        <input type="button" class="sgBtn" value="返回上一层" onclick="returnpre()"/>
+    </div>
     <section>
         <h1>协议</h1>
         <ol>
@@ -218,6 +243,7 @@
             <li> <p>政策修改：</p> <p>吃货宝保留对本政策做出不时修改的权利。</p> </li>
         </ol>
     </section>
+    <input type="button" class="sgBtn" value="返回上一层" onclick="returnpre()"/>
 </article>
 </body>
 </html>

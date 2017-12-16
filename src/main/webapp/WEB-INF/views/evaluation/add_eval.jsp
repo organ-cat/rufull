@@ -28,7 +28,7 @@
 
     <table style="width: 85%; background: #909090; text-align:center;">
         <tr>
-            <td rowspan="2" style="width: 100px;"><img src="商家图片.PNG"/></td>
+            <td rowspan="2" style="width: 100px;">订单号：xxxxxxxxx</td>
             <td>商店名</td>
             <td rowspan="2">下单时间：</td>
             <td rowspan="2">总金额：</td>
@@ -44,11 +44,12 @@
         <input type="hidden" name="account_id" value="1" />
         <input type="hidden" name="order_id" value="1" />
         <input type="hidden" name="business_id" value="1" />
-        订单评价：<input type="text" name="comment"/><br/>
-        订单评分：<input type="text"name="score"/>分<br/>
+        订单评价：<span></span><br/>
+        订单评分：xxx分<br/>
+        上传图片：<input type="file" value="图片分享">
         评价商品：<br/>
         商品名称：xxx分<br/>
-        商品评价：<input  type="text"/><br/>
+        商品评价：<sapn></sapn><br/>
         <input type="submit" value="提交评价"/>
     </form>
 

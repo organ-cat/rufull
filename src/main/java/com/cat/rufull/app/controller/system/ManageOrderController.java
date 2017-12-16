@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -105,8 +106,8 @@ public class ManageOrderController {
      * @return
      */
     @RequestMapping("/getAccOrder")
-    public String getAccOrder(Integer accountid, Model model,HttpSession session) {
-        session.removeAttribute("logerror");
+    public String getAccOrder(Integer accountid, Model model, HttpSession session,
+                              HttpServletRequest request) {
         Manager mana = (Manager) session.getAttribute("manager");
         Account account = new Account();
         account.setId(accountid);
@@ -123,7 +124,7 @@ public class ManageOrderController {
             }
             return "system/order/accorder";
         } else
-            session.setAttribute("logerror","出错了！");
+            request.setAttribute("logerror","出错了！");
             for (Order order : list) {
                 model.addAttribute("morder", order);
             }

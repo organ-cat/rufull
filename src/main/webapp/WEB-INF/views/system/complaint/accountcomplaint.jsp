@@ -23,6 +23,10 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <style type="text/css">
         .pic {
             width: 200px;
@@ -46,10 +50,36 @@
 </head>
 <script>
     function passcomp(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要一键审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
         window.location.href = "${pageContext.request.contextPath}/ManageCom/replyComp?id=" + id;
+    });
     }
     function notpasscomp(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要一键审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
         window.location.href = "${pageContext.request.contextPath}/ManageCom/replyfalseComp?id=" + id;
+    });
+    }
+    var replyerror = "${replyerror}";
+    if(replyerror!='') {
+        window.onload = function() {
+            swal("操作失败", "回复用户的投诉信息失败!", "error");
+        };
     }
 </script>
 <body>
@@ -158,7 +188,7 @@
             </div>
             <div class="col-sm-12" style="margin-top: 160px;">
                 <button type="button" class="btn btn-warning picbtn"
-                        onclick="notpasscomp(${managecomp.id})">不符合事实
+                        onclick="notpasscomp(${managecomp.id})">违背事实
                 </button>
             </div>
         </div>

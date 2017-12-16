@@ -23,31 +23,74 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <script type="text/javascript">
         function delShop(id) {
-
-            window.location.href="${pageContext.request.contextPath}/manageShop/delBusiness?id="+id;
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要撤销商家入驻吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageShop/delBusiness?id=" + id;
+                });
         }
         function redelShop(id) {
-
-            window.location.href="${pageContext.request.contextPath}/manageShop/redelBusiness?id="+id;
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要恢复商家入驻吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageShop/redelBusiness?id=" + id;
+                });
+        }
+        function rogShop(id) {
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要对该商家停业整顿吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageShop/rogBusiness?id=" + id;
+                });
         }
         function findshoplist() {
             document.findshop.submit();
         }
-
+    var logerror = "${logerror}"
+    var delBsuccess = "${delBsuccess}"
+    var delBerror = "${delBerror}"
+    var rogBsuccess = "${rogBsuccess}"
+    var rogBerror = "${rogBerror}"
+    var redelsuccess = "${redelsuccess}"
+    var redelerror = "${redelerror}"
     </script>
-
+    <script src="${pageContext.request.contextPath}/js/system/myshopalert.js"></script>
 </head>
 <body>
-<form class="form-inline" name="findshop" action="${pageContext.request.contextPath}/manageShop/findByCondition" method="post">
+<form class="form-inline" name="findshop" action="${pageContext.request.contextPath}/manageShop/findByCondition"
+      method="post">
     <div class="col-sm-8">
         <div class="form-group" style="padding-left: 40%;padding-top: 50px;padding-bottom: 10px;">
 
-            <input type="text"  class="form-control input-lg"
-                   id="findname"  name="condition" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
-            <button type="submit" style="max-width: 150px;"
-                    class="btn btn-lg" onclick="findshoplist();">查找</button>
+            <input type="text" class="form-control input-lg"
+                   id="findname" name="condition" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
+            <button type="button" style="max-width: 150px;"
+                    class="btn btn-lg" onclick="findshoplist();">查找
+            </button>
         </div>
     </div>
 </form>
@@ -100,11 +143,15 @@
                         <c:if test="${list.business.account.status==202}">
                             <input type="button" class="btn btn-danger" value="撤销入驻"
                                    onclick="delShop(${list.business.id});"/>
+                            <input type="button" class="btn btn-danger" value="停业整顿"
+                                   onclick="rogShop(${list.business.id});"/>
                         </c:if>
-                            <c:if test="${list.business.account.status==203}">
-                                <input type="button" class="btn btn-warning" value="允许开业"
-                                       onclick="redelShop(${list.business.id});"/>
-                            </c:if>
+                        <c:if test="${list.business.account.status==203}">
+                            <input type="button" class="btn btn-warning" value="允许开业"
+                                   onclick="redelShop(${list.business.id});"/>
+                            <input type="button" class="btn btn-warning" value="撤销入驻"
+                                   onclick="delShop(${list.business.id});"/>
+                        </c:if>
                         <c:if test="${list.business.account.status==204}">
                             <input type="button" class="btn btn-warning" value="重新入驻"
                                    onclick="redelShop(${list.business.id});"/>

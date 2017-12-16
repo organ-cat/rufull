@@ -23,6 +23,10 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <style type="text/css">
         .pic {
             width: 200px;
@@ -46,11 +50,53 @@
 </head>
 <script>
     function passexamine(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要通过审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
         window.location.href = "${pageContext.request.contextPath}/manageShop/examineShop?id=" + id;
+    });
     }
     function notpassexamine(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要否决审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
         window.location.href = "${pageContext.request.contextPath}/manageShop/examineNotPass?id=" + id;
+    });
     }
+
+    var logerror = "${logerror}";
+    var examerror = "${examerror}";
+    var npexamerror = "${npexamerror}";
+    if(logerror!='') {
+        window.onload = function() {
+            swal("操作失败", "插入日志出错!", "error");
+        };
+    }
+
+    if(examerror!='') {
+        window.onload = function() {
+            swal("操作失败", "审核商家失败!", "error");
+        };
+    }
+
+    if(npexamerror!='') {
+        window.onload = function() {
+            swal("操作失败", "审核商家失败!", "error");
+        };
+    }
+
 </script>
 <body>
 <div class="col-sm-9">

@@ -39,7 +39,7 @@
 
             });
         });
-        function findLog() {
+        function findLogs() {
             document.findLog.submit();
         }
     </script>
@@ -58,8 +58,8 @@
                    name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
             <input type="text" class="form-control input-lg"
                    id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
-            &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
-                                class="btn btn-lg" onclick="findLog();">查找
+            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
+                                class="btn btn-lg" onclick="findLogs();">查找
         </button>
 
         </div>

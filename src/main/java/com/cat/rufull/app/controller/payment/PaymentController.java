@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.payment;
 
+import com.cat.rufull.domain.common.util.PaymentUtil;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Order;
 import com.cat.rufull.domain.service.business.BusinessService;
@@ -57,7 +58,50 @@ public class PaymentController {
                          @RequestParam("total") BigDecimal total // 支付金额
                         ) {
         // 省略了支付业务
-        return complete(id);
+        Order order = orderService.findOrderById(id); // 获取订单详情
+        if(order.getPaymentMethod() == "ONLINE"){    //判断为在线支付
+
+            // 付款:
+            // 定义付款的参数:
+            String p0_Cmd = "Buy";
+            String p1_MerId = "10001126856";
+            String p2_Order = id.toString();
+            String p3_Amt = total.toString();
+            String p4_Cur = "CNY";
+            String p5_Pid = "";
+            String p6_Pcat = "";
+            String p7_Pdesc = "";
+            String p8_Url = "http://localhost/rufull/pay/payBack";
+            String p9_SAF = "";
+            String pa_MP = "";
+            String pr_NeedResponse = "1";
+            String keyValue = "69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
+            String hmac = PaymentUtil.buildHmac(p0_Cmd, p1_MerId, p2_Order, p3_Amt, p4_Cur, p5_Pid, p6_Pcat, p7_Pdesc, p8_Url, p9_SAF, pa_MP,bank , pr_NeedResponse, keyValue);
+
+            //拼接参数
+            StringBuffer pay = new StringBuffer("https://www.yeepay.com/app-merchant-proxy/node?");
+            pay.append("p0_Cmd=").append(p0_Cmd).append("&");
+            pay.append("p1_MerId=").append(p1_MerId).append("&");
+            pay.append("p2_Order=").append(p2_Order).append("&");
+            pay.append("p3_Amt=").append(p3_Amt).append("&");
+            pay.append("p4_Cur=").append(p4_Cur).append("&");
+            pay.append("p5_Pid=").append(p5_Pid).append("&");
+            pay.append("p6_Pcat=").append(p6_Pcat).append("&");
+            pay.append("p7_Pdesc=").append(p7_Pdesc).append("&");
+            pay.append("p8_Url=").append(p8_Url).append("&");
+            pay.append("p9_SAF=").append(p9_SAF).append("&");
+            pay.append("pa_MP=").append(pa_MP).append("&");
+            pay.append("pd_FrpId=").append(bank).append("&");
+            pay.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
+            pay.append("hmac=").append(hmac);
+
+            //转发到第三方支付界面
+            return "redirect:"+ pay.toString();
+            //response.sendRedirect(sb.toString());
+        }else{                                        //判断为货到付款
+            return complete(id);
+        }
+
     }
 
     /**

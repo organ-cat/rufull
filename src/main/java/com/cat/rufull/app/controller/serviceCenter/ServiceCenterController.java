@@ -3,7 +3,10 @@ package com.cat.rufull.app.controller.serviceCenter;
 import com.cat.rufull.domain.common.util.FileUtils;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Order;
+import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.order.OrderService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,10 +28,41 @@ import java.util.List;
  * Created by Luckily on 2017/12/8.
  */
 @Controller
-@RequestMapping("/creatBill")
+@RequestMapping("/service")
 public class ServiceCenterController {
     @Resource
     private OrderService orderService;
+    @Resource
+    private AccountService accountService;
+    @Resource
+    private ShopService shopService;
+
+    /**
+     * 跳转到帮助页面
+     * @return
+     */
+    @RequestMapping("gethelp")
+    public String getHelp(){
+        return "service/help";
+    }
+
+    /**
+     * 跳转到个人订单列表
+     * @return
+     */
+    @RequestMapping("getAccorder")
+    public String getAccorder(){
+        return "service/dowdloadAccOrder";
+    }
+
+    /**
+     * 跳转到规则中心
+     * @return
+     */
+    @RequestMapping("getAgreement")
+    public String getAgreement(){
+        return "service/agreement";
+    }
 
     /**
      * 根据时间段获得用户的订单数据
@@ -46,16 +80,16 @@ public class ServiceCenterController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date begin = null;
         Date end = null;
-        if(beginTime!=null){
+        if(beginTime!=null&&beginTime!=""){
             begin = dateFormat.parse(beginTime);
         }
-        if(endTime!=null){
+        if(endTime!=null&&beginTime!=""){
             end = dateFormat.parse(endTime);
         }
         List<Order> list = orderService.findOrdersByAccountIdBetween(account.getId(),begin,end);
-        model.addAttribute("getAccountOrdersBetween",list);
+        model.addAttribute("AccOrdersBetween",list);
         session.setAttribute("exportXls",list);
-        return "service/exportOrdersXls";
+        return "service/dowdloadAccOrder";
     }
 
 
@@ -69,7 +103,7 @@ public class ServiceCenterController {
      */
     @RequestMapping("/exportXls")
     public String exportXls(HttpSession session, HttpServletRequest request,
-                            HttpServletResponse response) throws IOException {
+                            HttpServletResponse response,Model model) throws IOException {
         Account account = (Account) session.getAttribute("account");
         List<Order> list = (List<Order>) session.getAttribute("exportXls");
         // 在内存中创建一个Excel文件，通过输出流写到客户端提供下载
@@ -86,14 +120,15 @@ public class ServiceCenterController {
         headRow.createCell(5).setCellValue("商店名称");
         headRow.createCell(6).setCellValue("商店地址");
         headRow.createCell(7).setCellValue("消费金额");
-        headRow.createCell(8).setCellValue("完成时间");
+        headRow.createCell(8).setCellValue("下单时间");
 
         for (Order order: list) {
             HSSFRow dataRow = sheet.createRow(sheet.getLastRowNum() + 1);
-            dataRow.createCell(0).setCellValue(order.getId());
+            dataRow.createCell(0).setCellValue(order.getOrderNumber());
             dataRow.createCell(1).setCellValue(account.getUsername());
-            dataRow.createCell(2).setCellValue(order.getAddress().getPhone());
-            dataRow.createCell(3).setCellValue(order.getAddress().getLocation()+order.getAddress().getDetail());
+            Order downorder = orderService.findOrderById(order.getId());
+            dataRow.createCell(2).setCellValue(downorder.getAddress().getPhone());
+            dataRow.createCell(3).setCellValue(downorder.getAddress().getLocation()+order.getAddress().getDetail());
             if(order.getPaymentMethod().toString().equals("ONLINE"))
             {
                 dataRow.createCell(4).setCellValue("在线支付");
@@ -104,9 +139,13 @@ public class ServiceCenterController {
             }
 
             dataRow.createCell(5).setCellValue(order.getShop().getShopName());
-            dataRow.createCell(6).setCellValue(order.getShop().getAddress());
+            Shop shop = shopService.findById(downorder.getShop().getId());
+            dataRow.createCell(6).setCellValue(shop.getAddress());
             dataRow.createCell(7).setCellValue(order.getTotal().toString());
-            dataRow.createCell(8).setCellValue(order.getCompletedTime());
+            Date date = order.getCreatedTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String createtime = format.format(date);
+            dataRow.createCell(8).setCellValue(createtime);
         }
 
         String filename = "用户的账单数据.xls";
@@ -118,6 +157,7 @@ public class ServiceCenterController {
         response.setContentType("multipart/form-data");
         response.setHeader("content-disposition", "attchment;filename="+filename);
         workbook.write(out);
+        session.setAttribute("exportXls",list);
         return null;
     }
 
@@ -131,11 +171,19 @@ public class ServiceCenterController {
      * @return
      */
     @RequestMapping("fanAnalysis")
-    public String fanAnalysis(String type,Date beginTime, Date endTime,
-                              Model model,HttpSession session) {
+    public String fanAnalysis(String type,String beginTime, String endTime,
+                              Model model,HttpSession session) throws Exception{
         Account account = (Account) session.getAttribute("account");
-        List<Order> list = null;
-               // orderService.findAccountOrdersBetween(account.getId(), beginTime, endTime);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date begin = null;
+        Date end = null;
+        if(beginTime!=null&&beginTime!=""){
+            begin = dateFormat.parse(beginTime);
+        }
+        if(endTime!=null&&beginTime!=""){
+            end = dateFormat.parse(endTime);
+        }
+        List<Order> list =  orderService.findOrdersByAccountIdBetween(account.getId(), begin, end);
 
         int aa = 0;
         int bb = 0;
@@ -174,10 +222,10 @@ public class ServiceCenterController {
         model.addAttribute("ee", ee);
         if(i==0)
         {
-            return "service/fanorders";
+            return "service/fan";
         }
         else
-            return "service/cyliorders";
+            return "service/column";
     }
 
 

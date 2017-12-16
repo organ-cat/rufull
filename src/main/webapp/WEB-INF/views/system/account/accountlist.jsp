@@ -24,36 +24,65 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/css/system/xcComfirm/js/promptbox.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
     <script type="text/javascript">
         function getAccount(id) {
-            window.location.href="${pageContext.request.contextPath}/manageAcc/getAccount?id="+id;
+            window.location.href = "${pageContext.request.contextPath}/manageAcc/getAccount?id=" + id;
         }
         function delAccount(id) {
-
-            window.location.href="${pageContext.request.contextPath}/manageAcc/delaccount?id="+id;
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要删除吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageAcc/delaccount?id=" + id;
+                });
         }
         function redelAccount(id) {
-
-            window.location.href="${pageContext.request.contextPath}/manageAcc/redelaccount?id="+id;
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要恢复吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageAcc/redelaccount?id=" + id;
+                });
         }
         function findAccountlist() {
             document.findAccount.submit();
         }
+        var logerror = "${logerror}";
+        var delAccerror = "${delAccerror}";
+        var delAccsuccess = "${delAccsuccess}";
+        var redelAccerror = "${redelAccerror}";
+        var redelAccsuccess = "${redelAccsuccess}";
+        var updateAccsuccess = "${updateAccsuccess}";
 
     </script>
+    <script src="${pageContext.request.contextPath}/js/system/myaccalert.js"></script>
+
 
 </head>
 <body>
-<form class="form-inline" name="findAccount" action="${pageContext.request.contextPath}/manageAcc/findaccount" method="post">
+<form class="form-inline" name="findAccount" action="${pageContext.request.contextPath}/manageAcc/findaccount"
+      method="post">
     <div class="col-sm-8">
         <div class="form-group" style="padding-left: 40%;padding-top: 50px;padding-bottom: 10px;">
 
-            <input type="text"  class="form-control input-lg"
-                   id="findname"  name="findname" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
-            <button type="submit" style="max-width: 150px;"
-                    class="btn btn-lg" onclick="findAccountlist();">查找</button>
+            <input type="text" class="form-control input-lg"
+                   id="findname" name="findname" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
+            <button type="button" style="max-width: 150px;"
+                    class="btn btn-lg" onclick="findAccountlist();">查找
+            </button>
         </div>
     </div>
 </form>
@@ -89,16 +118,16 @@
 
                     <td align="center">
                         <c:if test="${list.role==1}">
-                                <input type="button" class="btn btn-primary" value="修改"
-                                       onclick="getAccount(${list.id});"/>
-                                <c:if test="${list.status=='100'}">
-                                    <input type="button" class="btn btn-danger" value="删除"
-                                           onclick="delAccount(${list.id});"/>
-                                </c:if>
-                                <c:if test="${list.status=='0'}">
-                                    <input type="button" class="btn btn-warning" value="恢复"
-                                           onclick="redelAccount(${list.id});"/>
-                                </c:if>
+                            <input type="button" class="btn btn-primary" value="修改"
+                                   onclick="getAccount(${list.id});"/>
+                            <c:if test="${list.status=='100'}">
+                                <input type="button" class="btn btn-danger" value="删除"
+                                       onclick="delAccount(${list.id});"/>
+                            </c:if>
+                            <c:if test="${list.status=='0'}">
+                                <input type="button" class="btn btn-warning" value="恢复"
+                                       onclick="redelAccount(${list.id});"/>
+                            </c:if>
                         </c:if>
                         <c:if test="${list.role==2}">
                             <input type="button" class="btn btn-primary" value="商家资料修改"

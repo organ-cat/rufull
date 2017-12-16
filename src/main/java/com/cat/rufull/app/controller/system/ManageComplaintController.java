@@ -11,10 +11,12 @@ import com.cat.rufull.domain.service.system.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
+import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +50,6 @@ public class ManageComplaintController {
      */
     @RequestMapping("/findAllComp")
     public String findAllComp(Model model, HttpSession session) {
-        session.removeAttribute("getacccomperror");
         List<Complaint> complaintList = complaintService.findAllComplaint();
         model.addAttribute("managecomp", complaintList);
         return "system/complaint/allcomplaint";
@@ -62,7 +63,6 @@ public class ManageComplaintController {
      */
     @RequestMapping("/findSuccessComp")
     public String findSuccessComp(Model model, HttpSession session) {
-        session.removeAttribute("getacccomperror");
         List<Complaint> complaintList = complaintService.completedComplaintList();
         model.addAttribute("managecomp", complaintList);
         return "system/complaint/findSuccessComp";
@@ -76,8 +76,8 @@ public class ManageComplaintController {
      * @return
      */
     @RequestMapping("/getAccComp")
-    public String getAccComp(Integer id,HttpSession session,Model model){
-        session.removeAttribute("getacccomperror");
+    public String getAccComp(Integer id, HttpSession session, Model model,
+                             RedirectAttributes attr){
         Complaint complaint = complaintService.findComplaintById(id);
         Shop shop = shopService.findById(complaint.getShopId());
         Account account = accountService.findAccountById(complaint.getAccountId());
@@ -90,7 +90,7 @@ public class ManageComplaintController {
             return "system/complaint/accountcomplaint";
         }
         else {
-            session.setAttribute("getacccomperror", "出错了");
+            attr.addFlashAttribute("getacccomperror", "出错了");
             model.addAttribute("account", account);
             model.addAttribute("shop", shop);
             model.addAttribute("managecomp", complaint);
@@ -102,13 +102,12 @@ public class ManageComplaintController {
     /**
      * 获取处理后的评价详情
      * @param id
-     * @param session
      * @param model
      * @return
      */
 
     @RequestMapping("/getCompdetail")
-    public String getCompdetail(Integer id,HttpSession session,Model model){
+    public String getCompdetail(Integer id,Model model){
         Complaint complaint = complaintService.findComplaintById(id);
         Shop shop = shopService.findById(complaint.getShopId());
         Account account = accountService.findAccountById(complaint.getAccountId());
@@ -127,10 +126,7 @@ public class ManageComplaintController {
      * @return
      */
     @RequestMapping("/replyComp")
-    public String replyComp(Integer id,HttpSession session){
-        session.removeAttribute("logerror");
-        session.removeAttribute("replysuccess");
-        session.removeAttribute("replyerror");
+    public String replyComp(Integer id,HttpSession session,RedirectAttributes attr){
 
         Complaint complaint = complaintService.findComplaintById(id);
         Account account = accountService.findAccountById(complaint.getAccountId());
@@ -142,7 +138,7 @@ public class ManageComplaintController {
         complaint.setSolver(mana.getId());
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
-            session.setAttribute("replysuccess","处理成功，结果为真");
+            attr.addFlashAttribute("replysuccess","处理成功，结果为真");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员处理"+account.getUsername()+"用户投诉，结果为真！");
             log.setManager(mana);
@@ -152,12 +148,13 @@ public class ManageComplaintController {
             if (a > 0) {
                 return "redirect:findAllComp";
             } else {
-                session.setAttribute("logerror", "出错了！");
+                attr.addFlashAttribute("logerror", "出错了！");
                 return "redirect:findAllComp";
             }
         } else {
-            session.setAttribute("replyerror","处理失败");
-            return "redirect:findAllComp";
+            attr.addFlashAttribute("replyerror","处理失败");
+            attr.addAttribute("id",id);
+            return "redirect:getAccComp";
         }
     }
 
@@ -169,10 +166,7 @@ public class ManageComplaintController {
      * @return
      */
     @RequestMapping("/replyfalseComp")
-    public String replyfalseComp(Integer id,HttpSession session){
-        session.removeAttribute("logerror");
-        session.removeAttribute("replysuccess");
-        session.removeAttribute("replyerror");
+    public String replyfalseComp(Integer id,HttpSession session,RedirectAttributes attr){
 
         Complaint complaint = complaintService.findComplaintById(id);
         Account account = accountService.findAccountById(complaint.getAccountId());
@@ -184,7 +178,7 @@ public class ManageComplaintController {
         complaint.setSolver(mana.getId());
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
-            session.setAttribute("replysuccess","处理成功，结果为假");
+            attr.addFlashAttribute("replysuccess","处理成功，结果为假");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员处理"+account.getUsername()+"用户投诉,结果为假！");
             log.setManager(mana);
@@ -194,12 +188,13 @@ public class ManageComplaintController {
             if (a > 0) {
                 return "redirect:findAllComp";
             } else {
-                session.setAttribute("logerror", "出错了！");
+                attr.addFlashAttribute("logerror", "出错了！");
                 return "redirect:findAllComp";
             }
         } else {
-            session.setAttribute("replyerror","处理失败");
-            return "redirect:findAllComp";
+            attr.addFlashAttribute("replyerror","处理失败");
+            attr.addAttribute("id",id);
+            return "redirect:getAccComp";
         }
     }
 
@@ -212,10 +207,7 @@ public class ManageComplaintController {
      * @return
      */
     @RequestMapping("/replyAllComp")
-    public String replyAllComp(Integer[] id,Integer result,HttpSession session){
-        session.removeAttribute("logerror");
-        session.removeAttribute("replysuccess");
-        session.removeAttribute("replyerror");
+    public String replyAllComp(Integer[] id, Integer result, HttpSession session, RedirectAttributes attr){
         Manager mana = (Manager) session.getAttribute("manager");
         if(id!=null) {
             for (Integer ids : id) {
@@ -229,7 +221,7 @@ public class ManageComplaintController {
                 complaint.setSolver(mana.getId());
                 int i = complaintService.completedComplaint(complaint);
                 if (i >= 1) {
-                    session.setAttribute("replysuccess", "处理成功");
+                    attr.addFlashAttribute("replysuccess", "处理成功");
                     log.setCreateTime(DateFormat.getNewdate(date));
                     log.setDetail("管理员处理" + account.getUsername() + "用户投诉！");
                     log.setManager(mana);
@@ -237,10 +229,10 @@ public class ManageComplaintController {
                     log.setAccount(account);
                     int a = logService.addLog(log);
                     if (a < 0) {
-                        session.setAttribute("logerror", "出错了！");
+                        attr.addFlashAttribute("logerror", "出错了！");
                     }
                 } else {
-                    session.setAttribute("replyerror", "处理失败");
+                    attr.addFlashAttribute("replyerror", "处理失败");
                 }
             }
             log.setCreateTime(DateFormat.getNewdate(date));
@@ -249,7 +241,7 @@ public class ManageComplaintController {
             log.setType(1);
             int a = logService.addLog(log);
             if (a < 0) {
-                session.setAttribute("logerror", "出错了！");
+                attr.addFlashAttribute("logerror", "出错了！");
             }
         }
         return "redirect:findAllComp";

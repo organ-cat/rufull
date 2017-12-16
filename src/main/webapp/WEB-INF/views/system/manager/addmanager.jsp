@@ -25,6 +25,10 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
     <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
     <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <style type="text/css">
         .sgBtn {
             width: 135px;
@@ -41,7 +45,29 @@
     </style>
     <script type="text/javascript">
         function submitform() {
-            document.addform.submit();
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要添加管理员吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    document.addform.submit();
+                });
+        }
+        var addMerror = "${addMerror}";
+        var logerror = "${logerror}";
+        if(logerror!='') {
+            window.onload = function() {
+                swal("操作失败", "插入日志出错!", "error");
+            };
+        }
+        if(addMerror!='') {
+            window.onload = function() {
+                swal("操作失败", "添加管理员失败!", "error");
+            };
         }
     </script>
 </head>

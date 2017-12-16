@@ -23,6 +23,10 @@
     <%--时间控件--%>
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <script type="text/javascript">
 
         $(function() {
@@ -44,6 +48,12 @@
         function getdetail(id) {
             window.location.href = "${pageContext.request.contextPath}/ordermanage/getOrder?id=" + id;
         }
+        var logerror = "${logerror}";
+        if(logerror!='') {
+            window.onload = function() {
+                swal("操作失败", "插入日志出错!", "error");
+            };
+        }
     </script>
 </head>
 
@@ -59,7 +69,7 @@
             <input type="text" class="form-control input-lg" id="end"
                    name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
-            &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
+            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
                                 class="btn btn-lg" onclick="findallorders();">查找
         </button>
 

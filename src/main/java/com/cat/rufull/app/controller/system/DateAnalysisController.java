@@ -174,35 +174,31 @@ public class DateAnalysisController {
         int d = 0;
         int e = 0;
         double eva = 0.0;
-        List<Shop> shopList = null;
-                //shopService.findAll();
+        List<Shop> shopList = shopService.findAll();
         for (Shop shop : shopList) {
             Integer shopid = shop.getBusiness().getId();
-            List<OrderEvaluation> evaluationList = null;
-                    //evaluationService.findOrderEvaluation(shopid);
+            List<OrderEvaluation> evaluationList = evaluationService.findEvalByShopId(shopid);
             if (evaluationList != null){
+                double avg = 0.0;
                 for (OrderEvaluation evaluation : evaluationList) {
-                    double avg = 0.0;
-                    for (int i = 0; i < evaluationList.size(); i++) {
-                        avg = eva + evaluation.getScore();
+                        avg = avg + evaluation.getScore();
                         System.out.println(evaluation.getShopId()+","+avg+","+evaluationList.size());
                     }
-                    eva = avg / evaluationList.size();
-                    if (0.0 < eva && eva <= 1.0) {
-                        a = a + 1;
-                    }
-                    if (1.0 < eva && eva <= 2.0) {
-                        b = b + 1;
-                    }
-                    if (2.0 < eva && eva <= 3.0) {
-                        c = c + 1;
-                    }
-                    if (3.0 < eva && eva <= 4.0) {
-                        d = d + 1;
-                    }
-                    if (4.0 < eva) {
-                        e = e + 1;
-                    }
+                eva = avg / evaluationList.size();
+                if (0.0 < eva && eva <= 1.0) {
+                    a = a + 1;
+                }
+                if (1.0 < eva && eva <= 2.0) {
+                    b = b + 1;
+                }
+                if (2.0 < eva && eva <= 3.0) {
+                    c = c + 1;
+                }
+                if (3.0 < eva && eva <= 4.0) {
+                    d = d + 1;
+                }
+                if (4.0 < eva) {
+                    e = e + 1;
                 }
         }
         }

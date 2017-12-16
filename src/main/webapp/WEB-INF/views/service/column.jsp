@@ -1,13 +1,17 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Luckily
+  Date: 2017/12/9
+  Time: 17:32
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 
-    <title>个人流水账单下载</title>
-
+    <title>柱形图分析</title>
     <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
@@ -20,46 +24,60 @@
     <script src="${pageContext.request.contextPath}/js/system/exporting.js"></script>
     <%--时间控件--%>
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
+    <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
 
         $(function () {
+            var chart;
+            $('#int').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: ['≥40', '30~40', '20~30', '10~20', '0~10']
+                },
+                yAxis: {
+                    title: {
+                        text: '订单数量'
+                    }
+                },
+                series: [{
+                    name: '数量详情',
+                    data: [${ee}, ${dd}, ${cc}, ${bb}, ${aa}]
+                }]
+            });
 
-                lay('#version').html('-v' + laydate.v);
-                laydate.render({
-                    elem: '#end'
-                    , type: 'datetime'
-                });
-                laydate.render({
-                    elem: '#begin'
-                    , type: 'datetime'
-                });
-
+            lay('#version').html('-v' + laydate.v);
+            laydate.render({
+                elem: '#end'
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#begin'
+                , type: 'datetime'
+            });
         });
-        function getbill() {
+
+        function getColumn() {
             var login = "${sessionScope.account.username}"
-            if(login != '')
-            {
+            if (login != '') {
                 document.findaccorder.submit();
             }
-            else{
+            else {
                 alert("您尚未登录");
 
-                }
+            }
         }
-
-        //导出文件
-        function doExport(){
-            window.location.href = "${pageContext.request.contextPath}/service/exportXls";
-        }
-
     </script>
-
     <spring:url value="/" var="rootUrl"/>
     <spring:url value="/order" var="showOrderUrl"/>
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
-    <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+    <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="/logout" var="logoutUrl"/>
     <spring:url value="#" var="showProfileUrl"/>
     <spring:url value="/cart" var="showCartUrl"/>
@@ -71,7 +89,6 @@
     <spring:url value="/service/getAgreement" var="getAgreement"/>
     <spring:url value="/service/fanAnalysis?type=0" var="fan"/>
     <spring:url value="/service/fanAnalysis?type=1" var="column"/>
-
 
 </head>
 
@@ -126,103 +143,103 @@
             <div class="help-site" data-spy="affix" data-offset-top="84">
                 <ul class="">
                     <li><a href="${gethelp}">问题答疑</a></li>
-                    <li><a href="${getAccorder}" class="active">我的账单</a></li>
+                    <li><a href="${getAccorder}">我的账单</a></li>
                     <li><a href="${fan}">扇形分析</a></li>
-                    <li><a href="${column}">柱形分析</a></li>
+                    <li><a href="${column}" class="active">柱形分析</a></li>
                     <li><a href="${getAgreement}">网站规则</a></li>
                 </ul>
             </div>
-            <div class="help-content" >
-                <div style="padding-bottom: 25px;padding-top: 30px;">
-                <form class="form-inline" name="findaccorder"
-                      action="${pageContext.request.contextPath}/service/getAccountOrdersBetween"
-                      method="post">
-                    <table  width="100%">
-                        <tr>
-                            <th>请选择时间:</th>
-                            <td colspan="2">
-                                <input type="text" class="form-control input-lg" id="begin"
-                                       name="beginTime" style="min-width: 200px;max-width: 200px;"
-                                       placeholder="请输入开始时间">
-                            </td>
 
-                            <td>
-                                <input type="text" class="form-control input-lg" id="end"
-                                       name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">
-                            </td>
-                            <td>
-                                <button type="button" style="max-width: 150px;"
-                                        class="btn btn-lg" onclick="getbill();">查找
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" style="max-width: 150px;"
-                                        class="btn btn-lg" onclick="doExport();">导出到excel
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-                </div>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>订单号</th>
-                            <th>创建时间</th>
-                            <th>商店名称</th>
-                            <th>支付方式</th>
-                            <th>订单总额</th>
-                            <th>订单状态</th>
-                        </tr>
-                        <c:forEach items="${AccOrdersBetween}" var="list">
+            <div class="help-content">
+                <div style="padding-bottom: 25px;padding-top: 30px;">
+                    <form class="form-inline" name="findaccorder"
+                          action="${pageContext.request.contextPath}/service/fanAnalysis"
+                          method="post">
+                        <table width="100%">
                             <tr>
-                                <td>${list.orderNumber}</td>
-                                <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                <td>${list.shop.shopName}</td>
-                                <c:if test="${list.paymentMethod=='ONLINE'}">
-                                    <td>在线支付</td>
-                                </c:if>
-                                <c:if test="${list.paymentMethod=='OFFLINE'}">
-                                    <td>货到付款</td>
-                                </c:if>
-                                <td>${list.total}</td>
-                                <c:if test="${list.status=='UNPAID'}">
-                                    <td>未付款</td>
-                                </c:if>
-                                <c:if test="${list.status=='PAID'}">
-                                    <td>已付款</td>
-                                </c:if>
-                                <c:if test="${list.status=='CANCELED'}">
-                                    <td>已取消</td>
-                                </c:if>
-                                <c:if test="${list.status=='ACCEPTED'}">
-                                    <td>已接单</td>
-                                </c:if>
-                                <c:if test="${list.status=='DELIVERY'}">
-                                    <td>运送中</td>
-                                </c:if>
-                                <c:if test="${list.status=='COMPLETED'}">
-                                    <td>已完成</td>
-                                </c:if>
-                                <c:if test="${list.status=='AUDITING'}">
-                                    <td>审核中</td>
-                                </c:if>
-                                <c:if test="${list.status=='UNCOMPLETED'}">
-                                    <td>未完成</td>
-                                </c:if>
-                                <c:if test="${list.status=='EVALUATED'}">
-                                    <td>已评价</td>
-                                </c:if>
+                                <th>请选择时间:</th>
+                                <td colspan="2">
+                                    <input type="text" class="form-control input-lg" id="begin"
+                                           name="beginTime" style="min-width: 270px;max-width: 270px;"
+                                           placeholder="请输入开始时间">
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-control input-lg" id="end"
+                                           name="endTime" style="min-width: 270px;max-width: 270px;"
+                                           placeholder="请输入结束时间">
+                                </td>
+                                <td>
+                                    <input type="hidden" name="type" value="1">
+                                    <button type="button" style="max-width: 150px;"
+                                            class="btn btn-lg" onclick="getColumn();">查找
+                                    </button>
+                                </td>
 
                             </tr>
-                        </c:forEach>
-                    </table>
+                        </table>
+                    </form>
+                </div>
+                <div class="row " style="padding:1px; margin:0px;">
+                    <div class="col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style=" padding:3px;height:30px;">
+                                订单总体分布情况
+                            </div>
+                            <div class="panel-body" id="int">
 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style=" padding:3px;height:30px;">
+                                分布情况
+                            </div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>视图</th>
+                                    <th>模块</th>
+                                    <th>数量</th>
+                                </tr>
+
+                                <tr>
+                                    <td>总订单详情</td>
+                                    <td>40元以上</td>
+                                    <td>${ee}</td>
+                                </tr>
+                                <tr>
+                                    <td>总订单详情</td>
+                                    <td>30至40</td>
+                                    <td>${dd}</td>
+                                </tr>
+                                <tr>
+                                    <td>总订单详情</td>
+                                    <td>20至30</td>
+                                    <td>${cc}</td>
+                                </tr>
+                                <tr>
+                                    <td>总订单详情</td>
+                                    <td>10至20</td>
+                                    <td>${bb}</td>
+                                </tr>
+                                <tr>
+                                    <td>总订单详情</td>
+                                    <td>0至10</td>
+                                    <td>${aa}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
 
             </div>
-
         </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/service/help.js"></script>
 </body>
 </html>

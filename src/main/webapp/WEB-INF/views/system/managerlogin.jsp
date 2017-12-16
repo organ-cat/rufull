@@ -13,22 +13,23 @@
     <link href="${pageContext.request.contextPath}/css/system/signin.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/js/system/jquery-1.9.0.min.js" type="text/javascript"
             charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
     <script type="text/javascript">
-
-                var loginError = "${sessionScope.loginerror}";
-                if(loginError!=null)
-                {
-                    var txt=  "管理员登录信息不正确！";
-                    window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.error);
-                }
-
+        var loginError = "${loginerror}";
+        if(loginError!='') {
+            window.onload = function() {
+                swal("操作失败", "管理员信息不正确!", "error");
+            };
+        }
     </script>
 </head>
 <body>
 
 <div class="signin">
     <div class="signin-head "><img src="${pageContext.request.contextPath}/image/system/atm.png" class="imgsize"></div>
-    <form class="form-signin" role="form" action="${pageContext.request.contextPath}/adminLogin/Login">
+    <form class="form-signin" role="form" action="${pageContext.request.contextPath}/adminLogin/Login" method="post">
         <input type="text" name="loginname" class="form-control" placeholder="请填写用户名/手机号/邮箱" required autofocus/>
         <input type="password" name="password" class="form-control" placeholder="请填写密码" required/>
         <button class="btn btn-lg btn-warning btn-block" type="submit">登录</button>
