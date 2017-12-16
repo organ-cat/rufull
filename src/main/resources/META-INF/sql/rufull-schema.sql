@@ -252,10 +252,8 @@ CREATE TABLE MESSAGE (
   content VARCHAR(255),               /*消息内容*/
   status VARCHAR(255) NOT NULL,       /*消息状态*/
   order_id INT(11),                   /*订单id,外键,引用Order表*/
-  sender_id INT(11) NOT NULL,         /*发送方,外键,引用ACCOUNT表*/
-  receiver_id INT(11) NOT NULL,       /*接收方,外键,引用ACCOUNT表*/
+  sender_id INT(11) NOT NULL,         /*发送方*/
+  receiver_id INT(11) NOT NULL,       /*接收方*/
   PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES `ORDER` (id),
-  FOREIGN KEY (sender_id) REFERENCES ACCOUNT (id),
-  FOREIGN KEY (receiver_id) REFERENCES SHOP (id)
+  FOREIGN KEY (order_id) REFERENCES `ORDER` (id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;

@@ -75,11 +75,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void urgeOrder(Order order) {
-
-    }
-
-    @Override
     public void confirmOrder(Order order) {
         if (Order.STATUS_DELIVERY.equals(order.getStatus())) {
             order.setStatus(Order.STATUS_COMPLETED);
@@ -97,6 +92,16 @@ public class OrderServiceImpl implements OrderService {
             orderMapper.updateOrder(order);
         } else {
             throw new OrderException("该订单无法申请退单");
+        }
+    }
+
+    @Override
+    public void confirmRefund(Order order) {
+        if (Order.STATUS_AUDITING.equals(order.getStatus())) {
+            order.setStatus(Order.STATUS_UNCOMPLETED);
+            orderMapper.updateOrder(order);
+        } else {
+            throw new OrderException("该订单无法确认退单");
         }
     }
 

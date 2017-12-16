@@ -96,8 +96,15 @@ function searchByStationName() {
             $citypicker.citypicker('refresh');
         }
 
-        addressvalue = strs[1] + keyword;
-
+        if(strs.length==1) {
+            addressvalue = strs[0] + keyword;
+        }
+        if(strs.length==2) {
+            addressvalue = strs[1] + keyword;
+        }
+        if(strs.length==3) {
+            addressvalue = strs[2] + keyword;
+        }
         //alert( lng + "," + lat);
         map.centerAndZoom(poi.point, 15);
         var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat));  // 创建标注，为要查询的地方对应的经纬度
@@ -179,44 +186,21 @@ function setPlace() {
     local.search(myValue);
 }
 
+/**
+ * 判断用户地址是否在商家配送范围内
+ * @param accountPoint
+ * @param shopPoint
+ * @param scope
+ * @returns {boolean}
+ */
+function isWithinShippingScope(accountPoint, shopPoint, scope) {
+    if (!accountPoint || !shopPoint || !scope) return false;
 
-function getAddressPoin(accountAddress, shopAddress) {
-    var localSearch = new BMap.LocalSearch(map);
-    localSearch.setSearchCompleteCallback(
-        function (searchResult) {
-            var poi = searchResult.getPoi(0);
-            lng = poi.point.lng;
-            lat = poi.point.lat;
-
-        });
-    localSearch.search(accountAddress);
-
-    var localSearch2 = new BMap.LocalSearch(map);
-    localSearch2.setSearchCompleteCallback(
-        function (searchResult) {
-            var poi = searchResult.getPoi(0);
-            slng = poi.point.lng;
-            slat = poi.point.lat;
-        });
-    localSearch2.search(shopAddress);
-
-    //return (lng,lat,slng,slat);
+    // 获取两点距离
+    var distance = (map.getDistance(accountPoint, shopPoint)).toFixed(2);
+    // 距离在配送范围内,返回true,否则返回fasle
+    return distance <= scope * 1000
 }
-
-function comptoDistance(distance) {
-    var pointA = new BMap.Point(lng, lat);  // 创建点坐标A
-    var pointB = new BMap.Point(slng, slat);  // 创建点坐标B
-    //距离
-    var newdistance = (map.getDistance(pointA, pointB)).toFixed(2);
-    if (newdistance > distance * 1000) {
-        return false;
-    }
-    else(newdistance <= distance * 1000)
-    {
-        return true;
-    }
-}
-
 
 $('#searcher').click(function () {
     var region = document.getElementById("city").value;

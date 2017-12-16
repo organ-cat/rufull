@@ -16,6 +16,9 @@
     <spring:url value="/resources/css/bootstrap.css" var="bootstrap_css_url"/>
     <link rel="stylesheet" href="${bootstrap_css_url}"/>
 
+    <!-- bootstrapValidator css -->
+    <link href="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+
     <!-- normalize css -->
     <spring:url value="/resources/css/style.css" var="normalize_css_url"/>
     <link rel="stylesheet" href="${normalize_css_url}"/>
@@ -31,6 +34,16 @@
     <!-- bootstrap js -->
     <spring:url value="/resources/js/bootstrap.js" var="bootstrap_js_url"/>
     <script src="${bootstrap_js_url}" type="text/javascript"></script>
+
+    <!-- bootstrapValidator js -->
+    <script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+    <!-- mapInfo js -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi
+"></script>
+
+    <spring:url value="/resources/js/service/mapInfo.js" var="mapInfo_url"/>
+    <script src="${mapInfo_url}" type="text/javascript"></script>
 
     <title>个人中心_订单详情|饱了么网上订餐</title>
 
@@ -69,14 +82,6 @@
     <spring:url value="/cart/update" var="updateCartUrl"/>
     <spring:url value="/cart/checkout" var="checkoutUrl"/>
     <spring:url value="/account/address" var="addAddressUrl"/>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#orderSubmitBtn').click(function () {
-                $('#orderSubmitForm').submit();
-            });
-        });
-    </script>
 </head>
 <body>
 <!-- 导航条 -->
@@ -175,6 +180,7 @@
                                         <label class="btn btn-default">
                                             <input type="radio" name="address.id" value="${address.id}">
                                             <p>${address.receiver} ${address.phone}</p>
+                                            <p class="accountAddress">${address.location}</p>
                                             <p>${address.detail}</p>
                                         </label>
                                     </c:forEach>
@@ -210,7 +216,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button id="orderSubmitBtn" type="submit" class="btn btn-danger">确认下单</button>
+                                <button type="submit" class="btn btn-primary">确认下单</button>
                             </div>
                         </div>
                     </form:form>
@@ -247,5 +253,77 @@
         </div>
     </div>
 </footer>
+<script type="text/javascript">
+
+    var accountPoints = [];
+    var shopPoint = new BMap.Point();
+
+    var localSearch;
+    var address;
+
+    // 将用户所有地址转换成定位,并添加到数组中
+    <c:forEach var="address" items="${addresses}">
+        localSearch = new BMap.LocalSearch(map);
+        address = '${address.location}'; // 获取定位地址
+
+        // 定位,并添加到用户定位数组中
+        localSearch.setSearchCompleteCallback(
+            function (searchResult) {
+                var point = new BMap.Point();
+                var poi = searchResult.getPoi(0);
+                point.lng = poi.point.lng;
+                point.lat = poi.point.lat;
+                accountPoints['${address.id}'] = point;
+            });
+
+        localSearch.search(address);
+    </c:forEach>
+
+    // 定位商店地址
+    localSearch = new BMap.LocalSearch(map);
+    address = '${cart.address}';
+
+    localSearch.setSearchCompleteCallback(
+        function (searchResult) {
+            var poi = searchResult.getPoi(0);
+            shopPoint.lng = poi.point.lng;
+            shopPoint.lat = poi.point.lat;
+        });
+
+    localSearch.search(address);
+
+    $(document).ready(function() {
+        $('#orderSubmitForm').bootstrapValidator({
+            message: '输入的值无效',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                'address.id': {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择收货地址'
+                        },
+                        callback: {
+                            message: '您的收货地址不在商家配送范围内',
+                            callback: function(value, validator) {
+                                return isWithinShippingScope(accountPoints[value], shopPoint, ${shop.shippingDistance});
+                            }
+                        }
+                    }
+                },
+                paymentMethod: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择支付方式'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

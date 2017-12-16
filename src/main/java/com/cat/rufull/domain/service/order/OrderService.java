@@ -14,7 +14,7 @@ public interface OrderService {
      * @param accountId 用户id
      * @return orders 用户的所有订单
      */
-    public List<Order> findOrderByAccountId(Integer accountId);
+    List<Order> findOrderByAccountId(Integer accountId);
 
     /**
      * 查询用户的所有待评价订单
@@ -38,63 +38,62 @@ public interface OrderService {
      * @param id 订单id
      * @return 订单详情
      */
-    public Order findOrderById(Integer id);
+    Order findOrderById(Integer id);
 
     /**
      * 取消订单
      *
      * @param order 订单
      */
-    public void cancelOrder(Order order);
-
-    /**
-     * 催单
-     *
-     * @param order 订单
-     */
-    public void urgeOrder(Order order);
+    void cancelOrder(Order order);
 
     /**
      * 退单
      *
      * @param order 订单
      */
-    public void refundOrder(Order order);
+    void refundOrder(Order order);
+
+    /**
+     * 确认退单
+     * @param order 订单
+     */
+    void confirmRefund(Order order);
 
     /**
      * 取消退单
      *
      * @param order 订单
      */
-    public void cancelRefundOrder(Order order);
+    void cancelRefundOrder(Order order);
 
     /**
      * 确认收货
      *
      * @param order 订单
      */
-    public void confirmOrder(Order order);
+    void confirmOrder(Order order);
 
     /**
      * 下单
      *
      * @param order 包括商家信息的订单
      */
-    public void submitOrder(Order order);
+    void submitOrder(Order order);
 
     /**
      * 接单
      *
      * @param order 订单
      */
-    public void acceptOrder(Order order);
+    void acceptOrder(Order order);
 
     /**
      * 完成支付
      *
      * @param order 包括商家信息的订单
      */
-    public void paidOrder(Order order);
+    void paidOrder(Order order);
 
     /**
      * 根据开始时间和结束时间查询所有订单
@@ -103,7 +102,7 @@ public interface OrderService {
      * @param endDate
      * @return
      */
-    public List<Order> findOrdersBetween(Date beginDate, Date endDate);
+    List<Order> findOrdersBetween(Date beginDate, Date endDate);
 
     /**
      * 根据用户id,开始时间和结束时间查询个人订单
@@ -113,14 +112,14 @@ public interface OrderService {
      * @param endDate
      * @return
      */
-    public List<Order> findOrdersByAccountIdBetween(Integer accountId, Date beginDate, Date endDate);
+    List<Order> findOrdersByAccountIdBetween(Integer accountId, Date beginDate, Date endDate);
 
     /**
      * 查询所有订单
      *
      * @return
      */
-    public List<Order> findAllOrders();
+    List<Order> findAllOrders();
 
     /**
      * 根据商店id,订单状态查询订单
@@ -129,7 +128,7 @@ public interface OrderService {
      * @param orderStatus
      * @return
      */
-    public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus);
+    List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus);
 
     /**
      * 根据商家id,订单状态查询订单
@@ -137,7 +136,7 @@ public interface OrderService {
      * @param orderStatus
      * @return
      */
-    public List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus);
+    List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus);
 
     /**
      * 商家当月订单数

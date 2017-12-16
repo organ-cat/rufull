@@ -27,7 +27,7 @@ VALUES(1,'江爸爸','13413600394','广东省湛江市麻章区','广东海洋�
 INSERT INTO ADDRESS(id,receiver,phone,location,detail,status,account_id)
 VALUES(2,'钟儿子','12345567899','广东省湛江市麻章区','广东海洋大学海浪A',0,2);
 INSERT INTO ADDRESS(id,receiver,phone,location,detail,status,account_id)
-VALUES(3,'钟仔','12345678990','广东省湛江市麻章区','广东海洋大学海浪A',0,2);
+VALUES(3,'钟仔','12345678990','广东海洋大学海浪A616','广东海洋大学海浪A',0,2);
 
 /*管理员表数据*/
 INSERT INTO MANAGER(id,username,password,phone,email,photo,status,created_time,role)

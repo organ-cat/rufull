@@ -164,7 +164,8 @@
                                    data-id-field="id"
                                    data-page-list="[10, 25, 50, 100, ALL]"
                                    data-show-footer="false"
-                                   data-side-pagination="client"
+                                   data-side-pagination="server"
+                                   data-page-size="1"
                                    data-url="${showOrderUrl}/${ordersUrl}">
                             </table>
                         </div>
@@ -207,6 +208,12 @@
 
     function initTable() {
         $table.bootstrapTable({
+            queryParams: function (params) {
+                return {
+                    offset: params.offset,
+                    limit: params.limit,
+                }
+            },
             onLoadSuccess: function() {
                 $('#orderCancelBtn').click(function () {
                     $('#orderCancelForm').submit();
