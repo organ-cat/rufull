@@ -7,12 +7,14 @@ import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.order.OrderService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import net.sf.json.JSONArray;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -63,6 +65,7 @@ public class ServiceCenterController {
     public String getAgreement(){
         return "service/agreement";
     }
+
 
     /**
      * 根据时间段获得用户的订单数据

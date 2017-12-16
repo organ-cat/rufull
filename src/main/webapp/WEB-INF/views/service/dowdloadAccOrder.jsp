@@ -8,11 +8,11 @@
 
     <title>个人流水账单下载</title>
 
-    <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
+   <%-- <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
-    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap-theme.min.css">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="${pageContext.request.contextPath}/js/system/jquery-1.9.0.min.js"></script>
@@ -72,55 +72,82 @@
     <spring:url value="/service/fanAnalysis?type=0" var="fan"/>
     <spring:url value="/service/fanAnalysis?type=1" var="column"/>
 
+    <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        })
+    </script>
 
 </head>
 
 <body>
+<div>
+    <div>
+        <header class="topbar">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么" src=""></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
+                            <li ><a href="${showOrderUrl}">我的订单</a></li>
+                            <li><a href="${showCooperationUrl}">加盟合作</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
+                            <c:if test="${empty account}">
+                                <li class="hidden-sm hidden-md">
+                                    <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
+                                        登录/注册
+                                    </a></li>
+                            </c:if>
+
+                            <c:if test="${!empty account}">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">${account.nickname}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
+                                                                              aria-hidden="true"></span>个人中心</a></li>
+                                        <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
+                                                                           aria-hidden="true"></span>购物车</a></li>
+                                        <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
+                                                                            aria-hidden="true"></span>我的收藏</a></li>
+                                        <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
+                                                                              aria-hidden="true"></span>我的地址</a></li>
+                                        <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
+                                                                               aria-hidden="true"></span> 安全设置</a></li>
+                                        <li class="divider" role="separator"></li>
+                                        <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                            退出登录</a></li>
+                                    </ul>
+                                </li></c:if>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+    </div>
+</div>
 
 <div class="full-content-wrapper">
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么" src=""></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
-                    <li><a href="${showOrderUrl}">我的订单</a></li>
-                    <li><a href="${showCooperationUrl}">加盟合作</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">${account.nickname}<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
-                                                               aria-hidden="true"></span>购物车</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
-                                                                aria-hidden="true"></span>我的收藏</a></li>
-                            <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
-                                                                  aria-hidden="true"></span>我的地址</a></li>
-                            <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
-                                                                   aria-hidden="true"></span> 安全设置</a></li>
-                            <li class="divider" role="separator"></li>
-                            <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <div class="container">
         <div class="help">
             <div class="help-site" data-spy="affix" data-offset-top="84">

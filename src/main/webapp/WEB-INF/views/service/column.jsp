@@ -12,11 +12,17 @@
 <head>
 
     <title>柱形图分析</title>
-    <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
+   <%-- <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
-    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->--%>
+    <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap-theme.min.css">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="${pageContext.request.contextPath}/js/system/jquery-1.9.0.min.js"></script>
@@ -27,6 +33,11 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
+
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        })
 
         $(function () {
             var chart;
