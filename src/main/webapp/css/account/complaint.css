@@ -1,0 +1,14 @@
+@charset "UTF-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    margin: 0 auto;
+}
+.complaint {
+    margin: 0 auto;
+    width: 500px;
+    height: 600px;
+    background-color: #fff3d8;
+}

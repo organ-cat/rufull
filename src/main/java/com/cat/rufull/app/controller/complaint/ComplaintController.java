@@ -1,7 +1,9 @@
-package com.cat.rufull.app.controller.account;
+package com.cat.rufull.app.controller.complaint;
 
 import com.cat.rufull.domain.model.Complaint;
+import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.ComplaintService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,22 +26,26 @@ import java.util.UUID;
 public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
+    @Autowired
+    private ShopService shopService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ModelAndView complaintPage(@RequestParam("shopId") String shopId) {
+    public ModelAndView complaintPage(@RequestParam("shopId") int shopId) {
+        Shop shop = shopService.findById(shopId);
         ModelAndView view = new ModelAndView();
-        view.addObject("shopId", shopId);
-        view.setViewName("account/complaintPage");
-        return null;
+        view.addObject("shop", shop);
+        view.setViewName("account/complaint");
+        return view;
     }
 
     @RequestMapping(value = "/addComplaint", method = RequestMethod.POST)
-    public void addComplaint(@RequestParam("accountId") int accountId,
+    public String addComplaint(@RequestParam("accountId") int accountId,
                              @RequestParam("shopId") int shopId,
                              @RequestParam("type") int type,
                              @RequestParam("evidence") MultipartFile evidence,
                              @RequestParam("content") String content,
                              HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(accountId + shopId + type + content);
         String path = request.getServletContext().getRealPath("upload/comlaint");
         String fileName = UUID.randomUUID().toString().replaceAll("-", "")
                 + evidence.getOriginalFilename();
@@ -51,12 +57,13 @@ public class ComplaintController {
         Complaint complaint = new Complaint();
         complaint.setType(type);
         complaint.setContent(content);
-        complaint.setEvindence(fileName);
+        complaint.setevidence(fileName);
         complaint.setStatus(Complaint.COMPLAINTED);
         complaint.setCreatedTime(new Date());
+        complaint.setShopId(shopId);
+        complaint.setAccountId(accountId);
         complaintService.addComplaint(complaint);
-        returnMessage(response, "1");
-
+        return "index";
     }
 
     @RequestMapping(value = "/getComplaintByAccount", method = RequestMethod.GET)

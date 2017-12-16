@@ -6,20 +6,20 @@ a:hover{
     text-decoration:none;
 }
 #main {
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
 }
 
 #personalInfo{
     margin:0 auto ;
     width: 1070px;
     height:160px;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
 
 }
 .accountPhoto{
     height: 150px;
     width: 150px;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
     margin-left: 5px;
     margin-bottom: 10px;
     z-index: 1;
@@ -37,7 +37,7 @@ a:hover{
     margin: auto;
     height: 150px;
     width: 200px;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
     margin-left: 5px;
     margin-bottom: 10px;
     text-align: center;
@@ -87,7 +87,7 @@ a:hover{
 #footprint{
     width: auto;
     height: 350px;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
 }
 .shoplist{
     margin: 0 auto;
@@ -97,9 +97,12 @@ a:hover{
     width: 265px;
     height: 135px;
     float: left;
+    border: 1px solid #b7fccb;
     background-color: #FFFFFF;
 }
-
+.shoplist:hover {
+    border: 1px solid #0c9efc;
+}
 .deleteFootprint {
     position: relative;
     right: -120px;
@@ -116,7 +119,7 @@ a:hover{
     right: -120px;
     top: 0px;
     z-index: 10;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
     color: #000000;
     text-transform: none;
 }
@@ -159,7 +162,7 @@ a:hover{
 }
 .updateInPassworMessage {
     text-align: center;
-    color: #FFFFFF;
+    color: #F8F8F8;
     margin: auto;
     width: 400px;
     height: 35px;
@@ -255,21 +258,6 @@ a:hover{
     height: 150px;
     border-radius: 75px;
     background-color: #C5C5C5;
-}
-#choosePhoto {
-    font-size: 18px;
-    width: 500px;
-    height: 30px;
-    margin-left: 37px;
-    color: #00000000;
-    border: none;
-}
-#savePhoto {
-    font-size: 18px;
-    width: 86px;
-    height: 30px;
-    margin-top: 20px;
-    margin-left: 37px;
 }
 #username {
     font-size: 8px;

@@ -164,7 +164,7 @@ public class TestByJiang {
         Complaint complaint = new Complaint();
         complaint.setType(1);
         complaint.setContent(null);
-        complaint.setEvindence(null);
+        complaint.setevidence(null);
         complaint.setCreatedTime(new Date());
         complaint.setStatus(1);
         complaint.setCompletedTime(null);

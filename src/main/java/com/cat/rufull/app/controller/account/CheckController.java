@@ -1,9 +1,7 @@
 package com.cat.rufull.app.controller.account;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.common.util.ReturnCode;
-import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -329,18 +327,5 @@ public class CheckController {
             checkCode += arr[i];
         }
         return checkCode;
-    }
-
-    /**
-     * 发送手机验证码
-     * @param phone        用户的手机
-     * @param checkCode          验证码
-     */
-    public void sendSms(String phone, String checkCode) {
-        try {
-            SMS.sendSMS(phone, checkCode);
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
     }
 }

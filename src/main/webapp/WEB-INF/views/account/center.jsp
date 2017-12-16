@@ -65,11 +65,8 @@
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
-
     <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
-    <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
-
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
 
     <script type="text/javascript">
@@ -125,7 +122,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showFavorUrl}"?id=${account.id}><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
