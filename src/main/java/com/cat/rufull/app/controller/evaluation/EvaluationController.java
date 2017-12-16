@@ -1,7 +1,9 @@
 package com.cat.rufull.app.controller.evaluation;
 
 import com.cat.rufull.app.controller.payment.PaymentController;
+import com.cat.rufull.domain.mapper.order.OrderMapper;
 import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.order.OrderService;
 import com.cat.rufull.domain.service.shop.ShopService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,13 +38,16 @@ public class EvaluationController {
     private MessageSource messageSource;
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private AccountService accountService;
     private static final String SESSION_ACCOUNT = "account";
 
 
-
+    //添加评价
     @RequestMapping("/add_eval")
     public String add_eval(@ModelAttribute("orderEvaluation") OrderEvaluation orderEvaluation, Model uiModel){
-        //System.out.println(orderEvaluation);
         try {
             evaluationService.addEvaluation(orderEvaluation);
         }catch (Exception e){
@@ -52,13 +58,8 @@ public class EvaluationController {
         return "order/show";
     }
 
-    @RequestMapping("/findOrderEvaluation")
-    public String findOrderEvaluation(Integer id, Model model) throws Exception {
-        List<OrderEvaluation> orderEvaluation = evaluationService.findEvalByShopId(id);
-        model.addAttribute("orderEvaluation", orderEvaluation);
-        return "evaluation/evaluation";
-    }
 
+    //跳转到评价
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String createForm(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
         Account account = getSessionAccount(session); // 获取当前登录用户

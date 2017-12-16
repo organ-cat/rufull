@@ -1,7 +1,9 @@
 package com.cat.rufull.app.controller.shop;
 
 import com.cat.rufull.domain.common.util.ShopUtils;
+import com.cat.rufull.domain.model.OrderEvaluation;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import java.util.List;
 public class ShopController {
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private EvaluationService evaluationService;
 
     //去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
     @RequestMapping("addShopUI")
@@ -61,11 +65,23 @@ public class ShopController {
 
     //查看商家评价：小伟要自己写
     @RequestMapping(value = "showShopComments",method = RequestMethod.GET)
-    public String showBusinnessLicence(Integer id,ModelMap map){
+    public String showBusinnessLicence(Integer id, ModelMap map) throws Exception{
         //查找对应的商店
         Shop shopDetail = shopService.findById(id);
-
         map.put("shop",shopDetail);
+
+        //查询商店的全部评价
+        List<OrderEvaluation> orderEvaluations = evaluationService.findEvalByShopId(id);
+        map.put("orderEvaluations", orderEvaluations);
+
+        //查询商店满意的评价
+        List<OrderEvaluation> orderEvaluations1 = evaluationService.findEvalByShopId_Y(id);
+        map.put("orderEvaluations1", orderEvaluations1);
+
+        //查询商店不满意的评价
+        List<OrderEvaluation> orderEvaluations2 = evaluationService.findEvalByShopId_N(id);
+        map.put("orderEvaluations2", orderEvaluations2);
+
         return "shop/accountToShopComments";
     }
 

@@ -27,12 +27,11 @@
         <result column="eval_time" property="evalTime"/>
         <result column="shop_id" property="shopId"/>
 
-        <collection property="productEvaluations" resultMap="productEvalList">
+        <collection property="productEvaluations" resultMap="productEvalList"/>
 
-        </collection>
     </resultMap>
 
-    <!-- 根据商店id查询评价 -->
+    <!-- 根据商店id查询全部评价 -->
     <select id="findEvalByShopId" parameterType="Integer" resultMap="EvaluationDetail">
         SELECT oe.* ,
         pe.id AS productEvalId,
@@ -43,6 +42,34 @@
         WHERE shop_id = #{id}
         AND oe.order_id = pe.order_eval_id
 	    AND pe.item_id = li.id
+    </select>
+
+    <!-- 根据商店id查询满意的评价 -->
+    <select id="findEvalByShopId_Y" parameterType="Integer" resultMap="EvaluationDetail">
+        SELECT oe.* ,
+        pe.id AS productEvalId,
+        pe.score AS productEvalScore,
+        pe.comment AS productEvalComment,
+        li.*
+        FROM order_evaluation oe, product_evaluation pe, line_item li
+        WHERE shop_id = #{id}
+        AND oe.order_id = pe.order_eval_id
+        AND pe.item_id = li.id
+        AND oe.score &gt; 3
+    </select>
+
+    <!-- 根据商店id查询不满意的评价 -->
+    <select id="findEvalByShopId_N" parameterType="Integer" resultMap="EvaluationDetail">
+        SELECT oe.* ,
+        pe.id AS productEvalId,
+        pe.score AS productEvalScore,
+        pe.comment AS productEvalComment,
+        li.*
+        FROM order_evaluation oe, product_evaluation pe, line_item li
+        WHERE shop_id = #{id}
+        AND oe.order_id = pe.order_eval_id
+        AND pe.item_id = li.id
+        AND oe.score &lt;4
     </select>
 
     <!-- 插入订单评价 -->

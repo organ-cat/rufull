@@ -212,13 +212,11 @@
             <nav>
                 <ul class="nav nav-tabs nav-style" role="tablist">
                     <li role="presentation" class="active"><a href="#all"
-                                                              aria-controls="home" role="tab" data-toggle="tab">全部(1056)</a></li>
+                                                              aria-controls="home" role="tab" data-toggle="tab">全部</a></li>
                     <li role="presentation"><a href="#good" aria-controls="profile"
-                                               role="tab" data-toggle="tab">满意(533)</a></li>
+                                               role="tab" data-toggle="tab">满意</a></li>
                     <li role="presentation"><a href="#bad" aria-controls="messages"
-                                               role="tab" data-toggle="tab">不满意(56)</a></li>
-                    <li role="presentation"><a href="#images"
-                                               aria-controls="settings" role="tab" data-toggle="tab">有图(98)</a></li>
+                                               role="tab" data-toggle="tab">不满意</a></li>
                 </ul>
             </nav>
 
@@ -235,191 +233,307 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <ul role="tabpanel" class="tab-pane active" id="all">
-                    <li class="comment-left">
-					<span class="commentitem-left-img">
+                    <%--<li class="comment-left">--%>
+					<%--<span class="commentitem-left-img">
 						<img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
-					</span>
+					</span>--%>
+                        <c:forEach items="${orderEvaluations}" var="orderEval">
+                        <li class="comment-left">
+                            <div class="comment_right">
+                                <span class="commentitem-left-img">
+                                    <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
+                                </span>
+                                <h4>匿**户</h4>
+                                <div class="comment_right_div">
+                                    <p>
+                                        <c:choose>
+                                            <c:when test="${orderEval.score == 1}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 2}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 3}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 4}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 5}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                         </c:choose>
+                                        <br/>
+                                        ${orderEval.comment}
+                                        <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
+                                    </p>
+                                    <span class="comment_date">${orderEval.evalTime}</span>
 
-                        <div class="comment_right">
-                            <h4>匿**户</h4>
-
-                            <div class="comment_right_div">
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain">30分钟送达</span>
-                                </p>
-
-                                <span class="comment_date">2017年12月6日13:12:44</span>
-
+                                </div>
+                                <c:forEach items="${orderEval.productEvaluations}" var="proEval">
+                                    <div class="comment_right_div">
+                                        <p>
+                                            <span>${proEval.item.productName}</span>
+                                            <c:choose>
+                                                <c:when test="${proEval.score == 1}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 2}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 3}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 4}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 5}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                            </c:choose>
+                                            <br/>
+                                            ${proEval.comment}
+                                            <%--<span class="comment_right_content_margain"><a>查看商品</a></span>--%>
+                                        </p>
+                                    </div>
+                                    <hr/>
+                                </c:forEach>
                             </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>香辣鸡扒</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>北京烤鸭</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-                <ul role="tabpanel" class="tab-pane" id="good">
-                    <li class="comment-left">
-					<span class="commentitem-left-img">
-						<img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
-					</span>
-
-                        <div class="comment_right">
-                            <h4>匿*********户</h4>
-
-                            <div class="comment_right_div">
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain">30分钟送达</span>
-                                </p>
-
-                                <span class="comment_date">2017年12月6日13:12:44</span>
-
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>香辣鸡扒</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>北京烤鸭</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-
-                <ul role="tabpanel" class="tab-pane" id="bad">
-
-                    <li class="comment-left">
-					<span class="commentitem-left-img">
-						<img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
-					</span>
-
-                        <div class="comment_right">
-                            <h4>匿****户</h4>
-
-                            <div class="comment_right_div">
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain">30分钟送达</span>
-                                </p>
-
-                                <span class="comment_date">2017年12月6日13:12:44</span>
-
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>香辣鸡扒</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>北京烤鸭</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                        </c:forEach>
                 </ul>
 
-                <ul role="tabpanel" class="tab-pane" id="images">
+                <ul role="tabpanel" class="tab-pane active" id="good">
+                    <%--<li class="comment-left">--%>
+                    <%--<span class="commentitem-left-img">
+                        <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
+                    </span>--%>
+                    <c:forEach items="${orderEvaluations1}" var="orderEval">
+                        <li class="comment-left">
+                            <div class="comment_right">
+                                <span class="commentitem-left-img">
+                                    <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
+                                </span>
+                                <h4>匿**户</h4>
+                                <div class="comment_right_div">
+                                    <p>
+                                        <c:choose>
+                                            <c:when test="${orderEval.score == 1}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 2}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 3}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 4}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 5}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                        </c:choose>
+                                        <br/>
+                                            ${orderEval.comment}
+                                            <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
+                                    </p>
+                                    <span class="comment_date">${orderEval.evalTime}</span>
 
-                    <li class="comment-left">
-					<span class="commentitem-left-img">
-						<img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
-					</span>
-
-                        <div class="comment_right">
-                            <h4>匿******户</h4>
-
-                            <div class="comment_right_div">
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain">30分钟送达</span>
-                                </p>
-
-                                <span class="comment_date">2017年12月6日13:12:44</span>
-
+                                </div>
+                                <c:forEach items="${orderEval.productEvaluations}" var="proEval">
+                                    <div class="comment_right_div">
+                                        <p>
+                                            <span>${proEval.item.productName}</span>
+                                            <c:choose>
+                                                <c:when test="${proEval.score == 1}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 2}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 3}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 4}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 5}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                            </c:choose>
+                                            <br/>
+                                                ${proEval.comment}
+                                                <%--<span class="comment_right_content_margain"><a>查看商品</a></span>--%>
+                                        </p>
+                                    </div>
+                                    <hr/>
+                                </c:forEach>
                             </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>香辣鸡扒</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                            <div class="comment_right_div">
-                                <p>
-                                    <span>北京烤鸭</span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    <span class="comment_right_content_margain">满意</span>
-                                    <span class="comment_right_content_margain"><a>查看商品</a></span>
-                                </p>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    </c:forEach>
                 </ul>
 
+                <ul role="tabpanel" class="tab-pane active" id="bad">
+                    <%--<li class="comment-left">--%>
+                    <%--<span class="commentitem-left-img">
+                        <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
+                    </span>--%>
+                    <c:forEach items="${orderEvaluations2}" var="orderEval">
+                        <li class="comment-left">
+                            <div class="comment_right">
+                                <span class="commentitem-left-img">
+                                    <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
+                                </span>
+                                <h4>匿**户</h4>
+                                <div class="comment_right_div">
+                                    <p>
+                                        <c:choose>
+                                            <c:when test="${orderEval.score == 1}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 2}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 3}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">不满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 4}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                            <c:when test="${orderEval.score == 5}">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="comment_right_content_margain">满意</span>
+                                            </c:when>
+                                        </c:choose>
+                                        <br/>
+                                            ${orderEval.comment}
+                                            <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
+                                    </p>
+                                    <span class="comment_date">${orderEval.evalTime}</span>
+
+                                </div>
+                                <c:forEach items="${orderEval.productEvaluations}" var="proEval">
+                                    <div class="comment_right_div">
+                                        <p>
+                                            <span>${proEval.item.productName}</span>
+                                            <c:choose>
+                                                <c:when test="${proEval.score == 1}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 2}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 3}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">不满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 4}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                                <c:when test="${proEval.score == 5}">
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                                    <span class="comment_right_content_margain">满意</span>
+                                                </c:when>
+                                            </c:choose>
+                                            <br/>
+                                                ${proEval.comment}
+                                                <%--<span class="comment_right_content_margain"><a>查看商品</a></span>--%>
+                                        </p>
+                                    </div>
+                                    <hr/>
+                                </c:forEach>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
             </div>
         </article>
 

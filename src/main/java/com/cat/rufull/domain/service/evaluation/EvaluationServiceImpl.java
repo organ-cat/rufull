@@ -34,10 +34,22 @@ public class EvaluationServiceImpl implements EvaluationService {
         evaluationMapper.addProductEval(lists);
     }
 
-    //根据商店id查询评价
+    //根据商店id查询全部评价
     @Override
     public List<OrderEvaluation> findEvalByShopId(Integer id) throws Exception {
         return evaluationMapper.findEvalByShopId(id);
+    }
+
+    //根据商店id查询满意的评价
+    @Override
+    public List<OrderEvaluation> findEvalByShopId_Y(Integer id) throws Exception {
+        return evaluationMapper.findEvalByShopId_Y(id);
+    }
+
+    //根据商店id查询不满意评价
+    @Override
+    public List<OrderEvaluation> findEvalByShopId_N(Integer id) throws Exception {
+        return evaluationMapper.findEvalByShopId_N(id);
     }
 
 }
