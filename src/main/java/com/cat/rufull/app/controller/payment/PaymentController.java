@@ -99,7 +99,7 @@ public class PaymentController {
             //转发到第三方支付界面
             return "redirect:"+ pay.toString();
         }else{                                        //判断为货到付款
-            return complete(orderNumber);
+            return "redirect:/order/" + order.getId();
         }
 
     }
@@ -116,29 +116,18 @@ public class PaymentController {
     public String callBack(Model model, Integer r1_Code, String r6_Order, double r3_Amt){
 
         if(r1_Code == 1){ //支付结果：成功，跳转完成支付
-            //model.addAttribute("id",r6_Order);
-            return complete(r6_Order);
+            /*model.addAttribute("id",r6_Order);
+            return complete(r6_Order);*/
+            Order order = orderService.findOrderByOrderNumber(r6_Order);
+            //System.out.println(order);
+            orderService.paidOrder(order);
+            return "redirect:/order/" + order.getId();
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);
             return "payment/error";
         }
 
-    }
-
-    /**
-     * 完成支付,跳转订单详情页面
-     * @param r6_Order
-     * @return
-     */
-    @RequestMapping(value = "/complete/{id}", method = RequestMethod.POST)
-    //@PathVariable("id") Integer id
-    public String complete(String r6_Order) {
-        System.out.println(r6_Order);
-        Order order = orderService.findOrderByOrderNumber(r6_Order);
-        orderService.paidOrder(order);
-
-        return "redirect:/order/{id}";
     }
 
     /**
