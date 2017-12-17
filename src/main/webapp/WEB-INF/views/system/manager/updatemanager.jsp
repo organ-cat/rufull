@@ -24,10 +24,10 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         .sgBtn {
             width: 135px;
@@ -44,7 +44,29 @@
     </style>
     <script type="text/javascript">
         function submitform() {
-            document.Infoform.submit();
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要更新吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    document.Infoform.submit();
+                });
+        }
+        var updateerror = "${updateerror}";
+        var logerror = "${logerror}";
+        if(logerror!='') {
+            window.onload = function() {
+                swal("操作失败", "插入日志出错!", "error");
+            };
+        }
+        if(updateerror!='') {
+            window.onload = function() {
+                swal("操作失败", "更新管理员失败!", "error");
+            };
         }
     </script>
 </head>
@@ -57,7 +79,8 @@
             </div>
             <div class="panel-body" id="imgSrc">
                 <p><label></label>
-                    <img id="imgSize1ImgSrc" src="${pageContext.request.contextPath}/upload/manager/${requestScope.manager.photo}"  height="150px" width="120px"/>
+                    <img id="imgSize1ImgSrc" src="${pageContext.request.contextPath}/upload/manager/${requestScope.manager.photo}"
+                         height="150px" width="120px" class="img-thumbnail"/>
                 </p>
             </div>
         </div>
@@ -83,7 +106,7 @@
                    value="${requestScope.manager.email}" name=" email"  placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 343px" >
         <div class="form-group">
             <label style="font-size: 20px;" >创建的时间:</label>
             <label style="font-size: 20px;" >

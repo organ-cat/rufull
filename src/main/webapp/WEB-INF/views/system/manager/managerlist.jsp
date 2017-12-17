@@ -25,28 +25,52 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript"
-            charset="utf-8"></script>
 
     <script type="text/javascript">
         function getManager(id) {
             window.location.href="${pageContext.request.contextPath}/manager/getManager?id="+id;
         }
         function delManager(id) {
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要删除吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
             window.location.href="${pageContext.request.contextPath}/manager/delManager?id="+id;
-        }
-        function redelManager(id) {
+        });}
+
+        function redelManager(id) {swal({
+                title: "确定操作吗？",
+                text: "你确定要恢复吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
             window.location.href="${pageContext.request.contextPath}/manager/redelManager?id="+id;
-        }
-        function findManager() {
+        });}
+        function findManagers() {
             document.findManager.submit();
         }
 
+        var logerror = "${logerror}";
+        var addMsuccess = "${addMsuccess}";
+        var updatesuccess = "${updatesuccess}";
+        var delsuccess = "${delsuccess}";
+        var delerror = "${delerror}";
+        var redelsuccess = "${redelsuccess}";
+        var redelerror = "${redelerror}";
     </script>
+    <script src="${pageContext.request.contextPath}/js/system/mymanagealert.js"></script>
 
 </head>
 <body>
@@ -56,8 +80,8 @@
 
             <input type="text"  class="form-control input-lg"
                  id="findname"  name="findname" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
-        <button type="submit" style="max-width: 150px;"
-                class="btn btn-lg" onclick="findManager();">查找</button>
+        <button type="button" style="max-width: 150px;"
+                class="btn btn-lg" onclick="findManagers();">查找</button>
     </div>
     </div>
 </form>

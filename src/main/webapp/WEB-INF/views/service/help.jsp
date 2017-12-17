@@ -7,11 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 
-    <title>帮助中心-help.html</title>
+    <title>帮助中心</title>
 
     <spring:url value="/" var="rootUrl"/>
     <spring:url value="/order" var="showOrderUrl"/>
@@ -24,69 +25,182 @@
     <spring:url value="/favor" var="showFavorUrl"/>
     <spring:url value="/address" var="showAddressUrl"/>
     <spring:url value="/security" var="showSecurityUrl"/>
+    <spring:url value="/service/gethelp" var="gethelp"/>
+    <spring:url value="/service/getAccorder" var="getAccorder"/>
+    <spring:url value="/service/getAgreement" var="getAgreement"/>
+    <spring:url value="/service/fanAnalysis?type=0" var="fan"/>
+    <spring:url value="/service/fanAnalysis?type=1" var="column"/>
 
     <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
+
+    <script src="${pageContext.request.contextPath}/js/account/login-register.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
+    <script type="text/javascript">
+        function loginerror() {
+                swal("操作失败", "用户尚未登录!", "error");
+                }
+            $("body").css("width", window.innerWidth);
+            $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        })
+    </script>
 </head>
 
 <body>
 
-<div class="full-content-wrapper">
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么" src=""></a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
-                    <li class="active"><a href="${showOrderUrl}">我的订单</a></li>
-                    <li><a href="${showCooperationUrl}">加盟合作</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">${account.nickname}<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
-                                                               aria-hidden="true"></span>购物车</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
-                                                                aria-hidden="true"></span>我的收藏</a></li>
-                            <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
-                                                                  aria-hidden="true"></span>我的地址</a></li>
-                            <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
-                                                                   aria-hidden="true"></span> 安全设置</a></li>
-                            <li class="divider" role="separator"></li>
-                            <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
+<div class="container">
+    <div class="modal fade login" id="loginModal">
+        <div class="modal-dialog login animated">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">登陆方式</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="content">
+
+                            <div class="division">
+                                <div class="line l"></div>
+                                <span>其中一个方式</span>
+                                <div class="line r"></div>
+                            </div>
+                            <div class="error"></div>
+                            <div class="form loginBox">
+
+                                <form method="post" accept-charset="UTF-8">
+                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+
+                                    <div id="hideDiv">
+                                        <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                        <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
+                                    </div>
+
+                                    <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="content registerBox" style="display:none;">
+                            <div class="form">
+                                <!--使用了c标签-->
+                                <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
+                                <form method="post" action="">
+                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                    <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                    <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                    <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                    <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                    <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="forgot login-footer">
+                            <span>打算
+                                 <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
+                            </span>
+                    </div>
+                    <div class="forgot register-footer" style="display:none">
+                        <span>已经有一个账号？</span>
+                        <a href="javascript: showLoginForm();" class="alink">登陆</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
+<div>
+    <div>
+        <header class="topbar">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么" src=""></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
+                            <li ><a href="${showOrderUrl}">我的订单</a></li>
+                            <li><a href="${showCooperationUrl}">加盟合作</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
+                                <c:if test="${empty account}">
+                                    <li class="hidden-sm hidden-md">
+                                        <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
+                                            登录/注册
+                                        </a></li>
+                                </c:if>
+
+                                <c:if test="${!empty account}">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">${account.nickname}<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
+                                                                          aria-hidden="true"></span>个人中心</a></li>
+                                    <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
+                                                                       aria-hidden="true"></span>购物车</a></li>
+                                    <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
+                                                                        aria-hidden="true"></span>我的收藏</a></li>
+                                    <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
+                                                                          aria-hidden="true"></span>我的地址</a></li>
+                                    <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
+                                                                           aria-hidden="true"></span> 安全设置</a></li>
+                                    <li class="divider" role="separator"></li>
+                                    <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                        退出登录</a></li>
+                                </ul>
+                            </li></c:if>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+    </div>
+</div>
+
+<div class="full-content-wrapper">
     <div class="container">
         <div class="help">
             <div class="help-site" data-spy="affix" data-offset-top="84">
-                <ul class="">
-                    <li><a href="help.html" class="active">问题答疑</a></li>
-                    <li><a href="help.html/payment">我的账单</a></li>
-                    <li><a href="help.html/hasten">扇形分析</a></li>
-                    <li><a href="help.html/aftersales">柱形分析</a></li>
-                    <li><a href="help.html/rules">网站规则</a></li>
-                </ul>
-            </div>
+            <ul class="">
+                <li><a href="${gethelp}" class="active">问题答疑</a></li>
+                <c:if test="${!empty account}">
+                <li><a href="${getAccorder}" >我的账单</a></li>
+                <li><a href="${fan}" >扇形分析</a></li>
+                <li><a href="${column}">柱形分析</a></li>
+                </c:if>
+                <c:if test="${empty account}">
+                    <li><a  href="javascript:void(0);" onclick="loginerror();" >我的账单</a></li>
+                    <li><a href="javascript:void(0);" onclick="loginerror();" >扇形分析</a></li>
+                    <li><a href="javascript:void(0);" onclick="loginerror();" >柱形分析</a></li>
+                </c:if>
+                <li><a href="${getAgreement}">网站规则</a></li>
+            </ul>
+        </div>
             <div class="help-content">
                 <h1>热门问题</h1>
                 <ul class="answer-list">
@@ -158,7 +272,7 @@
                             </li>
                             <li id="Q14"><h4>我第一次在“A”餐厅下单，“A”餐厅有参加“1st”活动，我为什么享受不到新用户的立减优惠？</h4>
                                 <p>活动中的新用户指的是吃货宝网站的新用户，而不是指“A”餐厅的新客户。如果您不符合吃货宝网站新用户的定义则无法享受于新用户相关的活动优惠。</p></li>
-                        </ul>l> </li>
+                        </ul> </li>
                             <li><h3>订餐问题</h3>
                                 <ul class="ouranswer-sub-list">
                                     <li id="Q15"><h4>下单后，餐厅长时间未确认订单，怎么办？</h4>
@@ -200,6 +314,5 @@
         </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/service/help.js"></script>
 </body>
 </html>

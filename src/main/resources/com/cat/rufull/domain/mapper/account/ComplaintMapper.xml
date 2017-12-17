@@ -99,7 +99,10 @@
         SELECT *
         FROM
         COMPLAINT
-        WHERE 1 = 1
+        WHERE
+        1 = 1
+        AND
+        COMPLAINT.status = 3
         <if test="creatTime != null">
             AND COMPLAINT.created_time &gt; #{creatTime}
         </if>

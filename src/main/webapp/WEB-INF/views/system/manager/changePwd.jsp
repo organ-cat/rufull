@@ -22,9 +22,10 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <style type="text/css">
         .sgBtn {
             width: 135px;
@@ -45,16 +46,15 @@
                 type: 'POST',
                 url: '${pageContext.request.contextPath }/manager/checkPwd',
                 dataType: 'text',
-                data: {
-                    password : document.getElementById("password").value
-                },
+                /*data: {
+                    password: document.getElementById("password").value
+                },*/
                 success: function (data) {
                     var jsonObj = JSON.stringify(data);
+                    //alert(jsonObj=="\"00\"");
                     //var jsonObj = $.parseJSON(data);
-                    if(jsonObj == "\"0\"")
-                    {
-                        var txt=  "原密码错误！";
-                        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.error);
+                    if (jsonObj == "\"00\"") {
+                        swal("操作失败", "原密码错误!", "error");
                     }
                 }
             };
@@ -66,18 +66,16 @@
                 type: 'POST',
                 url: '${pageContext.request.contextPath }/manager/repeatPwd',
                 dataType: 'text',
-                data: {
-                    pwd1 : document.getElementById("pwd1").value,
-                    pwd2 : document.getElementById("pwd2").value
-                },
+                /*data: {
+                    pwd1: document.getElementById("pwd1").value,
+                    pwd2: document.getElementById("pwd2").value
+                },*/
                 success: function (data) {
                     var jsonObj = JSON.stringify(data);
                     //alert(jsonObj);
                     //var jsonObj = $.parseJSON(data);
-                    if(jsonObj == "\"0\"")
-                    {
-                        var txt=  "重复密码不一致！";
-                        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.error);
+                    if (jsonObj == "\"00\"") {
+                        swal("操作失败", "重复密码不一致!", "error");
                     }
                 }
             };
@@ -85,36 +83,63 @@
         };
 
         function submitform() {
-            document.Infoform.submit();
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要修改密码吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    document.Infoform.submit();
+                });
+        }
+
+        var repetpwd = "${repetpwd}";
+        var editpwdsuccess = "${editpwdsuccess}";
+        var editpwderror = "${editpwderror}";
+
+        if (repetpwd != '') {
+            window.onload = function () {
+                swal("操作失败", "重复密码不一致!", "error");
+            };
+        }
+
+        if (editpwderror != '') {
+            window.onload = function () {
+                swal("操作失败", "修改密码失败!", "error");
+            };
         }
     </script>
 </head>
 <body>
 
-<form id="ManagerForm" name="Infoform" class="form-inline" action="${pageContext.request.contextPath}/manager/editManagerInfo" method="post" enctype="multipart/form-data">
+<form id="ManagerForm" name="Infoform" class="form-inline" action="${pageContext.request.contextPath}/manager/editPwd"
+      method="post" enctype="multipart/form-data">
 
     <div class="col-sm-8" style="padding-top: 150px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="password">原来密码:</label>
             <input type="password" class="form-control input-lg" style="min-width: 450px;" id="password"
-                   name = "password" placeholder="请输入旧密码！" onblur="checkold();">
+                   name="password" placeholder="请输入旧密码！" onblur="checkold();">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="pwd1">新的密码:</label>
             <input type="password" class="form-control input-lg" style="min-width: 450px;" id="pwd1"
-                 name="pwd1"  placeholder="请输入新密码">
+                   name="pwd1" placeholder="请输入新密码">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="pwd2">重复密码:</label>
             <input type="password" class="form-control input-lg" style="min-width: 450px;" id="pwd2"
-                    name=" pwd2" onblur="checkrepeat();"  placeholder="重复输入新的密码">
+                   name=" pwd2" onblur="checkrepeat();" placeholder="重复输入新的密码">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group" style="padding-left: 400px;">
             <input type="button" onclick="submitform();" class="sgBtn" value="确定修改">
         </div>

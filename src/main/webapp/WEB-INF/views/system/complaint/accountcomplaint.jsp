@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>审核商家入驻</title>
+    <title>审核投诉详情</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
@@ -23,6 +23,10 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <style type="text/css">
         .pic {
             width: 200px;
@@ -45,16 +49,48 @@
     </style>
 </head>
 <script>
-    function passexamine(id) {
-        window.location.href = "${pageContext.request.contextPath}/manageShop/examineShop?id=" + id;
+    function passcomp(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要一键审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
+        window.location.href = "${pageContext.request.contextPath}/ManageCom/replyComp?id=" + id;
+    });
     }
-    function notpassexamine(id) {
-        window.location.href = "${pageContext.request.contextPath}/manageShop/examineNotPass?id=" + id;
+    function notpasscomp(id) {
+        swal({
+                title: "确定操作吗？",
+                text: "你确定要一键审核吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00FF00',
+                confirmButtonText: 'sure'
+            },
+            function () {
+        window.location.href = "${pageContext.request.contextPath}/ManageCom/replyfalseComp?id=" + id;
+    });
+    }
+    var replyerror = "${replyerror}";
+    if(replyerror!='') {
+        window.onload = function() {
+            swal("操作失败", "回复用户的投诉信息失败!", "error");
+        };
     }
 </script>
 <body>
 <div class="col-sm-9">
-    <div class="col-sm-4" style="padding-top: 40px;">
+    <div class="col-sm-12" style="align:center;">
+
+        <label style="font-size: 20px;">
+            <h2>审核投诉</h2>
+        </label>
+    </div>
+    <div class="col-sm-6" style="padding-top: 30px;">
 
         <label style="font-size: 20px;">
             投诉者姓名：
@@ -63,7 +99,7 @@
             ${account.username}
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 40px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             投诉者电话：
         </label>
@@ -71,7 +107,7 @@
             ${account.phone}
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 40px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             被投诉商家姓名：
         </label>
@@ -79,7 +115,7 @@
             ${shop.business.account.username}
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 50px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             商店名称：
         </label>
@@ -87,7 +123,7 @@
             ${shop.shopName}
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 50px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             商店地址：
         </label>
@@ -95,7 +131,7 @@
             ${shop.address}
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 50px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             投诉类型：
         </label>
@@ -111,7 +147,7 @@
             </c:if>
         </label>
     </div>
-    <div class="col-sm-4" style="padding-top: 50px;">
+    <div class="col-sm-6" style="padding-top: 30px;">
         <label style="font-size: 20px;">
             投诉内容：
         </label>
@@ -119,12 +155,20 @@
             ${managecomp.content}
         </label>
     </div>
+    <div class="col-sm-6" style="padding-top: 30px;">
+        <label style="font-size: 20px;">
+            创建时间：
+        </label>
+        <label style="font-size: 20px;">
+            <td><fmt:formatDate value="${managecomp.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+        </label>
+    </div>
 
-    <div class="col-sm-4" style="padding-top: 50px;">
+    <div class="col-sm-4" style="padding-top: 30px;">
         <div class="panel panel-default">
-            <div class="panel-heading" style=" padding:3px;height:30px;">
+            <label style="font-size: 20px;">
                 照片实例：：
-            </div>
+            </label>
             <div class="panel-body">
                 <p><label></label>
                     <img src="${pageContext.request.contextPath}/upload/complaint/${managecomp.evindence}"
@@ -136,15 +180,15 @@
 </div>
     <div class="col-sm-3">
 
-        <div class="col-sm-3" style="padding-top:100px;">
+        <div class="col-sm-3" style="padding-top:200px;">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary picbtn"
-                        onclick="passcomp(${requestScope.mbusiness.id})">符合事实
+                        onclick="passcomp(${managecomp.id})">符合事实
                 </button>
             </div>
             <div class="col-sm-12" style="margin-top: 160px;">
                 <button type="button" class="btn btn-warning picbtn"
-                        onclick="notpasscomp(${requestScope.mbusiness.id})">不符合事实
+                        onclick="notpasscomp(${managecomp.id})">违背事实
                 </button>
             </div>
         </div>

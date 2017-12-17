@@ -58,11 +58,6 @@
                 }]
             });
 
-            function findorderd() {
-                document.findorders.submit();
-            }
-
-
             lay('#version').html('-v'+ laydate.v);
             laydate.render({
                 elem: '#end'
@@ -73,6 +68,9 @@
                 ,type: 'datetime'
             });
         });
+        function findorderd() {
+            document.findorders.submit();
+        }
     </script>
 </head>
 
@@ -84,7 +82,7 @@
         <li>折线分析</li>
     </ul>
 </div>
-<form class="form-inline" name="findorders" action="${pageContext.request.contextPath}/manageData/getOrdersByTime?type=1"
+<form class="form-inline" name="findorders" action="${pageContext.request.contextPath}/manageData/getOrdersByTime?type=3"
       method="post">
     <div class="col-sm-12">
         <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
@@ -94,7 +92,7 @@
             <input type="text" class="form-control input-lg" id="end"
                    name="end" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
-            &nbsp;&nbsp;<button type="submit" style="max-width: 150px;"
+            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
                                 class="btn btn-lg" onclick="findorderd();">查找
         </button>
 

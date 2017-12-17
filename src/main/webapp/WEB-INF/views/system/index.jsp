@@ -43,6 +43,7 @@
     <spring:url value="manageData/getShops?type=2" var="getShops2"></spring:url>
     <spring:url value="manageData/getShops?type=3" var="getShops3"></spring:url>
     <spring:url value="ManageCom/findAllComp" var="findAllComp"></spring:url>
+    <spring:url value="ManageCom/findSuccessComp" var="findSuccessComp"></spring:url>
 
 </head>
 
@@ -274,7 +275,7 @@
                         <li><a href="${findAllComp}" target="mainframe"> <i
                                 class="icon-double-angle-right"></i> 未处理信息
                         </a></li>
-                        <li><a href="${findAllComp}" target="mainframe"> <i
+                        <li><a href="${findSuccessComp}" target="mainframe"> <i
                                 class="icon-double-angle-right"></i> 已处理信息
                         </a></li>
 

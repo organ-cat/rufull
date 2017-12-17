@@ -25,11 +25,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript"
-            charset="utf-8"></script>
     <script type="text/javascript">
         function getreturn() {
             history.go(-1);
@@ -79,7 +74,7 @@
 <div class="col-sm-6" style="padding-top:20px;padding-left: 150px;">
     <div class="form-group">
         <label style="font-size: 20px;">下单时间：</label>
-        <label style="font-size: 20px;"
+        <label style="font-size: 20px;">
         <fmt:formatDate value="${morder.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
         </label>
     </div>

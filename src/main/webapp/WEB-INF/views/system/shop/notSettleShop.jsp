@@ -24,11 +24,35 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
 </head>
 <script>
     function examineShop(id) {
         window.location.href="${pageContext.request.contextPath}/manageShop/getBusiness?id="+id;
     }
+    var logerror = "${logerror}";
+    var examsuccess = "${examsuccess}";
+    var npexamsuccess = "${npexamsuccess}";
+
+    if(logerror!='') {
+        window.onload = function() {
+            swal("操作失败", "插入日志出错!", "error");
+        };
+    }
+    if(examsuccess!='') {
+        window.onload = function() {
+            swal("操作成功", "审核商家成功!", "success");
+        };
+    }
+    if(npexamsuccess!='') {
+        window.onload = function() {
+            swal("操作成功", "审核商家成功!", "success");
+        };
+    }
+
 </script>
 
 <body>

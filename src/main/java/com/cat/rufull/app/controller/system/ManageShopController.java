@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,17 +76,12 @@ public class ManageShopController {
     @RequestMapping("/examineShop")
     public String examineShop(Integer id, HttpSession session, RedirectAttributes attr,
                               Model model) throws Exception {
-        session.removeAttribute("examerror");
-        session.removeAttribute("examsuccess");
-        session.removeAttribute("logerror");
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        //int i = businessService.updateById(business);
-        //int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
-            session.setAttribute("examsuccess", "审核成功!");
+            attr.addFlashAttribute("examsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核通过！");
@@ -97,12 +93,13 @@ public class ManageShopController {
                 return "redirect:getNotSettledBusiness";
             } else
                 model.addAttribute("mbusiness", business);
-            session.setAttribute("logerror", "写入日志失败");
+            attr.addFlashAttribute("logerror", "写入日志失败");
             return "redirect:getNotSettledBusiness";
-        } else
-            session.setAttribute("examerror", "审核失败");
-        attr.addAttribute("id", id);
-        return "redirect : getBusiness";
+        } else {
+            attr.addFlashAttribute("examerror", "审核失败");
+            attr.addAttribute("id", id);
+            return "redirect : getBusiness";
+        }
     }
 
     /**
@@ -115,17 +112,13 @@ public class ManageShopController {
      */
     @RequestMapping("/examineNotPass")
     public String examineNotPass(Integer id, HttpSession session, RedirectAttributes attr) throws Exception {
-        session.removeAttribute("npexamerror");
-        session.removeAttribute("npexamsuccess");
-        session.removeAttribute("logerror");
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
-       business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
-        //    int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
+        int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家未通过审核");
-            session.setAttribute("npexamsuccess", "审核结果为不通过!");
+            attr.addFlashAttribute("npexamsuccess", "审核结果为不通过!");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核不通过！");
             log.setManager(mana);
@@ -134,13 +127,15 @@ public class ManageShopController {
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:getNotSettledBusiness";
-            } else
-                session.setAttribute("logerror", "日志写入失败!");
-            return "redirect:getNotSettledBusiness";
-        } else
-            session.setAttribute("npexamerror", "审核失败!");
-        attr.addAttribute("id", id);
-        return "redirect : getBusiness";
+            } else {
+                attr.addFlashAttribute("logerror", "日志写入失败!");
+                return "redirect:getNotSettledBusiness";
+            }
+        } else {
+            attr.addFlashAttribute("npexamerror", "审核失败!");
+            attr.addAttribute("id", id);
+            return "redirect : getBusiness";
+        }
     }
 
     /**
@@ -151,8 +146,19 @@ public class ManageShopController {
      */
     @RequestMapping("/findBusiness")
     public String findBusiness(Model model) {
-        List<Shop> bussBusinessList = shopService.findAll();
-        model.addAttribute("mshoplist", bussBusinessList);
+        List<Shop> shopList = new ArrayList<Shop>();
+        List<Shop> bussBusinessList = null;
+        //shopService.findAllShop();
+        if (bussBusinessList != null) {
+            for (Shop shop : bussBusinessList) {
+                if (shop.getBusiness().getAccount().getStatus() == 201 || shop.getBusiness().getAccount().getStatus() == 202 ||
+                        shop.getBusiness().getAccount().getStatus() == 203 || shop.getBusiness().getAccount().getStatus() == 204
+                        ) {
+                    shopList.add(shop);
+                }
+            }
+        }
+        model.addAttribute("mshoplist", shopList);
         return "system/shop/allshop";
     }
 
@@ -165,7 +171,6 @@ public class ManageShopController {
      */
     @RequestMapping("/findByCondition")
     public String findByCondition(String condition, Model model) {
-
         List<Shop> shop = shopService.fuzzyFindByShopName(condition);
         model.addAttribute("mshoplist", shop);
         return "system/shop/allshop";
@@ -181,37 +186,77 @@ public class ManageShopController {
      */
     @RequestMapping("/delBusiness")
     public String delBusiness(Integer id, Model model,
-                              HttpSession session) {
-        session.removeAttribute("delBsuccess");
-        session.removeAttribute("delBerror");
-        session.removeAttribute("logerror");
+                              HttpSession session, RedirectAttributes attr) {
         Manager mana = (Manager) session.getAttribute("manager");
         Business business = businessService.findById(id);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
-//      int i = accountService.updateById(business.getAccount());
-//        int i = businessService.updateById(business);
-        int i = 1;
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_DELETE);
+        shopService.updateByIdSelective(shop);
+        int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
-            session.setAttribute("delBsuccess", "删除成功！");
+            attr.addFlashAttribute("delBsuccess", "删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员删除商家信息！");
+            log.setDetail("管理员删除商家！");
             log.setManager(mana);
             log.setType(2);
             log.setAccount(business.getAccount());
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:findBusiness";
-            } else
+            } else {
                 model.addAttribute("mbusiness", business);
-            session.setAttribute("logerror", "写入日志失败！");
+                attr.addFlashAttribute("logerror", "写入日志失败！");
+                return "redirect:findBusiness";
+            }
+        } else {
+            attr.addFlashAttribute("delBerror", "失败了！");
             return "redirect:findBusiness";
-        } else
-            session.setAttribute("delBerror", "失败了！");
-        return "redirect:findBusiness";
+        }
     }
 
 
     /**
+     * 根据id删除商家
+     *
+     * @param id
+     * @param model
+     * @param session
+     * @return
+     */
+    @RequestMapping("/rogBusiness")
+    public String rogBusiness(Integer id, Model model,
+                              HttpSession session, RedirectAttributes attr) {
+        Manager mana = (Manager) session.getAttribute("manager");
+        Business business = businessService.findById(id);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_RECITIFY);
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_RETIFY);
+        shopService.updateByIdSelective(shop);
+        int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
+        if (i >= 1) {
+            attr.addFlashAttribute("rogBsuccess", "删除成功！");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("管理员设置商家为整顿中！");
+            log.setManager(mana);
+            log.setType(2);
+            log.setAccount(business.getAccount());
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:findBusiness";
+            } else {
+                model.addAttribute("mbusiness", business);
+                attr.addFlashAttribute("logerror", "写入系统日志失败！");
+                return "redirect:findBusiness";
+            }
+        } else {
+            attr.addFlashAttribute("rogBerror", "失败了！");
+            return "redirect:findBusiness";
+        }
+    }
+
+    /**
+     * 恢复商家
      *
      * @param id
      * @param session
@@ -222,18 +267,16 @@ public class ManageShopController {
      */
     @RequestMapping("/redelBusiness")
     public String redelBusiness(Integer id, HttpSession session, RedirectAttributes attr,
-                              Model model) throws Exception {
-        session.removeAttribute("redelerror");
-        session.removeAttribute("redelsuccess");
-        session.removeAttribute("logerror");
+                                Model model) throws Exception {
         Business business = businessService.findById(id);
         Manager mana = (Manager) session.getAttribute("manager");
+        Shop shop = shopService.findShopByBusinessId(business.getId());
+        shop.setOperateState(Shop.SHOP_STATUS_NORMAL);
+        shopService.updateByIdSelective(shop);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
-        //int i = businessService.updateById(business);
-        //int i = accountService.updateBytAccount(business.getAccount());
-        int i = 1;
+        int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
-            session.setAttribute("redelsuccess", "审核成功!");
+            attr.addFlashAttribute("redelsuccess", "审核成功!");
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员恢复商家入驻！");
@@ -243,17 +286,17 @@ public class ManageShopController {
             int a = logService.addLog(log);
             if (a >= 1) {
                 return "redirect:findBusiness";
-            } else
+            } else {
                 model.addAttribute("mbusiness", business);
-            session.setAttribute("logerror", "写入日志失败");
-            return "redirect:findBusiness";
-        } else
-            session.setAttribute("redelerror", "操作失败");
-        attr.addAttribute("id", id);
-        return "redirect : findBusiness";
+                attr.addFlashAttribute("logerror", "写入日志失败");
+                return "redirect:findBusiness";
+            }
+        } else {
+            attr.addFlashAttribute("redelerror", "操作失败");
+            attr.addAttribute("id", id);
+            return "redirect : findBusiness";
+        }
     }
-
-
 
 
 }

@@ -24,10 +24,10 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         .sgBtn {
             width: 135px;
@@ -43,8 +43,25 @@
         }
     </style>
     <script type="text/javascript">
+
         function submitform() {
-            document.accountInfoform.submit();
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要更新用户吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    document.accountInfoform.submit();
+                });
+        }
+        var updateAccerror = "${updateAccerror}";
+        if(updateAccerror!='') {
+            window.onload = function() {
+                swal("操作失败", "更新用户信息出错!", "error");
+            };
         }
     </script>
 </head>
@@ -56,61 +73,62 @@
         <div class="form-group">
             <label style="font-size: 20px;" for="username">用户姓名:</label>
             <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
-                   value="${requestScope.maccount.username}" name = "username" placeholder="请输入姓名！">
+                   value="${requestScope.maccount.username}" name="username" placeholder="请输入姓名！">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">用户密码:</label>
             <input type="text" class="form-control input-lg" style="min-width: 450px;" id="phone"
-                   value="${requestScope.maccount.password}" name="password"  placeholder="请填写新密码">
+                   value="${requestScope.maccount.password}" name="password" placeholder="请填写新密码">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">用户手机:</label>
             <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"
-                   value="${requestScope.maccount.phone}" name="phone"  placeholder="1xxxxxxxxxx">
+                   value="${requestScope.maccount.phone}" name="phone" placeholder="1xxxxxxxxxx">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="exampleInputEmail2">用户邮箱:</label>
             <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2"
-                   value="${requestScope.maccount.email}" name=" email"  placeholder="xxxxxxxxx@xxx.com">
+                   value="${requestScope.maccount.email}" name=" email" placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
-            <label style="font-size: 20px;" >注册时间:</label>
-            <label style="font-size: 20px;" >
-                &nbsp;&nbsp;<fmt:formatDate value="${requestScope.maccount.registerTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            <label style="font-size: 20px;">注册时间:</label>
+            <label style="font-size: 20px;">
+                &nbsp;&nbsp;<fmt:formatDate value="${requestScope.maccount.registerTime}"
+                                            pattern="yyyy-MM-dd HH:mm:ss"/>
             </label>
         </div>
     </div>
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
-            <label style="font-size: 20px;" >用户状态:</label>
+            <label style="font-size: 20px;">用户状态:</label>
             <c:if test="${requestScope.maccount.status==100}">
-                <label style="font-size: 20px;" >
+                <label style="font-size: 20px;">
                     &nbsp;&nbsp;状态正常</label>
             </c:if>
             <c:if test="${requestScope.maccount.status==101}">
                 &nbsp;&nbsp;<label style="font-size: 20px;" >状态异常</label>
             </c:if>
             <c:if test="${requestScope.maccount.status!=101}">
-                   <c:if test="${requestScope.maccount.status!=100}">
-                &nbsp;&nbsp;<label style="font-size: 20px;" >商家状态</label>
-                   </c:if>
+                <c:if test="${requestScope.maccount.status!=100}">
+                    &nbsp;&nbsp;<label style="font-size: 20px;" >商家状态</label>
+                </c:if>
             </c:if>
         </div>
     </div>
 
-    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px" >
+    <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
-            <label style="font-size: 20px;" >用户角色:</label>
+            <label style="font-size: 20px;">用户角色:</label>
             <c:if test="${requestScope.maccount.role==1}">
-                <label style="font-size: 20px;" >
+                <label style="font-size: 20px;">
                     &nbsp;&nbsp;普通用户</label>
             </c:if>
             <c:if test="${requestScope.maccount.role==2}">
@@ -119,7 +137,7 @@
         </div>
     </div>
 
-    <div class="col-sm-8" style="padding-top: 0px;padding-left: 240px" >
+    <div class="col-sm-8" style="padding-top: 0px;padding-left: 240px">
         <div class="form-group" style="padding-left: 350px;">
             <input type="hidden" name="id" value="${requestScope.maccount.id}"/>
             <input type="button" onclick="submitform();" class="sgBtn" value="确定修改"/>

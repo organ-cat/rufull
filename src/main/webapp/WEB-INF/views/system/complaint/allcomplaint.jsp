@@ -24,31 +24,80 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/xcConfirm.css"/>
-    <script src="${pageContext.request.contextPath}/js/system/xcConfirm.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script src="${pageContext.request.contextPath}/js/system/promptbox.js" type="text/javascript"
-            charset="utf-8"></script>
     <script type="text/javascript">
+        var logerror = "${logerror}";
+        var getacccomperror = "${getacccomperror}";
+        var replysuccess = "${replysuccess}";
+        var replyallsuccess = "${replyallsuccess}";
+        var replyallerror = "${replyallerror}";
         var isCheckAll = false;
         function swapCheck() {
             if (isCheckAll) {
-                $("input[type='checkbox']").each(function() {
+                $("input[type='checkbox']").each(function () {
                     this.checked = false;
                 });
                 isCheckAll = false;
             } else {
-                $("input[type='checkbox']").each(function() {
+                $("input[type='checkbox']").each(function () {
                     this.checked = true;
                 });
                 isCheckAll = true;
             }
         }
+
+
         function getComp(id) {
-            window.location.href="${pageContext.request.contextPath}/ManageCom/getAccComp?id="+id;
+            window.location.href = "${pageContext.request.contextPath}/ManageCom/getAccComp?id=" + id;
+        }
+        function completeAll() {
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要一键否决吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    var str = document.getElementsByName("id");
+                    var obj = str.length;
+                    var ids = new Array();
+                    for (var i = 0; i < obj; i++) {
+                        if (str[i].checked == true) {
+                            ids[i] = str[i].value;
+                        }
+                    }
+                    window.location.href = "${pageContext.request.contextPath}/ManageCom/replyAllComp?result=1&id=" + ids;
+                });
+        }
+
+        function CancelAll() {
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要一键审核吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    var str = document.getElementsByName("id");
+                    var obj = str.length;
+                    var ids = new Array();
+                    for (var i = 0; i < obj; i++) {
+                        if (str[i].checked == true) {
+                            ids[i] = str[i].value;
+                        }
+                    }
+                    window.location.href = "${pageContext.request.contextPath}/ManageCom/replyAllComp?result=2&id=" + ids;
+                });
         }
     </script>
+    <script src="${pageContext.request.contextPath}/js/system/mycompalert.js"></script>
 </head>
 <body>
 
@@ -56,8 +105,8 @@
     <div class="col-sm-4">
         <tr>
             <td><input type="checkbox" onclick="swapCheck()"/>&nbsp;&nbsp;全选&nbsp;&nbsp;</td>
-            <td><input type="button" class="btn btn-primary" value="一键处理"/></td>&nbsp;&nbsp;&nbsp;
-            <td><input type="button" class="btn btn-warning" value="一键取消"/></td>
+            <td><input type="button" class="btn btn-primary" onclick="completeAll();" value="一键处理"/></td>&nbsp;&nbsp;&nbsp;
+            <td><input type="button" class="btn btn-warning" onclick="CancelAll()" value="一键取消"/></td>
         </tr>
     </div>
     <div class="panel panel-default">
@@ -76,7 +125,7 @@
             </tr>
             <c:forEach items="${managecomp}" var="list">
                 <tr>
-                    <td><input type="checkbox" class="checkbox" name="id" value="${item.id }"></td>
+                    <td><input type="checkbox" class="checkbox" name="id" value="${list.id }"></td>
                     <c:if test="${list.type==1}">
                         <td>商家已接单但未送餐</td>
                     </c:if>
@@ -89,10 +138,10 @@
                     <td>${list.content}</td>
                     <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <c:if test="${list.status==1}">
-                         <td>未审核</td>
+                        <td>未审核</td>
                     </c:if>
                     <c:if test="${list.status==2}">
-                         <td>处理中</td>
+                        <td>处理中</td>
                     </c:if>
                     <td align="center">
                         <input type="button" class="btn btn-primary" value="审核"
