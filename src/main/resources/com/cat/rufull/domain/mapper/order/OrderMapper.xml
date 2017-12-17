@@ -81,7 +81,7 @@
     WHERE O.ID=#{id}
   </select>
 
-  <select id="findOrderByOrderNumber" parameterType="int" resultMap="OrderResult">
+  <select id="findOrderByOrderNumber" parameterType="string" resultMap="OrderResult">
     SELECT
     O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,
     ACCEPTED_TIME,O.STATUS AS ORDER_STATUS,PAYMENT_METHOD,PAYMENT_STATUS,
