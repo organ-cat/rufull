@@ -66,7 +66,7 @@ public class PaymentController {
             // 定义付款的参数:
             String p0_Cmd = "Buy";
             String p1_MerId = "10001126856";
-            String p2_Order = id.toString();
+            String p2_Order = orderNumber;
             String p3_Amt = "0.01";
             String p4_Cur = "CNY";
             String p5_Pid = "";
@@ -99,7 +99,7 @@ public class PaymentController {
             //转发到第三方支付界面
             return "redirect:"+ pay.toString();
         }else{                                        //判断为货到付款
-            return complete(id);
+            return complete(orderNumber);
         }
 
     }
@@ -116,8 +116,8 @@ public class PaymentController {
     public String callBack(Model model, Integer r1_Code, String r6_Order, double r3_Amt){
 
         if(r1_Code == 1){ //支付结果：成功，跳转完成支付
-            model.addAttribute("id",r6_Order);
-            return complete(Integer.valueOf(r6_Order));
+            //model.addAttribute("id",r6_Order);
+            return complete(r6_Order);
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);
@@ -128,12 +128,14 @@ public class PaymentController {
 
     /**
      * 完成支付,跳转订单详情页面
-     * @param id
+     * @param r6_Order
      * @return
      */
     @RequestMapping(value = "/complete/{id}", method = RequestMethod.POST)
-    public String complete(@PathVariable("id") Integer id) {
-        Order order = orderService.findOrderById(id);
+    //@PathVariable("id") Integer id
+    public String complete(String r6_Order) {
+        System.out.println(r6_Order);
+        Order order = orderService.findOrderByOrderNumber(r6_Order);
         orderService.paidOrder(order);
 
         return "redirect:/order/{id}";
