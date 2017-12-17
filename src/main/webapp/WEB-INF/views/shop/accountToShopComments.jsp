@@ -202,7 +202,7 @@
         </div>
 
     </div>
-
+</div>
 
 
 
@@ -597,6 +597,7 @@
             </div>
         </div>
     </footer>
+
 </body>
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
