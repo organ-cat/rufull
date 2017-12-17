@@ -41,6 +41,7 @@ public class CartController {
     public String list() {
         for (Cart cart: carts.getCartList()) {
             Shop shop = shopService.findById(cart.getShopId());
+
             cart.setShopName(shop.getShopName());
             cart.setAddress(shop.getAddress());
         }
@@ -91,10 +92,11 @@ public class CartController {
 
         if (cart.containsProductId(productId)) { // 如果购物车有此商品
             cart.increaseQuantityById(productId); // 增加该商品数量
-        } else { // 否则,新增一个商品
+        } else { // 否则,新增一个商品到购物车
             Product product = productService.findProductById(productId);
             cart.addItem(product);
         }
+
         return "redirect:/cart";
     }
 
@@ -113,16 +115,17 @@ public class CartController {
         while (cartItems.hasNext()) { // 遍历购物车条目
             CartItem cartItem = cartItems.next();
             Integer productId = cartItem.getProduct().getId();
+
             try {
-                // 修改购物车中对应商品的数量
                 int quantity = cartForm.getQuantity().get(productId);
-                cart.setQuantityById(productId, quantity);
+
+                cart.setQuantityById(productId, quantity); // 修改购物车中对应商品的数量
                 if (quantity < 1) { // 如果数量为0,移除该商品
                     cartItems.remove();
                     cart.removeItemById(productId);
                 }
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -142,8 +145,11 @@ public class CartController {
     public String remove(@PathVariable("shopId") Integer shopId,
                          @PathVariable("productId") Integer productId) {
         Cart cart = carts.getCart(shopId); // 获取当前商店的购物车
+
         cart.removeItemById(productId); // 移除商品
+
         if (cart.isEmpty()) carts.clearCart(shopId); // 如果该购物车为空,移除购物车
+
         return "redirect:/cart";
     }
 
@@ -158,13 +164,14 @@ public class CartController {
     public String checkOut(@PathVariable("shopId") Integer shopId, Model uiModel, HttpSession session) {
         Cart cart = carts.getCart(shopId); // 获取当前商店的购物车
         Shop shop = shopService.findById(shopId);
-
         Account account = getSessionAccount(session);
+
         List<Address> addresses = addressService.queryAddressList(account.getId()); // 获取当前登录用户的地址列表
 
         uiModel.addAttribute("cart", cart);
         uiModel.addAttribute("addresses", addresses);
         uiModel.addAttribute("shop", shop);
+
         return "cart/checkout";
     }
 
@@ -176,6 +183,7 @@ public class CartController {
     @RequestMapping(value = "/clear")
     public String clearAll() {
         carts.clearAllCart();
+
         return "redirect:/cart";
     }
 
@@ -188,6 +196,7 @@ public class CartController {
     @RequestMapping(value = "/clear/{shopId}")
     public String clear(@PathVariable("shopId") Integer shopId) {
         carts.clearCart(shopId);
+
         return "redirect:/cart";
     }
 
