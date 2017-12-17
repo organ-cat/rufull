@@ -180,11 +180,18 @@
                                 </div>
                             </div>
                             <div class="row eval-form">
-                                <form:form modelAttribute="orderEvaluation" action="${addEvaluationUrl}" id="evaluationCreateForm" cssClass="form-horizontal">
+                                <form:form modelAttribute="orderEvaluation" action="add_eval" id="evaluationCreateForm" cssClass="form-horizontal">
+                                    <input type="hidden" value="${order.id}" name="order.id">
+                                    <input type="hidden" value="${order.shop.id}" name="shopId">
                                     <div class="form-group">
                                         <label for="orderEvalScore" class="col-md-2 control-label">商家服务 评分</label>
                                         <div class="col-md-6">
-                                            <input class="form-control" id="orderEvalScore" name="score">
+                                            <%--<input class="form-control" id="orderEvalScore" name="score">--%>
+                                            <input id="orderEvalScore" type="radio" name="score" value="1"> 1分
+                                            <input id="orderEvalScore" type="radio" name="score" value="2"> 2分
+                                            <input id="orderEvalScore" type="radio" name="score" value="3"> 3分
+                                            <input id="orderEvalScore" type="radio" name="score" value="4" checked> 4分
+                                            <input id="orderEvalScore" type="radio" name="score" value="5"> 5分
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -194,10 +201,16 @@
                                         </div>
                                     </div>
                                     <c:forEach var="productEvaluation" items="${orderEvaluation.productEvaluations}" varStatus="status">
+                                        <input type="hidden" value="${productEvaluation.item.id}" name="productEvaluations[${status.index}].item.id">
                                         <div class="form-group">
                                             <label for="productEvalScore${status.index}" class="col-md-2 control-label">${productEvaluation.item.productName} 评分</label>
                                             <div class="col-md-6">
-                                                <input class="form-control" id="productEvalScore${status.index}" name="productEvaluations[${status.index}].score">
+                                                <%--<input class="form-control" id="productEvalScore${status.index}" name="productEvaluations[${status.index}].score">--%>
+                                                <input id="productEvalScore${status.index}" type="radio" name="productEvaluations[${status.index}].score" value="1"> 1分
+                                                <input id="productEvalScore${status.index}" type="radio" name="productEvaluations[${status.index}].score" value="2"> 2分
+                                                <input id="productEvalScore${status.index}" type="radio" name="productEvaluations[${status.index}].score" value="3"> 3分
+                                                <input id="productEvalScore${status.index}" type="radio" name="productEvaluations[${status.index}].score" value="4" checked> 4分
+                                                <input id="productEvalScore${status.index}" type="radio" name="productEvaluations[${status.index}].score" value="5"> 5分
                                             </div>
                                         </div>
                                         <div class="form-group">

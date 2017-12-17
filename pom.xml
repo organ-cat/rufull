@@ -39,6 +39,7 @@
         <json.version>1.0.2</json.version>
         <spring.amqp.version>1.4.0.RELEASE</spring.amqp.version>
     </properties>
+
     <dependencies>
         <!-- test -->
         <dependency>
@@ -232,8 +233,8 @@
             <artifactId>javax.websocket-api</artifactId>
             <version>1.0</version>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

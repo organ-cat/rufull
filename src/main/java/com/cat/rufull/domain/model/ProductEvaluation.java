@@ -6,9 +6,11 @@ import java.util.Date;
 public class ProductEvaluation implements Serializable {
     private Integer id; // 主键
 
-    private String score; // 评分
+    private Integer score; // 评分
 
     private String comment; // 评论
+
+    private Date evalTime; //评论时间
 
     private Integer orderEvalId; // 订单评价id
 
@@ -22,11 +24,11 @@ public class ProductEvaluation implements Serializable {
         this.id = id;
     }
 
-    public String getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
@@ -37,6 +39,10 @@ public class ProductEvaluation implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Date getEvalTime() { return evalTime; }
+
+    public void setEvalTime(Date evalTime) { this.evalTime = evalTime; }
 
     public Integer getOrderEvalId() {
         return orderEvalId;
