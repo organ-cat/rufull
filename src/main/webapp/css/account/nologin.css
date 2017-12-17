@@ -1,0 +1,22 @@
+@charset "UTF-8";
+* {
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    margin: 0 auto;
+}
+.nologin {
+    width: 500px;
+    height:300px;
+    margin: 0 auto;
+    margin-top: 150px;
+    text-align:center;
+}
+.image {
+    width: 150px;
+    height: auto;
+}
+h2{
+    color: #FF9C00;
+}

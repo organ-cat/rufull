@@ -23,9 +23,7 @@
     <!-- app css -->
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -44,7 +42,7 @@
     <spring:url value="#" var="showCooperationUrl"/>
     <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="/account/center" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
     <spring:url value="/account/center" var="footprintUrl"/>
     <spring:url value="/address/addressManage" var="showAddressUrl"/>
     <spring:url value="/account/security" var="showSecurityUrl"/>
@@ -70,9 +68,9 @@
 
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
-
-    <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
-
+    <script src="${pageContext.request.contextPath}/js/account/upload.js" type="text/javascript"></script>
+    <spring:url value="/resources/css/account/upload.css" var="upload_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${upload_css_url}"/>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#orderCancelBtn').click(function () {
@@ -125,7 +123,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
@@ -167,24 +165,30 @@
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <%--会自动调节高度--%>
-                        <h1><small>更改头像</small></h1><br/><hr/><br/>
-                        <div>
+                        <h1><small>更改头像</small></h1>
+                        <div class="uploadDiv">
                             <form method="post" enctype="multipart/form-data"  action="<c:url value="/account/upload"/>">
-                                <br />
-                                <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}"/>
-                                <br /> <br />
-                                <input id="choosePhoto" type="file" name="photo" onchange="imgPreview(this)" />
-                                <input type="hidden" name="id" value="${account.id}" />
-                                <br />
-                                <input id="savePhoto" type="submit" value="保存头像"/>
-                            <form/>
+                                <div class="photoDiv">
+                                    <c:if test="${account.photo == null}">
+                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像">
+                                    </c:if>
+                                    <c:if test="${account.photo != null}">
+                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
+                                    </c:if>
+                                </div>
+                                <div class="photoDiv">
+                                    <input id="choosePhoto" type="file" name="photo" onchange="imgPreview(this)" />
+                                    <input type="hidden" name="id" value="${account.id}" />
+                                    <input class="upload" type="submit" value="保存头像"/>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

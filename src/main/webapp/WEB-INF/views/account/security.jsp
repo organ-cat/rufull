@@ -44,7 +44,7 @@
     <spring:url value="#" var="showCooperationUrl"/>
     <spring:url value="#" var="showAgreementUrl"/>
     <spring:url value="/account/center" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
     <spring:url value="/account/center" var="footprintUrl"/>
     <spring:url value="/address/addressManage" var="showAddressUrl"/>
     <spring:url value="/account/security" var="showSecurityUrl"/>
@@ -125,7 +125,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
@@ -167,7 +167,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
                         </ul>
                     </div>
@@ -181,13 +181,25 @@
                                         <td></td>
                                         <td colspan="3">
                                             <span>安全等级：</span>
-                                            <div class="security-level-bar">
+                                            <c:if test="${account.phone == null || account.email == null}">
+                                                <div class="security-level-bar">
                                                 <span class="security-level-progress low"
                                                       ng-style="{'width': level.width, 'background-color': level.color}"
                                                       style="width: 50%; background-color: rgb(148, 200, 82);"></span>
-                                            </div>
-                                            <span>高</span>
-                                            <span style="color: #F49600">建议你启动全部安全设置，以保障账户及资金安全！</span>
+                                                </div>
+                                                <span style="color: #FF9C00">中</span>
+                                                <span style="color: #F49600">建议你启动全部安全设置，以保障账户及资金安全！</span>
+                                            </c:if>
+                                            <c:if test="${account.phone != null && account.email != null}">
+                                                <div class="security-level-bar">
+                                                <span class="security-level-progress low"
+                                                      ng-style="{'width': level.width, 'background-color': level.color}"
+                                                      style="width: 100%; background-color: rgb(148, 200, 82);"></span>
+                                                </div>
+                                                <span>高</span>
+                                                <span style="color: rgb(148, 200, 82)">您的账户安全，定期修改密码可以增加安全性！</span>
+                                            </c:if>
+
                                         </td>
                                     </tr>
                                     <tr>
@@ -201,27 +213,61 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="securityImg">
-                                            <span class="glyphicon glyphicon-remove-circle noBinded"></span>
-                                        </td>
-                                        <td class="securityAttru">手机验证</td>
-                                        <td class="securityContent">
-                                            <p>您还没有绑定邮箱</p>
-                                            <p>验证后可用户快速找回密码，接受账户提醒邮件</p>
-                                        </td>
-                                        <td class="securityChoose">
-                                            <a href="#" class="bindNow">立即绑定</a>
-                                        </td>
+                                        <c:if test="${account.phone != null}">
+                                            <td class="securityImg">
+                                                <span class="glyphicon glyphicon-ok-circle isBinded"></span>
+                                            </td>
+                                            <td class="securityAttru">手机验证</td>
+                                            <td class="securityContent">
+                                                <p>您还没有绑定手机</p>
+                                                <p>验证后可用户快速找回密码，接受账户提醒邮件</p>
+                                            </td>
+                                            <td class="securityChoose">
+                                                <a href="${pageContext.request.contextPath}/account/bindPhonePage">更改手机</a>
+                                            </td>
+
+                                        </c:if>
+                                        <c:if test="${account.phone == null}">
+                                            <td class="securityImg">
+                                                <span class="glyphicon glyphicon-remove-circle noBinded"></span>
+                                            </td>
+                                            <td class="securityAttru">手机验证</td>
+                                            <td class="securityContent">
+                                                <p>您还没有绑定手机</p>
+                                                <p>验证后可用户快速找回密码，接受账户提醒短信</p>
+                                            </td>
+                                            <td class="securityChoose">
+                                                <a href="${pageContext.request.contextPath}/account/addPhonePage" class="bindNow">立即绑定</a>
+                                            </td>
+                                        </c:if>
+
                                     </tr>
                                     <tr>
-                                        <td class="securityImg">
-                                            <span class="glyphicon glyphicon-ok-circle isBinded"></span>
-                                        </td>
-                                        <td class="securityAttru">邮箱验证</td>
-                                        <td class="securityContent">已绑定邮箱</td>
-                                        <td class="securityChoose">
-                                            <a href="${pageContext.request.contextPath}/account/bindEmailPage">更改邮箱</a>
-                                        </td>
+                                        <c:if test="${account.email != null}">
+                                            <td class="securityImg">
+                                                <span class="glyphicon glyphicon-ok-circle isBinded"></span>
+                                            </td>
+                                            <td class="securityAttru">邮箱验证</td>
+                                            <td class="securityContent">已绑定邮箱</td>
+                                            <td class="securityChoose">
+                                                <a href="${pageContext.request.contextPath}/account/bindEmailPage">更改邮箱</a>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${account.email == null}">
+                                            <td class="securityImg">
+                                                <span class="glyphicon glyphicon-remove-circle noBinded"></span>
+                                            </td>
+                                            <td class="securityAttru">邮箱验证</td>
+                                            <td class="securityContent">
+                                                <p>您还没有绑定邮箱</p>
+                                                <p>验证后可用户快速找回密码，接受账户提醒邮件</p>
+                                            </td>
+                                            <td class="securityChoose">
+                                                <a href="${pageContext.request.contextPath}/account/addEmailPage" class="bindNow">立即绑定</a>
+                                            </td>
+                                        </c:if>
+
+
                                     </tr>
                                 </table>
                             </div>

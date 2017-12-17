@@ -8,31 +8,40 @@ $(function(){
         var newPassword = $("#newPassword").val();
         var confirmPassword = $("#confirmPassword").val();
         if(newPassword == confirmPassword){
-            $.ajax({
-                url: "http://localhost:8080/rufull/account/updatePassword",
-                data: {"id": id,"newPassword":newPassword,"oldPassword":oldPassword},
-                async: true,
-                cache: false,
-                type: "POST",
-                dataType: "json",
-                success: function (result) {
-                    if (result == UPDATE_PASSWORD_SUCCESS) {
-                        $(".updateInPassworMessage").attr("style", "background-color: #74c864");
-                        $("#messageId").html("密码修改成功，请使用您的新密码");
+            if(isPassword(newPassword)){
+                $.ajax({
+                    url: "http://localhost:8080/rufull/account/updatePassword",
+                    data: {"id": id,"newPassword":newPassword,"oldPassword":oldPassword},
+                    async: true,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result == UPDATE_PASSWORD_SUCCESS) {
+                            $(".updateInPassworMessage").attr("style", "background-color: #74c864");
+                            $("#messageId").html("密码修改成功，请使用您的新密码");
 
-                    } else if (result == UPDATE_PASSWORD_FAIL) {
-                        $(".updateInPassworMessage").attr("style", "background-color: #FF6D5A");
-                        $("#messageId").html("警告！您输入的当前密码不正确");
+                        } else if (result == UPDATE_PASSWORD_FAIL) {
+                            $(".updateInPassworMessage").attr("style", "background-color: #FF6D5A");
+                            $("#messageId").html("警告！您输入的当前密码不正确");
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                $(".updateInPassworMessage").attr("style", "background-color: #FFE343");
+                $("#messageId").html("警告！新的密码必须是6-16位字母数字和“_”组成");
+            }
+
         }else {
             $(".updateInPassworMessage").attr("style", "background-color: #FFE343");
             $("#messageId").html("警告！新的密码和确认密码不一致");
         }
-
         $("#oldPassword").val("");
         $("#newPassword").val("");
         $("#confirmPassword").val("");
     })
 });
+function isPassword(password) {
+    var reg = /^\w{6,16}$/;
+    return reg.test(password);
+}

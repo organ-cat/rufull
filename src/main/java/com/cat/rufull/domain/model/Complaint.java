@@ -12,7 +12,7 @@ public class Complaint implements Serializable {
 
     private String content;     // 投诉的内容
 
-    private String evindence;   // 投诉的证据，图
+    private String evidence;   // 投诉的证据，图
 
     private Date createdTime;   // 投诉时间对应被创建时间
 
@@ -44,11 +44,11 @@ public class Complaint implements Serializable {
     public Complaint() {
     }
 
-    public Complaint(Integer id, Integer type, String content, String evindence, Date createdTime, Integer status, Date completedTime, Integer result, Integer solver, Integer accountId, Integer shopId) {
+    public Complaint(Integer id, Integer type, String content, String evidence, Date createdTime, Integer status, Date completedTime, Integer result, Integer solver, Integer accountId, Integer shopId) {
         this.id = id;
         this.type = type;
         this.content = content;
-        this.evindence = evindence;
+        this.evidence = evidence;
         this.createdTime = createdTime;
         this.status = status;
         this.completedTime = completedTime;
@@ -82,12 +82,12 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public String getEvindence() {
-        return evindence;
+    public String getevidence() {
+        return evidence;
     }
 
-    public void setEvindence(String evindence) {
-        this.evindence = evindence;
+    public void setevidence(String evidence) {
+        this.evidence = evidence;
     }
 
     public Date getCreatedTime() {
@@ -152,7 +152,7 @@ public class Complaint implements Serializable {
                 "id=" + id +
                 ", type=" + type +
                 ", content='" + content + '\'' +
-                ", evindence='" + evindence + '\'' +
+                ", evidence='" + evidence + '\'' +
                 ", createdTime=" + createdTime +
                 ", status=" + status +
                 ", completedTime=" + completedTime +

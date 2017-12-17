@@ -1,4 +1,4 @@
-package com.cat.rufull.app.controller.account;
+package com.cat.rufull.app.controller.address;
 
 import com.cat.rufull.domain.model.Address;
 import com.cat.rufull.domain.service.account.AddressService;
@@ -37,6 +37,8 @@ public class AddressController {
         addressService.deleteAddressById(id);
         return returnView(accountId);
     }
+
+
     @RequestMapping(value = "/findAddressById", method = RequestMethod.GET)
     public @ResponseBody
     Address findAddressById(@RequestParam("id") int id) {

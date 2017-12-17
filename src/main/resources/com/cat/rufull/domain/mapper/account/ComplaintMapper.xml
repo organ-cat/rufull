@@ -9,7 +9,7 @@
         (
             type,
             content,
-            evindence,
+            evidence,
             created_time,
             status,
             completed_time,
@@ -22,7 +22,7 @@
         (
         #{type},
         #{content},
-        #{evindence},
+        #{evidence},
         #{createdTime},
         #{status},
         #{completedTime},

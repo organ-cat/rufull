@@ -22,27 +22,32 @@ $(function(){
     $("#button").click(function () {
         var phone = $("#phone").val();
         var checkCode = $("#checkCode").val();
-        $.ajax({
-            url: "http://localhost:8080/rufull/account/bindPhone",
-            data: {"phone": phone, "checkCode": checkCode},
-            async: true,
-            cache: false,
-            type: "POST",
-            dataType: "json",
-            success: function (result) {
-                if (result == PHONE_CHECK_CODE_RIGHT) {
-                    bindphone();
-                }else if(result == PHONE_ERROR){
-                    phoneError();
-                } else if (result == PHONE_CHECK_CODE_ERROR) {
-                    checkCodeError();
-                }else if (result == NEW_PHONE_CHECK_CODE_RIGHT) {
-                    bindSuccess();
-                }else if (result == NEW_PHONE_CHECK_CODE_ERROR) {
+        if(isTelCode(phone)){
+            $.ajax({
+                url: "http://localhost:8080/rufull/account/bindPhone",
+                data: {"phone": phone, "checkCode": checkCode},
+                async: true,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    if (result == PHONE_CHECK_CODE_RIGHT) {
+                        bindphone();
+                    }else if(result == PHONE_ERROR){
+                        phoneError();
+                    } else if (result == PHONE_CHECK_CODE_ERROR) {
+                        checkCodeError();
+                    }else if (result == NEW_PHONE_CHECK_CODE_RIGHT) {
+                        bindSuccess();
+                    }else if (result == NEW_PHONE_CHECK_CODE_ERROR) {
 
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            alert("手机号码格式错误");
+        }
+
     });
 });
 //手机更换，点击获取验证码
@@ -50,30 +55,39 @@ $(function(){
     $("#inputCode").click(function () {
         var phone = $("#phone").val();
         if(flag){
-            settime(this);
-            $.ajax({
-                url: "http://localhost:8080/rufull/check/sendbindPhone",
-                data: {"phone": phone},
-                async: true,
-                cache: false,
-                type: "POST",
-                dataType: "json",
-                success: function (result) {
-                }
-            });
+            if(isTelCode(phone)){
+                settime(this);
+                $.ajax({
+                    url: "http://localhost:8080/rufull/check/sendbindPhone",
+                    data: {"phone": phone},
+                    async: true,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (result) {
+                    }
+                });
+            }else {
+                alert("手机号码格式错误");
+            }
         }else{
-            settime(this);
-            $.ajax({
-                url: "http://localhost:8080/rufull/check/sendbindNewPhone",
-                data: {"phone": phone},
-                async: true,
-                cache: false,
-                type: "POST",
-                dataType: "json",
-                success: function (result) {
+            if(isTelCode(phone)){
+                settime(this);
+                $.ajax({
+                    url: "http://localhost:8080/rufull/check/sendbindNewPhone",
+                    data: {"phone": phone},
+                    async: true,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (result) {
 
-                }
-            });
+                    }
+                });
+            }else {
+                alert("手机号码格式错误");
+            }
+
         }
     });
 });
@@ -102,7 +116,6 @@ $(function () {
         }
     });
 });
-
 ////////手机
 function bindphone() {
     flag = false;
@@ -128,7 +141,6 @@ function bindSuccess() {
     $("#showSpan3").attr("style", "color: #0089DC");
     $("#returnMessage").html("绑定成功");
 }
-
 ////////邮箱
 function bindEmail() {
     emailFlag = false;
@@ -146,7 +158,6 @@ function emailError() {
     $("#returnMessage").html("当前邮箱号码错误");
     $("#checkCode").attr("style", "border: 1px solid #FF0000");
 }
-
 function bindSuccess() {
     emailFlag = true;
     $("#show3").attr("style", "background-color: #0089DC");
@@ -154,8 +165,6 @@ function bindSuccess() {
     $("#showSpan3").attr("style", "color: #0089DC");
     $("#returnMessage").html("绑定成功");
 }
-//////////////////////////////////////////////////////////////////////////////////////
-
 //邮箱更换,点击下一步
 $(function(){
     $("#next").click(function () {
@@ -240,7 +249,6 @@ $(function () {
         }
     });
 });
-
 //点击"免费获取验证码"后，按钮变成"重新发送（60）"倒计时
 function settime(val) {
     if (countdown == 0) {
@@ -256,4 +264,23 @@ function settime(val) {
     setTimeout(function() {
         settime(val)
     },1000)
+}
+/*校验电话码格式 */
+function isTelCode(str) {
+    var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+    return reg.test(str);
+}
+/*校验邮件地址是否合法 */
+function IsEmail(str) {
+    var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+    return reg.test(str);
+}
+
+function error() {
+    $("#confirm").attr("disabled", true);
+    $("#confirm").css("cursor",'not-allowed');
+}
+function right() {
+    $("#confirm").removeAttr("disabled");
+    $("#confirm").css("cursor","default")
 }

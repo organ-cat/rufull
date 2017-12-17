@@ -25,7 +25,7 @@
 <body>
 <div class="findPassword">
     <div class="inputDiverr">
-
+        <p id="message"></p>
     </div>
     <div class="inputDiv">
         <input id="phone" type="text" name="phone" placeholder="手机/邮箱" /><br />
@@ -35,6 +35,7 @@
         <input type="button" id="getCode" value="获取验证码"/>
         <input type="button" id="confirm" value="确定"/>
     </div>
+    <a class="back" href="http://localhost:8080/rufull">回到首页登陆</a>
 </div>
 </body>
 </html>

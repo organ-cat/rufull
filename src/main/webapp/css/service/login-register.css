@@ -1,6 +1,13 @@
 
 @charset "UTF-8";
 
+a:link,a:visited{
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:none;
+}
+
 .animated {
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;

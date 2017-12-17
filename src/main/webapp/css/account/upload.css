@@ -1,0 +1,25 @@
+@charset "UTF-8";
+.uploadDiv {
+    margin-top: 50px;
+}
+.photoDiv {
+    float: left;
+    width: 200px;
+    height: 200px;
+}
+#preview{
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+}
+#choosePhoto {
+    font-size: 15px;
+    width: 76px;
+    height: 25px;
+}
+.upload {
+    margin-top: 75px;
+    font-size: 15px;
+    width: 76px;
+    height: 25px;
+}

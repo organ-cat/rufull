@@ -303,7 +303,7 @@ public class AccountController {
 
     /**
      * 安全中心页面
-     * @return  安全中心页面
+     * @return
      */
     @RequestMapping(value = "/security", method = RequestMethod.GET)
     public String security() {
@@ -327,7 +327,7 @@ public class AccountController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    @RequestMapping(value = "/upload")
     public String uploadPhoto(@RequestParam("photo") MultipartFile photo, @RequestParam("id") int id,
                               HttpServletRequest request, HttpSession session) {
         Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
@@ -353,7 +353,7 @@ public class AccountController {
      * @param shopId        商店的id
      * @return
      */
-    @RequestMapping(value = "/deleteFootprint",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteFootprint",method = RequestMethod.GET)
     public ModelAndView deleteFootprint(@RequestParam("accountId") int accountId,
                                         @RequestParam("shopId") int shopId) {
         //根据用户id和商店id删除足迹,返回删除后的集合
