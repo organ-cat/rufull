@@ -13,7 +13,6 @@ import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,12 +53,11 @@ public class BusinessController {
         //上传文件并添加用户
          Business finishedBusiness = BusinessUtils.upload2Business(files, business, request,accountId);
          System.out.println("finished:"+finishedBusiness);
-        businessService.add(finishedBusiness);
+         businessService.add(finishedBusiness);
 
         //将商家对应状态改为：已经填写入驻信息，但是未通过管理员审核200
-        Account account = accountService.findAccountById(finishedBusiness.getAccount().getId());
-        account.setStatus(Business.BUSINESS_STATUS_SETTLED);
-//      accountService.updateAccount(account);
+        accountService.updateAccountStatus(finishedBusiness.getAccount().getId(),
+                                                Business.BUSINESS_STATUS_SETTLED);
         return "business/waitForReview";                   //从定向到一个信息提示页面：等待页面管理员审核
                                                             //提示完成后等待几秒钟跳转会用户界面。
     }
@@ -72,14 +70,14 @@ public class BusinessController {
    *@return
    */
     @RequestMapping("showBusinessProfile")
-    public String showBusiness(HttpServletRequest request, ModelMap map){
+    public String showBusiness(HttpServletRequest request){
         HttpSession session = request.getSession();
 
         Account businnessAccount = (Account) session.getAttribute(Account.BUSINESS_SESSION);  //从Session中获得商家登录的用户
         Business business= businessService.findBusinessByAccountId(businnessAccount.getId()); //通过用户查询商家
-
-        Shop shop = shopService.findById(business.getId());                                   //通过商家查询商店
-
+        System.out.println("business:"+business);
+        Shop shop = shopService.findShopByBusinessId(business.getId());                                   //通过商家查询商店
+        System.out.println("shop:"+shop);
         if(shop != null){
             session.setAttribute("shop",shop);
         }
@@ -103,7 +101,7 @@ public class BusinessController {
     *@return
     */
     @RequestMapping(value = "showOrder",method = RequestMethod.GET)
-    public String newOrder(@RequestParam(value = "shopId",required = false) Integer shopId,
+    public String showOrder(@RequestParam(value = "shopId",required = false) Integer shopId,
                            @RequestParam(value = "orderStatus",required = false) String orderStatus,
                            Model model){
 //        System.out.println("shopId:"+shopId);

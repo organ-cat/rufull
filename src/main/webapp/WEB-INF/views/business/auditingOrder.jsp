@@ -176,8 +176,9 @@
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <a class="btn btn-default order-btn" href="#" role="button">接单</a>
-                                                    <a class="btn btn-danger order-btn" href="#" role="button">取消</a>
+                                                    <form action="${pageContext.request.contextPath}/order/confirmRefund/${order.id}" method="post">
+                                                        <button class="btn btn-info order-btn" role="button" type="submit">确认退单</button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>

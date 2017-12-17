@@ -184,4 +184,24 @@
         ACCOUNT.id = #{id};
     </update>
 
+    <update id="changePasswordByPhone">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.password = #{password}
+        WHERE
+        ACCOUNT.phone = #{phone}
+        AND
+        ACCOUNT.role = #{role}
+    </update>
+    <update id="changePasswordByEmail">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.password = #{password}
+        WHERE
+        ACCOUNT.email = #{email}
+        AND
+        ACCOUNT.role = #{role}
+    </update>
 </mapper>

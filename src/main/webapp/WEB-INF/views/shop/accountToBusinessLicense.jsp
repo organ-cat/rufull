@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="hidden-sm hidden-md active"><a href="#">首页</a></li>
-                    <li><a href="#">我的订单</a></li>
+                    <li><a href="${pageContext.request.contextPath}/rufull/cart">我的订单</a></li>
                     <li><a href="#">加盟合作</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -79,17 +79,17 @@
             <header class="rst-header-info group">
                 <!-- 商店图标 图片-->
 
-                <a class="rst-logo" href="/zb-eamonn" itemprop="url">
+                <a class="rst-logo" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}" itemprop="url">
                     <%--商家图片--%>
-                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/business/${shop.shopPhoto}"
+                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/shop/${shop.shopPhoto}"
                          alt="${shop.shopName}"
                          itemprop="logo"/>
                 </a>
                 <!-- 商店图标 文字-->
                 <div class="rst-basic-info">
                     <div class="">
-                        <a class="rst-name text-overflow" href="/zb-eamonn"
-                           data-toggle="bs-tooltip" href="/zb-eamonn">
+                        <a class="rst-name text-overflow" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}"
+                           data-toggle="bs-tooltip" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
                             ${shop.shopName}
                         </a>
                         <!-- span对应的类需要将:before去掉 -->
@@ -208,7 +208,7 @@
 
     <div class="container">
 
-        <article id="rst_menus" class="restaurant-main">
+        <article id="rst_menus" class="restaurant-main-licence">
 
 
             <!-- 餐厅收藏 -->
@@ -253,7 +253,11 @@
                 <ul class="rst-badge-list">
                     <li class="rst-badge-item"><i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证</li>
                     <li class="rst-badge-item"><i class="icon-rst-badge online-payment"></i>该餐厅支持在线支付</li>
-                    <li class="rst-badge-item"><i class="icon-rst-badge extra-discount"></i>${shop.announcement}</li>
+                    <div class="shopAccountment">
+                        <li class="rst-badge-item">
+                            <p>${shop.announcement}</p>
+                        </li>
+                    </div>
                 </ul>
             </section>
             <section id="favor_food" class="rst-block"></section>

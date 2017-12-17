@@ -126,4 +126,14 @@ public class AccountServiceImpl implements AccountService {
     public int mredelAccount(Integer id) {
         return accountMapper.mredelAccount(id);
     }
+
+    @Override
+    public void changePasswordByPhone(String phone,String password, int role) {
+        accountMapper.changePasswordByPhone(phone,password, role);
+    }
+
+    @Override
+    public void changePasswordByEmail(String email,String password, int role) {
+        accountMapper.changePasswordByEmail(email,password, role);
+    }
 }

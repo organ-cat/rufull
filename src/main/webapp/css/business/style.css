@@ -103,3 +103,21 @@ footer {
 	background: url("../../image/business/forward.png");
 	height: 400px;
 }
+
+/*商品照片*/
+.product_img{
+	width:75px;
+	height: 75px;
+}
+
+.shopAccountment{
+	margin-bottom: 20px;
+	border-radius: 2px 2px 0 0;
+	box-shadow: 0 1px 1px rgba(0,0,0,.12);
+	word-wrap:break-word;
+	word-break:normal;
+}
+
+.bottomfooter{
+	margin-bottom: 15px;
+}

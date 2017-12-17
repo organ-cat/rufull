@@ -108,4 +108,8 @@ public interface AccountMapper {
     void updatePassword(@Param("id")int id, @Param("newPassword")String newPassword);
 
     int mredelAccount(Integer id);
+
+    void changePasswordByPhone(@Param("phone")String phone,@Param("password")String password, @Param("role")int role);
+
+    void changePasswordByEmail(@Param("email")String email,@Param("password")String password,@Param("role") int role);
 }

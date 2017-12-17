@@ -84,7 +84,7 @@ $(function () {
                     stringLength: {
                         min: 1,
                         max: 2,
-                        message: '配送时间分钟为单位'
+                        message: '配送距离以公里为单位'
                     }
                 }
             },

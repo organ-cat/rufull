@@ -55,7 +55,7 @@ public class AddressController {
     public ModelAndView returnView(int accountId) {
         List<Address> addresses = addressService.queryAddressList(accountId);
         ModelAndView view = new ModelAndView();
-        view.setViewName("account/login/address");
+        view.setViewName("account/address");
         view.addObject(Address.ADDRESS_REQUEST, addresses);
         return view;
     }

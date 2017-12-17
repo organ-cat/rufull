@@ -191,19 +191,19 @@
             </a>
         </div>
 
-        <div class="rst-subheader-nav-search " >
-            <div id="topbar_search" class="topbar-search" role="search">
-                <form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">
-                    <i id="" class="glyphicon glyphicon-search"></i>
-                    <input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />
+        <%--<div class="rst-subheader-nav-search " >--%>
+            <%--<div id="topbar_search" class="topbar-search" role="search">--%>
+                <%--<form id="tsearch_form" class="tsearch-form group" action="http://ele.me/search" method="get">--%>
+                    <%--<i id="" class="glyphicon glyphicon-search"></i>--%>
+                    <%--<input id="" class="tsearch-input" type="text" name="kw" autocomplete="off" placeholder="搜索餐厅，美食…" />--%>
 
-                </form>
-            </div>
-        </div>
+                <%--</form>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
     </div>
 
-
+</div>
 
 
     <div class="container">
@@ -212,11 +212,13 @@
             <nav>
                 <ul class="nav nav-tabs nav-style" role="tablist">
                     <li role="presentation" class="active"><a href="#all"
-                                                              aria-controls="home" role="tab" data-toggle="tab">全部</a></li>
+                                                              aria-controls="home" role="tab" data-toggle="tab">全部(1056)</a></li>
                     <li role="presentation"><a href="#good" aria-controls="profile"
-                                               role="tab" data-toggle="tab">满意</a></li>
+                                               role="tab" data-toggle="tab">满意(533)</a></li>
                     <li role="presentation"><a href="#bad" aria-controls="messages"
-                                               role="tab" data-toggle="tab">不满意</a></li>
+                                               role="tab" data-toggle="tab">不满意(56)</a></li>
+                    <li role="presentation"><a href="#images"
+                                               aria-controls="settings" role="tab" data-toggle="tab">有图(98)</a></li>
                 </ul>
             </nav>
 
@@ -225,8 +227,12 @@
             <!-- 餐厅收藏 -->
             <div class="rst-fav-wrapper">
                 <div id="rst_fav" class="rst-block rst-fav">
-                    <i class="glyph">♥</i>
+                    <a href="#"><i class="glyph">♥</i></a>
                     <span class="status" data-unfaved="收藏 餐厅" data-faved="已收藏">收藏 餐厅</span>
+                </div>
+                <div id="rst_complain" class="rst-block rst-fav">
+                    <a href="#"><i class="glyph">✘</i></a>
+                    <span class="status" data-unfaved="投诉 餐厅" data-faved="已投诉">投诉 餐厅</span>
                 </div>
             </div>
 
@@ -534,6 +540,7 @@
                         </li>
                     </c:forEach>
                 </ul>
+
             </div>
         </article>
 
@@ -541,12 +548,14 @@
         <aside id="rst_aside" class="restaurant-aside">
             <section class="rst-block restaurant-board">
                 <h3 class="rst-aside-title">餐厅公告</h3>
-                <p class="rst-deliver-detail"> <i class="icon-rst-deliver"></i>起送价<span class="rst_deliver_amount"></span>元。 </p>
                 <ul class="rst-badge-list">
-                    <li class="rst-badge-item"> <i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证 </li>
+                    <li class="rst-badge-item"><i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证</li>
                     <li class="rst-badge-item"><i class="icon-rst-badge online-payment"></i>该餐厅支持在线支付</li>
-                    <li class="rst-badge-item"><i class="icon-rst-badge new-user-discount"></i>饿了么新用户首次订餐，可立减15元。(不与其他活动同享)</li>
-                    <li class="rst-badge-item"><i class="icon-rst-badge extra-discount"></i>在线支付满20减10</li>
+                    <div class="shopAccountment">
+                        <li class="rst-badge-item">
+                            <p>${shop.announcement}</p>
+                        </li>
+                    </div>
                 </ul>
             </section>
             <section id="favor_food" class="rst-block"></section>
@@ -561,14 +570,9 @@
             </section>
         </aside>
     </div>
-
-
-
-
-
+    <div class="bottomfooter"></div>
 
     <!-- 页脚 -->
-
     <footer class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -597,9 +601,15 @@
             </div>
         </div>
     </footer>
+
 </body>
 <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/index.js"></script>
+<script type="text/javascript">
 
+    var shopId ="${shop.id}";
+    var accountId =  "${sessionScope.account.id}";
+
+</script>
 </html>

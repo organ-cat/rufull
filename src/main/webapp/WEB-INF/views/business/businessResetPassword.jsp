@@ -107,7 +107,7 @@
                     <div class="col-md-2">
                         <a href="#" class="photo_a">
                             <img class="businessPhoto img-circle"
-                                 src="${pageContext.request.contextPath}/upload/account/${sessionScope.shop.shopPhoto}">
+                                 src="${pageContext.request.contextPath}/upload/shop/${sessionScope.shop.shopPhoto}">
                             <p>头像</p>
                         </a>
                     </div>

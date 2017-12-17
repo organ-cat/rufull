@@ -21,6 +21,7 @@ INSERT INTO ACCOUNT(id,username,password,phone,email,nickname,photo,balance,stat
 VALUES(28,NULL,'123456',NULL,'113@qq.com',NULL,NULL,NULL,100,'2017-12-12 11:26:59',2,NULL);
 
 
+
 /*地址表数据*/
 INSERT INTO ADDRESS(id,receiver,phone,location,detail,status,account_id)
 VALUES(1,'江爸爸','13413600394','广东省湛江市麻章区','广东海洋大学海浪A',1,1);
@@ -44,6 +45,8 @@ INSERT INTO BUSINESS(id, front_photo, inside_photo, id_back_photo, id_front_Phot
 VALUES(2,'B商家正面照片.jpg','B商家反面照片.jpg','B身份证反面.jpg','B身份证正面.jpg','460033199409111163','B商家营业执照.jpg','B商家餐厅营业服务.jpg',2);
 INSERT INTO business(id, front_photo, inside_photo, id_back_photo, id_front_Photo, identifier, business_licence, catering_service_license, account_id)
 VALUES(3,'C商家正面照片.jpg','C商家反面照片.jpg','C商家身份证反面.jpg','C商家身份证正面.jpg','460033199409111193','C商家营业执照.jpg','C商家餐厅营业服务.jpg',3);
+
+
 
 /*商店表数据*/
 INSERT INTO SHOP (id, shop_name, shop_type, shop_photo, shop_phone, address, operate_time, operate_state, lat, lon, support_payment, shipping_distance, shipping_price, shipping_time, shipping_fee, announcement, business_id)
@@ -101,7 +104,7 @@ VALUES(2,'2017112902','2017-11-29 10:15:23','2017-11-29 12:34:28','2017-11-29 10
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
 VALUES(3,'2017112903','2017-11-29 13:00:00',NULL,NULL,'UNPAID','ONLINE','UNPAID',null,'这是一个要取消的订单',13.50,2,3,3,3);
 INSERT INTO `ORDER`(id, order_number, created_time, completed_time, accepted_time, status, payment_method, payment_status, shipping_status, notes, total, account_id, shop_id, business_id,address_id)
-VALUES(4,'2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','DELIVERY','ONLINE','PAID','SHIPPING','这是一个未确认的订单',32.50,2,3,3,2);
+VALUES(4,'2017112904','2017-11-29 21:30:03',NULL,'2017-11-29 21:41:29','ACCEPTED','ONLINE','PAID','SHIPPING','这是一个未确认的订单',32.50,2,3,3,2);
 
 /*订单项表数据*/
 INSERT INTO LINE_ITEM(id, product_name, price, quantity, order_id, product_id)

@@ -42,7 +42,7 @@ public class Account implements Serializable {
     public final static String NEW_PHONE_CHECK_CODE = "newPhoneCheckCode";//session中异地登陆验证码的名称
     public final static String EMAIL_CHECK_CODE = "emailCheckCode";//session中异地登陆验证码的名称
     public final static String NEW_EMAIL_CHECK_CODE = "newEmailCheckCode";//session中异地登陆验证码的名称
-
+    public final static String FORGOT_PASSWORD = "forgotPassword";
 
     public Account() {
     }

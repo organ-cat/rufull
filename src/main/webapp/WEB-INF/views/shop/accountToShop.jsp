@@ -41,7 +41,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="hidden-sm hidden-md active"><a href="#">首页</a></li>
-                    <li><a href="#">我的订单</a></li>
+                    <li><a href="${pageContext.request.contextPath}/rufull/cart">我的订单</a></li>
                     <li><a href="#">加盟合作</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -82,17 +82,17 @@
             <header class="rst-header-info group">
                 <!-- 商店图标 图片-->
 
-                <a class="rst-logo" href="/zb-eamonn" itemprop="url">
+                <a class="rst-logo" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}" itemprop="url">
                     <%--商家图片--%>
-                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/business/${shop.shopPhoto}"
+                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/shop/${shop.shopPhoto}"
                          alt="${shop.shopName}"
                          itemprop="logo"/>
                 </a>
                 <!-- 商店图标 文字-->
                 <div class="rst-basic-info">
                     <div class="">
-                        <a class="rst-name text-overflow" href="/zb-eamonn"
-                           data-toggle="bs-tooltip" href="/zb-eamonn">
+                        <a class="rst-name text-overflow" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}"
+                           data-toggle="bs-tooltip" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
                             ${shop.shopName}
                         </a>
                         <!-- span对应的类需要将:before去掉 -->
@@ -244,34 +244,38 @@
         <div class="restaurant-main">
             <div id="rating_wrap" class="rst-rating-wrapper">
                 <section id="productSelect" class="rst-rating-column rst_rating_wrap">
+
+
                     <c:forEach items="${shop.productList}" var="product">
-                        <div class="rst-block rst-rating-block">
-                            <div class="product_img">
-                                <a href="/zb-eamonn" itemprop="url">
-                                    <img class="rst-img"
-                                         src="${pageContext.request.contextPath}/upload/product/${product.photo}"
-                                         alt=""${shop.shopName}"
-                                    />
-                                </a>
+                        <c:if test="${product.status == 0}">
+                            <div class="rst-block rst-rating-block">
+                                <div class="product_img">
+                                    <a href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}" itemprop="url">
+                                        <img class="rst-img"
+                                             src="${pageContext.request.contextPath}/upload/product/${product.photo}"
+                                             alt=""${shop.shopName}"
+                                        />
+                                    </a>
+                                </div>
+                                <div class="product_name">
+                                    <h4><b>${product.productName}</b></h4>
+                                    <p class="produce_name_comments">
+                                        <span class="produce_name_font">评分：${查询到的商品评价}</span>
+                                        <span>♥♥♥♥♥</span>
+                                        <span>月售：${product.salesVolume}</span>
+                                    </p>
+                                </div>
+                                <div class="product_price">
+                                    <span class="product_price_symbol">¥</span>
+                                    <span class="product_price_digital">${product.price}</span>
+                                </div>
+                                <div class="product_cart">
+                                    <a href="${pageContext.request.contextPath}/cart/add/${shop.id}/${product.id}?shopName=${product.productName}&address=${shop.address}">
+                                        <button class="product_cart_button">加入购物车</button>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="product_name">
-                                <h4><b>${product.productName}</b></h4>
-                                <p class="produce_name_comments">
-                                    <span class="produce_name_font">评分：${查询到的商品评价}</span>
-                                    <span>♥♥♥♥♥</span>
-                                    <span>月售：${product.salesVolume}</span>
-                                </p>
-                            </div>
-                            <div class="product_price">
-                                <span class="product_price_symbol">¥</span>
-                                <span class="product_price_digital">${product.price}</span>
-                            </div>
-                            <div class="product_cart">
-                                <a href="${pageContext.request.contextPath}/cart/add/${shop.id}/${product.id}?shopName=${product.productName}">
-                                    <button class="product_cart_button">加入购物车</button>
-                                </a>
-                            </div>
-                        </div>
+                        </c:if>
                     </c:forEach>
                 </section>
             </div>
@@ -282,23 +286,20 @@
     <aside id="rst_aside" class="restaurant-aside">
         <section class="rst-block restaurant-board">
             <h3 class="rst-aside-title">餐厅公告</h3>
-
             <ul class="rst-badge-list">
                 <li class="rst-badge-item"><i class="icon-rst-badge v v-person"></i> 该商家已通过个人身份认证</li>
                 <li class="rst-badge-item"><i class="icon-rst-badge online-payment"></i>该餐厅支持在线支付</li>
-                <li class="rst-badge-item"><i class="icon-rst-badge extra-discount"></i>${shop.announcement}</li>
+                <div class="shopAccountment">
+                    <li class="rst-badge-item">
+                        <p>${shop.announcement}</p>
+                    </li>
+                </div>
             </ul>
         </section>
         <section id="favor_food" class="rst-block"></section>
         <section id="rec_food" class="rst-block hide">
             <h3 class="rst-aside-title">本周热卖</h3>
             <ul id="weekly_ranking" class="rst-aside-menu-list"></ul>
-        </section>
-
-        <section class="rst-block restaurant-board fixed rst_fix_panel">
-            <h3 class="rst-aside-title">餐厅公告</h3>
-            <p class="rst-deliver-detail"><i class="icon-rst-deliver"></i>起送价<span class="rst_deliver_amount"></span>元。
-            </p>
         </section>
     </aside>
 </div>

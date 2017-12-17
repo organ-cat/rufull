@@ -186,6 +186,7 @@
                     <input id="lon" type="text" name="lon" class="form-control" readonly="true">
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-sm-6 col-md-offset-3">
                     <input class="form-control btn btn-primary" id="submit"

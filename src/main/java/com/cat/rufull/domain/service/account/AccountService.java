@@ -58,4 +58,8 @@ public interface AccountService {
     boolean updatePassword(int id, String newPassword, String oldPassword);
 
     int mredelAccount(Integer id);
+
+    void changePasswordByPhone(String phone, String password, int role);
+
+    void changePasswordByEmail(String email, String password, int role);
 }

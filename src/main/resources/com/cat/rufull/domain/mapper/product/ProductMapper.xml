@@ -67,24 +67,24 @@
         UPDATE PRODUCT
         <set>
             <if test="productName != null">
-                  product_name = #{productName}
+                  product_name = #{productName},
             </if>
             <if test="price != null">
-                   price = #{price}
+                   price = #{price},
             </if>
             <if test="status != null">
-                   status = #{status}
+                   status = #{status},
             </if>
             <if test="salesVolume != null">
-                sales_volume = #{salesVolume}
+                sales_volume = #{salesVolume},
             </if>
             <if test="description != null">
-                description = #{description}
+                description = #{description},
             </if>
             <if test="photo != null">
-                photo = #{photo}
+                photo = #{photo},
             </if>
-            <if test="shopId!= null">
+            <if test="shopId != null">
                 shopId = #{shopId}
             </if>
         </set>
