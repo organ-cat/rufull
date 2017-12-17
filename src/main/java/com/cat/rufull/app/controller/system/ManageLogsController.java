@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,8 +26,10 @@ import java.util.List;
 public class ManageLogsController {
     @Resource
     private ManagerLogService managerLogService;
+
     /**
      * 展示管理日志
+     *
      * @param model
      * @return
      */
@@ -39,6 +42,7 @@ public class ManageLogsController {
 
     /**
      * 展示用户日志
+     *
      * @param model
      * @return
      */
@@ -51,6 +55,7 @@ public class ManageLogsController {
 
     /**
      * 跳转到查询页面
+     *
      * @return
      */
     @RequestMapping("goLogs")
@@ -60,6 +65,7 @@ public class ManageLogsController {
 
     /**
      * 根据条件查询
+     *
      * @param beginTime
      * @param endTime
      * @param keyword
@@ -67,19 +73,24 @@ public class ManageLogsController {
      * @return
      */
     @RequestMapping("/checkLogs")
-    public String checkLogs(String beginTime,String endTime, String keyword, Model model)
-    throws  Exception{
-        System.out.println("我执行了");
+    public String checkLogs(String beginTime, String endTime, String keyword, Model model, HttpServletRequest request)
+            throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date begin = null;
         Date end = null;
-        if(beginTime!=null&&beginTime!="") {
+        if (beginTime != null && beginTime != "") {
             begin = formatter.parse(beginTime);
-        }if(endTime!=null&&endTime!=""){
+        }
+        if (endTime != null && endTime != "") {
             end = formatter.parse(endTime);
         }
-        List<ManageLog> manageLogs = managerLogService.findLogsByCondition(begin,end,"%"+keyword+"%");
+        if (begin != null && end != null && begin.getTime() > end.getTime()) {
+            request.setAttribute("timeerror", "时间错误");
+            return "system/managelog/findlog";
+        }
+        List<ManageLog> manageLogs = managerLogService.findLogsByCondition(begin, end, "%" + keyword + "%");
         model.addAttribute("Logslist", manageLogs);
         return "system/managelog/findlog";
     }
+
 }

@@ -68,7 +68,7 @@
                             <c:if test="${account.photo == null}">
                                 <li class="usernameLiImg">
                                     <a href="#" class="aLabel">
-                                    <img class="photoShow" src="http://localhost:8080/rufull/upload/account/rufull.png" alt="头像" />
+                                    <img class="photoShow" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像" />
                                         <c:if test="${account.nickname == null}">
                                             <span >Hi,美食家</span>
                                         </c:if>
@@ -80,7 +80,7 @@
                             </c:if>
                             <c:if test="${account.photo != null}">
                                 <li class="usernameLiImg">
-                                    <a href="#" class="aLabel"><img class="photoShow" src="http://localhost:8080/rufull/upload/account/${account.photo}" alt="头像" />
+                                    <a href="#" class="aLabel"><img class="photoShow" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像" />
                                         <c:if test="${account.nickname == null}">
                                             <span >Hi,美食家</span>
                                         </c:if>
@@ -193,8 +193,8 @@
 
     <footer class="homepage-footer" style="background-color: #00000000">
         <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" target="_blank">我要开店</a>
-        <a class="footer-nav" href="" target="_blank">问题答疑</a>
-        <a class="footer-nav" href="" target="_blank">规则中心</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/service/gethelp" target="_blank">问题答疑</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/service/getAgreement" target="_blank">规则中心</a>
     </footer>
 </div>
 </div>

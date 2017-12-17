@@ -9,6 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
+<!DOCTYPE html>
+<html lang="zh-cn">
 <head>
     <title>管理员更新用户信息</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -63,6 +65,9 @@
                 swal("操作失败", "更新用户信息出错!", "error");
             };
         }
+        phone.oninvalid=function(){
+            phone.setCustomValidity("请输正确的手机号码？");
+        };
     </script>
 </head>
 <body>
@@ -72,28 +77,28 @@
     <div class="col-sm-8" style="padding-top: 80px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="username">用户姓名:</label>
-            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
+            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username" required
                    value="${requestScope.maccount.username}" name="username" placeholder="请输入姓名！">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">用户密码:</label>
-            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="phone"
+            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="phone" required
                    value="${requestScope.maccount.password}" name="password" placeholder="请填写新密码">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">用户手机:</label>
-            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"
+            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone" pattern="^1[3-9]\d{9}$" required
                    value="${requestScope.maccount.phone}" name="phone" placeholder="1xxxxxxxxxx">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 200px">
         <div class="form-group">
             <label style="font-size: 20px;" for="exampleInputEmail2">用户邮箱:</label>
-            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2"
+            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2" required
                    value="${requestScope.maccount.email}" name=" email" placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>

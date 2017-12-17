@@ -21,6 +21,10 @@
     <%--时间控件--%>
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <script type="text/javascript">
 
         $(function () {
@@ -43,9 +47,17 @@
                 document.findaccorder.submit();
             }
             else{
-                alert("您尚未登录");
-
+                swal("操作失败", "您尚未登录!", "error");
                 }
+        }
+
+        var timeerror = "${timeerror}";
+
+        if(timeerror!= '')
+        {
+            window.onload = function() {
+                swal("操作失败", "开始时间不能大于结束时间!", "error");
+            };
         }
 
         //导出文件
@@ -168,13 +180,13 @@
                         <tr>
                             <th>请选择时间:</th>
                             <td colspan="2">
-                                <input type="text" class="form-control input-lg" id="begin"
+                                <input type="text" class="form-control input-lg" id="begin" readonly="readonly"
                                        name="beginTime" style="min-width: 200px;max-width: 200px;"
                                        placeholder="请输入开始时间">
                             </td>
 
                             <td>
-                                <input type="text" class="form-control input-lg" id="end"
+                                <input type="text" class="form-control input-lg" id="end" readonly="readonly"
                                        name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">
                             </td>
                             <td>

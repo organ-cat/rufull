@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -99,14 +100,16 @@ public class DateAnalysisController {
      * @return
      */
     @RequestMapping("/getOrdersByTime")
-    public String getOrdersByTime( @RequestParam("type")String type, Model model,
-                            @RequestParam("begin") String begin, @RequestParam("end")String end)
+    public String getOrdersByTime(@RequestParam("type")String type, Model model,
+                                  @RequestParam("begin") String begin, @RequestParam("end")String end,
+                                  HttpServletRequest request)
                             throws Exception{
         int a = 0;
         int b = 0;
         int c = 0;
         int d = 0;
         int e = 0;
+        Order oList = new Order();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date begintime = null;
         Date endtime = null;
@@ -115,8 +118,31 @@ public class DateAnalysisController {
         }if(end!=null&&end!=""){
             endtime = formatter.parse(end);
         }
+        if(begintime!=null&&endtime!=null&&begintime.getTime()>endtime.getTime())
+        {
+
+            model.addAttribute("morder", oList);
+            model.addAttribute("a", a);
+            model.addAttribute("b", b);
+            model.addAttribute("c", c);
+            model.addAttribute("d", d);
+            model.addAttribute("e", e);
+            int i = Integer.parseInt(type);
+            if (i == 1) {
+                request.setAttribute("timeerror","时间错误");
+                return "system/dataorder/cyliorders";
+            }
+            if (i == 2) {
+                request.setAttribute("timeerror","时间错误");
+                return "system/dataorder/fanorders";
+            }
+            if (i == 3) {
+                request.setAttribute("timeerror","时间错误");
+                return "system/dataorder/lineorders";
+            } else
+                return null;
+        }
         List<Order> orderList = orderService.findOrdersBetween(begintime, endtime);
-        Order oList = new Order();
         for (Order order : orderList) {
             if (0 < Double.parseDouble(order.getTotal().toString()) &&
                     Double.parseDouble(order.getTotal().toString()) <= 10.0) {

@@ -40,18 +40,26 @@
                     elem: '#begin'
                     , type: 'datetime'
                 });
-                function findallorders() {
-                    document.findorder.submit();
-                }
             });
         });
         function getdetail(id) {
             window.location.href = "${pageContext.request.contextPath}/ordermanage/getOrder?id=" + id;
         }
+        function findallorders() {
+            document.findorder.submit();
+        }
         var logerror = "${logerror}";
+        var timeerror = "${timeerror}";
+
         if(logerror!='') {
             window.onload = function() {
                 swal("操作失败", "插入日志出错!", "error");
+            };
+        }
+        if(timeerror!= '')
+        {
+            window.onload = function() {
+                swal("操作失败", "开始时间不能大于结束时间!", "error");
             };
         }
     </script>
@@ -64,9 +72,9 @@
     <div class="col-sm-12">
         <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
 
-            <input  type="text" class="form-control input-lg" id="begin"
+            <input  type="text" class="form-control input-lg" id="begin" readonly="readonly"
                     name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
-            <input type="text" class="form-control input-lg" id="end"
+            <input type="text" class="form-control input-lg" id="end" readonly="readonly"
                    name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
             &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
