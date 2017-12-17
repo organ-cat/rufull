@@ -36,7 +36,7 @@ public class ManageAccountController {
     @Resource
     private ManagerLogService logService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
     private Date date = new Date();
 
 
@@ -49,7 +49,6 @@ public class ManageAccountController {
      */
     @RequestMapping("/getAccount")
     public String getAccount(Integer id, Model model, HttpSession session) {
-        session.removeAttribute("updateAccerror");
         Account account = accountService.findAccountById(id);
         model.addAttribute("maccount", account);
         return "system/account/updateaccount";
@@ -75,10 +74,8 @@ public class ManageAccountController {
      * @return
      */
     @RequestMapping("/updateacccount")
-    public String updateManager(Account account, HttpSession session, RedirectAttributes attr) {
-        session.removeAttribute("updateAccerror");
-        session.removeAttribute("updateAccsuccess");
-        session.removeAttribute("logerror");
+    public String updateManager(Account account, HttpSession session, RedirectAttributes attr,
+                                HttpServletRequest request) {
         Manager mana = (Manager) session.getAttribute("manager");
         Account old = accountService.findAccountById(account.getId());
         old.setUsername(account.getUsername());
@@ -88,7 +85,7 @@ public class ManageAccountController {
         old.setEmail(account.getEmail());
         int i = accountService.mUpdateAccount(old);
         if (i >= 1) {
-            session.setAttribute("updateAccsuccess", "更新成功了");
+            attr.addFlashAttribute("updateAccsuccess","更新成功");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("修改用户信息！");
             log.setManager(mana);
@@ -98,13 +95,13 @@ public class ManageAccountController {
             if (a >= 1) {
                 return "redirect:getAccountList";
             } else {
-                session.setAttribute("logerror", "日志写入失败");
+                attr.addFlashAttribute("logerror", "日志写入失败");
                 Integer id = account.getId();
                 attr.addAttribute("id", id);
                 return "redirect : getAccount";
             }
         } else {
-            session.setAttribute("updateAccerror", "更新失败了");
+            attr.addFlashAttribute("updateAccerror", "更新失败了");
             Integer id = account.getId();
             attr.addAttribute("id", id);
             return "redirect : getAccount";
@@ -118,18 +115,45 @@ public class ManageAccountController {
      * @return
      */
     @RequestMapping("/delaccount")
-    public String delManager(Integer id, HttpSession session){
-        session.removeAttribute("delAccerror");
-        session.removeAttribute("delAccsuccess");
-        session.removeAttribute("logerror");
+    public String delManager(Integer id, HttpSession session,RedirectAttributes attr){
         Manager mana = (Manager) session.getAttribute("manager");
         Account account = new Account();
         account.setId(id);
         int i = accountService.mdelAccount(id);
         if (i >= 1) {
-            session.setAttribute("delAccsuccess","删除成功！");
+            attr.addFlashAttribute("delAccsuccess","删除成功！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("删除用户！");
+            log.setManager(mana);
+            log.setType(2);
+            log.setAccount(account);
+            int a = logService.addLog(log);
+            if (a >= 1) {
+                return "redirect:getAccountList";
+            } else
+                attr.addFlashAttribute("logerror","日志写入失败！");
+                return "redirect:manageAcc/getAccountList";
+        } else
+            attr.addFlashAttribute("delAccerror","删除失败！");
+            return "redirect:getAccountList";
+    }
+
+    /**
+     * 管理员恢复删除用户
+     * @param id
+     * @param session
+     * @return
+     */
+    @RequestMapping("/redelaccount")
+    public String redelManager(Integer id, HttpSession session,RedirectAttributes attr){
+        Manager mana = (Manager) session.getAttribute("manager");
+        Account account = new Account();
+        account.setId(id);
+        int i = accountService.mredelAccount(id);
+        if (i >= 1) {
+            attr.addFlashAttribute("redelAccsuccess","恢复删除成功！");
+            log.setCreateTime(DateFormat.getNewdate(date));
+            log.setDetail("恢复删除用户！");
             log.setManager((Manager) session.getAttribute("manager"));
             log.setType(2);
             log.setAccount(account);
@@ -137,12 +161,13 @@ public class ManageAccountController {
             if (a >= 1) {
                 return "redirect:getAccountList";
             } else
-                session.setAttribute("logerror","日志写入失败！");
-                return "redirect:manageAcc/getAccountList";
+                attr.addFlashAttribute("logerror","日志写入失败！");
+            return "redirect:manageAcc/getAccountList";
         } else
-            session.setAttribute("delAccerror","删除失败！");
-            return "redirect:getAccountList";
+            attr.addFlashAttribute("redelAccerror","恢复删除失败！");
+        return "redirect:getAccountList";
     }
+
 
     /**
      * 管理员通过某一字段查询用户
@@ -152,19 +177,20 @@ public class ManageAccountController {
      * @return
      */
     @RequestMapping("/findaccount")
-    public String find(@RequestParam("findname") String findname, Model model, HttpSession session){
-        session.removeAttribute("logerror");
+    public String findaccount(String findname, Model model, HttpSession session,
+                              RedirectAttributes attr){
+        Manager mana = (Manager) session.getAttribute("manager");
         List<Account> findlist = accountService.findName(findname);
         model.addAttribute("allalist", findlist);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询用户！");
-        log.setManager((Manager) session.getAttribute("manager"));
+        log.setManager(mana);
         log.setType(2);
         int a = logService.addLog(log);
         if (a >= 1) {
             return "system/account/accountlist";
         } else
-            session.setAttribute("logerror","出错了");
+            attr.addFlashAttribute("logerror","出错了");
         return "system/account/accountlist";
     }
 

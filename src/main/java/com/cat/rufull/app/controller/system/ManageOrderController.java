@@ -1,13 +1,13 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.ManageLog;
-import com.cat.rufull.domain.model.Manager;
-import com.cat.rufull.domain.model.Order;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.order.OrderService;
+import com.cat.rufull.domain.service.shop.ShopService;
+import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.expression.spel.ast.OpOr;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,8 +36,12 @@ public class ManageOrderController {
 
     @Resource
     private ManagerLogService logService;
+    @Resource
+    private AccountService accountService;
+    @Resource
+    private ShopService shopService;
 
-    private ManageLog log;
+    private ManageLog log = new ManageLog();
     private Date date = new Date();
 
     /**
@@ -46,9 +52,18 @@ public class ManageOrderController {
      * @return
      */
     @RequestMapping("/getOrdersbycondition")
-    public String getOrdersbycondition(@RequestParam("beginTime") Date beginTime,
-                                @RequestParam("endTime") Date endTime, Model model) {
-        List<Order> orderList = orderService.findOrdersBetween(beginTime, endTime);
+    public String getOrdersbycondition(String beginTime,
+                                String endTime, Model model) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date begin = null;
+        Date end = null;
+        if(beginTime!=null&&beginTime!="") {
+            begin = formatter.parse(beginTime);
+        }if(endTime!=null&&endTime!=""){
+            end = formatter.parse(endTime);
+        }
+        List<Order> orderList = orderService.findOrdersBetween(begin, end);
+        System.out.println(beginTime+"***************************"+endTime);
         model.addAttribute("morderlist", orderList);
         return "system/order/ordersList";
     }
@@ -59,8 +74,7 @@ public class ManageOrderController {
      */
     @RequestMapping("/findOrdersList")
     public String findOrdersList(Model model) {
-        List<Order> orderList =null;
-                //orderService.findAllOrders();
+        List<Order> orderList = orderService.findAllOrders();
         model.addAttribute("morderlist", orderList);
         return "system/order/ordersList";
     }
@@ -75,6 +89,10 @@ public class ManageOrderController {
     @RequestMapping("/getOrder")
     public String getOrder(Integer id, Model model) {
         Order order = orderService.findOrderById(id);
+        Account account = accountService.findAccountById(order.getAccountId());
+        Shop shop = shopService.findById(order.getShop().getId());
+        model.addAttribute("orderaccount",account);
+        model.addAttribute("ordershop",shop);
         model.addAttribute("morder", order);
         return "system/order/orderdetail";
     }
@@ -88,8 +106,8 @@ public class ManageOrderController {
      * @return
      */
     @RequestMapping("/getAccOrder")
-    public String getAccOrder(Integer accountid, Model model,HttpSession session) {
-        session.removeAttribute("logerror");
+    public String getAccOrder(Integer accountid, Model model, HttpSession session,
+                              HttpServletRequest request) {
         Manager mana = (Manager) session.getAttribute("manager");
         Account account = new Account();
         account.setId(accountid);
@@ -106,7 +124,7 @@ public class ManageOrderController {
             }
             return "system/order/accorder";
         } else
-            session.setAttribute("logerror","出错了！");
+            request.setAttribute("logerror","出错了！");
             for (Order order : list) {
                 model.addAttribute("morder", order);
             }

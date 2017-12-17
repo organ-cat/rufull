@@ -29,6 +29,8 @@ $citypicker.citypicker();
 
 var lng = "";
 var lat = "";
+var slng = "";
+var slat = "";
 var province = "";
 var city = "";
 var region = "";
@@ -65,43 +67,52 @@ function searchByStationName() {
     map.clearOverlays();//清空原来的标注
     var keyword = document.getElementById("address").value;
     localSearch.setSearchCompleteCallback(function (searchResult) {
-        var last=JSON.stringify(searchResult.wr[0].address);
 
-        var q=searchResult.province + "/" + searchResult.city + "/"+null;
+        var poi = searchResult.getPoi(0);
+        lng = poi.point.lng;
+        lat = poi.point.lat;
+        var last = JSON.stringify(searchResult.wr[0].address);
+        var q = searchResult.province + "/" + searchResult.city + "/" + null;
         //alert(q);
         var region = document.getElementById("city").value;
-        var strs= new Array(); //定义一数组
+        var strs = new Array(); //定义一数组
         strs = region.split(" -- ");
-        var name="";
-        for(var a=0;a<strs.length;a++){
-            name =name+strs[a];
+        var name = "";
+        for (var a = 0; a < strs.length; a++) {
+            name = name + strs[a];
         }
-        if(name!=searchResult.wr[0].address.substr(0,name.length)){
+        if (name != searchResult.wr[0].address.substr(0, name.length)) {
             //alert(searchResult.wr[0].address.substr(0,name.length))
             $citypicker.val(q);
             $citypicker.citypicker('refresh');
         }
-        else{
-            var q="";
-            for(var a=0;a<(2);a++){
-                q =q+strs[a] + "/";
+        else {
+            var q = "";
+            for (var a = 0; a < (2); a++) {
+                q = q + strs[a] + "/";
             }
-            q =q + strs[2];
+            q = q + strs[2];
             $citypicker.val(q);
             $citypicker.citypicker('refresh');
         }
 
-        addressvalue = strs[1]+keyword;
-        var poi = searchResult.getPoi(0);
-        lng = poi.point.lng;
-        lat = poi.point.lat;
+        if(strs.length==1) {
+            addressvalue = strs[0] + keyword;
+        }
+        if(strs.length==2) {
+            addressvalue = strs[1] + keyword;
+        }
+        if(strs.length==3) {
+            addressvalue = strs[2] + keyword;
+        }
         //alert( lng + "," + lat);
         map.centerAndZoom(poi.point, 15);
         var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat));  // 创建标注，为要查询的地方对应的经纬度
         map.addOverlay(marker);
         var content = document.getElementById("address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
         var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
-        marker.addEventListener("click", function () { this.openInfoWindow(infoWindow);
+        marker.addEventListener("click", function () {
+            this.openInfoWindow(infoWindow);
 
         });
     });
@@ -173,6 +184,22 @@ function setPlace() {
     });
     document.getElementById("address").value = myValue;
     local.search(myValue);
+}
+
+/**
+ * 判断用户地址是否在商家配送范围内
+ * @param accountPoint
+ * @param shopPoint
+ * @param scope
+ * @returns {boolean}
+ */
+function isWithinShippingScope(accountPoint, shopPoint, scope) {
+    if (!accountPoint || !shopPoint || !scope) return false;
+
+    // 获取两点距离
+    var distance = (map.getDistance(accountPoint, shopPoint)).toFixed(2);
+    // 距离在配送范围内,返回true,否则返回fasle
+    return distance <= scope * 1000
 }
 
 $('#searcher').click(function () {

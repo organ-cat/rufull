@@ -13,6 +13,8 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
     @Autowired
     private AddressMapper addressMapper;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public List<Address> queryAddressList(Integer accountId) {
@@ -23,6 +25,9 @@ public class AddressServiceImpl implements AddressService {
     public boolean addAddress(Address address) {
         int count = addressMapper.findAddressCount(address.getAccountId());
         if (count <= 12) {
+            if (address.getStatus() == Address.ADDRESS_DEFAULT) {
+                addressMapper.updateStatus(address);
+            }
             addressMapper.addAddress(address);
             return true;
         }
@@ -52,6 +57,9 @@ public class AddressServiceImpl implements AddressService {
         oldAddress.setAccountId(null);
         addressMapper.updateAddress(oldAddress);
         address.setId(null);
+        if (address.getStatus() == Address.ADDRESS_DEFAULT) {
+            addressMapper.updateStatus(address);
+        }
         addressMapper.addAddress(address);
     }
 }

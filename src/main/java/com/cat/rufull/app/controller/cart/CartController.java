@@ -3,6 +3,7 @@ package com.cat.rufull.app.controller.cart;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AddressService;
 import com.cat.rufull.domain.service.product.ProductService;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CartController {
     @Autowired
     protected Carts carts;
+
+    private ShopService shopService;
 
     private ProductService productService;
 
@@ -36,6 +39,12 @@ public class CartController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String list() {
+        for (Cart cart: carts.getCartList()) {
+            Shop shop = shopService.findById(cart.getShopId());
+            cart.setShopName(shop.getShopName());
+            cart.setAddress(shop.getAddress());
+        }
+
         return "cart/list";
     }
 
@@ -48,7 +57,13 @@ public class CartController {
      */
     @RequestMapping(value = "/{shopId}", method = RequestMethod.GET)
     public String show(@PathVariable("shopId") Integer shopId, Model uiModel) {
-        uiModel.addAttribute("cart", carts.getCart(shopId));
+        Cart cart = carts.getCart(shopId);
+        Shop shop = shopService.findById(shopId);
+
+        cart.setShopName(shop.getShopName());
+        cart.setAddress(shop.getAddress());
+
+        uiModel.addAttribute("cart", cart);
         return "cart/show";
     }
 
@@ -59,16 +74,21 @@ public class CartController {
      * @param productId
      * @return
      */
-    @RequestMapping(value = "/add/{shopId}/{productId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/{shopId}/{productId}", method = RequestMethod.GET)
     public String add(@PathVariable("shopId") Integer shopId,
-                      @PathVariable("productId") Integer productId,
-                      @RequestParam("shopName") String shopName) {
+                      @PathVariable("productId") Integer productId) {
         Cart cart = carts.getCart(shopId); // 获取当前商店的购物车
+        Shop shop = shopService.findById(shopId);
 
         if (cart == null) { // 如果不存在,创建对应商店的购物车
-            cart = new Cart(shopId, shopName);
+            cart = new Cart(shopId);
             carts.addCart(shopId, cart);
         }
+
+        // 设置购物车商店名,商店地址
+        cart.setShopName(shop.getShopName());
+        cart.setAddress(shop.getAddress());
+
         if (cart.containsProductId(productId)) { // 如果购物车有此商品
             cart.increaseQuantityById(productId); // 增加该商品数量
         } else { // 否则,新增一个商品
@@ -137,12 +157,14 @@ public class CartController {
     @RequestMapping(value = "/checkout/{shopId}")
     public String checkOut(@PathVariable("shopId") Integer shopId, Model uiModel, HttpSession session) {
         Cart cart = carts.getCart(shopId); // 获取当前商店的购物车
+        Shop shop = shopService.findById(shopId);
 
         Account account = getSessionAccount(session);
         List<Address> addresses = addressService.queryAddressList(account.getId()); // 获取当前登录用户的地址列表
 
         uiModel.addAttribute("cart", cart);
         uiModel.addAttribute("addresses", addresses);
+        uiModel.addAttribute("shop", shop);
         return "cart/checkout";
     }
 
@@ -171,14 +193,14 @@ public class CartController {
 
     @RequestMapping(value = "/init")
     public String InitCartData() {
-        add(1,1, "皮皮虾");
-        add(1,1, "皮皮虾");
-        add(1,2, "皮皮虾");
-        add(1,3, "皮皮虾");
-        add(2,6, "佳士顿");
-        add(2,6, "佳士顿");
-        add(2,7, "佳士顿");
-        add(3,12, "美味源");
+        add(1,1);
+        add(1,1);
+        add(1,2);
+        add(1,3);
+        add(2,6);
+        add(2,6);
+        add(2,7);
+        add(3,12);
         return "redirect:/cart";
     }
 
@@ -191,6 +213,10 @@ public class CartController {
         return (Account) session.getAttribute(SESSION_ACCOUNT);
     }
 
+    @Autowired
+    public void setShopService(ShopService shopService) {
+        this.shopService = shopService;
+    }
 
     @Autowired
     public void setProductService(ProductService productService) {

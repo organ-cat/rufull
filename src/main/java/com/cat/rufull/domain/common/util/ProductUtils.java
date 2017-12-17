@@ -12,7 +12,8 @@ import java.util.UUID;
 public class ProductUtils {
     public static Product upload2Product(MultipartFile file,
                                    Product product,
-                                   HttpServletRequest request){
+                                   HttpServletRequest request,
+                                         Integer shopId){
         //上传文件：
         String uploadPath = request.getServletContext().getRealPath("/upload/product");
         String fileName = UUID.randomUUID()+file.getOriginalFilename();
@@ -22,6 +23,26 @@ public class ProductUtils {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("添加商品上传文件出错。。。");
+        }
+
+        product.setPhoto(fileName);
+        product.setShopId(shopId);
+        return product;
+    }
+
+    public static Product update2Product(MultipartFile file,
+                                         Product product,
+                                         HttpServletRequest request
+                                         ){
+        //上传文件：
+        String uploadPath = request.getServletContext().getRealPath("/upload/product");
+        String fileName = UUID.randomUUID()+file.getOriginalFilename();
+
+        try {
+            FileUtils.copyInputStreamToFile(file.getInputStream(),new File(uploadPath,fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("更新商品上传文件出错。。。");
         }
 
         product.setPhoto(fileName);

@@ -4,16 +4,25 @@ body.ui_no_scroll {
 }
 
 .restaurant-main {
-	margin-top: 10px;
+	 margin-top: 10px;
+	 float: left;
+	 margin-right: 14px;
+	 width: 666px
+ }
+
+.restaurant-main-licence {
+	margin-top: -20px;
 	float: left;
 	margin-right: 14px;
 	width: 666px
 }
 
 .restaurant-aside {
-	margin-top: 10px;
+	margin-top: 20px;
 	float: right;
-	width: 250px
+	width: 250px;
+	border: 1px;
+	background-color:#ff6c0f;
 }
 
 @media (min-width:1280px) {
@@ -210,6 +219,7 @@ body.ui_no_scroll {
 	font-size: 13px
 }
 
+
 .rating-point>.point {
 	display: block;
 	color: #ff6c0f;
@@ -312,6 +322,13 @@ body.ui_no_scroll {
 	width: 54px
 }
 
+.rst-fav-wrapper-next{
+	position: absolute;
+	top: 106px;
+	right: -68px;
+	width: 54px
+}
+
 .rst-fav {
 	margin: 0;
 	padding: 14px 7px 10px;
@@ -401,7 +418,8 @@ body.ui_no_scroll {
 	margin-top: 14px;
 	width: 100%;
 	height: 70px;
-	box-shadow: 0 1px 1px rgba(0,0,0,.08)
+	box-shadow: 0 1px 1px rgba(0,0,0,.08);
+	background-color:#EEEEEE;
 }
 
 .restaurant-header:hover .btn-last-page {
@@ -800,23 +818,26 @@ body.ui_no_scroll {
 
 
 
+
 .rst-subheader-nav-left.active {
 	color: #0089dc;
 }
 
 a:link{
 	text-decoration:none;
-	color: #000;
+	color: #8090a0;
 }
 a:visited{
 	text-decoration:none;
-	color: #000;
+	color: #8090a0;
 }
 a:hover{
 	text-decoration:none;
+	color: #8090a0;
 }
 a:active{
 	text-decoration:none;
+	color: #8090a0;
 }
 
 .rst-subheader-nav-right{
@@ -2887,8 +2908,9 @@ input.rcart-d-qty:focus {
 
 .rst-rating-wrapper {
 	padding: 14px 14px 0;
-	background: #f0f0f0;
-	box-shadow: 0 1px 1px rgba(0,0,0,.08)
+	background:#EEEEEE;
+	box-shadow: 0 1px 1px rgba(0,0,0,.08);
+	margin-bottom: 14px;
 }
 
 .rst-rating-wrapper>.rst-pager {

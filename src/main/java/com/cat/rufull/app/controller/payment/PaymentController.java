@@ -60,7 +60,7 @@ public class PaymentController {
                           HttpServletResponse response) throws Exception{
 
         Order order = orderService.findOrderById(id); // 获取订单详情
-
+        String orderNumber = order.getOrderNumber();   //获取订单编号
         if(order.getPaymentMethod().equals("ONLINE")){    //判断为在线支付
             // 付款:
             // 定义付款的参数:

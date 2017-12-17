@@ -47,7 +47,7 @@
         SELECT
         <include refid="Shop_Column_List"/>
         FROM SHOP
-       WHERE shop_name LIKE "%"#{shopName}"%"
+       WHERE shop_name LIKE #{shopName}
     </select>
     <!--查询没有休息的商家-->
     <select id="findAllOnlineShop" resultMap="ShopResultMap" resultType="list">
@@ -74,7 +74,7 @@
         SELECT
         <include refid="Shop_Column_List"/>
         FROM SHOP
-        WHERE id = #{business_id}
+        WHERE business_id= #{business_id}
     </select>
 
     <!--// 通过Id删除商店-->

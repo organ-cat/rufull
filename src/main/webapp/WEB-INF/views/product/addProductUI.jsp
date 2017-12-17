@@ -15,14 +15,16 @@
 
 
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/fileinput.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/bootstrap-select.css">
-
+    <link rel="stylesheet" type="text/css"
+          href="${pageContext.request.contextPath}/css/business/bootstrapValidator.min.css">
 
 
 </head>
 <body>
+
 <div class="container">
     <fieldset>
         <legend><h1 class="text-info">商品添加</h1></legend>
@@ -47,7 +49,7 @@
 
             <input type="hidden" name="status" value="0"/>
             <input type="hidden" name="salesVolume" value="0"/>
-
+            <input type="hidden" name="shopId" value="${sessionScope.shop.id}">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商品描述:</label>
                 <div class="col-md-4 tl th">
@@ -97,5 +99,7 @@
 <%--下拉列表--%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/bootstrap-select.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/defaults-zh_CN.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/bootstrapValidator.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/productSettleValidator.js"></script>
 
 </html>

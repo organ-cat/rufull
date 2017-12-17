@@ -15,7 +15,7 @@
 }
 .addAddress:hover{
     border: 1px solid #0098e9;
-    background-color: #F8F8F8;
+    background-color: #FFFFFF;
 }
 
 .addressShow{
@@ -32,7 +32,7 @@
 }
 .addressShow:hover {
     border: 1px solid #0098e9;
-    background-color: #F8F8F8;
+    background-color: #FFFFFF;
 }
 .addresssChange{
     position: relative;

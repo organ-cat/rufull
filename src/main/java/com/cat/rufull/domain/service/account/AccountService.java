@@ -10,7 +10,7 @@ public interface AccountService {
 
     public void register(Account account);
 
-    public void updateAccountPhoto(Account account);
+    public void updateAccountPhoto(Integer id ,String photo);
 
     public void deleteAccount(Integer id);
 
@@ -20,9 +20,9 @@ public interface AccountService {
 
     Account login(Account account);
 
-    void updateNickname(Account account);
+    void updateNickname(Integer id, String nickname);
 
-    void setUsername(Account account);
+    void setUsername(Integer id, String username);
 
     public Account findAccountByUsername(String username, Integer role);
 
@@ -53,5 +53,13 @@ public interface AccountService {
      */
     List<Account> findName(String findName);
 
-    void updateAccountStatus(int id, int status);
+    int updateAccountStatus(int id, int status);
+
+    boolean updatePassword(int id, String newPassword, String oldPassword);
+
+    int mredelAccount(Integer id);
+
+    void changePasswordByPhone(String phone, String password, int role);
+
+    void changePasswordByEmail(String email, String password, int role);
 }

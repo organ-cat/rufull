@@ -3,6 +3,7 @@ package com.cat.rufull.domain.mapper.account;
 import com.cat.rufull.domain.model.Complaint;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ComplaintMapper {
@@ -42,4 +43,10 @@ public interface ComplaintMapper {
     int completedComplaint(Complaint complaint);
 
     int handlerComplaint(@Param("id") int id, @Param("status") int status);
+
+    List<Complaint> completedComplaintList();
+
+    List<Complaint> findComplaintByTime(@Param("creatTime")Date creatTime,
+                                        @Param("completedTime") Date completedTime,
+                                        @Param("content") String content);
 }

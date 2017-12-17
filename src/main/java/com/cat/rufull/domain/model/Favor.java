@@ -21,6 +21,11 @@ public class Favor implements Serializable {
         this.shopId = shopId;
     }
 
+    public Favor(Integer accountId, Integer shopId) {
+        this.accountId = accountId;
+        this.shopId = shopId;
+    }
+
     public Integer getId() {
         return id;
     }

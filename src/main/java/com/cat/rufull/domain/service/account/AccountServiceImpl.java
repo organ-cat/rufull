@@ -39,13 +39,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateNickname(Account account) {
-        accountMapper.updateNickname(account);
+    public void updateNickname(Integer id,String nickname) {
+        accountMapper.updateNickname(id, nickname);
     }
 
     @Override
-    public void setUsername(Account account) {
-        accountMapper.setUsername(account);
+    public void setUsername(Integer id,String username) {
+        accountMapper.setUsername(id, username);
     }
 
 
@@ -74,8 +74,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAccountPhoto(Account account) {
-        accountMapper.updateAccountPhoto(account);
+    public void updateAccountPhoto(Integer id, String photo) {
+        accountMapper.updateAccountPhoto(id, photo);
     }
 
     @Override
@@ -107,7 +107,33 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.findName(findName);
     }
     @Override
-    public void updateAccountStatus(int id, int status) {
-        accountMapper.updateAccountStatus(id, status);
+    public int updateAccountStatus(int id, int status) {
+        return  accountMapper.updateAccountStatus(id, status);
+    }
+
+    @Override
+    public boolean updatePassword(int id, String newPassword, String oldPassword) {
+        Account account = accountMapper.findAccountPassword(id, oldPassword);
+        if (account == null) {
+            return false;
+        } else {
+            accountMapper.updatePassword(id, newPassword);
+            return true;
+        }
+    }
+
+    @Override
+    public int mredelAccount(Integer id) {
+        return accountMapper.mredelAccount(id);
+    }
+
+    @Override
+    public void changePasswordByPhone(String phone,String password, int role) {
+        accountMapper.changePasswordByPhone(phone,password, role);
+    }
+
+    @Override
+    public void changePasswordByEmail(String email,String password, int role) {
+        accountMapper.changePasswordByEmail(email,password, role);
     }
 }

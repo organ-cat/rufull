@@ -1,5 +1,7 @@
 package com.cat.rufull.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 /*
     商家类
  */
+@JsonIgnoreProperties(value = {"handler"})
 public class Shop implements Serializable {
 //    支持支付的三种方式
     public static final Integer SUPPORT_PAY_ONLINE_AND_CASH = 0;   // 支持支付方式：在线和货到付款
@@ -100,6 +103,11 @@ public class Shop implements Serializable {
         this.announcement = announcement;
         this.business = business;
         this.productList = productList;
+    }
+
+    public Shop(Integer id, Integer operateState) {
+        this.id = id;
+        this.operateState = operateState;
     }
 
     public Integer getId() {
@@ -244,6 +252,24 @@ public class Shop implements Serializable {
 
     public void setProductList(List<Product> productList) {
         this.productList = productList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Shop shop = (Shop) o;
+
+        if (!id.equals(shop.id)) return false;
+        return shopName.equals(shop.shopName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + shopName.hashCode();
+        return result;
     }
 
     @Override

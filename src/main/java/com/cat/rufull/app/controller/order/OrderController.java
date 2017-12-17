@@ -1,10 +1,12 @@
 package com.cat.rufull.app.controller.order;
 
+import com.cat.rufull.domain.common.util.PaginationResult;
 import com.cat.rufull.domain.model.*;
-import com.cat.rufull.domain.service.account.AddressService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.order.OrderService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,6 @@ public class OrderController {
 
     private BusinessService businessService;
 
-    private AddressService addressService;
-
     private MessageSource messageSource;
 
     private static final String SESSION_ACCOUNT = "account";
@@ -36,37 +36,64 @@ public class OrderController {
     @Autowired
     protected Carts carts;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String list(HttpSession session, Model uiModel) {
+    @RequestMapping(method = RequestMethod.GET, headers = "Accept=text/html")
+    public String list(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "");
+        uiModel.addAttribute("order_head", "近三个月订单");
+        return "order/list";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody
+    PaginationResult list(int offset, int limit, HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
+
+        Page<Object> page = PageHelper.offsetPage(offset, limit);
+
         List<Order> orders =
                 orderService.findOrderByAccountId(account.getId()); // 查询该用户的所有订单
 
-        uiModel.addAttribute("orders", orders);
+        return new PaginationResult(page.getTotal(), orders);
+    }
 
+    @RequestMapping(value = "/unrated", method = RequestMethod.GET, headers = "Accept=text/html")
+    public String listUnrated(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "unrated");
+        uiModel.addAttribute("order_head", "待评价订单");
         return "order/list";
     }
 
-    @RequestMapping(value = "/unrated", method = RequestMethod.GET)
-    public String listUnrated(HttpSession session, Model uiModel) {
+    @RequestMapping(value = "/unrated", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody
+    PaginationResult listUnrated(int offset, int limit, HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
+
+        Page<Object> page = PageHelper.offsetPage(offset, limit);
+
         List<Order> orders =
                 orderService.findUnratedOrderByAccountId(account.getId()); // 查询该用户的所有待评价订单
 
-        uiModel.addAttribute("orders", orders);
+        return new PaginationResult(page.getTotal(), orders);
+    }
 
+    @RequestMapping(value = "/refund", method = RequestMethod.GET, headers = "Accept=text/html")
+    public String listRefund(Model uiModel) {
+        uiModel.addAttribute("ordersUrl", "refund");
+        uiModel.addAttribute("order_head", "退单记录");
         return "order/list";
     }
 
-    @RequestMapping(value = "/refund", method = RequestMethod.GET)
-    public String listRefund(HttpSession session, Model uiModel) {
+    @RequestMapping(value = "/refund", method = RequestMethod.GET, headers = "Accept=application/json")
+    public @ResponseBody
+    PaginationResult listRefund(int offset, int limit, HttpSession session) {
         Account account = getSessionAccount(session); // 获取当前登录用户
+
+        Page<Object> page = PageHelper.offsetPage(offset, limit);
+
         List<Order> orders =
                 orderService.findRefundOrderByAccountId(account.getId()); // 查询该用户的所有退单记录
 
-        uiModel.addAttribute("orders", orders);
-
-        return "order/list";
+        return new PaginationResult(page.getTotal(), orders);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -128,6 +155,21 @@ public class OrderController {
         }
     }
 
+    @RequestMapping(value = "/confirmRefund/{id}", method = RequestMethod.POST)
+    public String confirmRefund(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
+        Account account = getSessionAccount(session); // 获取当前登录用户
+        Order order = orderService.findOrderById(id); // 获取订单详情
+        Integer shopId = order.getShop().getId(); // 获取商店id
+
+        if (isTheOrderKeeper(account, order)) { // 当该订单属于登录商家时,才可以退单
+            orderService.confirmRefund(order);
+            return "redirect:/business/showOrder?shopId=" + shopId + "&orderStatus=" + Order.STATUS_PAID;
+        } else {
+            uiModel.addAttribute("error","您只可以确认退自己的订单");
+            return "order/error";
+        }
+    }
+
     @RequestMapping(value = "/cancelRefund/{id}", method = RequestMethod.POST)
     public String cancelRefund(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
         Account account = getSessionAccount(session); // 获取当前登录用户
@@ -145,8 +187,9 @@ public class OrderController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submit(Order order, HttpSession session, Model uiModel) {
-        // 为订单设置商家信息
+        // 为订单设置商店信息,商家信息
         Shop shop = shopService.findById(order.getShop().getId());
+        order.setShop(shop);
         order.setBusinessId(shop.getBusiness().getId());
 
         orderService.submitOrder(order); // 下单
@@ -158,15 +201,27 @@ public class OrderController {
     public String accept(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
         Account account = getSessionAccount(session); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
+        Integer shopId = order.getShop().getId(); // 获取商店id
 
-        if (isTheOrderKeeper(account, order)) { // 该订单属于该登录商家
-            orderService.acceptOrder(order); // 接单
-            uiModel.addAttribute("order", order);
-            return null;
+        if (isTheOrderKeeper(account, order)) { // 当该订单属于登录商家时,才可以接单
+            orderService.acceptOrder(order);
+            return "redirect:/business/showOrder?shopId=" + shopId + "&orderStatus=" + Order.STATUS_PAID;
         } else {
             uiModel.addAttribute("error","您只可以接自己的订单");
             return "order/error";
         }
+    }
+
+    /**
+     * 判断登录用户是否该订单的管理者(商家)
+     * @param account 商家用户
+     * @param order 订单
+     * @return
+     */
+    private boolean isTheOrderKeeper(Account account, Order order) {
+        Business business =
+                businessService.findBusinessByAccountId(account.getId()); // 获取登录商家
+        return business.getId().equals(order.getBusinessId());
     }
 
     /**
@@ -180,16 +235,12 @@ public class OrderController {
     }
 
     /**
-     * 判断登录用户是否该订单的管理者(商家)
-     * @param account 商家用户
-     * @param order 订单
-     * @return
+     * 获取登录用户
+     * @param session
+     * @return 返回当前登录用户
      */
-    private boolean isTheOrderKeeper(Account account, Order order) {
-//        Business business =
-//                businessService.findBusinessByAccountId(account.getId()); // 获取登录商家
-//        return business.getId().equals(order.getBusinessId());
-        return true;
+    private Account getSessionAccount(HttpSession session) {
+        return (Account) session.getAttribute(SESSION_ACCOUNT);
     }
 
     @Autowired
@@ -208,22 +259,8 @@ public class OrderController {
     }
 
     @Autowired
-    public void setAddressService(AddressService addressService) {
-        this.addressService = addressService;
-    }
-
-    @Autowired
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
-    }
-
-    /**
-     * 获取登录用户
-     * @param session
-     * @return 返回当前登录用户
-     */
-    private Account getSessionAccount(HttpSession session) {
-        return (Account) session.getAttribute(SESSION_ACCOUNT);
     }
 
     // 测试用户

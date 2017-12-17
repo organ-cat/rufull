@@ -22,7 +22,11 @@ function updateAddress(id){
             $("#receiver").val(result.receiver);
             $("#location").val(result.location);
             $("#detail").val(result.detail);
-            $("#status").val(result.status);
+            if(result.status == 1){
+                $("#radioCheckedTrue").attr("checked", true);
+            }else {
+                $("#radioCheckedFalse").attr("checked",true)
+            }
         }
     });
     showAddresss();
@@ -37,4 +41,16 @@ function hideView() {
     $('#addAddressId').modal('hide');
     $('#updateAddressId').modal('hide');
     $('.error').removeClass('alert alert-danger').html('');
+}
+$(function () {
+    $("#deleteLabel").click(function () {
+        var city = returnCitySN["cname"] ;
+        $("#address").val(city);
+    })
+})
+
+/*校验电话码格式 */
+function isTelCode(str) {
+    var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+    return reg.test(str);
 }

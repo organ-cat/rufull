@@ -3,6 +3,7 @@ package com.cat.rufull.test.business;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.shop.ShopService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ public class ShopMapperTest {
     @Autowired
     private ShopMapper shopMapper;
     //    商店测试
+
+    @Autowired
+    private ShopService shopService;
     @Test
     public void testaddShop(){
         Shop shop = new Shop();
@@ -77,4 +81,11 @@ public class ShopMapperTest {
         List<Shop> shopList = shopMapper.fuzzyFindByShopName("士");
         System.out.println("shopList:"+shopList);
     }
+
+    @Test
+    public void testFuzzyFindFoodAndShopName(){
+        List<Shop> shopList = shopService.fuzzyFindByShopAndProduct("虾");
+        System.out.println("shopList:"+shopList);
+    }
+
 }

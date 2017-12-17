@@ -11,8 +11,6 @@ $(function () {
     $(".hideImg").mouseleave(function () {
         $(".hideImg").css("display", "none");
     });
-
-
 })
 
 

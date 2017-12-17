@@ -1,19 +1,20 @@
 package com.cat.rufull.app.controller.shop;
 
 import com.cat.rufull.domain.common.util.ShopUtils;
-import com.cat.rufull.domain.model.OrderEvaluation;
+import com.cat.rufull.domain.model.Account;
+import com.cat.rufull.domain.model.Business;
+import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.model.Shop;
-import com.cat.rufull.domain.service.evaluation.EvaluationService;
+import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,10 +22,16 @@ import java.util.List;
 public class ShopController {
     @Autowired
     private ShopService shopService;
-    @Autowired
-    private EvaluationService evaluationService;
 
-    //去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
+    @Autowired
+    private BusinessService businessService;
+    /**
+    *@Author:Caoxin
+    *@Description:去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
+    *@Date:11:32 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping("addShopUI")
     public String addShopUI(){
         return "shop/shopSettle";
@@ -33,15 +40,26 @@ public class ShopController {
     @RequestMapping("addShop")
     public String addShop(@RequestParam(value = "file")MultipartFile file,
                           Shop shop, String[] shippingTimePart,
-                          HttpServletRequest request){
+                          HttpServletRequest request,
+                          HttpSession session){
+        Account account = (Account) session.getAttribute(Account.BUSINESS_SESSION);
 
-        ShopUtils.upload2Shop(file,shop,shippingTimePart,request);
-//        shopService.add(shop);
-        return "test";
+        Business business = businessService.findBusinessByAccountId(account.getId());   //通过查询出account来找到商家id
+
+        ShopUtils.upload2Shop(file,shop,shippingTimePart,request,business);
+        shopService.add(shop);
+
+        return "forward:/business/showBusinessProfile";
     }
 
 
-    //用户查看商店页面
+    /**
+    *@Author:Caoxin
+    *@Description：用户查看商店页面
+    *@Date:11:28 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping(value = "showShopDetail",method = RequestMethod.GET)
     public String showShopDetail(Integer id, ModelMap map){
 
@@ -53,44 +71,94 @@ public class ShopController {
         return "shop/accountToShop";
     }
 
-    //用户查看商家资质
+    /**
+    *@Author:Caoxin
+    *@Description：用户查看商家资质
+    *@Date:11:28 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping(value = "showBusinessLicense",method = RequestMethod.GET)
     public String showBusinessLicense(Integer id,ModelMap map){
-        //查找对应的商店
-        Shop shopDetail = shopService.findById(id);
+
+        Shop shopDetail = shopService.findById(id); //查找对应的商店
         map.put("shop",shopDetail);
 
         return "shop/accountToBusinessLicense";
     }
 
-    //查看商家评价：小伟要自己写
+    /**
+    *@Author:Caoxin
+    *@Description：查看商家评价：小伟要自己写
+    *@Date:11:28 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping(value = "showShopComments",method = RequestMethod.GET)
-    public String showBusinnessLicence(Integer id, ModelMap map) throws Exception{
+    public String showBusinnessLicence(Integer id,ModelMap map){
         //查找对应的商店
         Shop shopDetail = shopService.findById(id);
+
         map.put("shop",shopDetail);
-
-        //查询商店的全部评价
-        List<OrderEvaluation> orderEvaluations = evaluationService.findEvalByShopId(id);
-        map.put("orderEvaluations", orderEvaluations);
-
-        //查询商店满意的评价
-        List<OrderEvaluation> orderEvaluations1 = evaluationService.findEvalByShopId_Y(id);
-        map.put("orderEvaluations1", orderEvaluations1);
-
-        //查询商店不满意的评价
-        List<OrderEvaluation> orderEvaluations2 = evaluationService.findEvalByShopId_N(id);
-        map.put("orderEvaluations2", orderEvaluations2);
-
         return "shop/accountToShopComments";
     }
 
-
-    //查找正常营业的商家和休息的商家：
+    /**
+    *@Author:Caoxin
+    *@Description： 查找正常营业的商家和休息的商家
+    *@Date:11:27 2017/12/13
+    *@param
+    *@return
+    */
     @RequestMapping("showAllShop")
     public String showAllShow(ModelMap map){
         List<Shop> shopList = shopService.findAll();
         map.put("shopList",shopList);
         return "shop/showAllShop";
+    }
+
+    /**
+    *@Author:Caoxin
+    *@Description：通过id查询商店的商品
+    *@Date:23:48 2017/12/13
+    *@param：shopId商店
+    *@return
+    */
+    @RequestMapping("findProductListById")
+    @ResponseBody
+    public List<Product> findProductListById(Integer shopId){
+        return shopService.findById(shopId).getProductList();
+    }
+
+
+    /**
+    *@Author:Caoxin
+    *@Description:通过输入内容搜索出对应的商家
+    *@Date:11:46 2017/12/14
+    *@param
+    *@return
+    */
+    @RequestMapping(value = "findFuzzySearchShop")
+    @ResponseBody
+    public List<Shop> findFuzzySearchShop(String searchContext){
+        System.out.println("searchContext:"+searchContext);
+        List<Shop> shopList = shopService.fuzzyFindByShopAndProduct(searchContext);
+        System.out.println("shopList:"+shopList);
+        return shopList;
+    }
+
+    @RequestMapping(value = "updateShopOperateState/{id}/{operateState}")
+    public String updateShopOperateState(@PathVariable("id") Integer id,
+                                          @PathVariable("operateState") Integer operateState,
+                                         HttpSession session){
+
+        if(operateState == Shop.SHOP_STATUS_NORMAL){
+            shopService.updateByIdSelective(new Shop(id,Shop.SHOP_STATUS_REST));
+        }else {
+            shopService.updateByIdSelective(new Shop(id,Shop.SHOP_STATUS_NORMAL));
+        }
+
+        session.setAttribute("shop",shopService.findById(id));
+        return "forward:/business/showBusinessProfile";
     }
 }

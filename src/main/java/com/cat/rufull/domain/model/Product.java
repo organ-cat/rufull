@@ -1,9 +1,11 @@
 package com.cat.rufull.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-
+@JsonIgnoreProperties(value = {"handler"})
 public class Product implements Serializable {
 //    商品状态
     public static final Integer PRODUCT_NORMAL = 0;           //正常
@@ -28,6 +30,7 @@ public class Product implements Serializable {
 
     private List<LineItem> lineItemList;
 
+    private static final long serialVersionUID = 1L;
     public Product() {
     }
 
@@ -46,7 +49,12 @@ public class Product implements Serializable {
 
 
 
-    private static final long serialVersionUID = 1L;
+
+
+    public Product(Integer id, Integer status) {
+        this.id = id;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;

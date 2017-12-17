@@ -32,7 +32,14 @@
         FROM PRODUCT
         WHERE shop_id = #{id}
     </select>
-
+    <!--通过商品名字和商品描述查询并去除重复商家-->
+    <select id="fuzzyFindByProductNameAndProductDesc" resultMap="ProductResultMap" resultType="list">
+        SELECT
+        <include refid="Product_Column_List"/>
+        FROM PRODUCT
+        WHERE (product_name LIKE #{searchContext} OR description LIKE #{searchContext}) AND id IN (
+        SELECT MAX(id) FROM PRODUCT GROUP BY shop_id);
+    </select>
     <!--// 通过Id查询商品-->
     <select id="findProductById" resultMap="ProductResultMap"  parameterType="java.lang.Integer">
         SELECT
@@ -60,24 +67,24 @@
         UPDATE PRODUCT
         <set>
             <if test="productName != null">
-                  product_name = #{productName}
+                  product_name = #{productName},
             </if>
             <if test="price != null">
-                   price = #{price}
+                   price = #{price},
             </if>
             <if test="status != null">
-                   status = #{status}
+                   status = #{status},
             </if>
             <if test="salesVolume != null">
-                sales_volume = #{salesVolume}
+                sales_volume = #{salesVolume},
             </if>
             <if test="description != null">
-                description = #{description}
+                description = #{description},
             </if>
             <if test="photo != null">
-                photo = #{photo}
+                photo = #{photo},
             </if>
-            <if test="shopId!= null">
+            <if test="shopId != null">
                 shopId = #{shopId}
             </if>
         </set>

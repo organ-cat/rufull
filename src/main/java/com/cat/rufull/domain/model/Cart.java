@@ -13,6 +13,8 @@ public class Cart implements Serializable {
 
     private String shopName;
 
+    private String address;
+
     private final Map<Integer, CartItem> itemMap = Collections
             .synchronizedMap(new HashMap<Integer, CartItem>()); // key:商品id, value:购物车条目
 
@@ -26,9 +28,8 @@ public class Cart implements Serializable {
         return itemList;
     }
 
-    public Cart(Integer shopId, String shopName) {
+    public Cart(Integer shopId) {
         this.shopId = shopId;
-        this.shopName = shopName;
     }
 
     /**
@@ -150,5 +151,13 @@ public class Cart implements Serializable {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

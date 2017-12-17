@@ -17,7 +17,7 @@
         SELECT
         *
         FROM MANAGER
-        WHERE MANAGER.status != 0
+
     </select>
 
     <select id="getManagerById" resultMap="ManagerResultMap" parameterType="int">
@@ -36,15 +36,16 @@
         WHERE MANAGER.id = #{id}
     </update>
 
-    <select id="findName" resultMap="ManagerResultMap">
+    <select id="findName" parameterType="String" resultMap="ManagerResultMap">
         SELECT *
         FROM
         MANAGER
-        <where>(
-            manager.phone LIKE '%'+#{keyword}+'%' OR
-            manager.email LIKE '%'+#{keyword}+'%' OR
-            manager.username LIKE '%'+#{keyword}+'%'
-            )
+        <where>
+            <if test="findname != null">
+                phone LIKE #{findname} OR
+                email LIKE #{findname} OR
+                username LIKE #{findname}
+            </if>
         </where>
     </select>
 
@@ -53,9 +54,9 @@
         insert
         into
         MANAGER
-        (username,phone,password,email,created_time,status,role)
+        (username,phone,photo,password,email,created_time,status,role)
         values
-        (#{username},#{phone},#{password},#{email},#{createdTime},#{status},#{role})
+        (#{username},#{phone},#{photo},#{password},#{email},#{createdTime},#{status},#{role})
     </insert>
 
     <select id="login" resultType="Manager" parameterType="Manager">

@@ -21,72 +21,77 @@
     <link href="${pageContext.request.contextPath}/css/service/pagevendor.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/service/pagemain.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/business/showAllShop.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
 </head>
 <body>
-    <div class="container">
-        <div class="modal fade login" id="loginModal">
-            <div class="modal-dialog login animated">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">登陆方式</h4>
-                        </div>
-                            <div class="modal-body">
-                                <div class="box">
-                                    <div class="content">
-                                        <div class="division">
-                                            <div class="line l"></div>
-                                            <span>其中一个方式</span>
-                                            <div class="line r"></div>
-                                        </div>
-                                        <div class="error"></div>
-                                        <div class="form loginBox">
-                                            <form method="post" action="/login" accept-charset="UTF-8">
-                                                <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                                       name="email">
-                                                <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                                       name="password">
-                                                <input class="btn btn-default btn-login loi" type="button" value="登陆"
-                                                       onclick="loginAjax()">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+<div class="container">
+    <div class="modal fade login" id="loginModal">
+        <div class="modal-dialog login animated">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">登陆方式</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="content">
 
-                        <div class="box">
-                            <div class="content registerBox" style="display:none;">
-                                <div class="form">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
-                                               name="email">
-                                        <input id="password" class="form-control loi" type="password" placeholder="密码"
-                                               name="password">
-                                        <input id="password_confirmation" class="form-control loi" type="password"
-                                               placeholder="确认密码" name="password_confirmation">
-                                        <input class="btn btn-default btn-register loi" type="submit" value="注册"
-                                               name="commit" onclick="loginAjax()">
-                                    </form>
-                                </div>
+                            <div class="division">
+                                <div class="line l"></div>
+                                <span>其中一个方式</span>
+                                <div class="line r"></div>
+                            </div>
+                            <div class="error"></div>
+                            <div class="form loginBox">
+
+                                <form method="post" accept-charset="UTF-8">
+                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
+                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+
+                                    <div id="hideDiv">
+                                        <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                        <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
+                                    </div>
+
+                                    <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="forgot login-footer">
-                                <span>打算
-                                     <a href="javascript: showRegisterForm();">注册一个账号？</a>
-                                </span>
-                        </div>
-                        <div class="forgot register-footer" style="display:none">
-                            <span>已经有一个账号？</span>
-                            <a href="javascript: showLoginForm();">登陆</a>
+                    <div class="box">
+                        <div class="content registerBox" style="display:none;">
+                            <div class="form">
+                                <!--使用了c标签-->
+                                <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
+                                <form method="post" action="">
+                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                    <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                    <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                    <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                    <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                    <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
+                                </form>
+                            </div>
                         </div>
                     </div>
-                 </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="forgot login-footer">
+                            <span>打算
+                                 <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
+                            </span>
+                    </div>
+                    <div class="forgot register-footer" style="display:none">
+                        <span>已经有一个账号？</span>
+                        <a href="javascript: showLoginForm();" class="alink">登陆</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
 <div>
     <div>
@@ -165,9 +170,9 @@
             </span>
 
             <span
-                class="location-change"><a ubt-click="400" hardjump=""
-                                           href="${pageContext.request.contextPath}/user/changeAddress.do">[切换地址]</a><ul
-                class="dropbox location-dropbox" ubt-visit="398">
+                    class="location-change"><a ubt-click="400" hardjump=""
+                                               href="${pageContext.request.contextPath}/user/changeAddress.do">[切换地址]</a><ul
+                    class="dropbox location-dropbox" ubt-visit="398">
 				<li class="arrow"></li>
 				<li class="changelocation"><a href="/home">修改收货地址<span
                         class="icon-location"></span></a></li></ul>
@@ -176,14 +181,14 @@
 
         <div class="place-search" role="search">
             <label
-                for="globalsearch">搜索商家或美食
+                    for="globalsearch">搜索商家或美食
             </label>
             <input id="globalsearch"
-                             class="place-search-input ng-pristine ng-valid" autocomplete=""
-                             placeholder="搜索商家,美食...">
+                   class="place-search-input ng-pristine ng-valid" autocomplete=""
+                   placeholder="搜索商家,美食...">
 
-            <a href="">
-                <img src="${pageContext.request.contextPath}/image/service/search.png"
+            <a  href="#" onclick="searchShopAndFood()">
+                <img id="searchShopAndFoodImg"  src="${pageContext.request.contextPath}/image/service/search.png"
                      style="width:15px;height:15px;margin-right:20px"/>
             </a>
             <div class="searchbox">
@@ -246,7 +251,7 @@
                    onclick="getDifferentTypeShop(6,this)">鲜花</a>
 
                 <a class="excavator-filter-item"
-                 href="javascript:"
+                   href="javascript:"
                    onclick="getDifferentTypeShop(2,this)">早餐</a>
 
                 <a class="excavator-filter-item"
@@ -292,7 +297,7 @@
         <div class="footer-link">
             <h3 class="footer-link-title">关于我们</h3>
             <a class="footer-link-item" href=" "
-                target="_blank">RuFull介绍</a>
+               target="_blank">RuFull介绍</a>
             <a class="footer-link-item" href=" " target="_blank">一起开店</a>
             <a class="footer-link-item">规则中心</a>
         </div>
@@ -315,14 +320,15 @@
 <%--百度地图--%>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi"></script>
 <script src="${pageContext.request.contextPath}/js/business/showAllShop.js"></script>
+<script src="${pageContext.request.contextPath}/js/account/login-register.js"></script>
 <script>
-        //获取经纬度
-        var uLat = "${requestScope.lng}";
-        var uLon = "${requestScope.lon}";
-        //获取到所有的商家，将商家信息放置到页面中
-        var shopList = ${requestScope.shopList};
-        //项目路径
-        var contextPath = "${pageContext.request.contextPath}";
+    //获取经纬度
+    var uLat = "${requestScope.lng}";
+    var uLon = "${requestScope.lon}";
+    //获取到所有的商家，将商家信息放置到页面中
+    var shopList = ${requestScope.shopList};
+    //项目路径
+    var contextPath = "${pageContext.request.contextPath}";
 
 </script>
 </html>

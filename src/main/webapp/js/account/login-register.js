@@ -1,5 +1,7 @@
 var countdown=60;
 var flag = false;
+var REGISTERED_SUCCESS = "1";       //注册成功
+var CHECKCODE_ERROR = "3";          //验证码错误
 var PHONE_PASSED = "10";            //手机号码通过
 var PHONE_REGISTERED = "11";        //手机号码被注册了
 var PHONE_FORMAT_ERROR = "12";      //手机号码格式错误
@@ -13,18 +15,6 @@ var PASSWORD_ERROR = "101";           //密码错误
 var REMOTE_LOGIN = "102";              //异地登陆
 var REMOTE_CODE_ERROR = "103";        //异地登陆验证码错误
 var SNED_REMOTE_CODE_SUCCESS = "104";//异地登陆验证码发送成功
-
-/*
-   商家状态：1.已经注册，但是没有入驻为               0
-             2.已经填写入驻信息，但是未通过管理员审核200
-             3.已经通过管理员审核，未创建商店        201
-             4.已经创建商店                          202
-             5.被管理员停业整顿                      203
-             6.被管理员删除                          204
-             7.商家入驻通过                          205
-
-
-    */
 var BUSINESS_STATUS_REGISTERED = 0;
 var BUSINESS_STATUS_SETTLED = 200;
 var BUSINESS_STATUS_SETTLED_PASS = 201;
@@ -226,7 +216,7 @@ $(function(){
         var city = returnCitySN["cname"] ;
         var remoteCode = $("#remoteCode").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/account/accountLogin",
+            url: "http://localhost:8080/rufull/nologin/accountLogin",
             data: {"username": username,"password":password,"ip":ip,"city":city,"remoteCode":remoteCode},
             async: true,
             cache: false,
@@ -237,7 +227,7 @@ $(function(){
                     $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == PASSWORD_ERROR) {
                     shakeModal("账号或密码不正确");
-                    $("#hideDiv").attr("style","display:block;");
+                    // $("#hideDiv").attr("style","display:block;");
                 }else if(result == REMOTE_LOGIN){
                     shakeModal("您是异地登陆，请进行身份验证");
                     $("#hideDiv").attr("style","display:block;");
@@ -288,7 +278,36 @@ $(function () {
 });
 
 
-
+//点击注册按钮登陆
+$(function(){
+    $("#registerButton").click(function(){
+        var phone = $("#phone").val();
+        var password = $("#registerPassword").val();
+        var checkCode = $("#checkcode").val();
+        $.ajax({
+            url: "http://localhost:8080/rufull/nologin/accountRegister",
+            data: {"phone": phone,"password":password,"checkCode":checkCode},
+            async: true,
+            cache: false,
+            type: "POST",
+            dataType: "json",
+            success: function (result) {
+                if (result == REGISTERED_SUCCESS) {
+                    $(location).attr('href', 'http://localhost:8080/rufull');
+                } else if (result == CHECKCODE_ERROR) {
+                    messageShow();
+                    shakeModal("验证码错误");
+                }else if(result == PHONE_REGISTERED){
+                    messageShow();
+                    shakeModal("手机被注册了");
+                }else if(result == EMAIL_REGISTERED){
+                    messageShow();
+                    shakeModal("邮箱被注册了");
+                }
+            }
+        });
+    })
+});
 
 
 

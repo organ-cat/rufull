@@ -6,6 +6,7 @@ import com.cat.rufull.domain.service.system.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class AdminLoginController {
      * 跳转管理员登录界面
      * @return
      */
-    @RequestMapping("/adminLogin")
+    @RequestMapping("/admin")
     public String adminLogin(HttpSession session) {
         return "system/managerlogin";
     }
@@ -39,7 +40,7 @@ public class AdminLoginController {
      * @return
      */
     @RequestMapping("/Login")
-    public String Login(String loginname,String password, HttpSession session) {
+    public String Login(String loginname, String password, HttpSession session, RedirectAttributes attr) {
         session.removeAttribute("loginerror");
         Manager manager = new Manager();
         boolean isUsername = RegEx.regExUsername(loginname);
@@ -61,8 +62,9 @@ public class AdminLoginController {
             session.setAttribute("manager", mlogin);
             return "system/index";
         }
-        else
-            session.setAttribute("loginerror","管理员不存在");
-            return "redirect:adminLogin";
+        else {
+            attr.addFlashAttribute("loginerror", "管理员不存在");
+            return "redirect:admin";
+        }
     }
 }

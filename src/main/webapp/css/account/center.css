@@ -1,23 +1,93 @@
 @charset "UTF-8";
+a:link,a:visited{
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:none;
+}
+#main {
+    background-color: #F8F8F8;
+}
 
 #personalInfo{
-    width: auto;
-    height:120px;
+    margin:0 auto ;
+    width: 1070px;
+    height:160px;
     background-color: #F8F8F8;
 
 }
+.accountPhoto{
+    height: 150px;
+    width: 150px;
+    background-color: #F8F8F8;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    z-index: 1;
+    float: left;
+}
+.accountInfo{
+    height: 150px;
+    width: 200px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border: #FFFFFF;
+    float: left;
+}
+.accountBalance{
+    margin: auto;
+    height: 150px;
+    width: 200px;
+    background-color: #F8F8F8;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    float: left;
+}
+
+.editInfo{
+     position: relative;
+     height: 150px;
+     width: 150px;
+     border-radius: 75px;
+     background-color: #AAAAAA;
+     top: -80px;
+     left: 40px;
+     font-size: 15px;
+     color: #FFFFFF;
+     z-index: 20;
+     display: none;
+}
+
+.balanceShow{
+    position: relative;
+    top: 40px;
+    font-size: 30px;
+    color: #FF9C00;
+}
+.userPhotoShow{
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+}
+.binded{
+    color: #AAAAAA;
+}
+.info {
+    font-size: 15px;
+}
+.safe {
+    margin-right: 10px;
+    color: #008000;
+}
+.danger {
+    margin-right: 10px;
+    color: #FF9C00;
+}
+
 #footprint{
     width: auto;
     height: 350px;
     background-color: #F8F8F8;
-}
-.profile{
-    height: 100px;
-    width: 150px;
-    background-color: #0c9efc;
-    margin-right: 2px;
-    margin-left: 2px;
-    float: left;
 }
 .shoplist{
     margin: 0 auto;
@@ -27,15 +97,20 @@
     width: 265px;
     height: 135px;
     float: left;
+    border: 1px solid #b7fccb;
     background-color: #FFFFFF;
 }
-
+.shoplist:hover {
+    border: 1px solid #0c9efc;
+}
 .deleteFootprint {
     position: relative;
     right: -120px;
     top: 0px;
     z-index: 10;
-    background-color: #F8F8F8;
+    color: #0c9efc;
+    background-color: #00000000;
+    border: none;
     text-transform: none;
 }
 
@@ -47,4 +122,151 @@
     background-color: #F8F8F8;
     color: #000000;
     text-transform: none;
+}
+.updateInfomaton{
+    font-size: 15px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+.attributeName {
+    width: 80px;
+    height: 30px;
+}
+.attributeList {
+    width: 250px;
+    height: 30px;
+    margin-right: 30px;
+}
+.infoPhoto{
+    height: 150px;
+    width: 150px;
+    background-color: #FFFFFF;
+}
+.updatePhoto {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+    background-color: #999999;
+    top: -25px;
+    left: 45px;
+    font-size: 15px;
+    color: #FFFFFF;
+    z-index: 20;
+    display: none;/**/
+}
+.updateInPassworDiv{
+    width: 400px;
+    height: 450px;
+    margin-left: 50px;
+}
+.updateInPassworMessage {
+    text-align: center;
+    color: #F8F8F8;
+    margin: auto;
+    width: 400px;
+    height: 35px;
+    font-size: 20px;
+}
+.tableLife{
+    font-size: 15px;
+    width: 100px;
+    height: 50px;
+}
+.tableRight{
+    font-size: 15px;
+    width: 250px;
+    height: 50px;
+}
+.tableRight input {
+    width: 250px;
+    height: 40px;
+    border: none;
+}
+.submit{
+    background-color: #0c9efc;
+    border: 1px solid #0c9efc;
+}
+.submit:hover{
+    background-color: #0086cc;
+    border: 1px solid #0086cc;
+}
+
+.security {
+    width: 1070px;
+    height: 440px;
+    font-size: 15px;
+    background-color: #FFFFFF;
+}
+.securityImg {
+    width: 130px;
+    height: 110px;
+    font-size: 30px;
+    text-align: center;
+
+}
+.securityAttru {
+    width: 210px;
+    height: 110px;
+
+}
+.securityContent {
+    width: 600px;
+    height: 110px;
+
+}
+.securityChoose {
+    width: 130px;
+    height: 110px;
+}
+.securityLevel {
+    position: relative;
+    left: 100px;
+    height: 110px;
+}
+.security-level-bar {
+    display: inline-block;
+    vertical-align: middle;
+    width: 200px;
+    height: 12px;
+    border-radius: 10px;
+    background-color: #e2e0c0;
+}
+.security-level-progress {
+    display: inline-block;
+    height: 100%;
+    border-radius: 10px;
+    vertical-align: top;
+    background-color: #FF0000;
+}
+.isBinded {
+    color: #94c852;
+}
+.noBinded {
+    color: #FF9C00;
+}
+.bindNow {
+    width: 80px;
+    height: 25px;
+    color: #e25551;
+}
+.bindNow:hover {
+    color: #E22524;
+}
+#preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    background-color: #C5C5C5;
+}
+#username {
+    font-size: 8px;
+    width: 280px;
+    height: 20px;
+    border: none;
+}
+#nickname {
+    width: 280px;
+    height: 20px;
+    border: none;
 }

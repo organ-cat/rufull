@@ -12,50 +12,49 @@
         <!--与管理员关联-->
         <association property="manager" javaType="com.cat.rufull.domain.model.Manager">
             <id column="manager_id" property="id"></id>
-            <result column="managername" property="username"></result>
+            <result column="sname" property="username"></result>
+            <result column="srole" property="role"></result>
         </association>
         <!--与用户关联-->
         <association property="account" javaType="com.cat.rufull.domain.model.Account">
             <id column="account_id" property="id"></id>
-            <result column="accountname" property="username"></result>
+            <result column="aname" property="username"></result>
+            <result column="arole" property="role"></result>
         </association>
     </resultMap>
 
 
     <select id="findAllLog" resultMap="ManagerLogResult">
-        SELECT *
+        SELECT MANAGE_LOG.* , manager.username sname,manager.role srole,account.username aname,
+        account.role srole
           FROM ((manage_log AS manage_log
-         INNER JOIN account AS account ON (manage_log.account_id = account.id ))
          INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
+         INNER JOIN account AS account ON (manage_log.account_id = account.id ))
             WHERE
-                (
-                  manage_log.manager_id = manager.id  AND
-                  manage_log.account_id = account.id  )
+               MANAGE_LOG.type = 2
 
     </select>
 
     <select id="findAllmLog" resultMap="ManagerLogResult">
-        SELECT *
+        SELECT MANAGE_LOG.* , manager.username sname,manager.role srole
             FROM (manage_log AS manage_log
                  INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
             WHERE
-                (
-                  manage_log.manager_id = manager.id AND
-                  manage_log.account_id IS NULL )
+                MANAGE_LOG.type = 1
 
     </select>
 
     <insert id="addLogs" parameterType="com.cat.rufull.domain.model.ManageLog"
             useGeneratedKeys="true" keyProperty="id" >
         INSERT into manage_log(detail,created_time,type,account_id,manager_id)
-        VALUES(#{detail},#{createdTime},#{type},#{account.id},#{manager.id})
+        VALUES(#{detail},#{createTime},#{type},#{account.id},#{manager.id})
     </insert>
 
-    <select id="findLogsByCondition" resultMap="ManagerLogResult">
-        SELECT *
-        FROM ((manage_log AS manage_log
-        INNER JOIN account AS account ON (manage_log.account_id = account.id ))
-        INNER JOIN manager AS manager ON (manage_log.manager_id = manager.id ))
+    <select id="findLogsByCondition"  resultMap="ManagerLogResult">
+        SELECT MANAGE_LOG.*,ACCOUNT.username aname,ACCOUNT.role arole,
+        MANAGER.username sname,MANAGER.role srole
+        FROM
+        MANAGE_LOG,ACCOUNT,MANAGER
         <where>
             <if test="beginTime != null">
                 manage_log.created_time &gt;= #{beginTime}
@@ -66,9 +65,9 @@
             <if test="keyword!=null">
                 AND
                 (
-                manage_log.detail LIKE '%'+#{keyword}+'%' OR
-                account.username LIKE '%'+#{keyword}+'%' OR
-                manager.username LIKE '%'+#{keyword}+'%'
+                manage_log.detail LIKE #{keyword} OR
+                account.username LIKE #{keyword} OR
+                manager.username LIKE #{keyword}
                 )
             </if>
         </where>

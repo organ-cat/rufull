@@ -51,5 +51,13 @@
         WHERE
         ADDRESS.id = #{id}
     </update>
+    <update id="updateStatus" parameterType="Address">
+        UPDATE
+        ADDRESS
+        SET
+        ADDRESS.status = 0
+        WHERE
+        ADDRESS.account_id = #{accountId}
+    </update>
 
 </mapper>

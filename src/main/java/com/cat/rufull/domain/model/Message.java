@@ -6,6 +6,14 @@ import java.io.Serializable;
  * 消息类
  */
 public class Message implements Serializable {
+    // 消息类型
+    public static final String TYPE_URGE = "URGE"; // 催单
+
+    // 消息状态
+    public static final String STATUS_SEND    = "SEND";    // 发送
+    public static final String STATUS_AUTO    = "AUTO";    // 系统自动处理
+    public static final String STATUS_REPLIED = "REPLIED"; // 回复
+
     private Integer id;         // 主键
 
     private String type;        // 消息类型

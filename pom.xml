@@ -20,8 +20,7 @@
         <h2.version>1.3.172</h2.version>
         <mybatis.version>3.3.1</mybatis.version>
         <mybatis.spring.version>1.2.2</mybatis.spring.version>
-        <pagehelper.version>3.7.5</pagehelper.version>
-        <mybatis.generator.version>1.3.5</mybatis.generator.version>
+        <pagehelper.version>5.0.0</pagehelper.version>
         <dbcp.version>1.4</dbcp.version>
         <mysql.client.version>5.1.38</mysql.client.version>
         <slf4j.version>1.7.6</slf4j.version>
@@ -40,6 +39,7 @@
         <json.version>1.0.2</json.version>
         <spring.amqp.version>1.4.0.RELEASE</spring.amqp.version>
     </properties>
+
     <dependencies>
         <!-- test -->
         <dependency>
@@ -98,11 +98,6 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis.spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-core</artifactId>
-            <version>${mybatis.generator.version}</version>
         </dependency>
         <!-- mybatis pagination -->
         <dependency>
@@ -239,6 +234,7 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

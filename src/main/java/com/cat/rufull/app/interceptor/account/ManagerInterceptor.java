@@ -17,7 +17,7 @@ public class ManagerInterceptor implements HandlerInterceptor {
             //未登陆，请求转发到指定页面
             System.out.println("管理员未登录");
             response.getWriter().write("<script type='text/javascript'>alert('管理员未登录！')</script>");
-            response.setHeader("Refresh", "0.2;url=/rufull/adminLogin/adminLogin");
+            response.setHeader("Refresh", "0.2;url=/rufull/adminLogin/admin");
             //不放行
             return false;
         } else {
