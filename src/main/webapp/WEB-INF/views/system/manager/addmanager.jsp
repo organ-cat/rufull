@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<!DOCTYPE html>
+<html lang="zh-cn">
 <head>
     <title>添加管理员</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -69,6 +71,9 @@
                 swal("操作失败", "添加管理员失败!", "error");
             };
         }
+        phone.oninvalid=function(){
+            phone.setCustomValidity("请输正确的手机号码？");
+        };
     </script>
 </head>
 <body>
@@ -83,28 +88,28 @@
         <div class="form-group">
             <label style="font-size: 20px;" for="username">管理员姓名:</label>
             <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
-                   name = "username" placeholder="请输入姓名！">
+                   aria-required="true" name = "username" placeholder="请输入姓名！">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="username">管理员密码:</label>
             <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
-                   name = "password" placeholder="请输入默认初始密码！">
+                   required  name = "password" placeholder="请输入默认初始密码！">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">管理员手机:</label>
             <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"
-                   name="phone"  placeholder="1xxxxxxxxxx">
+                   required pattern="^1[3-9]\d{9}$" name="phone"  placeholder="1xxxxxxxxxx">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
         <div class="form-group">
             <label style="font-size: 20px;" for="exampleInputEmail2">管理员邮箱:</label>
             <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2"
-                   name=" email"  placeholder="xxxxxxxxx@xxx.com">
+                   required name=" email"  placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>
 

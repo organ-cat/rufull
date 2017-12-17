@@ -9,6 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
+<!DOCTYPE html>
+<html lang="zh-cn">
 <head>
     <title>修改管理员</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -68,6 +70,9 @@
                 swal("操作失败", "更新管理员失败!", "error");
             };
         }
+        phone.oninvalid=function(){
+            phone.setCustomValidity("请输正确的手机号码？");
+        };
     </script>
 </head>
 <body>
@@ -88,14 +93,14 @@
     <div class="col-sm-8" style="padding-top: 150px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="username">管理员姓名:</label>
-            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
+            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username" required
                    value="${requestScope.manager.username}" name = "username" placeholder="请输入姓名！">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px" >
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">管理员手机:</label>
-            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"
+            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone" required pattern="^1[3-9]\d{9}$"
                    value="${requestScope.manager.phone}" name="phone"  placeholder="1xxxxxxxxxx">
         </div>
     </div>
@@ -103,7 +108,7 @@
         <div class="form-group">
             <label style="font-size: 20px;" for="exampleInputEmail2">管理员邮箱:</label>
             <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2"
-                   value="${requestScope.manager.email}" name=" email"  placeholder="xxxxxxxxx@xxx.com">
+                required  value="${requestScope.manager.email}" name=" email"  placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 343px" >

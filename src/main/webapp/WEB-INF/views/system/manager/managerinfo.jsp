@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<!DOCTYPE html>
+<html lang="zh-cn">
 <head>
     <title>管理员个人信息</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -101,6 +103,10 @@
                 swal("操作失败", "修改个人信息失败!", "error");
             };
         }
+
+        phone.oninvalid=function(){
+            phone.setCustomValidity("请输正确的手机号码？");
+        };
     </script>
 </head>
 
@@ -129,21 +135,21 @@
     <div class="col-sm-8" style="padding-top: 150px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="username">姓名:</label>
-            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username"
+            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username" required
                    value="${sessionScope.manager.username}" name="username" placeholder="请输入姓名！">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">手机:</label>
-            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"
+            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone" required pattern="^1[3-9]\d{9}$"
                    value="${sessionScope.manager.phone}" name="phone" placeholder="1xxxxxxxxxx">
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="exampleInputEmail2">邮箱:</label>
-            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2"
+            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2" required
                    value="${sessionScope.manager.email}" name=" email" placeholder="xxxxxxxxx@xxx.com">
         </div>
     </div>

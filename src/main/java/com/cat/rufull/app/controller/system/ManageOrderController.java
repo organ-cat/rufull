@@ -53,7 +53,7 @@ public class ManageOrderController {
      */
     @RequestMapping("/getOrdersbycondition")
     public String getOrdersbycondition(String beginTime,
-                                String endTime, Model model) throws Exception {
+                                String endTime, Model model,HttpServletRequest request) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date begin = null;
         Date end = null;
@@ -61,6 +61,11 @@ public class ManageOrderController {
             begin = formatter.parse(beginTime);
         }if(endTime!=null&&endTime!=""){
             end = formatter.parse(endTime);
+        }
+        if(begin!=null&&end!=null&&begin.getTime()>end.getTime())
+        {
+            request.setAttribute("timeerror","时间错误");
+            return "system/order/ordersList";
         }
         List<Order> orderList = orderService.findOrdersBetween(begin, end);
         System.out.println(beginTime+"***************************"+endTime);

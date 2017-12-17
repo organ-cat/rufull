@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,34 +43,38 @@ public class ServiceCenterController {
 
     /**
      * 跳转到帮助页面
+     *
      * @return
      */
     @RequestMapping("gethelp")
-    public String getHelp(){
+    public String getHelp() {
         return "service/help";
     }
 
     /**
      * 跳转到个人订单列表
+     *
      * @return
      */
     @RequestMapping("getAccorder")
-    public String getAccorder(){
+    public String getAccorder() {
         return "service/dowdloadAccOrder";
     }
 
     /**
      * 跳转到规则中心
+     *
      * @return
      */
     @RequestMapping("getAgreement")
-    public String getAgreement(){
+    public String getAgreement() {
         return "service/agreement";
     }
 
 
     /**
      * 根据时间段获得用户的订单数据
+     *
      * @param beginTime
      * @param endTime
      * @param model
@@ -77,27 +83,33 @@ public class ServiceCenterController {
      */
     @RequestMapping("/getAccountOrdersBetween")
     public String getAccountOrdersBetween(String beginTime, String endTime,
-                                          Model model,HttpSession session) throws Exception{
+                                          Model model, HttpSession session,
+                                          HttpServletRequest request) throws Exception {
         session.removeAttribute("exportXls");
         Account account = (Account) session.getAttribute("account");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date begin = null;
         Date end = null;
-        if(beginTime!=null&&beginTime!=""){
+        if (beginTime != null && beginTime != "") {
             begin = dateFormat.parse(beginTime);
         }
-        if(endTime!=null&&beginTime!=""){
+        if (endTime != null && beginTime != "") {
             end = dateFormat.parse(endTime);
         }
-        List<Order> list = orderService.findOrdersByAccountIdBetween(account.getId(),begin,end);
-        model.addAttribute("AccOrdersBetween",list);
-        session.setAttribute("exportXls",list);
+        if (begin != null && end != null && begin.getTime() > end.getTime()) {
+            request.setAttribute("timeerror", "时间错误");
+            return "service/dowdloadAccOrder";
+        }
+        List<Order> list = orderService.findOrdersByAccountIdBetween(account.getId(), begin, end);
+        model.addAttribute("AccOrdersBetween", list);
+        session.setAttribute("exportXls", list);
         return "service/dowdloadAccOrder";
     }
 
 
     /**
      * 账单下载
+     *
      * @param session
      * @param request
      * @param response
@@ -106,13 +118,13 @@ public class ServiceCenterController {
      */
     @RequestMapping("/exportXls")
     public String exportXls(HttpSession session, HttpServletRequest request,
-                            HttpServletResponse response,Model model) throws IOException {
+                            HttpServletResponse response, Model model) throws IOException {
         Account account = (Account) session.getAttribute("account");
         List<Order> list = (List<Order>) session.getAttribute("exportXls");
         // 在内存中创建一个Excel文件，通过输出流写到客户端提供下载
         HSSFWorkbook workbook = new HSSFWorkbook();
         // 创建一个sheet页
-        HSSFSheet sheet = workbook.createSheet(account.getUsername()+"用户的账单数据");
+        HSSFSheet sheet = workbook.createSheet(account.getUsername() + "用户的账单数据");
         // 创建标题行
         HSSFRow headRow = sheet.createRow(0);
         headRow.createCell(0).setCellValue("账单编号");
@@ -125,19 +137,16 @@ public class ServiceCenterController {
         headRow.createCell(7).setCellValue("消费金额");
         headRow.createCell(8).setCellValue("下单时间");
 
-        for (Order order: list) {
+        for (Order order : list) {
             HSSFRow dataRow = sheet.createRow(sheet.getLastRowNum() + 1);
             dataRow.createCell(0).setCellValue(order.getOrderNumber());
             dataRow.createCell(1).setCellValue(account.getUsername());
             Order downorder = orderService.findOrderById(order.getId());
             dataRow.createCell(2).setCellValue(downorder.getAddress().getPhone());
-            dataRow.createCell(3).setCellValue(downorder.getAddress().getLocation()+order.getAddress().getDetail());
-            if(order.getPaymentMethod().toString().equals("ONLINE"))
-            {
+            dataRow.createCell(3).setCellValue(downorder.getAddress().getLocation() + order.getAddress().getDetail());
+            if (order.getPaymentMethod().toString().equals("ONLINE")) {
                 dataRow.createCell(4).setCellValue("在线支付");
-            }
-            else if(order.getPaymentMethod().toString().equals("OFFLINE"))
-            {
+            } else if (order.getPaymentMethod().toString().equals("OFFLINE")) {
                 dataRow.createCell(4).setCellValue("货到付款");
             }
 
@@ -158,15 +167,16 @@ public class ServiceCenterController {
         ServletOutputStream out = response.getOutputStream();
         //自动判断下载的文件类型
         response.setContentType("multipart/form-data");
-        response.setHeader("content-disposition", "attchment;filename="+filename);
+        response.setHeader("content-disposition", "attchment;filename=" + filename);
         workbook.write(out);
-        session.setAttribute("exportXls",list);
+        session.setAttribute("exportXls", list);
         return null;
     }
 
 
     /**
      * 用户订单的扇形分析
+     *
      * @param beginTime
      * @param endTime
      * @param model
@@ -174,26 +184,42 @@ public class ServiceCenterController {
      * @return
      */
     @RequestMapping("fanAnalysis")
-    public String fanAnalysis(String type,String beginTime, String endTime,
-                              Model model,HttpSession session) throws Exception{
+    public String fanAnalysis(String type, String beginTime, String endTime,
+                              Model model, HttpSession session, HttpServletRequest request) throws Exception {
         Account account = (Account) session.getAttribute("account");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date begin = null;
         Date end = null;
-        if(beginTime!=null&&beginTime!=""){
-            begin = dateFormat.parse(beginTime);
-        }
-        if(endTime!=null&&beginTime!=""){
-            end = dateFormat.parse(endTime);
-        }
-        List<Order> list =  orderService.findOrdersByAccountIdBetween(account.getId(), begin, end);
-
         int aa = 0;
         int bb = 0;
         int cc = 0;
         int dd = 0;
         int ee = 0;
-        if(list!=null) {
+        List<Order> list = new ArrayList<Order>();
+        if (beginTime != null && beginTime != "") {
+            begin = dateFormat.parse(beginTime);
+        }
+        if (endTime != null && beginTime != "") {
+            end = dateFormat.parse(endTime);
+        }
+        if (begin != null && end != null && begin.getTime() > end.getTime()) {
+            int i = Integer.parseInt(type);
+            model.addAttribute("AccOlist", list);
+            model.addAttribute("aa", aa);
+            model.addAttribute("bb", bb);
+            model.addAttribute("cc", cc);
+            model.addAttribute("dd", dd);
+            model.addAttribute("ee", ee);
+            if (i == 0) {
+                request.setAttribute("timeerror", "时间错误");
+                return "service/fan";
+            } else {
+                request.setAttribute("timeerror", "时间错误");
+                return "service/column";
+            }
+        }
+        list = orderService.findOrdersByAccountIdBetween(account.getId(), begin, end);
+        if (list != null) {
             for (Order order : list) {
                 if (0 < Double.parseDouble(order.getTotal().toString()) &&
                         Double.parseDouble(order.getTotal().toString()) <= 10.0) {
@@ -223,11 +249,9 @@ public class ServiceCenterController {
         model.addAttribute("cc", cc);
         model.addAttribute("dd", dd);
         model.addAttribute("ee", ee);
-        if(i==0)
-        {
+        if (i == 0) {
             return "service/fan";
-        }
-        else
+        } else
             return "service/column";
     }
 

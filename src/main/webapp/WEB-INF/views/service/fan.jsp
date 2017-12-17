@@ -32,6 +32,10 @@
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <script type="text/javascript">
         $("body").css("width", window.innerWidth);
         $(window).resize(function () {
@@ -96,6 +100,14 @@
             });
         });
 
+        var timeerror = "${timeerror}";
+        if(timeerror!= '')
+        {
+            window.onload = function() {
+                swal("操作失败", "开始时间不能大于结束时间!", "error");
+            };
+        }
+
         function getfan() {
             var login = "${sessionScope.account.username}"
             if(login != '')
@@ -103,7 +115,7 @@
                 document.findaccorder.submit();
             }
             else{
-                alert("您尚未登录");
+                swal("操作失败", "您尚未登录!", "error");
 
             }
         }
@@ -197,13 +209,13 @@
                             <tr>
                                 <th>请选择时间:</th>
                                 <td colspan="2">
-                                    <input type="text" class="form-control input-lg" id="begin"
+                                    <input type="text" class="form-control input-lg" id="begin" readonly="readonly"
                                            name="beginTime" style="min-width: 270px;max-width: 270px;"
                                            placeholder="请输入开始时间">
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control input-lg" id="end"
+                                    <input type="text" class="form-control input-lg" id="end" readonly="readonly"
                                            name="endTime" style="min-width: 270px;max-width: 270px;" placeholder="请输入结束时间">
                                 </td>
                                 <td>

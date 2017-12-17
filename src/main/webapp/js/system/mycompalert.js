@@ -10,6 +10,12 @@ if(logerror!='') {
     };
 }
 
+if(timeerror!= '')
+{
+    window.onload = function() {
+        swal("操作失败", "开始时间不能大于结束时间!", "error");
+    };
+}
 /**投诉管理部分**/
 if(getacccomperror!='') {
     window.onload = function() {
