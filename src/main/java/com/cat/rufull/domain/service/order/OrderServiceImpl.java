@@ -83,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void confirmOrder(Order order) {
         if (Order.STATUS_DELIVERY.equals(order.getStatus())) {
+            order.setCompletedTime(new Date());
             order.setStatus(Order.STATUS_COMPLETED);
             order.setShippingStatus(Order.SHIPPING_STATUS_ARRIVED);
             orderMapper.updateOrder(order);
@@ -150,6 +151,8 @@ public class OrderServiceImpl implements OrderService {
         else if (Order.PAYMENT_METHOD_OFFLINE.equals(order.getPaymentMethod()))
             order.setPaymentStatus(Order.PAYMENT_STATUS_IGNORED);
 
+        logger.info(order.toString());
+
         // 插入订单记录
         orderMapper.insertOrder(order);
 
@@ -168,11 +171,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void acceptOrder(Order order) {
         if (Order.STATUS_PAID.equals(order.getStatus())) {
+            order.setAcceptedTime(new Date());
             order.setStatus(Order.STATUS_ACCEPTED);
             order.setShippingStatus(Order.SHIPPING_STATUS_PENDING);
             orderMapper.updateOrder(order);
         } else {
             throw new BusinessProcessingOrderException("该订单无法申请接单");
+        }
+    }
+
+    @Override
+    public void deliverOrder(Order order) {
+        if (Order.STATUS_ACCEPTED.equals(order.getStatus())) {
+            order.setStatus(Order.STATUS_DELIVERY);
+            order.setShippingStatus(Order.SHIPPING_STATUS_SHIPPING);
+            orderMapper.updateOrder(order);
+        } else {
+            throw new BusinessProcessingOrderException("该订单无法申请发货");
         }
     }
 
@@ -216,6 +231,24 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus) {
         return orderMapper.findShopOrdersByStatus(shopId, orderStatus);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findShopAcceptedOrders(Integer shopId) {
+        return orderMapper.findShopAcceptedOrders(shopId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findShopRefundOrders(Integer shopId) {
+        return orderMapper.findShopRefundOrders(shopId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findShopCompletedOrders(Integer shopId) {
+        return orderMapper.findShopCompletedOrders(shopId);
     }
 
     @Override

@@ -126,12 +126,7 @@ public class PaymentController {
             }else{
                 return "redirect:/order";
             }
-           /* System.out.println(order);*/
 
-
-
-            /*System.out.println(r9_BType);
-            return "redirect:/order/" + 3;*/
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);

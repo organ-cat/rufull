@@ -97,6 +97,13 @@ public interface OrderService {
     void acceptOrder(Order order);
 
     /**
+     * 发货
+     *
+     * @param order 订单
+     */
+    void deliverOrder(Order order);
+
+    /**
      * 完成支付
      *
      * @param order 包括商家信息的订单
@@ -137,6 +144,30 @@ public interface OrderService {
      * @return
      */
     List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus);
+
+    /**
+     * 查询商家已接订单
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopAcceptedOrders(Integer shopId);
+
+    /**
+     * 查询商家退单记录
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopRefundOrders(Integer shopId);
+
+    /**
+     * 查询商家完成订单
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopCompletedOrders(Integer shopId);
 
     /**
      * 根据商家id,订单状态查询订单

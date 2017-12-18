@@ -38,25 +38,26 @@
     <spring:url value="/order" var="showOrderUrl"/>
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
-    <spring:url value="#" var="showCooperationUrl"/>
-    <spring:url value="#" var="showAgreementUrl"/>
-    <spring:url value="#" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
-    <spring:url value="/address" var="showAddressUrl"/>
-    <spring:url value="/security" var="showSecurityUrl"/>
-    <spring:url value="/logout" var="logoutUrl"/>
+    <spring:url value="/business/joinBusiness" var="showCooperationUrl"/>
+    <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+    <spring:url value="/account/center" var="showProfileUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
+    <spring:url value="/account/center" var="footprintUrl"/>
+    <spring:url value="/address/addressManage" var="showAddressUrl"/>
+    <spring:url value="/account/security" var="showSecurityUrl"/>
+    <spring:url value="/account/logout" var="logoutUrl"/>
     <spring:url value="/place" var="showPlaceUrl"/>
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/info" var="showInfoUrl"/>
     <spring:url value="/security/changepassword" var="changePasswordUrl"/>
-    <spring:url value="/shop" var="showShopUrl"/>
+    <spring:url value="/shop/showShopDetail" var="showShopUrl"/>
     <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
     <spring:url value="/complaint?from" var="addComplaintUrl"/>
     <spring:url value="/payment" var="showPaymentUrl"/>
     <spring:url value="/order/cancel" var="cancelOrderUrl"/>
-    <spring:url value="/upload/business" var="showShopPhotoUrl"/>
+    <spring:url value="/upload/shop" var="showShopPhotoUrl"/>
     <spring:url value="/order/refund" var="refundOrderUrl"/>
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
@@ -85,12 +86,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.nickname}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                        <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
                         <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
-                        <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
-                        <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
+                        <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                        <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                         <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                         <li class="divider" role="separator"></li>
                         <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
@@ -108,8 +109,8 @@
             <ol class="breadcrumb">
                 <li>当前位置: </li>
                 <li>
-                    <a class="text-muted" href="${showPlaceUrl}/需要一组字符串不知道干嘛用的">麻章区广东海洋大学(点击后跳到附近商店列表页面)</a>
-                    <a href="${homeUrl}">[切换地址]</a>
+                    <a class="text-muted" href="${showPlaceUrl}">${address}</a>
+                    <a href="${showPlaceUrl}">[切换地址]</a>
                 </li>
                 <li>订单错误</li>
             </ol>
@@ -118,19 +119,19 @@
             <div class="row">
                 <div class="col-md-2">
                     <ul class="list-group text-center">
-                        <li class="list-group-item"><strong><a class="text-muted" href="${showProfileUrl}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
+                        <li class="list-group-item"><strong><a class="text-muted" href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
                         <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>我的订单</strong></li>
-                        <li class="list-group-item"><a class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
-                        <li class="list-group-item"><a class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
-                        <li class="list-group-item"><a class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
-                        <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
-                        <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
+                        <li class="list-group-item"><a id="list" class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
+                        <li class="list-group-item"><a id="listUnrated" class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
+                        <li class="list-group-item"><a id="listRefund" class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
+                        <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                         <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
                         <li class="list-group-item"><a class="text-muted" href="${showInfoUrl}">个人资料</a></li>
-                        <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}">地址管理</a></li>
+                        <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                         <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                         <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                        <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
+                        <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
+                        <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                     </ul>
                 </div>
                 <!-- 显示内容 -->

@@ -44,6 +44,12 @@ public interface OrderMapper {
 
     List<Order> findAllOrders();
 
+    List<Order> findShopAcceptedOrders(Integer shopId);
+
+    List<Order> findShopRefundOrders(Integer shopId);
+
+    List<Order> findShopCompletedOrders(Integer shopId);
+
     List<Order> findShopOrdersByStatus(@Param("shopId") Integer shopId, @Param("orderStatus") String orderStatus);
 
     List<Order> findBusinessOrdersByStatus(@Param("businessId") Integer businessId, @Param("orderStatus") String orderStatus);

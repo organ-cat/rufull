@@ -233,11 +233,11 @@ public class ServiceCenterController {
                         Double.parseDouble(order.getTotal().toString()) <= 30.0) {
                     cc = cc + 1;
                 }
-                if (40.0 < Double.parseDouble(order.getTotal().toString()) &&
-                        Double.parseDouble(order.getTotal().toString()) <= 50.0) {
+                if (30.0 < Double.parseDouble(order.getTotal().toString()) &&
+                        Double.parseDouble(order.getTotal().toString()) <= 40.0) {
                     dd = dd + 1;
                 }
-                if (50.0 < Double.parseDouble(order.getTotal().toString())) {
+                if (40.0 < Double.parseDouble(order.getTotal().toString())) {
                     ee = ee + 1;
                 }
             }
