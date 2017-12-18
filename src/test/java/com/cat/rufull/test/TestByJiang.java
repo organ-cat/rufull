@@ -181,14 +181,6 @@ public class TestByJiang {
         }
     }
 
-    @Test
-    public void findShopComplaintListById() {
-        int shop_id = 1;
-        List<Complaint> list = complaintService.findShopComplaintListById(shop_id);
-        for (Complaint c : list) {
-            System.out.println(c.toString());
-        }
-    }
 
     @Test
     public void findAllComplaintList() {

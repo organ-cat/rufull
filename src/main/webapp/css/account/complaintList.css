@@ -1,0 +1,20 @@
+@charset "UTF-8";
+.complaint-div {
+    text-align: center;
+    width: 1070px;
+    height: 100px;
+    background-color: #ffffff;
+}
+td {
+    width: 100px;
+}
+.content{
+    width: 150px;
+}
+.complaint-table {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.evidence {
+    width: 120px;
+}

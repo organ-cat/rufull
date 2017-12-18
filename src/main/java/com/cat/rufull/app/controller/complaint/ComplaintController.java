@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -48,13 +47,16 @@ public class ComplaintController {
                              @RequestParam("content") String content,
                              HttpServletRequest request, HttpServletResponse response) {
         System.out.println("投诉参数——"+accountId +"|"+ shopId +"|"+ type +"|"+ content);
-        String path = request.getServletContext().getRealPath("upload/comlaint");
-        String fileName = UUID.randomUUID().toString().replaceAll("-", "")
-                + evidence.getOriginalFilename();
-        try {
-            FileUtils.copyInputStreamToFile(evidence.getInputStream(), new File(path, fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
+        String fileName = null;
+        if (evidence != null){
+            String path = request.getServletContext().getRealPath("upload/complaint");
+            fileName = UUID.randomUUID().toString().replaceAll("-", "")
+                    + evidence.getOriginalFilename();
+            try {
+                FileUtils.copyInputStreamToFile(evidence.getInputStream(), new File(path, fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         Shop shop = new Shop();
         shop.setId(shopId);
@@ -68,18 +70,12 @@ public class ComplaintController {
     @RequestMapping(value = "/showAccount", method = RequestMethod.GET)
     public ModelAndView getComplaintByAccount(@RequestParam("accountId") int accountId) {
         List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
-        List<Shop> shopList = new ArrayList<>();
-        if (list != null){
-            for (Complaint complaint : list) {
-                System.out.println(complaint.toString());
-                Shop shop = shopService.findById(complaint.getShop().getId());
-                System.out.println(shop.toString());
-                shopList.add(shop);
-            }
-        }
         ModelAndView view = new ModelAndView();
         view.setViewName("account/comlpaintList");
-        view.addObject("complaintList", shopList);
+        for (Complaint complaint : list) {
+            System.out.println(complaint.toString());
+        }
+        view.addObject("complaintList", list);
         return view;
     }
     @RequestMapping(value = "/findComplaintById", method = RequestMethod.GET)

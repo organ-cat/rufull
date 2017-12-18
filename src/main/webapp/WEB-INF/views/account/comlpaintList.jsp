@@ -97,6 +97,10 @@
     <!-- center css -->
     <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
     <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+    <spring:url value="/resources/css/account/complaintList.css" var="complaintList_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${complaintList_css_url}"/>
+    <spring:url value="/resources/upload/account/" var="shop_photo_url"/>
+    <spring:url value="/resources/upload/complaint/" var="complaint_photo_url"/>
 </head>
 <body>
     <!-- 导航条 -->
@@ -177,21 +181,97 @@
                                     <h3>投诉过的商家</h3>
                                     <hr/>
                                     <c:forEach items="${complaintList}" var="complaint">
-                                        <div class="shoplist">
-                                            <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${complaint.id}" class="deleteFootprint">查看</a>
-                                            <a href="${showShopDetailUrl}?shopid=${complaint.id} " target="_self">
-                                                <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${complaint.shopPhoto}"
-                                                         width="70" height="70" alt="${complaint.shopName}" class="rstblock-logo-icon">
-                                                    <span class="rstblock-left-timeout">${complaint.shippingTime}+分钟</span>
-                                                </div>
-                                                <div class="rstblock-content">
-                                                    <div class="rstblock-title">${complaint.shopName}</div>
-                                                    <div class="rating-star r8"></div>
-                                                    <span class="rstblock-monthsales">月售100+</span>
-                                                    <div class="rstblock-cost">￥${complaint.shippingFee}</div>
-                                                </div>
-                                            </a>
+                                        <div class="complaint-div">
+                                            <table class="complaint-table">
+                                                <tr>
+                                                    <td rowspan="2">
+                                                        <img src="${shop_photo_url}/${complaint.shop.shopPhoto}" width="100px" height="100px">
+                                                    </td>
+                                                    <td>
+                                                        <b>商店名称</b>
+                                                    </td>
+                                                    <td class="content">
+                                                        <b>投诉原因</b>
+                                                    </td>
+                                                    <td class="content">
+                                                        <b>投诉内容</b>
+                                                    </td>
+                                                    <td rowspan="2" class="evidence">
+                                                        <img src="${complaint_photo_url}/${complaint.evidence}" width="100px" height="100px">
+                                                    </td>
+                                                    <td>
+                                                        <b>投诉状态</b>
+                                                    </td>
+                                                    <td class="content">
+                                                        <b>投诉结果</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>投诉时间</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>投诉处理时间</b>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <%--商店名--%>
+                                                        <p>${complaint.shop.shopName}</p>
+                                                    </td>
+                                                    <td class="content">
+                                                        <%--类型--%>
+                                                        <p>
+                                                            <c:if test="${complaint.type == 1}">
+                                                                商店确认接单，没有送餐
+                                                            </c:if>
+                                                            <c:if test="${complaint.type == 2}">
+                                                                商店存在卫生安全问题
+                                                            </c:if>
+                                                            <c:if test="${complaint.type == 3}">
+                                                                其他
+                                                            </c:if>
+                                                        </p>
+                                                    </td>
+                                                    <td class="content">
+                                                        <%--内容--%>
+                                                        <p>${complaint.content}</p>
+                                                    </td>
+                                                    <td>
+                                                        <%--状态--%>
+                                                        <p>
+                                                            <c:if test="${complaint.status == 1}">
+                                                                已投诉
+                                                            </c:if>
+                                                            <c:if test="${complaint.status == 2}">
+                                                                处理中
+                                                            </c:if>
+                                                            <c:if test="${complaint.status == 3}">
+                                                                完成处理
+                                                            </c:if>
+                                                        </p>
+
+                                                    </td>
+                                                    <td>
+                                                        <%--状态--%>
+                                                        <p>
+                                                            <c:if test="${complaint.result == 1}">
+                                                                情况属实，已处罚商店
+                                                            </c:if>
+                                                            <c:if test="${complaint.result == 2}">
+                                                                情况不属实
+                                                            </c:if>
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                            <%--创建时间--%>
+                                                        <p>${complaint.createdTime.toLocaleString()}</p>
+                                                    </td>
+                                                    <td>
+                                                            <%--完成时间--%>
+                                                        <p>${complaint.completedTime.toLocaleString()}</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </c:forEach>
                                 </div>
