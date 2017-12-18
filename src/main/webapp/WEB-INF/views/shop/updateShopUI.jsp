@@ -11,7 +11,7 @@
 
 
 <head>
-    <title>商店创建页面</title>
+    <title>商店更新页面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/business/fileinput.css">
 

@@ -2,6 +2,7 @@ package com.cat.rufull.domain.service.business;
 
 
 import com.cat.rufull.domain.model.Business;
+import com.cat.rufull.domain.model.Order;
 
 import java.util.List;
 
@@ -22,5 +23,7 @@ public interface BusinessService {
     Business findBusinessByAccountId(Integer id);                   // 通过用户id查询对应的商家
 
     List<Business> findNotSettledBusiness();                        // 获取已经填写入驻信息的商家
+
+    List<Order> findOrderListByStatus(String status,Integer shopId);               //查找对应状态下的商店
 
    }

@@ -179,14 +179,24 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">等待退单</h4>
+                                                <c:if test="${order.status eq 'UNCOMPLETED'}">
+                                                    <h4 class="text-muted">完成退单</h4>
+                                                </c:if>
+                                                <c:if test="${order.status eq 'AUDITING'}">
+                                                    <h4 class="text-muted">等待退单</h4>
+                                                </c:if>
                                             </td>
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <form action="${pageContext.request.contextPath}/order/confirmRefund/${order.id}" method="post">
-                                                        <button class="btn btn-info order-btn" role="button" type="submit">确定退单</button>
-                                                    </form>
+                                                    <c:if test="${order.status eq 'UNCOMPLETED'}">
+                                                        <h4 class="text-muted">无法操作</h4>
+                                                    </c:if>
+                                                    <c:if test="${order.status eq 'AUDITING'}">
+                                                        <form action="${pageContext.request.contextPath}/order/confirmRefund/${order.id}" method="post">
+                                                            <button class="btn btn-info order-btn" role="button" type="submit">确定退单</button>
+                                                        </form>
+                                                    </c:if>
                                                 </div>
                                             </td>
                                         </tr>
