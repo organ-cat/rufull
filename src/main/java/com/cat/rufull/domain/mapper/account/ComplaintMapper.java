@@ -25,7 +25,7 @@ public interface ComplaintMapper {
      * @param account_id
      * @return
      */
-    List<Complaint> findAccountComplaintListById(int account_id);
+    List<Complaint> findAccountComplaintListById(@Param("account_id")int account_id);
 
     /**
      * 根据商店id查询投诉的集合
