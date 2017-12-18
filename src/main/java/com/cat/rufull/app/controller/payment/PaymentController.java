@@ -66,7 +66,7 @@ public class PaymentController {
             // 定义付款的参数:
             String p0_Cmd = "Buy";
             String p1_MerId = "10001126856";
-            String p2_Order = orderNumber;
+            String p2_Order = orderNumber;;
             String p3_Amt = "0.01";
             String p4_Cur = "CNY";
             String p5_Pid = "";
@@ -112,16 +112,21 @@ public class PaymentController {
      * @param r3_Amt//支付金额
      * @return
      */
-    @RequestMapping("payBack")
-    public String callBack(Model model, Integer r1_Code, String r6_Order, double r3_Amt){
+    @RequestMapping("/payBack")
+    public String callBack(Model model, Integer r1_Code, String r6_Order, String r3_Amt, String r9_BType){
 
         if(r1_Code == 1){ //支付结果：成功，跳转完成支付
             /*model.addAttribute("id",r6_Order);
             return complete(r6_Order);*/
+            System.out.println(r9_BType);
             Order order = orderService.findOrderByOrderNumber(r6_Order);
-//            System.out.println(order);
-            orderService.paidOrder(order);
-            return "redirect:/order/" + order.getId();
+            if(order.getStatus().equals("UNPAID")){  //判断订单是否已经支付，防止重复支付
+                orderService.paidOrder(order);
+                return "redirect:/order/" + order.getId();
+            }else{
+                return "redirect:/order";
+            }
+
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);

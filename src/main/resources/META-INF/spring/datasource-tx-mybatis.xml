@@ -15,8 +15,12 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <!--内存数据库,方便开发使用-->
+    <!--&lt;!&ndash;内存数据库,方便开发使用&ndash;&gt;
+    <jdbc:embedded-database id="dataSource" type="H2">
+=======
+    <!-内存数据库,方便开发使用-->
     <!--<jdbc:embedded-database id="dataSource" type="H2">
+>>>>>>> 8bac4a0f5309eff468d35958076731f03125a3bf
         <jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>
         <jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>
     </jdbc:embedded-database>-->

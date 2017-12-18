@@ -52,4 +52,16 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationMapper.findEvalByShopId_N(id);
     }
 
+    //根据商店id查询评价平均分
+    @Override
+    public Double findAvarageByShopId(Integer shopId) throws Exception {
+        return evaluationMapper.findAvarageByShopId(shopId);
+    }
+
+    //根据商品id查询评价平均分
+    @Override
+    public Double findAvarageByProductId(Integer productId) throws Exception {
+        return evaluationMapper.findAvarageByProductId(productId);
+    }
+
 }
