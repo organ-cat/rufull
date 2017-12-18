@@ -112,4 +112,6 @@ public interface AccountMapper {
     void changePasswordByPhone(@Param("phone")String phone,@Param("password")String password, @Param("role")int role);
 
     void changePasswordByEmail(@Param("email")String email,@Param("password")String password,@Param("role") int role);
+
+    int updateBalance(@Param("id")int id, @Param("balance")double balance);
 }

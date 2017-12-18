@@ -136,4 +136,9 @@ public class AccountServiceImpl implements AccountService {
     public void changePasswordByEmail(String email,String password, int role) {
         accountMapper.changePasswordByEmail(email,password, role);
     }
+
+    @Override
+    public int updateBalance(int id, double balance) {
+        return accountMapper.updateBalance(id, balance);
+    }
 }

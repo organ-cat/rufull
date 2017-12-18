@@ -23,9 +23,8 @@
     <!-- app css -->
     <spring:url value="/resources/css/style.css" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" href="${app_css_url}"/>
-    <!-- center css -->
-    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
+
+
 
     <!-- jquery -->
     <spring:url value="/resources/js/jquery-1.12.4.js" var="jquery_url"/>
@@ -66,12 +65,11 @@
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
-
-
-    <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
-    <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
+    <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
+    <spring:url value="/favor/deleteFavor" var="deleteFavorUrl"/>
 
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#orderCancelBtn').click(function () {
@@ -93,16 +91,16 @@
     </script>
 
     <link href="../css/service/pagevendor.css" rel="stylesheet">
-
     <link href="../css/service/pagemain.css" rel="stylesheet">
-    <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">--%>
-    <spring:url value="/resources/css/account/bind.css" var="bind_css_url"/>
-    <link rel="stylesheet" type="text/css" href="${bind_css_url}"/>
-    <script src="${pageContext.request.contextPath}/js/account/addEmail.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!-- center css -->
+    <spring:url value="/resources/css/account/center.css" var="center_css_url"/>
+    <link rel="stylesheet" type="text/css" href="${center_css_url}"/>
 </head>
 <body>
     <!-- 导航条 -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navo-color">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -162,7 +160,7 @@
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                             <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo" class="text-muted" href="${infomationUrl}">个人资料</a></li>
+                            <li class="list-group-item"><a id="infoinfo"  class="text-muted"  href="${infomationUrl}">个人资料</a></li>
                             <%--href="${showInfoUrl}"--%>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
@@ -173,40 +171,30 @@
                     </div>
                     <!-- 显示内容 -->
                     <div class="col-md-10">
-                        <%--会自动调节高度--%>
-                        <h1><small>绑定邮箱</small></h1><br/><hr/><br/>
-                        <div class="bindDiv">
-                            <div class="bindTable">
-                                <table width="500" >
-                                    <tr width="500px" height="60px">
-                                        <td colspan="2">
-                                            <p>为保障你的账号安全，请先帮助我们验证你的身份！</p>
-                                        </td>
-                                    </tr>
-                                    <tr width="500px" height="60px">
-                                        <td>
-                                            <input id="yourEmail" type="text" readonly value="您的邮箱号">
-                                        </td>
-                                        <td>
-                                            <input id="email" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr width="500px" height="60px">
-                                        <td>
-                                            <input id="obtainCode" type="text" readonly value="获取验证码">
-                                        </td>
-                                        <td><input id="checkCode" type="text"></td>
-                                    </tr>
-                                    <tr width="500px" height="60px">
-                                        <td colspan="2"><p id="returnMessage">为保障账号安全，请先对你的身份进行验证</p></td>
-                                    </tr>
-                                    <tr width="500px" height="60px">
-                                        <td></td>
-                                        <td>
-                                            <input id="addEmail" type="button" value="绑定">
-                                        </td>
-                                    </tr>
-                                </table>
+                        <div class="container-fluid" id="content">
+                            <div class="row">
+                                <div id="footprint">
+                                    <h3>投诉过的商家</h3>
+                                    <hr/>
+                                    <c:forEach items="${complaintList}" var="complaint">
+                                        <div class="shoplist">
+                                            <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${complaint.id}" class="deleteFootprint">查看</a>
+                                            <a href="${showShopDetailUrl}?shopid=${complaint.id} " target="_self">
+                                                <div class="rstblock-logo">
+                                                    <img src="${pageContext.request.contextPath}/upload/account/${complaint.shopPhoto}"
+                                                         width="70" height="70" alt="${complaint.shopName}" class="rstblock-logo-icon">
+                                                    <span class="rstblock-left-timeout">${complaint.shippingTime}+分钟</span>
+                                                </div>
+                                                <div class="rstblock-content">
+                                                    <div class="rstblock-title">${complaint.shopName}</div>
+                                                    <div class="rating-star r8"></div>
+                                                    <span class="rstblock-monthsales">月售100+</span>
+                                                    <div class="rstblock-cost">￥${complaint.shippingFee}</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
                             </div>
                         </div>
                     </div>

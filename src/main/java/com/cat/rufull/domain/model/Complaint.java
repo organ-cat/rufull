@@ -24,9 +24,9 @@ public class Complaint implements Serializable {
 
     private Integer solver;     // 投诉处理者
 
-    private Integer accountId;  // 投诉的用户
+    private Account account;  // 投诉的用户
 
-    private Integer shopId;     // 被投诉的商店
+    private Shop shop;     // 被投诉的商店
 
     public static final Integer NO_MEALS_ON_WHEELS = 1;
     public static final Integer FOOD_HEALTH_SECURITY_PROBLEM = 2;
@@ -40,22 +40,17 @@ public class Complaint implements Serializable {
     public static final Integer RESULT_FAKE = 2;
 
 
-
-    public Complaint() {
-    }
-
-    public Complaint(Integer id, Integer type, String content, String evidence, Date createdTime, Integer status, Date completedTime, Integer result, Integer solver, Integer accountId, Integer shopId) {
-        this.id = id;
+    public Complaint(Integer type, String content, String evidence, Date createdTime, Integer status, Account account, Shop shop) {
         this.type = type;
         this.content = content;
         this.evidence = evidence;
         this.createdTime = createdTime;
         this.status = status;
-        this.completedTime = completedTime;
-        this.result = result;
-        this.solver = solver;
-        this.accountId = accountId;
-        this.shopId = shopId;
+        this.account = account;
+        this.shop = shop;
+    }
+
+    public Complaint() {
     }
 
     public Integer getId() {
@@ -82,11 +77,11 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public String getevidence() {
+    public String getEvidence() {
         return evidence;
     }
 
-    public void setevidence(String evidence) {
+    public void setEvidence(String evidence) {
         this.evidence = evidence;
     }
 
@@ -130,36 +125,51 @@ public class Complaint implements Serializable {
         this.solver = solver;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Integer getShopId() {
-        return shopId;
+    public Shop getShop() {
+        return shop;
     }
 
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
-    @Override
-    public String toString() {
-        return "Complaint{" +
-                "id=" + id +
-                ", type=" + type +
-                ", content='" + content + '\'' +
-                ", evidence='" + evidence + '\'' +
-                ", createdTime=" + createdTime +
-                ", status=" + status +
-                ", completedTime=" + completedTime +
-                ", result=" + result +
-                ", solver=" + solver +
-                ", accountId=" + accountId +
-                ", shopId=" + shopId +
-                '}';
+    public static Integer getNoMealsOnWheels() {
+        return NO_MEALS_ON_WHEELS;
+    }
+
+    public static Integer getFoodHealthSecurityProblem() {
+        return FOOD_HEALTH_SECURITY_PROBLEM;
+    }
+
+    public static Integer getOtherProblem() {
+        return OTHER_PROBLEM;
+    }
+
+    public static Integer getCOMPLAINTED() {
+        return COMPLAINTED;
+    }
+
+    public static Integer getHANDLING() {
+        return HANDLING;
+    }
+
+    public static Integer getCompletedComplaintion() {
+        return COMPLETED_COMPLAINTION;
+    }
+
+    public static Integer getResultTrue() {
+        return RESULT_TRUE;
+    }
+
+    public static Integer getResultFake() {
+        return RESULT_FAKE;
     }
 }

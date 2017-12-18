@@ -16,10 +16,10 @@
         http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
     <!--内存数据库,方便开发使用-->
-    <!--<jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>
-        <jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>
-    </jdbc:embedded-database>-->
+    <!--<jdbc:embedded-database id="dataSource" type="H2">-->
+        <!--<jdbc:script location="classpath:META-INF/sql/test-schema.sql" encoding="UTF-8"/>-->
+        <!--<jdbc:script location="classpath:META-INF/sql/test-data.sql" encoding="UTF-8"/>-->
+    <!--</jdbc:embedded-database>-->
 
     <!-- 引入配置文件 -->
     <context:property-placeholder location="classpath:application.properties"/>
@@ -31,15 +31,15 @@
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-        <!-- 初始化连接大小 -->
+        <!--初始化连接大小-->
         <property name="initialSize" value="${jdbc.initialSize}"/>
-        <!-- 连接池最大数量 -->
+        <!--连接池最大数量-->
         <property name="maxActive" value="${jdbc.maxActive}"/>
-        <!-- 连接池最大空闲 -->
+        <!--连接池最大空闲-->
         <property name="maxIdle" value="${jdbc.maxIdle}"/>
-        <!-- 连接池最小空闲 -->
+        <!--连接池最小空闲-->
         <property name="minIdle" value="${jdbc.minIdle}"/>
-        <!-- 获取连接最大等待时间 -->
+        <!--获取连接最大等待时间-->
         <property name="maxWait" value="${jdbc.maxWait}"/>
     </bean>
 

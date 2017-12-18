@@ -1,3 +1,4 @@
+var flag = false;
 $(function () {
     $(".accountPhoto").mouseenter(function () {
         $(".editInfo").show();
@@ -18,51 +19,83 @@ $(function () {
 $(function () {
     $("#aNick").click(function () {
         var nickname = $("#nickname").val();
-        $.ajax({
-            url: "http://localhost:8080/rufull/account/updateNickname",
-            data: {"nickname": nickname},
-            async: true,
-            cache: false,
-            type: "POST",
-            dataType: "json",
-            success: function (result) {
-                alert(result)
-            }
-        });
+        if(nickname!=""){
+            $.ajax({
+                url: "http://localhost:8080/rufull/account/updateNickname",
+                data: {"nickname": nickname},
+                async: true,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    $("#nicknameMessage").html("修改成功");
+                    $("#nicknameMessage").style("color", "#008000");
+                }
+            });
+        }else{
+            $("#nicknameMessage").html("不能是空");
+            $("#nicknameMessage").attr("color", "#FF0000");
+        }
+
+
     });
 });
 $(function () {
     $("#aUser").click(function () {
         var username = $("#username").val();
-        $.ajax({
-            url: "http://localhost:8080/rufull/account/setUsername",
-            data: {"username": username},
-            async: true,
-            cache: false,
-            type: "POST",
-            dataType: "json",
-            success: function (result) {
-                alert(result)
-            }
-        });
+        if(flag && isUsername(username)){
+            $.ajax({
+                url: "http://localhost:8080/rufull/account/setUsername",
+                data: {"username": username},
+                async: true,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    $("#usernameMessage").html("设置成功");
+                    setTimeout(function(){
+                        $(location).attr('href', 'http://localhost:8080/rufull/account/infomation');
+                        },3000);
+
+                }
+            });
+        }else {
+            $("#usernameMessage").html("格式错误");
+            flag = false;
+        }
+
     });
 });
 
 $(function () {
-    $("#username").blur(function () {
+    $("#username").change(function () {
         var username = $("#username").val();
-        alert(username);
-        $.ajax({
-            url: "http://localhost:8080/rufull/check/checkUsername",
-            data: {"username": username},
-            async: true,
-            cache: false,
-            type: "POST",
-            dataType: "json",
-            success: function (result) {
-                alert(result)
-            }
-        });
+        if(isUsername(username)){
+            $.ajax({
+                url: "http://localhost:8080/rufull/check/checkUsername",
+                data: {"username": username},
+                async: true,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (result) {
+                    if(result =="1"){
+                        $("#usernameMessage").html("通过");
+                        flag = true;
+                    }else {
+                        $("#usernameMessage").html("存在");
+                        flag = false;
+                    }
+                }
+            });
+        }else {
+            $("#usernameMessage").html("格式错误");
+            flag = false;
+        }
+
     });
 });
-
+function isUsername(username) {
+    var reg = /^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){2,19}$/;
+    return reg.test(username);
+}

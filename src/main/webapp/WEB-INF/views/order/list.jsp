@@ -136,9 +136,9 @@
                     <ul class="list-group text-center">
                         <li class="list-group-item"><strong><a class="text-muted" href="${showProfileUrl}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
                         <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>我的订单</strong></li>
-                        <li class="list-group-item list-group-item-info"><a id="list" class="text-muted" href="javascript:void(0);">近三个订单</a></li>
-                        <li class="list-group-item"><a id="listUnrated" class="text-muted" href="javascript:void(0);">待评价订单</a></li>
-                        <li class="list-group-item"><a id="listRefund" class="text-muted" href="javascript:void(0);">退单记录</a></li>
+                        <li class="list-group-item"><a id="list" class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
+                        <li class="list-group-item"><a id="listUnrated" class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
+                        <li class="list-group-item"><a id="listRefund" class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
                         <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
                         <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
                         <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
@@ -376,35 +376,22 @@
     $(document).ready(function () {
         initTable();
 
-        $('#list').click(function () {
-            $('.list-group-item').removeClass('list-group-item-info'); // 移除激活样式
-            $(this).parent('li').addClass('list-group-item-info'); // 激活选中连接样式
+        var url = '${ordersUrl}';
+        var $item;
 
-            $('.path-header').text('近三个月订单');
-            $('.page-header h1 small').text('近三个月订单');
+        switch (url) {
+            case '':
+                $item = $('#list').parent('li');
+                break;
+            case 'unrated':
+                $item = $('#listUnrated').parent('li');
+                break;
+            case 'refund':
+                $item = $('#listRefund').parent('li');
+                break;
+        }
 
-            $table.bootstrapTable('refresh', {url: '${showOrderUrl}'});
-        });
-
-        $('#listUnrated').click(function () {
-            $('.list-group-item').removeClass('list-group-item-info'); // 移除激活样式
-            $(this).parent('li').addClass('list-group-item-info'); // 激活选中连接样式
-
-            $('.path-header').text('待评价订单');
-            $('.page-header h1 small').text('待评价订单');
-
-            $table.bootstrapTable('refresh', {url: '${showUnratedOrderUrl}'});
-        });
-
-        $('#listRefund').click(function () {
-            $('.list-group-item').removeClass('list-group-item-info'); // 移除激活样式
-            $(this).parent('li').addClass('list-group-item-info'); // 激活选中连接样式
-
-            $('.path-header').text('退单记录');
-            $('.page-header h1 small').text('退单记录');
-
-            $table.bootstrapTable('refresh', {url: '${showRefundOrderUrl}'});
-        });
+        $item.addClass('list-group-item-info'); // 激活选中链接样式
     });
 </script>
 </body>

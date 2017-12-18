@@ -100,8 +100,10 @@ public class NoLoginController {
                              @RequestParam("ip") String ip, @RequestParam("city") String city,
                              @RequestParam("remoteCode") String remoteCode,
                              HttpSession session, HttpServletResponse response) {
-        loginCheckIsRemote(username, password, Account.ACCOUNT_ROLE, ip, city,
-                session, response, remoteCode, Account.ACCOUNT_SESSION, Account.REMOTE_CODE_SESSION);
+        login(username, password, Account.ACCOUNT_ROLE, session, response, ip
+                , city, remoteCode);
+//        loginCheckIsRemote(username, password, Account.ACCOUNT_ROLE, ip, city,
+//                session, response, remoteCode, Account.ACCOUNT_SESSION, Account.REMOTE_CODE_SESSION);
     }
     /**
      * 商家登陆
@@ -113,7 +115,7 @@ public class NoLoginController {
     @RequestMapping(value = "/businessLogin", method = RequestMethod.POST)
     public void businessLogin(@RequestParam("username") String username, @RequestParam("password") String password,
                               HttpSession session, HttpServletResponse response) {
-        login(username, password, Account.BUSINESS_ROLE, session, response, Account.BUSINESS_SESSION, null, null);
+        login(username, password, Account.BUSINESS_ROLE, session, response, null, null, null);
     }
     /**
      * 商家注册
@@ -138,7 +140,6 @@ public class NoLoginController {
      * @param role           登陆的角色
      * @param session       HttpSession
      * @param response      HttpServletResponse
-     * @param sessionName   登陆成功后存入的session中的名字
      * @param ip             登陆时候的IP
      * @param city           登陆时候的位置，具体是xx省xx市
      */
@@ -147,9 +148,10 @@ public class NoLoginController {
                       int role,
                       HttpSession session,
                       HttpServletResponse response,
-                      String sessionName,
                       String ip,
-                      String city){
+                      String city,
+                      String remoteCode){
+        System.out.println(username + "|" + password + "|" + ip + "|" + city + "|" + remoteCode);
         Account account = new Account();
         //判断是否是用户名
         boolean isUsernaem = RegEx.regExUsername(username);
@@ -177,25 +179,54 @@ public class NoLoginController {
         } else {//登陆成功
             //用户登陆成功
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
-                //存入session中
-                session.setAttribute(sessionName, login);
-                if (!ip.equals("")&&!city.equals("")) {
-                    //添加登陆日志
-                    addLoginLog(ip, city, login);
+                //从session中获取异地登陆的验证码
+                String recode = (String) session.getAttribute(Account.REMOTE_CODE_SESSION);
+                System.out.println(recode);
+                //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
+                if (recode == null) {
+                    //判断是否是异地登陆
+                    boolean isRemote = checkLoglog(ip, city, username, role);
+                    if (isRemote) {//true ，不是异地登陆
+                        //登陆成功
+                        //存入session中
+                        session.setAttribute(Account.ACCOUNT_SESSION, login);
+                        //添加登陆日志
+                        addLoginLog(ip, city, login);
+                        //添加到cookie中
+                        addRufullCookie(response, login);
+                        result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                        session.removeAttribute(Account.REMOTE_CODE_SESSION);
+                    } else {//false，异地登陆
+                        //将异地登陆验证码赋值为uuid并放入session，防止破解
+                        session.setAttribute(remoteCode, UUID.randomUUID().toString().replaceAll("-", ""));
+                        //返回异地登陆信息，提示需要短信验证码
+                        System.out.println("1");
+                        result = ReturnCode.REMOTE_LOGIN;//异地登陆
+                    }
+                } else {//非第一次登陆
+                    System.out.println("输入验证码"+recode+remoteCode);
+                    //判断输入的异地登陆的验证码是否正确
+                    if (recode.equals(remoteCode)) {//正确
+                        //存入session中
+                        session.setAttribute(Account.ACCOUNT_SESSION, login);
+                        //添加登陆日志
+                        addLoginLog(ip, city, login);
+                        //添加到cookie中
+                        addRufullCookie(response, login);
+                        result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
+                        session.removeAttribute(Account.REMOTE_CODE_SESSION);
+                    } else {//错误
+                        //返回错误信息
+                        result = ReturnCode.REMOTE_CODE_ERROR;//异地登陆验证码错误
+                    }
                 }
-                //添加到cookie中
-                addRufullCookie(response, login);
-                result = ReturnCode.LOGIN_SUCCESS;//返回json是100对应是成功
             }
-/******************************************************************************************/
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
-                System.out.println("商家成功登陆。。。。");
                 session.setAttribute(Account.BUSINESS_SESSION, login);
                 result = String.valueOf(login.getStatus());             //商家状态。
             }
         }
-        //返回页面对应的信息
         returnMessage(response, result);
     }
     /**
@@ -237,50 +268,50 @@ public class NoLoginController {
         }
         return false;
     }
-    /**
-     * 登陆检测异地登陆
-     * @param username      用户的登陆方式，可以是用户名/手机/邮箱
-     * @param password      用户登陆的密码
-     * @param role           用户的角色，用户或商家
-     * @param ip             用户登陆时候的ip
-     * @param city           用户登陆的位置，具体是xx省xx市
-     * @param session        HttpSession
-     * @param response       HttpServletResponse
-     * @param remoteCode     异地登陆时候的验证码
-     * @param sessionName    用户或者商家登陆时候，存入session中的名字
-     * @param sessionRemoteCode    session中，异地登陆验证码中的key
-     */
-    public void loginCheckIsRemote(String username, String password, int role, String ip, String city,
-                                   HttpSession session, HttpServletResponse response,
-                                   String remoteCode, String sessionName,String sessionRemoteCode) {
-        //从session中获取异地登陆的验证码
-        String recode = (String) session.getAttribute(sessionRemoteCode);
-        //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
-        if (recode == null) {
-            //判断是否是异地登陆
-            boolean isRemote = checkLoglog(ip, city, username, role);
-            if (isRemote) {//true ，不是异地登陆
-                //登陆
-                this.login(username, password, role, session, response,
-                        sessionName, ip, city);
-            } else {//false，异地登陆
-                //将异地登陆验证码赋值为uuid并放入session，防止破解
-                session.setAttribute(remoteCode, UUID.randomUUID().toString().replaceAll("-", ""));
-                //返回异地登陆信息，提示需要短信验证码
-                returnMessage(response, ReturnCode.REMOTE_LOGIN);//异地登陆
-            }
-        } else {//非第一次登陆
-            //判断输入的异地登陆的验证码是否正确
-            if (remoteCode.equals(remoteCode)) {//正确
-                this.login(username, password, role, session,
-                        response, sessionName, ip, city
-                );
-            } else {//错误
-                //返回错误信息
-                returnMessage(response, ReturnCode.REMOTE_CODE_ERROR);//异地登陆验证码错误
-            }
-        }
-    }
+//    /**
+//     * 登陆检测异地登陆
+//     * @param username      用户的登陆方式，可以是用户名/手机/邮箱
+//     * @param password      用户登陆的密码
+//     * @param role           用户的角色，用户或商家
+//     * @param ip             用户登陆时候的ip
+//     * @param city           用户登陆的位置，具体是xx省xx市
+//     * @param session        HttpSession
+//     * @param response       HttpServletResponse
+//     * @param remoteCode     异地登陆时候的验证码
+//     * @param sessionName    用户或者商家登陆时候，存入session中的名字
+//     * @param sessionRemoteCode    session中，异地登陆验证码中的key
+//     */
+//    public void loginCheckIsRemote(String username, String password, int role, String ip, String city,
+//                                   HttpSession session, HttpServletResponse response,
+//                                   String remoteCode, String sessionName,String sessionRemoteCode) {
+//        //从session中获取异地登陆的验证码
+//        String recode = (String) session.getAttribute(sessionRemoteCode);
+//        //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
+//        if (recode == null) {
+//            //判断是否是异地登陆
+//            boolean isRemote = checkLoglog(ip, city, username, role);
+//            if (isRemote) {//true ，不是异地登陆
+//                //登陆
+//                this.login(username, password, role, session, response,
+//                        sessionName, ip, city);
+//            } else {//false，异地登陆
+//                //将异地登陆验证码赋值为uuid并放入session，防止破解
+//                session.setAttribute(remoteCode, UUID.randomUUID().toString().replaceAll("-", ""));
+//                //返回异地登陆信息，提示需要短信验证码
+//                returnMessage(response, ReturnCode.REMOTE_LOGIN);//异地登陆
+//            }
+//        } else {//非第一次登陆
+//            //判断输入的异地登陆的验证码是否正确
+//            if (remoteCode.equals(remoteCode)) {//正确
+//                this.login(username, password, role, session,
+//                        response, sessionName, ip, city
+//                );
+//            } else {//错误
+//                //返回错误信息
+//                returnMessage(response, ReturnCode.REMOTE_CODE_ERROR);//异地登陆验证码错误
+//            }
+//        }
+//    }
     /**
      * 添加登陆的日志
      * @param ip    用户登陆的ip
@@ -322,7 +353,6 @@ public class NoLoginController {
         Account account = new Account();
         //获取session中的验证码
         String registerCode = (String) httpSession.getAttribute(Account.CHECKCODE_SESSION);
-        System.out.println(phoneOrEmail +"|"+ password +"|"+ checkCode+"—session—"+registerCode);
         //判断是否是手机
         boolean isPhone = RegEx.regExPhone(phoneOrEmail);
         //判断是否是邮箱
@@ -345,7 +375,6 @@ public class NoLoginController {
                     accountService.register(account);
                     if (role == Account.ACCOUNT_ROLE) {
                         Account registerSuccess =accountService.findAccountByPhone(phoneOrEmail, role);
-                        System.out.println(registerSuccess.toString());
                         httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
                         returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
                     }
@@ -353,12 +382,10 @@ public class NoLoginController {
                     //如果是商家注册，跳转到对应页面
                     if (role == Account.BUSINESS_ROLE) {
                         Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
-                        System.out.println(registerBusiness.toString());
                         httpSession.setAttribute(Account.BUSINESS_SESSION, account);
                         returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
                     }
                 } else {
-                    System.out.println("手机被注册了");
                     returnMessage(response,ReturnCode.PHONE_REGISTERED);
                 }
             }else if (isEmail) {//注册方式是邮箱
@@ -374,7 +401,6 @@ public class NoLoginController {
                     accountService.register(account);
                     if (role == Account.ACCOUNT_ROLE) {
                         Account registerSuccess = accountService.findAccountByEmail(phoneOrEmail, role);
-                        System.out.println(registerSuccess.toString());
                         httpSession.setAttribute(Account.ACCOUNT_SESSION, registerSuccess);
                         returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
                     }
@@ -382,18 +408,15 @@ public class NoLoginController {
                     //如果是商家注册，跳转到对应页面
                     if (role == Account.BUSINESS_ROLE) {
                         Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
-                        System.out.println(registerBusiness.toString());
                         httpSession.setAttribute(Account.BUSINESS_SESSION, account);
                         returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
                     }
                 } else {
                     //邮箱被注册了，跳转到注册页面
-                    System.out.println("邮箱被注册了");
                     returnMessage(response,ReturnCode.EMAIL_REGISTERED);
                 }
             }
         } else {
-            System.out.println("验证码错误");
             returnMessage(response, ReturnCode.CHECKCODE_ERROR);
         }
 

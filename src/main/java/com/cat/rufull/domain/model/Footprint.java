@@ -17,6 +17,16 @@ public class Footprint implements Serializable {
 
     public Footprint() {
     }
+    public Footprint(Integer shopId,Integer accountId) {
+        this.accountId = accountId;
+        this.shopId = shopId;
+    }
+
+    public Footprint(Date accessTime, Integer accountId, Integer shopId) {
+        this.accessTime = accessTime;
+        this.accountId = accountId;
+        this.shopId = shopId;
+    }
 
     public Footprint(Integer id, Date accessTime, Integer accountId, Integer shopId) {
         this.id = id;

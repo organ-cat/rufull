@@ -81,7 +81,7 @@ public class CheckController {
         if (account == null) {
             returnMessage(response, "1");
         } else {
-            returnMessage(response, "2");
+            returnMessage(response, "0");
         }
     }
 
