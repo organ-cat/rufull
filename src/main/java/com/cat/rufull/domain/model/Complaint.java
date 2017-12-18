@@ -141,35 +141,20 @@ public class Complaint implements Serializable {
         this.shop = shop;
     }
 
-    public static Integer getNoMealsOnWheels() {
-        return NO_MEALS_ON_WHEELS;
-    }
-
-    public static Integer getFoodHealthSecurityProblem() {
-        return FOOD_HEALTH_SECURITY_PROBLEM;
-    }
-
-    public static Integer getOtherProblem() {
-        return OTHER_PROBLEM;
-    }
-
-    public static Integer getCOMPLAINTED() {
-        return COMPLAINTED;
-    }
-
-    public static Integer getHANDLING() {
-        return HANDLING;
-    }
-
-    public static Integer getCompletedComplaintion() {
-        return COMPLETED_COMPLAINTION;
-    }
-
-    public static Integer getResultTrue() {
-        return RESULT_TRUE;
-    }
-
-    public static Integer getResultFake() {
-        return RESULT_FAKE;
+    @Override
+    public String toString() {
+        return "Complaint{" +
+                "id=" + id +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                ", evidence='" + evidence + '\'' +
+                ", createdTime=" + createdTime +
+                ", status=" + status +
+                ", completedTime=" + completedTime +
+                ", result=" + result +
+                ", solver=" + solver +
+                ", account=" + account +
+                ", shop=" + shop +
+                '}';
     }
 }

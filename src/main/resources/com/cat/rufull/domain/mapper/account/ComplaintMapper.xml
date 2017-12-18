@@ -6,8 +6,7 @@
         INSERT
         INTO
         COMPLAINT
-        (
-            type,
+            (type,
             content,
             evidence,
             created_time,
@@ -16,21 +15,18 @@
             result,
             solver,
             account_id,
-            shop_id
-        )
+            shop_id)
         VALUES
-        (
-        #{type},
-        #{content},
-        #{evidence},
-        #{createdTime},
-        #{status},
-        #{completedTime},
-        #{result},
-        #{solver},
-        #{account.id},
-        #{shop.id}
-        )
+            (#{type},
+            #{content},
+            #{evidence},
+            #{createdTime},
+            #{status},
+            #{completedTime},
+            #{result},
+            #{solver},
+            #{account.id},
+            #{shop.id})
     </insert>
 
     <select id="findComplaintById" parameterType="int" resultType="Complaint">
@@ -41,13 +37,7 @@
         WHERE id = #{id};
     </select>
 
-    <select id="findAccountComplaintListById" parameterType="int" resultType="Complaint">
-        SELECT
-        *
-        FROM
-        COMPLAINT
-        WHERE account_id = #{accountId};
-    </select>
+
 
     <select id="findShopComplaintListById" parameterType="int" resultType="Complaint">
         SELECT
@@ -112,5 +102,35 @@
         <if test="content !=null and content !=''">
             and COMPLAINT.content LIKE CONCAT(CONCAT('%',#{content}),'%')
         </if>
+    </select>
+
+    <resultMap id="AccountResult" type="com.cat.rufull.domain.model.Account">
+        <id column="account_id" property="id"/>
+    </resultMap>
+
+    <resultMap id="ShopResult" type="com.cat.rufull.domain.model.Shop">
+        <id column="shop_id" property="id"/>
+    </resultMap>
+
+    <resultMap id="ComplaintResult" type="com.cat.rufull.domain.model.Complaint">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="content" property="content"/>
+        <result column="evidence" property="evidence"/>
+        <result column="status" property="status"/>
+        <result column="completed_time" property="completedTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="result" property="result"/>
+        <result column="solver" property="solver"/>
+
+        <association property="account" resultMap="AccountResult"/>
+        <association property="shop" resultMap="ShopResult"/>
+    </resultMap>
+    <select id="findAccountComplaintListById" parameterType="int" resultMap="ComplaintResult">
+        SELECT
+        *
+        FROM
+        COMPLAINT
+        WHERE account_id = #{account_id};
     </select>
 </mapper>
