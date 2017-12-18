@@ -72,7 +72,7 @@ public class PaymentController {
             String p5_Pid = "";
             String p6_Pcat = "";
             String p7_Pdesc = "";
-            String p8_Url = "http://localhost:80/rufull/payment/payBack";
+            String p8_Url = "http://localhost:8080/rufull/payment/payBack";
             String p9_SAF = "";
             String pa_MP = "";
             String pr_NeedResponse = "1";
@@ -121,7 +121,7 @@ public class PaymentController {
             Order order = orderService.findOrderByOrderNumber(r6_Order);
             //System.out.println(order);
             orderService.paidOrder(order);
-            return "redirect:/order/" + order.getId();
+            return "forward:/order/" + order.getId();
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);
