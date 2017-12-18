@@ -235,6 +235,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Order> findShopAcceptedOrders(Integer shopId) {
+        return orderMapper.findShopAcceptedOrders(shopId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findShopRefundOrders(Integer shopId) {
+        return orderMapper.findShopRefundOrders(shopId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> findShopCompletedOrders(Integer shopId) {
+        return orderMapper.findShopCompletedOrders(shopId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus) {
         return orderMapper.findBusinessOrdersByStatus(businessId, orderStatus);
     }

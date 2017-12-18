@@ -146,6 +146,30 @@ public interface OrderService {
     List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus);
 
     /**
+     * 查询商家已接订单
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopAcceptedOrders(Integer shopId);
+
+    /**
+     * 查询商家退单记录
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopRefundOrders(Integer shopId);
+
+    /**
+     * 查询商家完成订单
+     *
+     * @param shopId
+     * @return
+     */
+    List<Order> findShopCompletedOrders(Integer shopId);
+
+    /**
      * 根据商家id,订单状态查询订单
      * @param businessId
      * @param orderStatus
