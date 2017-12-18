@@ -97,6 +97,13 @@ public interface OrderService {
     void acceptOrder(Order order);
 
     /**
+     * 发货
+     *
+     * @param order 订单
+     */
+    void deliverOrder(Order order);
+
+    /**
      * 完成支付
      *
      * @param order 包括商家信息的订单

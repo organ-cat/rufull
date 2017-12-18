@@ -112,7 +112,7 @@
     INSERT INTO `ORDER`(ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,
                         STATUS,PAYMENT_METHOD,PAYMENT_STATUS,SHIPPING_STATUS,
                         NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,BUSINESS_ID,ADDRESS_ID)
-    VALUES(#{orderNumber},#{createdTime},#{completedTime},#{acceptedTime},
+    VALUES(#{orderNumber},#{createdTime},#{completedTime},${acceptedTime},
            #{status},#{paymentMethod},#{paymentStatus},#{shippingStatus},
            #{notes},#{total},#{accountId},#{shop.id},#{businessId},#{address.id})
   </insert>

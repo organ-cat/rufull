@@ -37,7 +37,8 @@ public class OrderController {
 
     private MessageSource messageSource;
 
-    private static final String SESSION_ACCOUNT = "account";
+    private static final String SESSION_ACCOUNT  = "account";
+    private static final String SESSION_BUSINESS = "business";
 
     @Autowired
     protected Carts carts;
@@ -53,7 +54,7 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
     PaginationResult list(int offset, int limit, HttpSession session) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
 
         Page<Object> page = PageHelper.offsetPage(offset, limit);
 
@@ -74,7 +75,7 @@ public class OrderController {
     @RequestMapping(value = "/unrated", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
     PaginationResult listUnrated(int offset, int limit, HttpSession session) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
 
         Page<Object> page = PageHelper.offsetPage(offset, limit);
 
@@ -95,7 +96,7 @@ public class OrderController {
     @RequestMapping(value = "/refund", method = RequestMethod.GET, headers = "Accept=application/json")
     public @ResponseBody
     PaginationResult listRefund(int offset, int limit, HttpSession session) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
 
         Page<Object> page = PageHelper.offsetPage(offset, limit);
 
@@ -107,7 +108,7 @@ public class OrderController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
         if (!isTheOrderOwner(account, order)) // 当该订单不属于登录用户时,抛出异常
@@ -119,7 +120,7 @@ public class OrderController {
 
     @RequestMapping(value = "/cancel/{id}", method = RequestMethod.POST)
     public String cancel(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
         if (!isTheOrderOwner(account, order)) // 当该订单不属于登录用户时,抛出异常
@@ -133,7 +134,7 @@ public class OrderController {
 
     @RequestMapping(value = "/confirm/{id}", method = RequestMethod.POST)
     public String confirm(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
         if (!isTheOrderOwner(account, order)) // 当该订单不属于登录用户时,抛出异常
@@ -147,7 +148,7 @@ public class OrderController {
 
     @RequestMapping(value = "/refund/{id}", method = RequestMethod.POST)
     public String refund(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
         if (!isTheOrderOwner(account, order)) // 当该订单不属于登录用户时,抛出异常
@@ -161,7 +162,7 @@ public class OrderController {
 
     @RequestMapping(value = "/confirmRefund/{id}", method = RequestMethod.POST)
     public String confirmRefund(@PathVariable("id") Integer id, HttpSession session) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_BUSINESS); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
         Integer shopId = order.getShop().getId(); // 获取商店id
 
@@ -175,7 +176,7 @@ public class OrderController {
 
     @RequestMapping(value = "/cancelRefund/{id}", method = RequestMethod.POST)
     public String cancelRefund(@PathVariable("id") Integer id, HttpSession session, Model uiModel) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_ACCOUNT); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
 
         if (!isTheOrderOwner(account, order)) // 当该订单不属于登录用户时,抛出异常
@@ -189,6 +190,7 @@ public class OrderController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public String submit(@Valid Order order, BindingResult bindingResult, HttpSession session, Model uiModel) {
+
         if (bindingResult.hasErrors()) {
 
         }
@@ -205,7 +207,7 @@ public class OrderController {
 
     @RequestMapping(value = "/accept/{id}", method = RequestMethod.POST)
     public String accept(@PathVariable("id") Integer id, HttpSession session) {
-        Account account = getSessionAccount(session); // 获取当前登录用户
+        Account account = getSessionAccount(session, SESSION_BUSINESS); // 获取当前登录用户
         Order order = orderService.findOrderById(id); // 获取订单详情
         Integer shopId = order.getShop().getId(); // 获取商店id
 
@@ -213,6 +215,20 @@ public class OrderController {
             throw new BusinessProcessingOrderException("您只可以接自己的订单");
 
         orderService.acceptOrder(order); // 接单
+
+        return "redirect:/business/showOrder?shopId=" + shopId + "&orderStatus=" + Order.STATUS_PAID;
+    }
+
+    @RequestMapping(value = "/deliver/{id}", method = RequestMethod.POST)
+    public String deliver(@PathVariable("id") Integer id, HttpSession session) {
+        Account account = getSessionAccount(session, SESSION_BUSINESS); // 获取当前登录用户
+        Order order = orderService.findOrderById(id); // 获取订单详情
+        Integer shopId = order.getShop().getId(); // 获取商店id
+
+        if (!isTheOrderKeeper(account, order)) // 当该订单不属于登录商家时,抛出异常
+            throw new BusinessProcessingOrderException("您只可以对自己的订单进行发货");
+
+        orderService.deliverOrder(order); // 发货
 
         return "redirect:/business/showOrder?shopId=" + shopId + "&orderStatus=" + Order.STATUS_PAID;
     }
@@ -282,10 +298,11 @@ public class OrderController {
     /**
      * 获取登录用户
      * @param session
+     * @param user
      * @return 返回当前登录用户
      */
-    private Account getSessionAccount(HttpSession session) {
-        return (Account) session.getAttribute(SESSION_ACCOUNT);
+    private Account getSessionAccount(HttpSession session, String user) {
+        return (Account) session.getAttribute(user);
     }
 
     @Autowired
