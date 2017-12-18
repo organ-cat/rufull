@@ -93,9 +93,7 @@
                         <li class="list-group-item"><a class="text-muted"
                                                        href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
                         </li>
-                        <li class="list-group-item"><a class="text-muted"
-                                                       href="${pageContext.request.contextPath}/business/resetPassword">修改密码</a>
-                        </li>
+
                     </ul>
                 </div>
                 <!-- 显示内容 -->
@@ -116,15 +114,24 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">编号</th>
-                                    <th class="text-center">下单时间</th>
+                                    <th class="text-center">完成时间</th>
                                     <th class="text-center">订单内容</th>
+                                    <th class="text-center">备注</th>
                                     <th class="text-center">支付金额（元）</th>
                                     <th class="text-center">状态</th>
-                                    <th class="text-center">操作</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:if test="${requestScope.orderList != null}">
+                                    <script>
+                                        var connectCallback = function () {
+                                            <c:forEach items="${requestScope.orderList}" var="order">
+                                            stomp.subscribe('/user/${shop.id}/${order.id}/receiveApplyUrgeMessage', displayMessage); // 订阅消息
+                                            </c:forEach>
+                                        }
+
+                                    </script>
                                     <c:forEach var="order" items="${requestScope.orderList}" varStatus="st">
                                         <tr>
                                             <td>
@@ -133,22 +140,29 @@
                                             </td>
                                             <td>
                                                 <h4><strong>${order.createDateString}</strong></h4>
-                                                <p class="text-muted"><fmt:formatDate value='${order.createdTime}'
+                                                <p class="text-muted"><fmt:formatDate value='${order.completedTime}'
                                                                                       type='date' pattern='HH:mm'/></p>
                                             </td>
                                             <td>
-                                                <a href="#">
-                                                    <c:set var="allItemDetail" value=""/>
-                                                    <c:forEach var="item" items="${order.lineItems}">
-                                                        <c:set var="itemDetail"
-                                                               value="${item.productName}${item.quantity}份 /"/>
-                                                        <c:set var="allItemDetail">${allItemDetail}${' '}${itemDetail}</c:set>
-                                                    </c:forEach>
-                                                    <c:set var="length" value="${fn:length(allItemDetail)}"/>
-                                                    <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}<strong>${order.totalQuantity}</strong>
-                                                        个菜品</p>
-                                                    <p class="text-muted">订单号: ${order.orderNumber}</p>
-                                                </a>
+                                                <h4><strong>订单号: ${order.orderNumber}</strong></h4>
+                                                <c:forEach var="item" items="${order.lineItems}">
+                                                    <c:set var="itemDetail"
+                                                           value="${item.productName}${item.quantity}份 /"/>
+                                                    <c:set var="allItemDetail">${allItemDetail}${' '}${itemDetail}</c:set>
+                                                </c:forEach>
+                                                <c:set var="length" value="${fn:length(allItemDetail)}"/>
+                                                <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}<strong>${order.totalQuantity}</strong>
+                                                    个菜品</p>
+
+                                            </td>
+                                            <td>
+
+                                                <c:if test="${order.notes == null}">
+                                                    <h4><strong>无</strong></h4>
+                                                </c:if>
+                                                <c:if test="${order.notes != null}">
+                                                    <h4><strong> ${order.notes}</strong></h4>
+                                                </c:if>
                                             </td>
                                             <td>
                                                 <h4><strong>${order.total}</strong></h4>
@@ -164,15 +178,9 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">完成订单</h4>
+                                                <h4 class="text-muted">已完成</h4>
                                             </td>
 
-                                            <td>
-                                                <div class="btn-group-vertical btn-group-sm">
-                                                    <a class="btn btn-default order-btn" href="#" role="button">详情</a>
-
-                                                </div>
-                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </c:if>

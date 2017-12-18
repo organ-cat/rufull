@@ -5,7 +5,9 @@ import com.cat.rufull.domain.model.Shop;
 import java.util.List;
 
 public interface ShopMapper {
-    List<Shop> findAll();                            // 查询全部商店
+    List<Shop> findAll();                            // 查询正常营业全部商店
+
+    List<Shop> findAllShop();                        //查询所有商店
 
     List<Shop> fuzzyFindByShopName(String shopName); //通过商店名字模糊查询商店
 

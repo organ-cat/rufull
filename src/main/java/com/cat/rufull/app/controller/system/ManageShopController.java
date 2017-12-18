@@ -157,8 +157,7 @@ public class ManageShopController {
                 }
             }
         }
-        List<Shop> bussBusinessList = shopService.findAll();
-        //shopService.findAllShop();
+        List<Shop> bussBusinessList = shopService.findAllShop();
         if (bussBusinessList != null) {
             for (Shop shop : bussBusinessList) {
                 if (shop.getBusiness().getAccount().getStatus() == 202 ||

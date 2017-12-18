@@ -72,7 +72,7 @@ public class PaymentController {
             String p5_Pid = "";
             String p6_Pcat = "";
             String p7_Pdesc = "";
-            String p8_Url = "http://localhost:80/rufull/payment/payBack";
+            String p8_Url = "http://localhost:8080/rufull/payment/payBack";
             String p9_SAF = "";
             String pa_MP = "";
             String pr_NeedResponse = "1";
@@ -119,7 +119,7 @@ public class PaymentController {
             /*model.addAttribute("id",r6_Order);
             return complete(r6_Order);*/
             Order order = orderService.findOrderByOrderNumber(r6_Order);
-            //System.out.println(order);
+//            System.out.println(order);
             orderService.paidOrder(order);
             return "redirect:/order/" + order.getId();
         }else {           //支付失败

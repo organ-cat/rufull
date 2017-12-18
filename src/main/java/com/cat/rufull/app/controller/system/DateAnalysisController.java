@@ -200,7 +200,7 @@ public class DateAnalysisController {
         int d = 0;
         int e = 0;
         double eva = 0.0;
-        List<Shop> shopList = shopService.findAll();
+        List<Shop> shopList = shopService.findAllShop();
         for (Shop shop : shopList) {
             Integer shopid = shop.getBusiness().getId();
             List<OrderEvaluation> evaluationList = evaluationService.findEvalByShopId(shopid);

@@ -81,17 +81,17 @@
             <header class="rst-header-info group">
                 <!-- 商店图标 图片-->
 
-                <a class="rst-logo" href="/zb-eamonn" itemprop="url">
+                <a class="rst-logo" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}" itemprop="url">
                     <%--商家图片--%>
-                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/business/${shop.shopPhoto}"
+                    <img class="rst-logo-img" src="${pageContext.request.contextPath}/upload/shop/${shop.shopPhoto}"
                          alt="${shop.shopName}"
                          itemprop="logo"/>
                 </a>
                 <!-- 商店图标 文字-->
                 <div class="rst-basic-info">
                     <div class="">
-                        <a class="rst-name text-overflow" href="/zb-eamonn"
-                           data-toggle="bs-tooltip" href="/zb-eamonn">
+                        <a class="rst-name text-overflow" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}"
+                           data-toggle="bs-tooltip" href="${pageContext.request.contextPath}/shop/showShopDetail?id=${shop.id}">
                             ${shop.shopName}
                         </a>
                         <!-- span对应的类需要将:before去掉 -->

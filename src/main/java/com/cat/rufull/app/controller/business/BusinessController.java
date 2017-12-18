@@ -124,7 +124,10 @@ public class BusinessController {
    *@return
    */
     @RequestMapping("showAccountAndShopInfo")
-    public String showAccountAndShopInfo(){
+    public String showAccountAndShopInfo(HttpSession session){
+
+        Shop shop = (Shop) session.getAttribute("shop");
+        session.setAttribute("shop",shopService.findById(shop.getId()));
         return "business/businessInfo";
     }
 
@@ -199,5 +202,13 @@ public class BusinessController {
     public String addBusinessUI(){
         return "business/businessSettle";
     }
+
+
+    @RequestMapping("reSettleBusiness")
+    public String reSettleBusiness(){
+        return "business/reSettle";
+    }
+
+
 
 }

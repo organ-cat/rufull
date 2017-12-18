@@ -74,4 +74,9 @@ public class FavorController {
         view.setViewName("account/favor");
         return view;
     }
+
+//    @RequestMapping("addFavorShop")
+//    public String addFavorShop(){
+//        return ""
+//    }
 }

@@ -22,4 +22,8 @@ public interface ProductMapper {
 
     int updateById(Product product);                    // 通过Id更新商品
 
+    List<Product> pageSelectForProduct(Integer shopId,Integer pageNo,Integer pageSize); //分页查询
+
+    int getCountProductByShopId(Integer shopId);    //获取总条数
+
 }

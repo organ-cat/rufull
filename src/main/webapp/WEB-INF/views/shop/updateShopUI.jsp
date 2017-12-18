@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
-  Date: 2017/12/4
-  Time: 9:10
+  Date: 2017/12/18
+  Time: 15:58
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -32,12 +32,12 @@
     </fieldset>
 
     <div>
-        <form id="shopForm" action="${pageContext.request.contextPath}/shop/addShop" method="post" class="form-horizontal"
+        <form id="shopForm" action="${pageContext.request.contextPath}/shop/updateShop" method="post" class="form-horizontal"
               enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店名称:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shopName" class="form-control">
+                    <input type="text" name="shopName" class="form-control" value="${requestScope.shop.shopName}">
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店电话:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shopPhone" class="form-control">
+                    <input type="text" name="shopPhone" class="form-control" value="${requestScope.shop.shopPhone}">
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">配送时间:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shippingTime" class="form-control">
+                    <input type="text" name="shippingTime" class="form-control" value="${requestScope.shop.shippingTime}">
                 </div>
             </div>
 
@@ -108,21 +108,21 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">配送距离:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shippingDistance" class="form-control">
+                    <input type="text" name="shippingDistance" class="form-control" value="${requestScope.shop.shippingDistance}">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">配送起价:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shippingPrice" class="form-control">
+                    <input type="text" name="shippingPrice" class="form-control" value="${requestScope.shop.shippingPrice}">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">配送费用:</label>
                 <div class="col-sm-4 ">
-                    <input type="text" name="shippingFee" class="form-control">
+                    <input type="text" name="shippingFee" class="form-control" value="${requestScope.shop.shippingFee}">
                 </div>
             </div>
             <%--<div class="form-group">--%>
@@ -144,7 +144,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商家公告:</label>
                 <div class="col-md-4 tl th">
-                    <textarea name="announcement" rows="15" cols="60"></textarea>
+                    <textarea name="announcement" rows="15" cols="60">${shop.announcement}</textarea>
                 </div>
             </div>
 
@@ -168,11 +168,12 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店详细地址:</label>
                 <div class="col-sm-4 ">
-                    <input id="detailAddress" type="text" name="address" class="form-control" readonly="true">
+                    <input id="detailAddress" type="text" name="address" class="form-control" readonly="true" value="{${shop.address}" >
                 </div>
             </div>
 
-
+            <input type="hidden" name="businessId" value="${shop.business.id}">
+            <input type="hidden" name="id" value="${shop.id}">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店在地图上维度:</label>
                 <div class="col-sm-4 ">
@@ -231,6 +232,3 @@
 <script src="${pageContext.request.contextPath}/js/business/shopSettle.js"></script>
 <script src="${pageContext.request.contextPath}/js/business/bootstrapValidator.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/business/shopSettleValidator.js"></script>
-
-
-</html>

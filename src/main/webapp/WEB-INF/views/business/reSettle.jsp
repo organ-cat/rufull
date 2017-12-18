@@ -16,17 +16,17 @@
 <body>
 
 <div class="jumbotron bg_forward">
-    <h3>停业整顿或删除！请联系客服:8000 000</h3>
+    <h3>请认真阅读入驻规则后填写入驻信息！！！</h3>
 
     <p>
-        <a href="http://localhost:8080/rufull" class="btn btn-primary" role="button">点击这里跳转至首页</a>
+        <a href="http://localhost:8080/rufull/business/addBusinessUI" class="btn btn-primary" role="button">点击这里跳转至入驻页面</a>
     </p>
     <span class="text-primary" id="successText"></span>
 </div>
 </body>
 <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/business/timeout.js"></script>
+<script src="${pageContext.request.contextPath}/js/business/addBusinesstimeout.js"></script>
 
 
 </html>

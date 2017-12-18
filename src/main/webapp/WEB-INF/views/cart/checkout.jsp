@@ -51,25 +51,26 @@
     <spring:url value="/order" var="showOrderUrl"/>
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
-    <spring:url value="#" var="showCooperationUrl"/>
-    <spring:url value="#" var="showAgreementUrl"/>
-    <spring:url value="#" var="showProfileUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
-    <spring:url value="/address" var="showAddressUrl"/>
-    <spring:url value="/security" var="showSecurityUrl"/>
-    <spring:url value="/logout" var="logoutUrl"/>
+    <spring:url value="/business/joinBusiness" var="showCooperationUrl"/>
+    <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+    <spring:url value="/account/center" var="showProfileUrl"/>
+    <spring:url value="/favor/myFavor" var="showFavorUrl"/>
+    <spring:url value="/account/center" var="footprintUrl"/>
+    <spring:url value="/address/addressManage" var="showAddressUrl"/>
+    <spring:url value="/account/security" var="showSecurityUrl"/>
+    <spring:url value="/account/logout" var="logoutUrl"/>
     <spring:url value="/place" var="showPlaceUrl"/>
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/info" var="showInfoUrl"/>
     <spring:url value="/security/changepassword" var="changePasswordUrl"/>
-    <spring:url value="/shop" var="showShopUrl"/>
+    <spring:url value="/shop/showShopDetail" var="showShopUrl"/>
     <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
     <spring:url value="/complaint?from" var="addComplaintUrl"/>
     <spring:url value="/payment" var="showPaymentUrl"/>
     <spring:url value="/order/cancel" var="cancelOrderUrl"/>
-    <spring:url value="/upload/business" var="showShopPhotoUrl"/>
+    <spring:url value="/upload/shop" var="showShopPhotoUrl"/>
     <spring:url value="/order/refund" var="refundOrderUrl"/>
     <spring:url value="/order/urge" var="urgeOrderUrl"/>
     <spring:url value="/order/cancelRefund" var="cancelRefundOrderUrl"/>
@@ -105,12 +106,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.nickname}<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                        <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
                         <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
-                        <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
-                        <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
+                        <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                        <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                         <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                         <li class="divider" role="separator"></li>
                         <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>

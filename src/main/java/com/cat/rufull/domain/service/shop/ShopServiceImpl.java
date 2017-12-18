@@ -18,6 +18,12 @@ public class ShopServiceImpl implements ShopService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Override
+    public List<Shop> findAllShop() {
+        return shopMapper.findAllShop();
+    }
+
     @Override
     public List<Shop> findAll() {
         /**

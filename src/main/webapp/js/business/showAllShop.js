@@ -145,7 +145,7 @@ function addShopList(typeShopList) {
 
 //通过查询对应的美食和商店查询出全部的商店
 function searchShopAndFood() {
-    $("#searchShopAndFoodImg").click(function () {
+    // $("#searchShopAndFoodImg").click(function () {
 
         var searchContext = $("#globalsearch").val();
 
@@ -161,7 +161,7 @@ function searchShopAndFood() {
 
             shopArray = searchShopList;
         });
-    });
+    // });
 
 }
 
