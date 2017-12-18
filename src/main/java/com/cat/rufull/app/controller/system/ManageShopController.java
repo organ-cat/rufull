@@ -147,11 +147,21 @@ public class ManageShopController {
     @RequestMapping("/findBusiness")
     public String findBusiness(Model model) {
         List<Shop> shopList = new ArrayList<Shop>();
-        List<Shop> bussBusinessList = null;
+        List<Business> List = businessService.findAll();
+        if (List != null) {
+            for (Business business : List) {
+                if (business.getAccount().getStatus() == 201) {
+                    Shop shop = new Shop();
+                    shop.setBusiness(business);
+                    shopList.add(shop);
+                }
+            }
+        }
+        List<Shop> bussBusinessList = shopService.findAll();
         //shopService.findAllShop();
         if (bussBusinessList != null) {
             for (Shop shop : bussBusinessList) {
-                if (shop.getBusiness().getAccount().getStatus() == 201 || shop.getBusiness().getAccount().getStatus() == 202 ||
+                if (shop.getBusiness().getAccount().getStatus() == 202 ||
                         shop.getBusiness().getAccount().getStatus() == 203 || shop.getBusiness().getAccount().getStatus() == 204
                         ) {
                     shopList.add(shop);
@@ -191,8 +201,10 @@ public class ManageShopController {
         Business business = businessService.findById(id);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
         Shop shop = shopService.findShopByBusinessId(business.getId());
-        shop.setOperateState(Shop.SHOP_STATUS_DELETE);
-        shopService.updateByIdSelective(shop);
+        if(shop!=null) {
+            shop.setOperateState(Shop.SHOP_STATUS_DELETE);
+            shopService.updateById(shop);
+        }
         int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
             attr.addFlashAttribute("delBsuccess", "删除成功！");
@@ -217,7 +229,7 @@ public class ManageShopController {
 
 
     /**
-     * 根据id删除商家
+     * 根据id令商店停业整顿
      *
      * @param id
      * @param model
@@ -232,7 +244,7 @@ public class ManageShopController {
         business.getAccount().setStatus(Business.BUSINESS_STATUS_RECITIFY);
         Shop shop = shopService.findShopByBusinessId(business.getId());
         shop.setOperateState(Shop.SHOP_STATUS_RETIFY);
-        shopService.updateByIdSelective(shop);
+        shopService.updateById(shop);
         int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
             attr.addFlashAttribute("rogBsuccess", "删除成功！");
@@ -272,8 +284,8 @@ public class ManageShopController {
         Manager mana = (Manager) session.getAttribute("manager");
         Shop shop = shopService.findShopByBusinessId(business.getId());
         shop.setOperateState(Shop.SHOP_STATUS_NORMAL);
-        shopService.updateByIdSelective(shop);
-        business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
+        shopService.updateById(shop);
+        business.getAccount().setStatus(Business.BUSINESS_STATUS_CREATED_SHOP);
         int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
         if (i >= 1) {
             attr.addFlashAttribute("redelsuccess", "审核成功!");

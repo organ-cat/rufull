@@ -15,16 +15,16 @@
     <title>帮助中心</title>
 
     <spring:url value="/" var="rootUrl"/>
-    <spring:url value="/order" var="showOrderUrl"/>
+    <spring:url value="/order/" var="showOrderUrl"/>
+    <spring:url value="/business/joinBusiness" var="showCooperationUrl"/>
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
-    <spring:url value="#" var="showAgreementUrl"/>
-    <spring:url value="/logout" var="logoutUrl"/>
-    <spring:url value="#" var="showProfileUrl"/>
-    <spring:url value="/cart" var="showCartUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
-    <spring:url value="/address" var="showAddressUrl"/>
-    <spring:url value="/security" var="showSecurityUrl"/>
+    <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+    <spring:url value="/account/logout"  var="logoutUrl"/>
+    <spring:url value="/account/center?id=${account.id}" var="showProfileUrl"/>
+    <spring:url value="/favor/myFavor?id=${account.id}" var="showFavorUrl"/>
+    <spring:url value="/address/addressManage?id=${account.id}" var="showAddressUrl"/>
+    <spring:url value="/account/security?id=${account.id}" var="showSecurityUrl"/>
     <spring:url value="/service/gethelp" var="gethelp"/>
     <spring:url value="/service/getAccorder" var="getAccorder"/>
     <spring:url value="/service/getAgreement" var="getAgreement"/>
@@ -35,29 +35,38 @@
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
 
-    <script src="${pageContext.request.contextPath}/js/account/login-register.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
     <script type="text/javascript">
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        })
         function loginerror() {
                 swal("操作失败", "用户尚未登录!", "error");
                 }
-            $("body").css("width", window.innerWidth);
-            $(window).resize(function () {
-            $("body").css("width", window.innerWidth);
-        })
     </script>
 </head>
 
 <body>
 
 <div class="container">
+    <script type="text/javascript">
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        })
+    </script>
     <div class="modal fade login" id="loginModal">
         <div class="modal-dialog login animated">
             <div class="modal-content">
@@ -94,16 +103,12 @@
                     <div class="box">
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
-                                <!--使用了c标签-->
-                                <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
-                                <form method="post" action="">
-                                    <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
-                                    <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
-                                    <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
-                                    <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
-                                    <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
-                                    <input id="registerButton" class="btn btn-default btn-register  loi" type="submit" value="注册" >
-                                </form>
+                                <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
+                                <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
+                                <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
+                                <input id="registerButton" class="btn btn-default btn-register  loi" type="button" value="注册"/>
                             </div>
                         </div>
                     </div>
@@ -111,7 +116,8 @@
                 <div class="modal-footer">
                     <div class="forgot login-footer">
                             <span>打算
-                                 <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
+                                <a href="javascript: showRegisterForm();" class="alink">注册一个账号？</a>
+                                 <a href="${forgot_password_url}" class="alink">忘记密码？</a>
                             </span>
                     </div>
                     <div class="forgot register-footer" style="display:none">
@@ -141,8 +147,8 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
-                            <li ><a href="${showOrderUrl}">我的订单</a></li>
-                            <li><a href="${showCooperationUrl}">加盟合作</a></li>
+                            <li class="hidden-sm hidden-md"><a href="${showOrderUrl}">我的订单</a></li>
+                            <li class="hidden-sm hidden-md"><a href="${showCooperationUrl}">加盟合作</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
@@ -160,8 +166,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
                                                                           aria-hidden="true"></span>个人中心</a></li>
-                                    <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
-                                                                       aria-hidden="true"></span>购物车</a></li>
                                     <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
                                                                         aria-hidden="true"></span>我的收藏</a></li>
                                     <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
@@ -185,7 +189,7 @@
 <div class="full-content-wrapper">
     <div class="container">
         <div class="help">
-            <div class="help-site" data-spy="affix" data-offset-top="84">
+            <div class="help-site">
             <ul class="">
                 <li><a href="${gethelp}" class="active">问题答疑</a></li>
                 <c:if test="${!empty account}">

@@ -32,11 +32,11 @@
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
-    <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
-    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+        <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
+        <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
     <spring:url value="/account/center?id=${account.id}" var="center_url"/>
-    <spring:url value="/favor/myFavor" var="favor_url"/>
+    <spring:url value="/favor/myFavor?id=${account.id}" var="favor_url"/>
     <spring:url value="/address/addressManage?id=${account.id}" var="address_url"/>
     <spring:url value="/account/security" var="security_url"/>
     <spring:url value="/account/logout" var="logout_url"/>
@@ -192,9 +192,9 @@
     </div>
 
     <footer class="homepage-footer" style="background-color: #00000000">
-        <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" target="_blank">我要开店</a>
-        <a class="footer-nav" href="${pageContext.request.contextPath}/service/gethelp" target="_blank">问题答疑</a>
-        <a class="footer-nav" href="${pageContext.request.contextPath}/service/getAgreement" target="_blank">规则中心</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/business/joinBusiness" >我要开店</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/service/gethelp" >问题答疑</a>
+        <a class="footer-nav" href="${pageContext.request.contextPath}/service/getAgreement"  >规则中心</a>
     </footer>
 </div>
 </div>

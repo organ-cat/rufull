@@ -32,7 +32,7 @@
                     type: 'area'
                 },
                 title: {
-                    text: '商店评价分布图'
+                    text: '商店评星分布图'
                 },
                 xAxis: {
                     labels: {
@@ -49,11 +49,11 @@
                 },
                 yAxis : {
                     title : {
-                        text : '评价情况'
+                        text : '评星情况'
                     }
                 },
                 series: [{
-                    name: '单份总价',
+                    name: '评星等级',
                     data: [${e},${d},${c},${b},${a}]
                 }]
             });
@@ -77,7 +77,7 @@
     <div class="col-sm-7" >
         <div class="panel panel-default" >
             <div class="panel-heading" style=" padding:3px;height:30px;"  >
-                </span>商店评价的扇形分布图
+                </span>商店评星的扇形分布图
             </div>
             <div class="panel-body" id="broken">
 
@@ -98,23 +98,23 @@
                 </tr>
 
                 <tr>
-                    <td>评价详情</td>
+                    <td>评星详情</td>
                     <td>五星</td>
                     <td>${e}</td>
                 </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>四星</td>
                 <td>${d}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>三星</td>
                 <td>${c}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>二星</td>
                 <td>${b}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>一星</td>
                 <td>${a}</td>
             </tr>

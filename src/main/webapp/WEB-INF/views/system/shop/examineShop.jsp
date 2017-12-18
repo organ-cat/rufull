@@ -107,7 +107,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.frontPhoto}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.frontPhoto}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>
@@ -120,7 +120,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.insidePhoto}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.insidePhoto}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.idBackPhoto}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.idBackPhoto}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.idFrontPhoto}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.idFrontPhoto}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>
@@ -159,7 +159,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.businessLicence}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.businessLicence}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>
@@ -172,7 +172,7 @@
             </div>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/shop/${requestScope.mbusiness.cateringServiceLicense}"
+                    <img src="${pageContext.request.contextPath}/upload/business/${requestScope.mbusiness.cateringServiceLicense}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>

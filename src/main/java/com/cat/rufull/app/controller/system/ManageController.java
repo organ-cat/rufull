@@ -128,35 +128,6 @@ public class ManageController {
         return null;
     }
 
-    /**
-     * 重复密码是否与前密码一致
-     *
-     * @param pwd1
-     * @param pwd2
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("repeatPwd")
-    public String repeatPwd(String pwd1, String pwd2,
-                            HttpServletResponse response) throws Exception {
-        Integer flag2 = 1;
-        try {
-            if (pwd1.equals(pwd2)) {
-                response.setContentType("text/html;charset=UTF-8");
-                response.getWriter().print(flag2);
-            } else {
-                flag2 = 0;
-                response.setContentType("text/html;charset=UTF-8");
-                response.getWriter().print(flag2);
-            }
-        } catch (Exception e) {
-            flag2 = 0;
-        }
-        response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().print(flag2);
-        return null;
-    }
 
     /**
      * 确定修改密码
@@ -208,6 +179,7 @@ public class ManageController {
             System.out.print("失败上传路径名：" + path);
         }
         response.setContentType("text/html;charset=UTF-8");
+        Manager newmanager = manageService.getManagerById(manager.getId());
         response.getWriter().print(path);
         return null;
 
@@ -330,6 +302,7 @@ public class ManageController {
         Manager old = manageService.getManagerById(manager.getId());
         old.setEmail(manager.getEmail());
         old.setPhone(manager.getPhone());
+        old.setPassword(manager.getPassword());
         old.setUsername(manager.getUsername());
         int i = manageService.updateManager(old);
         if (i >= 1) {

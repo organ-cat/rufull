@@ -36,7 +36,7 @@
                         plotShadow: false
                     },
                     title: {
-                        text: '评价分布图'
+                        text: '评星分布图'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -89,7 +89,7 @@
     <div class="col-sm-7" >
         <div class="panel panel-default" >
             <div class="panel-heading" style=" padding:3px;height:30px;"  >
-                </span>商店评价的扇形分布图
+                </span>商店评星的扇形分布图
             </div>
             <div class="panel-body" id="distribution">
 
@@ -110,23 +110,23 @@
                 </tr>
 
                 <tr>
-                    <td>评价详情</td>
+                    <td>评星详情</td>
                     <td>五星</td>
                     <td>${e}</td>
                 </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>四星</td>
                 <td>${d}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>三星</td>
                 <td>${c}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>二星</td>
                 <td>${b}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>一星</td>
                 <td>${a}</td>
             </tr>

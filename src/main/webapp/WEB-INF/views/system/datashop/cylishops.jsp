@@ -42,7 +42,7 @@
                     }
                 },
                 series : [{
-                    name : '评价详情',
+                    name : '评星详情',
                     data : [${e},${d}, ${c},${b},${a}]
                 }]
             });
@@ -66,7 +66,7 @@
     <div class="col-sm-7">
         <div class="panel panel-default" >
             <div class="panel-heading" style=" padding:3px;height:30px;"  >
-                商店评价总体分布情况
+                商店评星总体分布情况
             </div>
             <div class="panel-body" id="int">
 
@@ -87,23 +87,23 @@
                 </tr>
 
                 <tr>
-                    <td>评价详情</td>
+                    <td>评星详情</td>
                     <td>五星</td>
                     <td>${e}</td>
                 </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>四星</td>
                 <td>${d}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>三星</td>
                 <td>${c}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>二星</td>
                 <td>${b}</td>
             </tr><tr>
-                <td>评价详情</td>
+                <td>评星详情</td>
                 <td>一星</td>
                 <td>${a}</td>
             </tr>
