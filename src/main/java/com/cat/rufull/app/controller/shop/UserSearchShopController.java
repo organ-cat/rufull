@@ -60,16 +60,16 @@ public class UserSearchShopController {
     *@return
     */
     @RequestMapping(value = "/newSearchShop",method = RequestMethod.GET)
-    public String newAddress(String city,String lng,String lat,String newaddress,Model model){
+    public String newAddress(String city,String lng,String lat,String newaddress,HttpSession session,Model model){
 //        System.out.println("定位的区域是："+city+"，经纬度是："+lng+","+lat);
 //        System.out.println("新的地址是："+newaddress);
         List<Shop> shopList = shopService.findAll();
         JSONArray jsonShopList = JSONArray.fromObject(shopList);
 
         model.addAttribute("shopList",jsonShopList);
-        model.addAttribute("lng",lng);
-        model.addAttribute("lon",lat);
-        model.addAttribute("address",newaddress);
+        session.setAttribute("lng",lng);
+        session.setAttribute("lon",lat);
+        session.setAttribute("address",newaddress);
 
         return "shop/showAllShop";
     }
