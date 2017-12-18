@@ -78,7 +78,7 @@ public class ShopController {
         System.out.println("shopDetail"+shopDetail);
 
         Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-//        footprintService.addFootprint(new Footprint(id,account.getId()));//为用户添加足记
+        footprintService.addFootprint(new Footprint(id,account.getId()));//为用户添加足记
         map.put("shop",shopDetail);
         return "shop/accountToShop";
     }
