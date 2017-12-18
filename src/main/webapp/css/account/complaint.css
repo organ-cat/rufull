@@ -5,10 +5,67 @@
 }
 body{
     margin: 0 auto;
+    background-color: #F8F8F8;
+}
+.all {
+    margin: 0 auto;
+    margin-top: 45px;
+    width: 500px;
+    height: 510px;
+    border: 1px solid #0098e9;;
 }
 .complaint {
     margin: 0 auto;
-    width: 500px;
-    height: 600px;
-    background-color: #fff3d8;
+    margin-top: 5px;
+    width: 400px;
+    height: 500px;
+}
+#reason1 {
+    margin-left: 20px;
+}
+#reason2 {
+    margin-left: 20px;
+}
+#reason3 {
+    margin-left: 20px;
+}
+#content {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    width: 400px;
+    height: 100px;
+}
+#evidence {
+    color: #00000000;
+    width: 400px;
+}
+#submit {
+    text-align: center;
+    width: 400px;
+    height: 30px;
+    background-color: #0c9efc;
+    color: #FFFFFF;
+    border: none;
+}
+
+.seeComplaint {
+    position: relative;
+    right: -110px;
+    top: 0px;
+    z-index: 10;
+    color: #0c9efc;
+    background-color: #00000000;
+    border: none;
+    text-transform: none;
+}
+
+.seeComplaint:hover{
+    position: relative;
+    right: -120px;
+    top: 0px;
+    z-index: 10;
+    background-color: #F8F8F8;
+    color: #000000;
+    text-transform: none;
 }

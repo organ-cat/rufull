@@ -75,5 +75,17 @@ public class ProductMapperTest {
         System.out.println("productList:"+productList.size());
     }
 
+    @Test
+    public void pageTest(){
+        List<Product> productList = productMapper.pageSelectForProduct(1, 1, 5);
+        System.out.println("productList:"+productList);
+    }
+
+    @Test
+    public void pageCount(){
+        int count = productMapper.getCountProductByShopId(1);
+        System.out.println("count:"+count);
+    }
+
 
 }

@@ -31,17 +31,9 @@ $(function () {
                         message: '商品价格不为空'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '商品价格只能为数字'
+                        regexp: /^[0-9]+.[0-9]{2}$/,
+                        message: '价格格式不正确,格式为：0.00保留两位小数'
                     },
-                    numeric: {
-                        message:'只能输入数字'
-                    },
-                    stringLength: {
-                        min: 1,
-                        max: 2,
-                        message: '商店价格以人民币为单位'
-                    }
                 }
             },
 

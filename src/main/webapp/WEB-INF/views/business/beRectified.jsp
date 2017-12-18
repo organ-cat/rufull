@@ -16,7 +16,7 @@
 <body>
 
 <div class="jumbotron bg_forward">
-    <h3>停业整顿！请联系客服:8000 000</h3>
+    <h3>停业整顿或删除！请联系客服:8000 000</h3>
 
     <p>
         <a href="http://localhost:8080/rufull" class="btn btn-primary" role="button">点击这里跳转至首页</a>

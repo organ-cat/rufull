@@ -90,9 +90,7 @@
                         <li class="list-group-item"><a class="text-muted"
                                                        href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
                         </li>
-                        <li class="list-group-item"><a class="text-muted"
-                                                       href="${pageContext.request.contextPath}/business/resetPassword">修改密码</a>
-                        </li>
+
                     </ul>
                 </div>
                 <!-- 显示内容 -->
@@ -117,7 +115,7 @@
                             </h4>
                         </div>
                         <div class="edit_a">
-                            <a href="#">编辑</a>
+                            <a href="${pageContext.request.contextPath}/shop/updateShopUI?id=${sessionScope.shop.id}">编辑</a>
                         </div>
                         <div class="textLine">
                             <h4>姓名：

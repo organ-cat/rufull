@@ -12,11 +12,18 @@ $(function(){
 	    });
 
 
+
 	$("body").css("height",  window.innerHeight);
 
     $(window).resize(function () {
         $("body").css("height",  window.innerHeight);
     });
+
+    // $("#submitBussiness").click(function () {
+    //     alert("提交");
+    //     $("#businessForm").submit();
+    // });
+
 
 });
 
@@ -29,5 +36,7 @@ $("#rst_fav").click(function(){
         alert(ajax.responseText);
     });
 });
+
+
 
 

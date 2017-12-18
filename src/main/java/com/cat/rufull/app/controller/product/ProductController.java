@@ -7,13 +7,12 @@ import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("product")
@@ -117,6 +116,14 @@ public class ProductController {
         model.addAttribute("product",product);
         return "product/updateProductUI";
     }
+
+    /**
+     *@Author:Caoxin
+     *@Description
+     *@Date:14:59 2017/12/17
+     *@param[product, shop_Id, request, file, session]
+     *@returnjava.lang.String
+     */
     @RequestMapping("updateProduct")
     public String updateProduct(Product product,
                                  Integer shop_Id,
@@ -136,7 +143,18 @@ public class ProductController {
     }
 
 
+    @RequestMapping(value = "pageForProduct",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Product> pageForProduct(Integer shopId, Integer pageNo, Integer pageSize){
+        List<Product> products = productService.pageSelectForProduct(shopId, pageNo, pageSize);
 
+        return products;
+    }
+
+    @RequestMapping("showPageForProduct")
+    public String showPageForProduct(){
+        return "shop/product";
+    }
 
 }
 

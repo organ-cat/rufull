@@ -1,7 +1,7 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
-import com.cat.rufull.domain.mapper.account.ComplaintMapper;
+import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.account.ComplaintService;
@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,27 +72,26 @@ public class ManageComplaintController {
      * 查看某一用户的投诉
      *
      * @param id
-     * @param session
      * @param model
      * @return
      */
     @RequestMapping("/getAccComp")
-    public String getAccComp(Integer id, HttpSession session, Model model,
+    public String getAccComp(Integer id, Model model,
                              RedirectAttributes attr) {
         Complaint complaint = complaintService.findComplaintById(id);
-        Shop shop = shopService.findById(complaint.getShopId());
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        //Shop shop = shopService.findById(complaint.getShop().getId());
+        //Account account = accountService.findAccountById(complaint.getAccount().getId());
         complaint.setStatus(Complaint.HANDLING);
         int i = complaintService.handlerComplaint(complaint.getId(), Complaint.HANDLING);
         if (i >= 1) {
             model.addAttribute("managecomp", complaint);
-            model.addAttribute("account", account);
-            model.addAttribute("shop", shop);
+            //model.addAttribute("account", account);
+            //model.addAttribute("shop", shop);
             return "system/complaint/accountcomplaint";
         } else {
             attr.addFlashAttribute("getacccomperror", "出错了");
-            model.addAttribute("account", account);
-            model.addAttribute("shop", shop);
+            //model.addAttribute("account", account);
+            //model.addAttribute("shop", shop);
             model.addAttribute("managecomp", complaint);
             return "redirect:findAllComp";
         }
@@ -113,13 +109,13 @@ public class ManageComplaintController {
     @RequestMapping("/getCompdetail")
     public String getCompdetail(Integer id, Model model) {
         Complaint complaint = complaintService.findComplaintById(id);
-        Shop shop = shopService.findById(complaint.getShopId());
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        //Shop shop = shopService.findById(complaint.getShop().getId());
+        //Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager manager = manageService.getManagerById(complaint.getSolver());
         model.addAttribute("managecomp", complaint);
-        model.addAttribute("account", account);
+        //model.addAttribute("account", account);
         model.addAttribute("solver", manager);
-        model.addAttribute("shop", shop);
+        //model.addAttribute("shop", shop);
         return "system/complaint/compltedetail";
     }
 
@@ -134,7 +130,7 @@ public class ManageComplaintController {
     public String replyComp(Integer id, HttpSession session, RedirectAttributes attr) {
 
         Complaint complaint = complaintService.findComplaintById(id);
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        //Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager mana = (Manager) session.getAttribute("manager");
         complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
         //1 处理成功  2投诉为假
@@ -144,11 +140,12 @@ public class ManageComplaintController {
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
             attr.addFlashAttribute("replysuccess", "处理成功，结果为真");
+            SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，处理结果为对该商家进行批评教育！");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员处理" + account.getUsername() + "用户投诉，结果为真！");
+            log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉，结果为真！");
             log.setManager(mana);
             log.setType(2);
-            log.setAccount(account);
+            log.setAccount(complaint.getAccount());
             int a = logService.addLog(log);
             if (a > 0) {
                 return "redirect:findAllComp";
@@ -175,7 +172,7 @@ public class ManageComplaintController {
     public String replyfalseComp(Integer id, HttpSession session, RedirectAttributes attr) {
 
         Complaint complaint = complaintService.findComplaintById(id);
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        //Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager mana = (Manager) session.getAttribute("manager");
         complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
         //1 处理成功  2投诉为假
@@ -185,11 +182,12 @@ public class ManageComplaintController {
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
             attr.addFlashAttribute("replysuccess", "处理成功，结果为假");
+            SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，由于该投诉与事实不符，所以我们否决了此次投诉请求！");
             log.setCreateTime(DateFormat.getNewdate(date));
-            log.setDetail("管理员处理" + account.getUsername() + "用户投诉,结果为假！");
+            log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉,结果为假！");
             log.setManager(mana);
             log.setType(2);
-            log.setAccount(account);
+            log.setAccount(complaint.getAccount());
             int a = logService.addLog(log);
             if (a > 0) {
                 return "redirect:findAllComp";
@@ -202,6 +200,7 @@ public class ManageComplaintController {
             attr.addAttribute("id", id);
             return "redirect:getAccComp";
         }
+
     }
 
 
@@ -220,7 +219,7 @@ public class ManageComplaintController {
             for (Integer ids : id) {
                 System.out.println(result + "," + ids + "--------------------------------------");
                 Complaint complaint = complaintService.findComplaintById(ids);
-                Account account = accountService.findAccountById(complaint.getAccountId());
+                //Account account = accountService.findAccountById(complaint.getAccount().getId());
                 complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
                 //1 处理成功  2投诉为假
                 complaint.setResult(result);
@@ -228,12 +227,22 @@ public class ManageComplaintController {
                 complaint.setSolver(mana.getId());
                 int i = complaintService.completedComplaint(complaint);
                 if (i >= 1) {
+                    if(result==1)
+                    {
+                        SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，" +
+                                "处理结果为对该商家进行批评教育！");
+                    }
+                    if(result == 2)
+                    {
+                        SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，" +
+                                "由于该投诉与事实不符，所以我们否决了此次投诉请求！");
+                    }
                     attr.addFlashAttribute("replysuccess", "处理成功");
                     log.setCreateTime(DateFormat.getNewdate(date));
-                    log.setDetail("管理员处理" + account.getUsername() + "用户投诉！");
+                    log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉！");
                     log.setManager(mana);
                     log.setType(2);
-                    log.setAccount(account);
+                    log.setAccount(complaint.getAccount());
                     int a = logService.addLog(log);
                     if (a < 0) {
                         attr.addFlashAttribute("logerror", "出错了！");

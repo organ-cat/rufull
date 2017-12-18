@@ -204,17 +204,31 @@ function isWithinShippingScope(accountPoint, shopPoint, scope) {
 
 $('#searcher').click(function () {
     var region = document.getElementById("city").value;
-    var strs = new Array(); //定义一数组
-    strs = region.split(" -- ");
-    window.location.href = "/rufull/searchShop?city=" + strs[1] +
+    var add = document.getElementById("address").value;
+    if (add == null || add == '') {
+        alert("请先输入搜索范围");
+        return false;
+    }
+    else{
+        var strs = new Array(); //定义一数组
+        strs = region.split(" -- ");
+        window.location.href = "/rufull/searchShop?city=" + strs[1] +
         "&address=" + addressvalue + "&lng=" + lng + "&lat=" + lat;
+}
 });
 
 $('#submit').click(function () {
     var region = document.getElementById("city").value;
-    var strs = new Array(); //定义一数组
-    strs = region.split(" -- ");
-    window.location.href = "/rufull/newSearchShop?city=" + strs[1] +
-        "&newaddress=" + addressvalue + "&lng=" + lng + "&lat=" + lat;
+    var add = document.getElementById("address").value;
+    if (add == null || add == '') {
+        alert("请先输入搜索范围");
+        return false;
+    }
+    else {
+        var strs = new Array(); //定义一数组
+        strs = region.split(" -- ");
+        window.location.href = "/rufull/newSearchShop?city=" + strs[1] +
+            "&newaddress=" + addressvalue + "&lng=" + lng + "&lat=" + lat;
+    }
 });
 

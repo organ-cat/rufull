@@ -24,7 +24,6 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>

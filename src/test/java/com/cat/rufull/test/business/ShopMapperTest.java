@@ -67,7 +67,8 @@ public class ShopMapperTest {
     public void testUpdate(){
         Shop shop = new Shop();
         shop.setShopName("曹欣");
-        shop.setId(4);
+        shop.setId(3);
+        shop.setOperateState(201);
         shopMapper.updateByIdSelective(shop);
     }
 
@@ -86,6 +87,12 @@ public class ShopMapperTest {
     public void testFuzzyFindFoodAndShopName(){
         List<Shop> shopList = shopService.fuzzyFindByShopAndProduct("虾");
         System.out.println("shopList:"+shopList);
+    }
+
+    @Test
+    public void testFindAllShop(){
+        List<Shop> allShop = shopService.findAllShop();
+        System.out.println("allShop:"+allShop);
     }
 
 }

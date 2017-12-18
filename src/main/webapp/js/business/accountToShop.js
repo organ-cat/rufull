@@ -45,34 +45,37 @@ function sortProduct(tab_a) {
     productSelect.empty();
     // 将对应的元素添加上select中
     for (var i = 0; i <suitableProductList.length; i++){
-        productSelect.append("<div class=\"rst-block rst-rating-block\">\n" +
-            "                            <div class=\"product_img\">\n" +
-            "                                <a href=\"/zb-eamonn\" itemprop=\"url\">\n" +
-            "                                    <img class=\"rst-img\"\n" +
-            "                                         src=\""+contextPath+"/upload/product/"+suitableProductList[i].photo
-            +"\"\n" +
-            "                                         alt=\"\""+suitableProductList[i].productName+"\"\n" +
-            "                                    />\n" +
-            "                                </a>\n" +
-            "                            </div>\n" +
-            "                            <div class=\"product_name\">\n" +
-            "                                <h4><b>"+suitableProductList[i].productName+"</b></h4>\n" +
-            "                                <p class=\"produce_name_comments\">\n" +
-            "                                    <span class=\"produce_name_font\">评分：</span>\n" +
-            "                                    <span>♥♥♥♥♥</span>\n" +
-            "                                    <span>月售："+suitableProductList[i].salesVolume+"</span>\n" +
-            "                                </p>\n" +
-            "                            </div>\n" +
-            "                            <div class=\"product_price\">\n" +
-            "                                <span class=\"product_price_symbol\">¥</span>\n" +
-            "                                <span class=\"product_price_digital\">"+suitableProductList[i].price+"</span>\n" +
-            "                            </div>\n" +
-            "                            <div class=\"product_cart\">\n" +
-            "                                <a href=\""+contextPath+"/cart/add/"+shopId+"/"+suitableProductList[i].id+"?shopName="+shopName+"\">\n" +
-            "                                    <button class=\"product_cart_button\">加入购物车</button>\n" +
-            "                                </a>\n" +
-            "                            </div>\n" +
-            "                        </div>");
+        if (suitableProductList[i].status == 0){
+            productSelect.append("<div class=\"rst-block rst-rating-block\">\n" +
+                "                            <div class=\"product_img\">\n" +
+                "                                <a href=\"/zb-eamonn\" itemprop=\"url\">\n" +
+                "                                    <img class=\"rst-img\"\n" +
+                "                                         src=\""+contextPath+"/upload/product/"+suitableProductList[i].photo
+                +"\"\n" +
+                "                                         alt=\"\""+suitableProductList[i].productName+"\"\n" +
+                "                                    />\n" +
+                "                                </a>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"product_name\">\n" +
+                "                                <h4><b>"+suitableProductList[i].productName+"</b></h4>\n" +
+                "                                <p class=\"produce_name_comments\">\n" +
+                "                                    <span class=\"produce_name_font\">评分：</span>\n" +
+                "                                    <span>♥♥♥♥♥</span>\n" +
+                "                                    <span>月售："+suitableProductList[i].salesVolume+"</span>\n" +
+                "                                </p>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"product_price\">\n" +
+                "                                <span class=\"product_price_symbol\">¥</span>\n" +
+                "                                <span class=\"product_price_digital\">"+suitableProductList[i].price+"</span>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"product_cart\">\n" +
+                "                                <a href=\""+contextPath+"/cart/add/"+shopId+"/"+suitableProductList[i].id+"?shopName="+shopName+"\">\n" +
+                "                                    <button class=\"product_cart_button\">加入购物车</button>\n" +
+                "                                </a>\n" +
+                "                            </div>\n" +
+                "                        </div>");
+        }
+
     }
 
 

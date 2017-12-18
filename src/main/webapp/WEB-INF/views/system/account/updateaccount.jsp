@@ -8,9 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<html>
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 <head>
     <title>管理员更新用户信息</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -25,7 +24,6 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>

@@ -48,6 +48,7 @@ $(function(){
         var email = $("#email").val();
         if(flag){
             if(IsEmail(email)){
+                emailPassed();
                 settime(this);
                 $.ajax({
                     url: "http://localhost:8080/rufull/check/sendbindEmail",
@@ -57,7 +58,7 @@ $(function(){
                     type: "POST",
                     dataType: "json",
                     success: function (result) {
-                        emailRight();
+                        emailPassed();
                     }
                 });
             }else {
@@ -66,6 +67,7 @@ $(function(){
 
         }else{
             if(IsEmail(email)){
+                emailPassed();
                 settime(this);
                 $.ajax({
                     url: "http://localhost:8080/rufull/check/sendbindNewEmail",
@@ -85,7 +87,7 @@ $(function(){
 });
 //邮箱更换，异步校验数据
 $(function () {
-    $("#email").blur(function () {
+    $("#email").change(function () {
         if(!flag){
             var email = $("#email").val();
             $.ajax({
@@ -99,7 +101,7 @@ $(function () {
                     if(result == EMAIL_PASSED){
                         emailPassed();
                     }else if(result == EMAIL_REGISTERED) {
-                        emailRegister();
+                        emailRegisted();
                     }else if(result == EMAIL_FORMAT_ERROR) {
                         emailError();
                     }
@@ -124,63 +126,7 @@ function settime(val) {
         settime(val)
     },1000)
 }
-/*校验邮件地址是否合法 */
-function IsEmail(str) {
-    var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
-    return reg.test(str);
-}
-function error() {
-    $("#button").attr("disabled", true);
-    $("#getCode").attr("disabled", true);
-    $("#button").css("cursor",'not-allowed');
-    $("#getCode").css("cursor",'not-allowed');
-}
-function right() {
-    $("#button").removeAttr("disabled");
-    $("#getCode").removeAttr("disabled");
-    $("#button").css("cursor","default")
-    $("#getCode").css("cursor","default")
-}
-function bindEmail() {
-    flag = false;
-    $("#show2").attr("style", "background-color: #0089DC");
-    $("#show2").css("color","#FFFFFF");
-    $("#showSpan2").attr("style", "color: #0089DC");
-    $("#currentEmail").val("新的邮箱号");
-    $("#email").val("");
-    $("#checkCode").val("");
-    right();
-    countdown = 0;
-}
 
-
-
-function emailError() {
-    $("#returnMessage").html("当前邮箱号码错误");
-    $("#email ").attr("style", "border: 1px solid #FF0000");
-}
-function emailRegister() {
-    $("#returnMessage").html("邮箱被注册了");
-    $("#email").attr("style", "border: 1px solid #FF0000");
-    error();
-}
-
-function emailPassed() {
-    $("#returnMessage").html("邮箱通过");
-    $("#email").attr("style", "border: 1px solid #AAAAAA");
-    $("#button").removeAttr("disabled");
-    $("#button").css("cursor","default");
-    right();
-}
-function bindSuccess() {
-    flag = true;
-    $("#show3").attr("style", "background-color: #0089DC");
-    $("#show3").css("color","#FFFFFF");
-    $("#showSpan3").attr("style", "color: #0089DC");
-    $("#returnMessage").html("绑定成功");
-    $("#email").val("");
-    $("#checkCode").val("");
-}
 function error() {
     $("#next").attr("disabled", true);
     $("#next").css("cursor",'not-allowed');
@@ -193,13 +139,48 @@ function right() {
     $("#getCode").removeAttr("disabled");
     $("#getCode").css("cursor", "default");
 }
-
+function bindEmail() {
+    flag = false;
+    $("#show2").attr("style", "background-color: #0089DC");
+    $("#show2").css("color","#FFFFFF");
+    $("#showSpan2").attr("style", "color: #0089DC");
+    $("#currentEmail").val("新的邮箱号");
+    $("#email").val("");
+    $("#checkCode").val("");
+    right();
+    countdown = 0;
+}
+function emailError() {
+    $("#returnMessage").html("当前邮箱号码错误");
+    $("#email ").attr("style", "border: 1px solid #FF0000");
+}
+function emailRegisted() {
+    $("#returnMessage").html("邮箱被注册了");
+    $("#email").attr("style", "border: 1px solid #FF0000");
+    error();
+}
+function emailPassed() {
+    $("#returnMessage").html("邮箱通过");
+    $("#email").attr("style", "border: 1px solid #7B9CD3");
+    $("#next").removeAttr("disabled");
+    $("#next").css("cursor","default");
+    right();
+}
+function bindSuccess() {
+    flag = true;
+    $("#show3").attr("style", "background-color: #0089DC");
+    $("#show3").css("color","#FFFFFF");
+    $("#showSpan3").attr("style", "color: #0089DC");
+    $("#returnMessage").html("绑定成功");
+    $("#checkCode").val("");
+    countdown = 0;
+}
 function checkCodeError() {
     $("#returnMessage").html("验证码错误");
     $("#checkCode").attr("style", "border: 1px solid #FF0000");
 }
-function emailRight() {
-    $("#returnMessage").html("邮箱通过");
-    $("#email").attr("style", "border: 1px solid #AAAAAA");
-    right();
+/*校验邮件地址是否合法 */
+function IsEmail(str) {
+    var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+    return reg.test(str);
 }

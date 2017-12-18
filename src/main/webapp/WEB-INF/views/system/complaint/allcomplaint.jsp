@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>用户日志获取</title>
+    <title>投诉列表获取</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/system/bootstrap.css">
@@ -23,7 +23,6 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
@@ -119,6 +118,8 @@
         <table class="table table-bordered">
             <tr>
                 <th>ID</th>
+                <th>投诉发起者</th>
+                <th>被投诉商店名</th>
                 <th>投诉类型</th>
                 <th>投诉内容</th>
                 <th>投诉时间</th>
@@ -128,6 +129,8 @@
             <c:forEach items="${managecomp}" var="list">
                 <tr>
                     <td><input type="checkbox" class="checkbox" name="id" value="${list.id }"></td>
+                    <td>${list.account.username}</td>
+                    <td>${list.shop.shopName}</td>
                     <c:if test="${list.type==1}">
                         <td>商家已接单但未送餐</td>
                     </c:if>

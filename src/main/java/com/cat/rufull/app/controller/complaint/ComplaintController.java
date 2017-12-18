@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.complaint;
 
+import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.Complaint;
 import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.ComplaintService;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +47,7 @@ public class ComplaintController {
                              @RequestParam("evidence") MultipartFile evidence,
                              @RequestParam("content") String content,
                              HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(accountId + shopId + type + content);
+        System.out.println("投诉参数——"+accountId +"|"+ shopId +"|"+ type +"|"+ content);
         String path = request.getServletContext().getRealPath("upload/comlaint");
         String fileName = UUID.randomUUID().toString().replaceAll("-", "")
                 + evidence.getOriginalFilename();
@@ -54,25 +56,35 @@ public class ComplaintController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Complaint complaint = new Complaint();
-        complaint.setType(type);
-        complaint.setContent(content);
-        complaint.setevidence(fileName);
-        complaint.setStatus(Complaint.COMPLAINTED);
-        complaint.setCreatedTime(new Date());
-        complaint.setShopId(shopId);
-        complaint.setAccountId(accountId);
-        complaintService.addComplaint(complaint);
+        Shop shop = new Shop();
+        shop.setId(shopId);
+        Account account = new Account();
+        account.setId(accountId);
+        complaintService.addComplaint(
+                new Complaint(type, content, fileName, new Date(), Complaint.COMPLAINTED, account, shop));
         return "index";
     }
 
-    @RequestMapping(value = "/getComplaintByAccount", method = RequestMethod.GET)
+    @RequestMapping(value = "/showAccount", method = RequestMethod.GET)
     public ModelAndView getComplaintByAccount(@RequestParam("accountId") int accountId) {
         List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
+        List<Shop> shopList = new ArrayList<>();
+        if (list != null){
+            for (Complaint complaint : list) {
+                System.out.println(complaint.toString());
+                Shop shop = shopService.findById(complaint.getShop().getId());
+                System.out.println(shop.toString());
+                shopList.add(shop);
+            }
+        }
         ModelAndView view = new ModelAndView();
-        view.setViewName("");
-        view.addObject("complaintList", list);
+        view.setViewName("account/comlpaintList");
+        view.addObject("complaintList", shopList);
         return view;
+    }
+    @RequestMapping(value = "/findComplaintById", method = RequestMethod.GET)
+    public void findComplaintById(){
+
     }
 
     @RequestMapping(value = "/getComplaintByShop", method = RequestMethod.GET)

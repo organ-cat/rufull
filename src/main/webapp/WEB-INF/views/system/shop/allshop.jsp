@@ -54,6 +54,19 @@
                     window.location.href = "${pageContext.request.contextPath}/manageShop/redelBusiness?id=" + id;
                 });
         }
+        function rerogShop(id) {
+            swal({
+                    title: "确定操作吗？",
+                    text: "你确定要允许该商家重新开业吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#00FF00',
+                    confirmButtonText: 'sure'
+                },
+                function () {
+                    window.location.href = "${pageContext.request.contextPath}/manageShop/redelBusiness?id=" + id;
+                });
+        }
         function rogShop(id) {
             swal({
                     title: "确定操作吗？",
@@ -118,7 +131,7 @@
                     <td>${list.shopPhone}</td>
                     <td>${list.address}</td>
                     <td>${list.operateTime}</td>
-                    <td>${list.shippingDistance}</td>
+                    <td>${list.shippingDistance}&nbsp;公里</td>
                     <td>
                         <c:if test="${list.business.account.status==201}">
                             &nbsp;&nbsp;未创建商店
@@ -143,17 +156,17 @@
                         <c:if test="${list.business.account.status==202}">
                             <input type="button" class="btn btn-danger" value="撤销入驻"
                                    onclick="delShop(${list.business.id});"/>
-                            <input type="button" class="btn btn-danger" value="停业整顿"
+                            <input type="button" class="btn btn-warning" value="停业整顿"
                                    onclick="rogShop(${list.business.id});"/>
                         </c:if>
                         <c:if test="${list.business.account.status==203}">
-                            <input type="button" class="btn btn-warning" value="允许开业"
-                                   onclick="redelShop(${list.business.id});"/>
-                            <input type="button" class="btn btn-warning" value="撤销入驻"
+                            <input type="button" class="btn btn-info" value="允许开业"
+                                   onclick="rerogShop(${list.business.id});"/>
+                            <input type="button" class="btn btn-danger" value="撤销入驻"
                                    onclick="delShop(${list.business.id});"/>
                         </c:if>
                         <c:if test="${list.business.account.status==204}">
-                            <input type="button" class="btn btn-warning" value="重新入驻"
+                            <input type="button" class="btn btn-primary" value="重新入驻"
                                    onclick="redelShop(${list.business.id});"/>
                         </c:if>
                     </td>

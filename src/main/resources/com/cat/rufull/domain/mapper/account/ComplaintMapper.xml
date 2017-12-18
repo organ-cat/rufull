@@ -28,8 +28,8 @@
         #{completedTime},
         #{result},
         #{solver},
-        #{accountId},
-        #{shopId}
+        #{account.id},
+        #{shop.id}
         )
     </insert>
 

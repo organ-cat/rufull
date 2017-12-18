@@ -40,6 +40,11 @@ public interface ComplaintMapper {
      */
     List<Complaint> findAllComplaint();
 
+    /**
+     *
+     * @param complaint
+     * @return
+     */
     int completedComplaint(Complaint complaint);
 
     int handlerComplaint(@Param("id") int id, @Param("status") int status);

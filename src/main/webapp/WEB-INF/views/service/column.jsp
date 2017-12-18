@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Luckily
-  Date: 2017/12/9
-  Time: 17:32
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
@@ -97,16 +90,16 @@
         }
     </script>
     <spring:url value="/" var="rootUrl"/>
-    <spring:url value="/order" var="showOrderUrl"/>
+    <spring:url value="/order/" var="showOrderUrl"/>
+    <spring:url value="/business/joinBusiness" var="showCooperationUrl"/>
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
-    <spring:url value="#" var="showAgreementUrl"/>
-    <spring:url value="/logout" var="logoutUrl"/>
-    <spring:url value="#" var="showProfileUrl"/>
-    <spring:url value="/cart" var="showCartUrl"/>
-    <spring:url value="/favor" var="showFavorUrl"/>
-    <spring:url value="/address" var="showAddressUrl"/>
-    <spring:url value="/security" var="showSecurityUrl"/>
+    <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+    <spring:url value="/account/logout"  var="logoutUrl"/>
+    <spring:url value="/account/center?id=${account.id}" var="showProfileUrl"/>
+    <spring:url value="/favor/myFavor?id=${account.id}" var="showFavorUrl"/>
+    <spring:url value="/address/addressManage?id=${account.id}" var="showAddressUrl"/>
+    <spring:url value="/account/security?id=${account.id}" var="showSecurityUrl"/>
     <spring:url value="/service/gethelp" var="gethelp"/>
     <spring:url value="/service/getAccorder" var="getAccorder"/>
     <spring:url value="/service/getAgreement" var="getAgreement"/>
@@ -144,8 +137,6 @@
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
                                                                   aria-hidden="true"></span>个人中心</a></li>
-                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
-                                                               aria-hidden="true"></span>购物车</a></li>
                             <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
                                                                 aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"

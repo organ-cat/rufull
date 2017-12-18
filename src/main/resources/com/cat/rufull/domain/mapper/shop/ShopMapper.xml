@@ -35,10 +35,17 @@
         shipping_time, shipping_fee, announcement, business_id
     </sql>
 
-    <!--// 查询全部商店-->
+    <!--// 查询全部正常营业商店-->
     <select id="findAll" resultMap="ShopResultMap" resultType="list">
         SELECT
           <include refid="Shop_Column_List"/>
+        FROM SHOP
+    </select>
+
+    <!--// 查询全部正常营业商店-->
+    <select id="findAllShop" resultMap="ShopResultMap" resultType="list">
+        SELECT
+        <include refid="Shop_Column_List"/>
         FROM SHOP
     </select>
 

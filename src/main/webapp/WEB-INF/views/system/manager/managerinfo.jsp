@@ -6,9 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 <head>
     <title>管理员个人信息</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -23,11 +22,9 @@
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/jquery.form.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath }/js/system/indexJs.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
-
     <script type="text/javascript">
         var editInfosuccess = "${sessionScope.editInfosuccess}";
         var editInfoerror = "${sessionScope.editInfoerror}";
@@ -72,17 +69,45 @@
             $("#ManagerForm").ajaxSubmit(option);
         }
         function submitform() {
-            swal({
-                    title: "确定操作吗？",
-                    text: "你确定要更新个人信息吗？",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#00FF00',
-                    confirmButtonText: 'sure'
-                },
-                function () {
-                    document.Infoform.submit();
-                });
+            var username = document.getElementById('username').value;
+            var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+            if (username == null || username == '') {
+                swal("操作失败", "用户名不能为空!", "error");
+                return false;
+            }
+            if (phone == null || phone == '') {
+                swal("操作失败", "手机号码不能为空!", "error");
+                return false;
+            }
+            if (!(/^1(3|4|5|7|8)\d{9}$/.test(phone))) {
+                swal("操作失败", "手机号码填写有误!", "error");
+                return false;
+            }
+
+
+            if (email == null || email == '') {
+                swal("操作失败", "邮箱不能为空!", "error");
+                return false;
+            }
+            if (!(/^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.(?:com|cn)$/
+                    .test(email))) {
+                swal("操作失败", "邮箱格式有误！", "error");
+                return false;
+            }
+            else {
+                swal({
+                        title: "确定操作吗？",
+                        text: "你确定要更新个人信息吗？",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#00FF00',
+                        confirmButtonText: 'sure'
+                    },
+                    function () {
+                        document.Infoform.submit();
+                    });
+            }
         }
         var editInfosuccess = "${editInfosuccess}";
         var editInfoerror = "${editInfoerror}";
@@ -104,9 +129,6 @@
             };
         }
 
-        phone.oninvalid=function(){
-            phone.setCustomValidity("请输正确的手机号码？");
-        };
     </script>
 </head>
 
@@ -135,22 +157,22 @@
     <div class="col-sm-8" style="padding-top: 150px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="username">姓名:</label>
-            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username" required
-                   value="${sessionScope.manager.username}" name="username" placeholder="请输入姓名！">
+            <input type="text" class="form-control input-lg" style="min-width: 450px;" id="username" value="${sessionScope.manager.username}"
+                   name="username" placeholder="请输入姓名！" min="2" required/>
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
             <label style="font-size: 20px;" for="phone">手机:</label>
-            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone" required pattern="^1[3-9]\d{9}$"
-                   value="${sessionScope.manager.phone}" name="phone" placeholder="1xxxxxxxxxx">
+            <input type="number" class="form-control input-lg" style="min-width: 450px;" id="phone"  value="${sessionScope.manager.phone}"
+                   name="phone" placeholder="1xxxxxxxxxx" min="11" max="11" required pattern="^1[3-9]\d{9}$"/>
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">
         <div class="form-group">
-            <label style="font-size: 20px;" for="exampleInputEmail2">邮箱:</label>
-            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="exampleInputEmail2" required
-                   value="${sessionScope.manager.email}" name=" email" placeholder="xxxxxxxxx@xxx.com">
+            <label style="font-size: 20px;" for="email">邮箱:</label>
+            <input type="email" class="form-control input-lg" style="min-width: 450px;" id="email"  value="${sessionScope.manager.email}"
+                   name=" email" placeholder="xxxxxxxxx@xxx.com" required/>
         </div>
     </div>
     <div class="col-sm-8" style="padding-top: 20px;padding-left: 150px">

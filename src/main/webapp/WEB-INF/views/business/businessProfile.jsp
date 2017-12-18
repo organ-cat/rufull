@@ -32,12 +32,12 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="hidden-sm hidden-md"><a href="#">首页</a></li>
-                <li class="active"><a href="#">商家中心</a></li>
-                <li><a href="#">加盟合作</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/">首页</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/business/showBusinessProfile">商家中心</a></li>
+                <li><a href="${pageContext.request.contextPath}/business/joinBusiness">加盟合作</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/service/getAgreement">规则中心</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">用户名 <span class="caret"></span>
@@ -92,9 +92,8 @@
                         <li class="list-group-item"><a class="text-muted"
                                                        href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
                         </li>
-                        <li class="list-group-item"><a class="text-muted"
-                                                       href="${pageContext.request.contextPath}/business/resetPassword">修改密码</a>
-                        </li>
+
+
                     </ul>
                 </div>
                 <!-- 显示内容 -->
@@ -121,8 +120,11 @@
                                     <a class="btn btn-info" href="${pageContext.request.contextPath}/product/addProductUI"
                                        role="button">创建商品</a>
                                 </c:if>
+                                <c:if test="${sessionScope.shop != null}">
                                     <a class="btn btn-info" href="${pageContext.request.contextPath}/shop/updateShopOperateState/${sessionScope.shop.id}/${sessionScope.shop.operateState}"
                                        role="button">更换状态</a>
+                                </c:if>
+
                             </div>
                         </div>
 
@@ -179,9 +181,9 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <a class="btn btn-success order-btn" href="${pageContext.request.contextPath}/product/updateProductStatus/${sessionScope.shop.id}/${product.id}/${product.status}" role="button">更改状态</a>
+                                                    <a class="btn btn-success order-btn" href="${pageContext.request.contextPath}/product/updateProductStatus/${sessionScope.shop.id}/${product.id}/${product.status}" role="button">更改状态</a><br>
                                                     <a class="btn btn-warning order-btn" href="${pageContext.request.contextPath}/product/updateProductUI/${product.id}"
-                                                       role="button">更改商品</a>
+                                                       role="button">更改商品</a><br>
                                                     <a class="btn btn-danger order-btn" href="${pageContext.request.contextPath}/product/deleteProductStatus/${sessionScope.shop.id}/${product.id}/${product.status}"
                                                        role="button">删除商品</a>
                                                 </div>
@@ -276,51 +278,6 @@
 <script type="text/javascript">
 
 
-//    // 声明消息对象
-//    var message;
-//
-//    // 创建Stomp客户端
-//    var stomp = Stomp.over(new SockJS("/rufull/ws"));
-//
-//    // 收到订阅消息后的界面变化
-//    // 注意: 你主要完成这里
-//    function displayMessage(frame) {
-//        message = JSON.parse(frame.body);
-//
-//        $('.modal-body').html(message.content); // 设置消息内容
-//
-//        $('#myModal').modal({ // 弹出模态框
-//            keyboard: true
-//        })
-//    }
-//
-//    var connectCallback = function () {
-//        // stomp.subscribe('/user/[shopId]/[orderId]/receiveApplyUrgeMessage', displayMessage)
-//        // 注意: 你需要使用EL表达式为url中的shopId和orderId赋值
-//        stomp.subscribe('/user/3/4/receiveApplyUrgeMessage', displayMessage); // 订阅消息
-//    };
-//
-//    var errorCallback = function (error) {
-//        alert(error.headers.message);
-//    };
-//
-//    // 连接服务端
-//    stomp.connect("guest", "guest", connectCallback, errorCallback);
-//
-//    $(document).ready(function(e) {
-//        $('#replyBtn').click(function (e) {
-//            e.preventDefault();
-//
-//            message.status = 'REPLIED'; // 设置消息为已读
-//
-//            var jsonstr = JSON.stringify(message); // json -> str
-//            stomp.send("/app/replyUrgeMessage", {}, jsonstr); // 发送消息
-//
-//            $('#myModal').modal('hide'); // 隐藏模态框
-//
-//            return false;
-//        });
-//    });
 </script>
 
 </html>

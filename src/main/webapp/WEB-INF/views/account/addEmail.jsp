@@ -98,7 +98,7 @@
     <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">--%>
     <spring:url value="/resources/css/account/bind.css" var="bind_css_url"/>
     <link rel="stylesheet" type="text/css" href="${bind_css_url}"/>
-    <script src="${pageContext.request.contextPath}/js/account/add.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/addEmail.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- 导航条 -->
@@ -185,17 +185,14 @@
                                     </tr>
                                     <tr width="500px" height="60px">
                                         <td>
-                                            <%--111111111111--%>
-                                            <input id="yourEmail" type="text" readonly value="当前的邮箱">
+                                            <input id="yourEmail" type="text" readonly value="您的邮箱号">
                                         </td>
                                         <td>
-                                            <%--222222222222--%>
                                             <input id="email" type="text">
                                         </td>
                                     </tr>
                                     <tr width="500px" height="60px">
                                         <td>
-                                            <%--333333333333--%>
                                             <input id="obtainCode" type="text" readonly value="获取验证码">
                                         </td>
                                         <td><input id="checkCode" type="text"></td>
@@ -206,8 +203,7 @@
                                     <tr width="500px" height="60px">
                                         <td></td>
                                         <td>
-                                            <%--555555555--%>
-                                            <input id="addEmail" type="button" value="下一步">
+                                            <input id="addEmail" type="button" value="绑定">
                                         </td>
                                     </tr>
                                 </table>

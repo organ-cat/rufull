@@ -106,8 +106,7 @@
     <!-- address js -->
     <spring:url value="/resources/js/account/address.js" var="address_js_url"/>
     <script src="${address_js_url}" type="text/javascript"></script>
-    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
-
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi"></script>
 </head>
 <body>
     <!-- 导航条 -->
@@ -260,8 +259,13 @@
                                 <form method="post" action="${add_address_url}" accept-charset="UTF-8">
                                     <input type="hidden" name="accountId" value="${account.id}"/>
                                     姓名<input class="form-control" type="text" placeholder="您的名字" name="receiver">
-                                    手机<input class="form-control" type="text" placeholder="您的手机" name="phone">
+                                    手机<input id="receiverPhone" class="form-control" type="text" placeholder="您的手机" name="phone">
+                                    <div style="display:none;" id="l-map"></div>
                                     位置<input class="form-control" id="address" type="text" placeholder="请输入小区、大厦或学校" name="location">
+                                    <div>
+                                        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto;z-index: 107000; display:none;"></div>
+
+                                    </div>
                                     详细地址<input class="form-control" type="text" placeholder="单位、门牌号" name="detail">
                                     <br/>
                                     <span class="defaultSpan">是否是默认地址</span>
@@ -317,5 +321,59 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        // 百度地图API功能
+        function G(id) {
+            return document.getElementById(id);
+        }
+
+        var map = new BMap.Map("l-map");
+        map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+
+        var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "address"
+                ,"location" : map
+            });
+
+        ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "";
+            if (e.fromitem.index > -1) {
+                value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+
+        var myValue;
+        ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+            myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+            G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPlace();
+        });
+
+        function setPlace(){
+            map.clearOverlays();    //清除地图上所有覆盖物
+            function myFun(){
+                var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                map.centerAndZoom(pp, 18);
+                map.addOverlay(new BMap.Marker(pp));    //添加标注
+            }
+            var local = new BMap.LocalSearch(map, { //智能搜索
+                onSearchComplete: myFun
+            });
+            local.search(myValue);
+        }
+    </script>
 </body>
 </html>

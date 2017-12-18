@@ -21,7 +21,7 @@ public class FootprintServiceImpl implements FootprintService {
         List<Footprint> footprintList = footprintMapper.findFootprintList(footprint.getAccountId());
         //足迹集合是null，添加
         if (footprintList == null) {
-            footprintMapper.addFootprint(new Footprint(null, new Date(), footprint.getAccountId(), footprint.getShopId()));
+            footprintMapper.addFootprint(new Footprint( new Date(), footprint.getAccountId(), footprint.getShopId()));
         } else {
             //足迹集合数小于等于8则可以直接添加
             if (footprintList.size() <= 8) {
@@ -37,7 +37,7 @@ public class FootprintServiceImpl implements FootprintService {
                 }
                 if (isBrowse) {
                     //添加足迹
-                    footprintMapper.addFootprint(new Footprint(null, new Date(), footprint.getAccountId(), footprint.getShopId()));
+                    footprintMapper.addFootprint(new Footprint( new Date(), footprint.getAccountId(), footprint.getShopId()));
                 }
             } else {
                 //标识是否浏览过改商店
@@ -54,7 +54,7 @@ public class FootprintServiceImpl implements FootprintService {
                     //删除时间最久的浏览记录，保证只有8条浏览记录
                     footprintMapper.deleteFootprintById(footprintList.get(0).getId());
                     //添加新的足迹，保证只有8条浏览记录
-                    footprintMapper.addFootprint(new Footprint(null, new Date(), footprint.getAccountId(), footprint.getShopId()));
+                    footprintMapper.addFootprint(new Footprint( new Date(), footprint.getAccountId(), footprint.getShopId()));
                 }
             }
         }

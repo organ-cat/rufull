@@ -1,7 +1,9 @@
 // 表单验证
 $(function () {
 
-    $('form').bootstrapValidator({
+
+
+    $('#shopForm').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -57,7 +59,7 @@ $(function () {
                     stringLength: {
                         min: 1,
                         max: 2,
-                        message: '配送时间分钟为单位'
+                        message: '配送时间分钟为单位,最多两位'
                     }
                 }
             },
@@ -83,8 +85,8 @@ $(function () {
                     },
                     stringLength: {
                         min: 1,
-                        max: 2,
-                        message: '配送距离以公里为单位'
+                        max: 3,
+                        message: '配送距离以公里为单位，最多三位'
                     }
                 }
             },
@@ -109,16 +111,8 @@ $(function () {
                         message: '配送费用不为空'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '配送时间只能为数字'
-                    },
-                    numeric: {
-                        message:'只能输入数字'
-                    },
-                    stringLength: {
-                        min: 1,
-                        max: 3,
-                        message: '配送以人民币为单位'
+                        regexp: /^[0-9]+.[0-9]{2}$/,
+                        message: '价格格式不正确,格式为：0.00保留两位小数'
                     }
                 }
             },
@@ -128,19 +122,13 @@ $(function () {
                         message: '配送起价不为空'
                     },
                     regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '配送时间只能为数字'
-                    },
-                    numeric: {
-                        message: '只能输入数字'
-                    },
-                    stringLength: {
-                        min: 1,
-                        max: 3,
+                        regexp: /^[0-9]+.[0-9]{2}$/,
+                        message: '价格格式不正确,格式为：0.00保留两位小数',
                         message: '配送以人民币为单位'
-            }
-        }
-    },
+                    },
+
+                }
+            },
 
         }
     });
