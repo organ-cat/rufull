@@ -113,11 +113,12 @@ public class PaymentController {
      * @return
      */
     @RequestMapping("/payBack")
-    public String callBack(Model model, Integer r1_Code, String r6_Order, String r3_Amt){
+    public String callBack(Model model, Integer r1_Code, String r6_Order, String r3_Amt, String r9_BType){
 
         if(r1_Code == 1){ //支付结果：成功，跳转完成支付
             /*model.addAttribute("id",r6_Order);
             return complete(r6_Order);*/
+            System.out.println(r9_BType);
             Order order = orderService.findOrderByOrderNumber(r6_Order);
             if(order.getStatus().equals("UNPAID")){  //判断订单是否已经支付，防止重复支付
                 orderService.paidOrder(order);
