@@ -89,7 +89,7 @@
             投诉者姓名：
         </label>
         <label style="font-size: 20px;">
-            ${account.username}
+            ${managecomp.account.username}
         </label>
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
@@ -97,7 +97,7 @@
             投诉者电话：
         </label>
         <label style="font-size: 20px;">
-            ${account.phone}
+            ${managecomp.account.phone}
         </label>
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
@@ -105,7 +105,7 @@
             被投诉商家姓名：
         </label>
         <label style="font-size: 20px;">
-            ${shop.business.account.username}
+            ${managecomp.shop.business.account.username}
         </label>
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
@@ -113,7 +113,7 @@
             商店名称：
         </label>
         <label style="font-size: 20px;">
-            ${shop.shopName}
+            ${managecomp.shop.shopName}
         </label>
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
@@ -121,7 +121,7 @@
             商店地址：
         </label>
         <label style="font-size: 20px;">
-            ${shop.address}
+            ${managecomp.shop.address}
         </label>
     </div>
     <div class="col-sm-6" style="padding-top: 30px;">
@@ -164,7 +164,7 @@
             </label>
             <div class="panel-body">
                 <p><label></label>
-                    <img src="${pageContext.request.contextPath}/upload/complaint/${managecomp.evindence}"
+                    <img src="${pageContext.request.contextPath}/upload/complaint/${managecomp.evidence}"
                          class="img-thumbnail pic"/>
                 </p>
             </div>

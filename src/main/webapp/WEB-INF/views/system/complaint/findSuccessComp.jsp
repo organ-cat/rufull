@@ -86,6 +86,8 @@
         </div>
         <table class="table table-bordered">
             <tr>
+                <th>投诉发起者</th>
+                <th>被投诉商店名</th>
                 <th>投诉类型</th>
                 <th>投诉内容</th>
                 <th>投诉时间</th>
@@ -94,6 +96,8 @@
             </tr>
             <c:forEach items="${managecomp}" var="list">
                 <tr>
+                    <td>${list.account.username}</td>
+                    <td>${list.shop.shopName}</td>
                     <c:if test="${list.type==1}">
                         <td>商家已接单但未送餐</td>
                     </c:if>
