@@ -41,6 +41,14 @@ public interface OrderService {
     Order findOrderById(Integer id);
 
     /**
+     * 查询订单详情
+     *
+     * @param orderNumber 订单号
+     * @return 订单详情
+     */
+    Order findOrderByOrderNumber(String orderNumber);
+
+    /**
      * 取消订单
      *
      * @param order 订单
@@ -87,6 +95,13 @@ public interface OrderService {
      * @param order 订单
      */
     void acceptOrder(Order order);
+
+    /**
+     * 发货
+     *
+     * @param order 订单
+     */
+    void deliverOrder(Order order);
 
     /**
      * 完成支付

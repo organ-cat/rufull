@@ -93,9 +93,8 @@
                         <li class="list-group-item"><a class="text-muted"
                                                        href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
                         </li>
-                        <li class="list-group-item"><a class="text-muted"
-                                                       href="${pageContext.request.contextPath}/business/resetPassword">修改密码</a>
-                        </li>
+
+
                     </ul>
                 </div>
                 <!-- 显示内容 -->
@@ -185,7 +184,7 @@
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <form action="${pageContext.request.contextPath}/order/order/deliver/${order.id}" method="post">
+                                                    <form action="${pageContext.request.contextPath}/order/confirmRefund/${order.id}" method="post">
                                                         <button class="btn btn-info order-btn" role="button" type="submit">确定退单</button>
                                                     </form>
                                                 </div>

@@ -23,6 +23,14 @@ public interface OrderMapper {
     //  商店名,商店图片,商家电话,订单包含的内容,地址
     Order findOrderById(int id);
 
+    /**
+     * 用订单号查询订单详情
+     *
+     * @param orderNumber
+     * @return
+     */
+    Order findOrderByOrderNumber(String orderNumber);
+
     // 更新订单
     // 更新内容:完成时间,接单时间,订单状态,支付状态,送货状态,
     void updateOrder(Order order);
@@ -42,6 +50,7 @@ public interface OrderMapper {
 
     /**
      * 商家当月订单数
+     *
      * @param shopId
      * @param today
      * @param lastMonthToday
@@ -53,6 +62,7 @@ public interface OrderMapper {
 
     /**
      * 商家当月订单总额
+     *
      * @param shopId
      * @param today
      * @param lastMonthToday
@@ -61,5 +71,4 @@ public interface OrderMapper {
     BigDecimal getMonthlyTotal(@Param("shopId") Integer shopId,
                                @Param("today") Date today,
                                @Param("lastMonthToday") Date lastMonthToday);
-
 }

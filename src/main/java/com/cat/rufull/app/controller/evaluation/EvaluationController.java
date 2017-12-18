@@ -44,6 +44,17 @@ public class EvaluationController {
     private AccountService accountService;
     private static final String SESSION_ACCOUNT = "account";
 
+    //我的评价
+    @RequestMapping("my_eval")
+    public String myEval(HttpSession session, Model uiModel){
+        Account account = getSessionAccount(session); // 获取当前登录用户
+        if(account != null){//用户已登录
+            int accountId = account.getId();
+            List<Order> orders = orderService.findOrderByAccountId(accountId);
+        }
+        return null;
+    }
+
 
     //添加评价
     @RequestMapping("/add_eval")

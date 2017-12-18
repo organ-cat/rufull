@@ -22,6 +22,10 @@
     <%--时间控件--%>
     <script src="${pageContext.request.contextPath }/js/system/laydate/laydate.js"></script>
     <script src="${pageContext.request.contextPath}/js/system/highcharts.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/example.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/system/sweet-alert.css">
+    <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
+
     <script type="text/javascript">
 
         $(function() {
@@ -71,6 +75,15 @@
         function findorderd() {
             document.findorders.submit();
         }
+
+        var timeerror = "${timeerror}";
+
+        if(timeerror!= '')
+        {
+            window.onload = function() {
+                swal("操作失败", "开始时间不能大于结束时间!", "error");
+            };
+        }
     </script>
 </head>
 
@@ -87,9 +100,9 @@
     <div class="col-sm-12">
         <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
 
-            <input  type="text" class="form-control input-lg" id="begin"
+            <input  type="text" class="form-control input-lg" id="begin" readonly="readonly"
                     name="begin" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
-            <input type="text" class="form-control input-lg" id="end"
+            <input type="text" class="form-control input-lg" id="end" readonly="readonly"
                    name="end" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
             &nbsp;&nbsp;<button type="button" style="max-width: 150px;"

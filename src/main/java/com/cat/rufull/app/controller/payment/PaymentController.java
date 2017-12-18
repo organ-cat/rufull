@@ -60,19 +60,19 @@ public class PaymentController {
                           HttpServletResponse response) throws Exception{
 
         Order order = orderService.findOrderById(id); // 获取订单详情
-
+        String orderNumber = order.getOrderNumber();   //获取订单编号
         if(order.getPaymentMethod().equals("ONLINE")){    //判断为在线支付
             // 付款:
             // 定义付款的参数:
             String p0_Cmd = "Buy";
             String p1_MerId = "10001126856";
-            String p2_Order = id.toString();
+            String p2_Order = orderNumber;
             String p3_Amt = "0.01";
             String p4_Cur = "CNY";
             String p5_Pid = "";
             String p6_Pcat = "";
             String p7_Pdesc = "";
-            String p8_Url = "http://localhost:80/rufull/payment/payBack";
+            String p8_Url = "http://localhost:8080/rufull/payment/payBack";
             String p9_SAF = "";
             String pa_MP = "";
             String pr_NeedResponse = "1";
@@ -99,7 +99,7 @@ public class PaymentController {
             //转发到第三方支付界面
             return "redirect:"+ pay.toString();
         }else{                                        //判断为货到付款
-            return complete(id);
+            return "redirect:/order/" + order.getId();
         }
 
     }
@@ -116,27 +116,18 @@ public class PaymentController {
     public String callBack(Model model, Integer r1_Code, String r6_Order, double r3_Amt){
 
         if(r1_Code == 1){ //支付结果：成功，跳转完成支付
-            model.addAttribute("id",r6_Order);
-            return complete(Integer.valueOf(r6_Order));
+            /*model.addAttribute("id",r6_Order);
+            return complete(r6_Order);*/
+            Order order = orderService.findOrderByOrderNumber(r6_Order);
+//            System.out.println(order);
+            orderService.paidOrder(order);
+            return "redirect:/order/" + order.getId();
         }else {           //支付失败
             model.addAttribute("error", "支付失败" + "待付金额为："+r3_Amt+"元");
             //model.addAttribute("orderMsg","您的订单号为："+r6_Order+"，付款金额："+r3_Amt);
             return "payment/error";
         }
 
-    }
-
-    /**
-     * 完成支付,跳转订单详情页面
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/complete/{id}", method = RequestMethod.POST)
-    public String complete(@PathVariable("id") Integer id) {
-        Order order = orderService.findOrderById(id);
-        orderService.paidOrder(order);
-
-        return "redirect:/order/{id}";
     }
 
     /**

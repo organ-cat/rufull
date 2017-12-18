@@ -90,9 +90,8 @@
                         <li class="list-group-item list-group-item-info"><a class="text-muted"
                                                                             href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
                         </li>
-                        <li class="list-group-item"><a class="text-muted"
-                                                       href="${pageContext.request.contextPath}/business/resetPassword">修改密码</a>
-                        </li>
+
+
                     </ul>
                 </div>
                 <!-- 显示内容 -->

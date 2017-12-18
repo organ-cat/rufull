@@ -34,6 +34,8 @@
         var replysuccess = "${replysuccess}";
         var replyallsuccess = "${replyallsuccess}";
         var replyallerror = "${replyallerror}";
+        var timeerror = "${timeerror}";
+
         var isCheckAll = false;
         function swapCheck() {
             if (isCheckAll) {

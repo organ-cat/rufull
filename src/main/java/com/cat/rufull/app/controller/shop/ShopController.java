@@ -3,6 +3,7 @@ package com.cat.rufull.app.controller.shop;
 import com.cat.rufull.domain.common.util.ShopUtils;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
+import com.cat.rufull.domain.service.account.FootprintService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.shop.ShopService;
@@ -30,6 +31,9 @@ public class ShopController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private FootprintService footprintService;
     /**
     *@Author:Caoxin
     *@Description:去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
@@ -67,12 +71,14 @@ public class ShopController {
     *@return
     */
     @RequestMapping(value = "showShopDetail",method = RequestMethod.GET)
-    public String showShopDetail(Integer id, ModelMap map){
+    public String showShopDetail(Integer id, ModelMap map,HttpSession session){
 
         //缺少获取展示所有商家页面，点击商家页面后跳过过来这里。
         Shop shopDetail = shopService.findById(id);
         System.out.println("shopDetail"+shopDetail);
 
+        Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
+//        footprintService.addFootprint(new Footprint(id,account.getId()));//为用户添加足记
         map.put("shop",shopDetail);
         return "shop/accountToShop";
     }
@@ -186,4 +192,38 @@ public class ShopController {
         session.setAttribute("shop",shopService.findById(id));
         return "forward:/business/showBusinessProfile";
     }
+
+    /**
+     *@Author:Caoxin
+     *@Description跳转到更新商家页面
+     *@Date:16:08 2017/12/18
+     *@param[id, map]
+     *@returnjava.lang.String
+     */
+    @RequestMapping("updateShopUI")
+    public String updateShopUI(Integer id,ModelMap map){
+        Shop shop = shopService.findById(id);
+        System.out.println("shop:"+shop);
+
+
+        map.addAttribute("shop",shop);
+        return "shop/updateShopUI";
+    }
+
+    @RequestMapping("updateShop")
+    public String updateShop(@RequestParam(value = "file")MultipartFile file,
+                             Shop shop, String[] shippingTimePart,
+                             Integer businessId,
+                             HttpServletRequest request
+                           ){
+       Business business = new Business();
+       business.setId(businessId);
+
+       System.out.println("businessId:"+businessId);
+        Shop finishedShop = ShopUtils.upload2Shop(file, shop, shippingTimePart, request, business);//创建商店
+       shopService.updateById(finishedShop);
+
+        return "redirect:/business/showAccountAndShopInfo";
+    }
+
 }

@@ -81,6 +81,21 @@
     WHERE O.ID=#{id}
   </select>
 
+  <select id="findOrderByOrderNumber" parameterType="string" resultMap="OrderResult">
+    SELECT
+    O.ID AS ORDER_ID,ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,
+    ACCEPTED_TIME,O.STATUS AS ORDER_STATUS,PAYMENT_METHOD,PAYMENT_STATUS,
+    SHIPPING_STATUS,NOTES,TOTAL,O.ACCOUNT_ID,O.SHOP_ID,O.BUSINESS_ID,O.ADDRESS_ID,
+    I.ID AS ITEM_ID,PRODUCT_NAME,PRICE,QUANTITY,PRODUCT_ID,
+    S.ID AS SHOP_ID,SHOP_NAME,SHOP_PHOTO,SHOP_PHONE,
+    A.ID AS ADDRESS_ID,RECEIVER,PHONE,LOCATION,DETAIL,A.STATUS AS ADDRESS_STATUS
+    FROM `ORDER` O
+    LEFT OUTER JOIN LINE_ITEM I ON O.ID=I.ORDER_ID
+    LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
+    LEFT OUTER JOIN ADDRESS A ON O.ADDRESS_ID=A.ID
+    WHERE O.ORDER_NUMBER=#{orderNumber}
+  </select>
+
   <update id="updateOrder" parameterType="com.cat.rufull.domain.model.Order">
     UPDATE `ORDER`
     SET
@@ -97,7 +112,7 @@
     INSERT INTO `ORDER`(ORDER_NUMBER,CREATED_TIME,COMPLETED_TIME,ACCEPTED_TIME,
                         STATUS,PAYMENT_METHOD,PAYMENT_STATUS,SHIPPING_STATUS,
                         NOTES,TOTAL,ACCOUNT_ID,SHOP_ID,BUSINESS_ID,ADDRESS_ID)
-    VALUES(#{orderNumber},#{createdTime},#{completedTime},#{acceptedTime},
+    VALUES(#{orderNumber},#{createdTime},#{completedTime},${acceptedTime},
            #{status},#{paymentMethod},#{paymentStatus},#{shippingStatus},
            #{notes},#{total},#{accountId},#{shop.id},#{businessId},#{address.id})
   </insert>

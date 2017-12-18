@@ -175,7 +175,7 @@
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <form action="${pageContext.request.contextPath}/order/order/deliver/${order.id}" method="post">
+                                                    <form action="${pageContext.request.contextPath}/order/deliver/${order.id}" method="post">
                                                         <button class="btn btn-info order-btn" role="button" type="submit">发货</button>
                                                     </form>
                                                 </div>

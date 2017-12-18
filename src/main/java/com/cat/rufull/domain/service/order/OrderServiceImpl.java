@@ -1,6 +1,7 @@
 package com.cat.rufull.domain.service.order;
 
-import com.cat.rufull.domain.common.exception.OrderException;
+import com.cat.rufull.domain.common.exception.order.BusinessProcessingOrderException;
+import com.cat.rufull.domain.common.exception.order.UserProcessingOrderException;
 import com.cat.rufull.domain.common.util.DateUtils;
 import com.cat.rufull.domain.common.util.UUIDUtil;
 import com.cat.rufull.domain.mapper.lineItem.LineItemMapper;
@@ -10,7 +11,6 @@ import com.cat.rufull.domain.model.Order;
 import com.cat.rufull.domain.model.Shop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,23 +65,30 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Order findOrderByOrderNumber(String orderNumber) {
+        return orderMapper.findOrderByOrderNumber(orderNumber);
+    }
+
+    @Override
     public void cancelOrder(Order order) {
         if (Order.STATUS_UNPAID.equals(order.getStatus())) {
             order.setStatus(Order.STATUS_CANCELED);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法申请取消");
+            throw new UserProcessingOrderException("该订单无法申请取消");
         }
     }
 
     @Override
     public void confirmOrder(Order order) {
         if (Order.STATUS_DELIVERY.equals(order.getStatus())) {
+            order.setCompletedTime(new Date());
             order.setStatus(Order.STATUS_COMPLETED);
             order.setShippingStatus(Order.SHIPPING_STATUS_ARRIVED);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法申请确认收货");
+            throw new UserProcessingOrderException("该订单无法申请确认收货");
         }
     }
 
@@ -91,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(Order.STATUS_AUDITING);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法申请退单");
+            throw new UserProcessingOrderException("该订单无法申请退单");
         }
     }
 
@@ -101,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(Order.STATUS_UNCOMPLETED);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法确认退单");
+            throw new BusinessProcessingOrderException("该订单无法确认退单");
         }
     }
 
@@ -111,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(Order.STATUS_DELIVERY);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法申请取消退单");
+            throw new UserProcessingOrderException("该订单无法申请取消退单");
         }
     }
 
@@ -121,13 +128,13 @@ public class OrderServiceImpl implements OrderService {
 
         // 商店不是营业中,抛出异常
         if (!Shop.SHOP_STATUS_NORMAL.equals(shop.getOperateState()))
-            throw new OrderException("商店休息中");
+            throw new UserProcessingOrderException("商店休息中");
         // 订单收货地址不在商店的配送范围之内,抛出异常
         if (false)
-            throw new OrderException("订单的收货地址不在商店的配送范围之内");
+            throw new UserProcessingOrderException("订单的收货地址不在商店的配送范围之内");
         // 订单总额未达到商店的起送价,抛出异常
         if (order.getTotal().compareTo(shop.getShippingPrice()) < 0)
-            throw new OrderException("订单总额未达到商店的起送价");
+            throw new UserProcessingOrderException("订单总额未达到商店的起送价");
 
         // 设置创建时间
         order.setCreatedTime(new Date());
@@ -143,6 +150,8 @@ public class OrderServiceImpl implements OrderService {
             order.setPaymentStatus(Order.PAYMENT_STATUS_UNPAID);
         else if (Order.PAYMENT_METHOD_OFFLINE.equals(order.getPaymentMethod()))
             order.setPaymentStatus(Order.PAYMENT_STATUS_IGNORED);
+
+        logger.info(order.toString());
 
         // 插入订单记录
         orderMapper.insertOrder(order);
@@ -162,11 +171,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void acceptOrder(Order order) {
         if (Order.STATUS_PAID.equals(order.getStatus())) {
+            order.setAcceptedTime(new Date());
             order.setStatus(Order.STATUS_ACCEPTED);
             order.setShippingStatus(Order.SHIPPING_STATUS_PENDING);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法申请接单");
+            throw new BusinessProcessingOrderException("该订单无法申请接单");
+        }
+    }
+
+    @Override
+    public void deliverOrder(Order order) {
+        if (Order.STATUS_ACCEPTED.equals(order.getStatus())) {
+            order.setStatus(Order.STATUS_DELIVERY);
+            order.setShippingStatus(Order.SHIPPING_STATUS_SHIPPING);
+            orderMapper.updateOrder(order);
+        } else {
+            throw new BusinessProcessingOrderException("该订单无法申请发货");
         }
     }
 
@@ -177,11 +198,12 @@ public class OrderServiceImpl implements OrderService {
             order.setPaymentStatus(Order.PAYMENT_STATUS_PAID);
             orderMapper.updateOrder(order);
         } else {
-            throw new OrderException("该订单无法完成支付");
+            throw new UserProcessingOrderException("该订单无法完成支付");
         }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findOrdersBetween(Date beginDate, Date endDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (beginDate != null) map.put("beginDate", beginDate);
@@ -190,6 +212,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findOrdersByAccountIdBetween(Integer accountId, Date beginDate, Date endDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("accountId", accountId);
@@ -199,48 +222,60 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findAllOrders() {
         return orderMapper.findAllOrders();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findShopOrdersByStatus(Integer shopId, String orderStatus) {
         return orderMapper.findShopOrdersByStatus(shopId, orderStatus);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findBusinessOrdersByStatus(Integer businessId, String orderStatus) {
         return orderMapper.findBusinessOrdersByStatus(businessId, orderStatus);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer getMonthlySales(Integer shopId) {
         // 获取今日 yyyy-MM-dd 00:00:00
         Calendar today = DateUtils.getCalendarToday();
 
         // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
-        Calendar todayLastMonth = new GregorianCalendar();
-        todayLastMonth.setTime(today.getTime());
-        todayLastMonth.add(Calendar.MONTH, -1);
-        todayLastMonth.add(Calendar.DATE, 1);
-        todayLastMonth.add(Calendar.SECOND, -1);
+        Calendar todayLastMonth = getTodayLastMonth();
 
         return orderMapper.getMonthlySales(shopId, today.getTime(), todayLastMonth.getTime());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getMonthlyTotal(Integer shopId) {
         // 获取今日 yyyy-MM-dd 00:00:00
         Calendar today = DateUtils.getCalendarToday();
 
         // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
+        Calendar todayLastMonth = getTodayLastMonth();
+
+        return orderMapper.getMonthlyTotal(shopId, today.getTime(), todayLastMonth.getTime());
+    }
+
+    /**
+     * 获取上月今日
+     * @return
+     */
+    private static Calendar getTodayLastMonth() {
         Calendar todayLastMonth = new GregorianCalendar();
-        todayLastMonth.setTime(today.getTime());
+
+        todayLastMonth.setTime(DateUtils.getCalendarToday().getTime());
         todayLastMonth.add(Calendar.MONTH, -1);
         todayLastMonth.add(Calendar.DATE, 1);
         todayLastMonth.add(Calendar.SECOND, -1);
 
-        return orderMapper.getMonthlyTotal(shopId, today.getTime(), todayLastMonth.getTime());
+        return todayLastMonth;
     }
 
     private static String createOrderNumber() {
