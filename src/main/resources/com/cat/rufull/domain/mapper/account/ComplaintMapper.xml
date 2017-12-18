@@ -110,6 +110,8 @@
 
     <resultMap id="ShopResult" type="com.cat.rufull.domain.model.Shop">
         <id column="shop_id" property="id"/>
+        <result column="shop_name" property="shopName"/>
+        <result column="shop_photo" property="shopPhoto"/>
     </resultMap>
 
     <resultMap id="ComplaintResult" type="com.cat.rufull.domain.model.Complaint">
@@ -118,11 +120,10 @@
         <result column="content" property="content"/>
         <result column="evidence" property="evidence"/>
         <result column="status" property="status"/>
+        <result column="created_time" property="createdTime"/>
         <result column="completed_time" property="completedTime"/>
-        <result column="create_time" property="createTime"/>
         <result column="result" property="result"/>
         <result column="solver" property="solver"/>
-
         <association property="account" resultMap="AccountResult"/>
         <association property="shop" resultMap="ShopResult"/>
     </resultMap>
@@ -130,7 +131,9 @@
         SELECT
         *
         FROM
-        COMPLAINT
+        COMPLAINT C
+        LEFT OUTER JOIN ACCOUNT A ON A.id = C .account_id
+        LEFT OUTER  JOIN SHOP S ON  S.id = C .shop_id
         WHERE account_id = #{account_id};
     </select>
 </mapper>
