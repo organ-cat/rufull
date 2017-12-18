@@ -93,7 +93,7 @@ $(function(){
 });
 //手机更换，异步校验数据
 $(function () {
-    $("#phone").blur(function () {
+    $("#phone").change(function () {
         if(!flag){
             var phone = $("#phone").val();
             $.ajax({
@@ -226,7 +226,7 @@ $(function(){
 });
 //邮箱更换，异步校验数据
 $(function () {
-    $("#email").blur(function () {
+    $("#email").change(function () {
         if(!emailFlag){
             var email = $("#email").val();
             $.ajax({

@@ -47,7 +47,7 @@ $(function(){
 });
 //手机更换，异步校验数据   * 三 *
 $(function () {
-    $("#phone").blur(function () {
+    $("#phone").change(function () {
         var phone = $("#phone").val();
         $.ajax({
             url: "http://localhost:8080/rufull/check/checkPhone",
@@ -115,7 +115,7 @@ $(function(){
 });
 //邮箱更换，异步校验数据   * 三 *
 $(function () {
-    $("#email").blur(function () {
+    $("#email").change(function () {
         var email = $("#email").val();
         $.ajax({
             url: "http://localhost:8080/rufull/check/checkEmail",

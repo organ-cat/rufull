@@ -107,6 +107,7 @@ public class AccountController {
                     returnMessage(response, ReturnCode.PHONE_CHECK_CODE_RIGHT);
                     session.removeAttribute(Account.PHONE_CHECK_CODE);
                 } else {
+                    returnMessage(response, ReturnCode.PHONE_CHECK_CODE_RIGHT);
                     returnMessage(response, ReturnCode.PHONE_ERROR);
                 }
             } else {
@@ -179,7 +180,6 @@ public class AccountController {
     public String addPhonePage() {
         return "account/addPhone";
     }
-
     /**
      * 用户添加邮箱
      * @param email         用户输入的邮箱

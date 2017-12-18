@@ -175,6 +175,7 @@
                         <h1><small>更改头像</small></h1>
                         <div class="uploadDiv">
                             <form method="post" enctype="multipart/form-data"  action="<c:url value="/account/upload"/>">
+                                <p style="font-size: 15px;margin-bottom: 20px;">请上传小于5M的照片</p>
                                 <div class="photoDiv">
                                     <c:if test="${account.photo == null}">
                                         <img id="preview" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像">

@@ -192,7 +192,7 @@
                                         <span class="safe">高</span>
                                     </c:if>
                                     <c:if test="${account.phone == null || account.email == null}">
-                                        <span class="danger">低</span>
+                                        <span class="danger">中</span>
                                     </c:if>
                                     <a href="${showSecurityUrl}">查看详情</a>
                                 </span><br/><br/>

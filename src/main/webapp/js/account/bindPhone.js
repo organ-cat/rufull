@@ -48,6 +48,7 @@ $(function(){
         var phone = $("#phone").val();
         if(flag){
             if(isTelCode(phone)){
+                phonePassed();
                 settime(this);
                 $.ajax({
                     url: "http://localhost:8080/rufull/check/sendbindPhone",
@@ -64,6 +65,7 @@ $(function(){
             }
         }else{
             if(isTelCode(phone)){
+                phonePassed();
                 settime(this);
                 $.ajax({
                     url: "http://localhost:8080/rufull/check/sendbindNewPhone",
@@ -85,7 +87,7 @@ $(function(){
 });
 //手机更换，异步校验数据
 $(function () {
-    $("#phone").blur(function () {
+    $("#phone").change(function () {
         if(!flag){
             var phone = $("#phone").val();
             $.ajax({
@@ -124,11 +126,7 @@ function settime(val) {
         settime(val)
     },1000)
 }
-/*校验电话码格式 */
-function isTelCode(str) {
-    var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
-    return reg.test(str);
-}
+
 function error() {
     $("#button").attr("disabled", true);
     $("#inputCode").attr("disabled", true);
@@ -152,10 +150,6 @@ function bindphone() {
     right();
     countdown = 0;
 }
-function checkCodeError() {
-    $("#returnMessage").html("验证码错误");
-    $("#checkCode").attr("style", "border: 1px solid #FF0000");
-}
 function phoneError() {
     $("#returnMessage").html("当前手机号码错误");
     $("#phone").attr("style", "border: 1px solid #FF0000");
@@ -168,7 +162,7 @@ function phoneRegister() {
 
 function phonePassed() {
     $("#returnMessage").html("手机通过");
-    $("#phone").attr("style", "border: 1px solid #AAAAAA");
+    $("#phone").attr("style", "border: 1px solid #7B9CD3");
     $("#button").removeAttr("disabled");
     $("#button").css("cursor","default");
     right();
@@ -179,11 +173,16 @@ function bindSuccess() {
     $("#show3").css("color","#FFFFFF");
     $("#showSpan3").attr("style", "color: #0089DC");
     $("#returnMessage").html("绑定成功");
-    $("#phone").val("");
     $("#checkCode").val("");
+    countdown = 0;
 }
 function checkCodeError() {
     $("#returnMessage").html("验证码错误");
     $("#checkCode").attr("style", "border: 1px solid #FF0000");
 }
 
+/*校验电话码格式 */
+function isTelCode(str) {
+    var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+    return reg.test(str);
+}

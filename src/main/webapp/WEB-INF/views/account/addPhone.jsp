@@ -97,7 +97,7 @@
     <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">--%>
     <spring:url value="/resources/css/account/bind.css" var="bind_css_url"/>
     <link rel="stylesheet" type="text/css" href="${bind_css_url}"/>
-    <script src="${pageContext.request.contextPath}/js/account/add.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/addPhone.js" type="text/javascript"></script>
 </head>
 <body>
     <!-- 导航条 -->

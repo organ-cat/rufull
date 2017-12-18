@@ -194,23 +194,32 @@
                                     <tr>
                                         <td class="attributeName">昵称</td>
                                         <td class="attributeList">
-                                            <input id="nickname" value="${account.nickname}">
+                                            <input id="nickname" type="text" value="${account.nickname}">
                                         </td>
                                         <td>
                                             <a id="aNick" >修改</a>
+                                        </td>
+                                        <td>
+                                            <span id="nicknameMessage"></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <c:if test="${account.username == null}">
                                             <td class="attributeName">用户名</td>
                                             <td class="attributeList">
-                                                <input id="username" type="text" placeholder="字母 数字和“_”组成 字母开头 仅能修改一次"/>
+                                                <input id="username" type="text" placeholder="3-20，字母数字和“_”，字母开头，仅能修改一次"/>
                                             </td>
-                                            <td><a id="aUser">修改</a></td>
+                                            <td>
+                                                <a id="aUser">修改</a>
+                                            </td>
+                                            <td>
+                                                <span id="usernameMessage"></span>
+                                            </td>
                                         </c:if>
                                         <c:if test="${account.username != null}">
                                             <td class="attributeName">用户名</td>
                                             <td class="attributeList">${account.username}</td>
+                                            <td></td>
                                             <td></td>
                                         </c:if>
                                     </tr>
@@ -218,31 +227,39 @@
                                         <c:if test="${account.phone == null}">
                                             <td class="attributeName">手机号</td>
                                             <td class="attributeList">${account.phone}</td>
-                                            <td><a href="${addPhonePageUrl}">绑定</a></td>
+                                            <td>
+                                                <a href="${addPhonePageUrl}">绑定</a>
+                                            </td>
+                                            <td></td>
                                         </c:if>
                                         <c:if test="${account.phone != null}">
                                             <td class="attributeName">手机号</td>
                                             <td class="attributeList">${account.phone}</td>
-                                            <td><a href="${showSecurityUrl}">修改</a></td>
+                                            <td>
+                                                <a href="${showSecurityUrl}">修改</a>
+                                            </td>
+                                            <td></td>
                                         </c:if>
                                     </tr>
                                     <tr>
                                         <c:if test="${account.email == null}"><td class="attributeName">邮箱号</td>
                                             <td class="attributeList">${account.email}</td>
                                             <td><a href="${addEmailPageUrl}">绑定</a></td>
+                                            <td></td>
 
                                         </c:if>
                                         <c:if test="${account.email != null}">
                                             <td class="attributeName">邮箱号</td>
                                             <td class="attributeList">${account.email}</td>
-                                            <td><a href="${showSecurityUrl}">修改</a></td>
+                                            <td>
+                                                <a href="${showSecurityUrl}">修改</a>
+                                            </td>
+                                            <td></td>
                                         </c:if>
                                     </tr>
                                 </table>
                             </div>
-
-
-<%--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--%>
+                        </div>
                     </div>
                 </div>
             </div>

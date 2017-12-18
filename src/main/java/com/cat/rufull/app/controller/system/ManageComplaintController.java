@@ -1,7 +1,6 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
-import com.cat.rufull.domain.mapper.account.ComplaintMapper;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.account.ComplaintService;
@@ -14,12 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.AttributedCharacterIterator;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,8 +79,8 @@ public class ManageComplaintController {
     public String getAccComp(Integer id, HttpSession session, Model model,
                              RedirectAttributes attr) {
         Complaint complaint = complaintService.findComplaintById(id);
-        Shop shop = shopService.findById(complaint.getShopId());
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        Shop shop = shopService.findById(complaint.getShop().getId());
+        Account account = accountService.findAccountById(complaint.getAccount().getId());
         complaint.setStatus(Complaint.HANDLING);
         int i = complaintService.handlerComplaint(complaint.getId(), Complaint.HANDLING);
         if (i >= 1) {
@@ -113,8 +109,8 @@ public class ManageComplaintController {
     @RequestMapping("/getCompdetail")
     public String getCompdetail(Integer id, Model model) {
         Complaint complaint = complaintService.findComplaintById(id);
-        Shop shop = shopService.findById(complaint.getShopId());
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        Shop shop = shopService.findById(complaint.getShop().getId());
+        Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager manager = manageService.getManagerById(complaint.getSolver());
         model.addAttribute("managecomp", complaint);
         model.addAttribute("account", account);
@@ -134,7 +130,7 @@ public class ManageComplaintController {
     public String replyComp(Integer id, HttpSession session, RedirectAttributes attr) {
 
         Complaint complaint = complaintService.findComplaintById(id);
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager mana = (Manager) session.getAttribute("manager");
         complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
         //1 处理成功  2投诉为假
@@ -175,7 +171,7 @@ public class ManageComplaintController {
     public String replyfalseComp(Integer id, HttpSession session, RedirectAttributes attr) {
 
         Complaint complaint = complaintService.findComplaintById(id);
-        Account account = accountService.findAccountById(complaint.getAccountId());
+        Account account = accountService.findAccountById(complaint.getAccount().getId());
         Manager mana = (Manager) session.getAttribute("manager");
         complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
         //1 处理成功  2投诉为假
@@ -220,7 +216,7 @@ public class ManageComplaintController {
             for (Integer ids : id) {
                 System.out.println(result + "," + ids + "--------------------------------------");
                 Complaint complaint = complaintService.findComplaintById(ids);
-                Account account = accountService.findAccountById(complaint.getAccountId());
+                Account account = accountService.findAccountById(complaint.getAccount().getId());
                 complaint.setStatus(Complaint.COMPLETED_COMPLAINTION);
                 //1 处理成功  2投诉为假
                 complaint.setResult(result);

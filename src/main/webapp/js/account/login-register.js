@@ -15,12 +15,6 @@ var PASSWORD_ERROR = "101";           //密码错误
 var REMOTE_LOGIN = "102";              //异地登陆
 var REMOTE_CODE_ERROR = "103";        //异地登陆验证码错误
 var SNED_REMOTE_CODE_SUCCESS = "104";//异地登陆验证码发送成功
-var BUSINESS_STATUS_REGISTERED = 0;
-var BUSINESS_STATUS_SETTLED = 200;
-var BUSINESS_STATUS_SETTLED_PASS = 201;
-var BUSINESS_STATUS_CREATED_SHOP= 202;
-var BUSINESS_STATUS_RECITIFY = 203;
-var BUSINESS_STATUS_DELETE= 204;
 
 function showRegisterForm(){
     $('.loginBox').fadeOut('fast',function(){
@@ -57,14 +51,6 @@ function openRegisterModal(){
     }, 230);
 
 }
-
-function loginAjax(){
-     shakeModal();
-}
-function registerAjax(){
-    shakeModal();
-}
-
 function shakeModal(message){
     $('#loginModal .modal-dialog').addClass('shake');
              $('.error').addClass('alert alert-danger').html(message);
@@ -234,20 +220,6 @@ $(function(){
                     shakeModal("验证码错误，请重新输入");
                     $("#hideDiv").attr("style","display:block;");
                 }
-
-                //商家模块
-
-                else if(result == BUSINESS_STATUS_REGISTERED ||
-                          result == BUSINESS_STATUS_SETTLED){   // 已经注册但没有填写入驻信息
-                    $(location).attr('href', '/business/addBusinessUI');//商家入驻页面
-                }else if(result == BUSINESS_STATUS_SETTLED_PASS ||
-                         result == BUSINESS_STATUS_CREATED_SHOP){ // 已经填写入驻想信息
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusiness');  // 展示商家页面
-                }else if( result == BUSINESS_STATUS_RECITIFY){   // 商家被停业整顿
-                    // $(location).attr('href', 'http://localhost:8080/rufull/business/showBusiness');  //还没有对应的页面或者提示
-                }else if(result == BUSINESS_STATUS_DELETE){      //商家被管理员删除
-                    // 提示信息：请联系饱了吗：客服
-                }
             }
         });
     })
@@ -266,9 +238,7 @@ $(function () {
             dataType: "json",
             success: function (result) {
                 if (result == SNED_REMOTE_CODE_SUCCESS){
-
                 }else {
-                    alert("发送失败");
                 }
             }
         });

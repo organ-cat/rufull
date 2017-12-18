@@ -159,21 +159,7 @@ public class TestByJiang {
     //    **************************************************************************************************************/
 //投诉测试
 //    **************************************************************************************************************/
-    @Test
-    public void complaint() {
-        Complaint complaint = new Complaint();
-        complaint.setType(1);
-        complaint.setContent(null);
-        complaint.setevidence(null);
-        complaint.setCreatedTime(new Date());
-        complaint.setStatus(1);
-        complaint.setCompletedTime(null);
-        complaint.setResult(1);
-        complaint.setSolver(1);
-        complaint.setAccountId(1);
-        complaint.setShopId(1);
-        complaintService.addComplaint(complaint);
-    }
+  
 
     @Test
     public void findAccountComplaintById() {

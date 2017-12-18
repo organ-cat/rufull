@@ -43,14 +43,40 @@ function hideView() {
     $('.error').removeClass('alert alert-danger').html('');
 }
 $(function () {
-    $("#deleteLabel").click(function () {
-        var city = returnCitySN["cname"] ;
-        $("#address").val(city);
-    })
+    $("#phone").change(function () {
+        var phone = $("#phone").val();
+        if(isTelCode(phone)){
+            $("#phone").css("border", "1px solid #999999");
+            allowSubmit();
+        }else {
+            $("#phone").css("border", "1px solid #ff0000");
+            banSubmit();
+        }
+    });
 })
-
+$(function () {
+    $("#receiverPhone").change(function () {
+        var phone = $("#receiverPhone").val();
+        if(isTelCode(phone)){
+            $("#receiverPhone").css("border", "1px solid #999999");
+            allowSubmit();
+        }else {
+            $("#receiverPhone").css("border", "1px solid #ff0000");
+            banSubmit();
+        }
+    });
+})
 /*校验电话码格式 */
 function isTelCode(str) {
     var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
     return reg.test(str);
+}
+function banSubmit() {
+    $(".saveBtn").attr("disabled", true);
+    $(".saveBtn").css("cursor",'not-allowed');
+}
+//输入正确，隐藏错误信息
+function allowSubmit() {
+    $(".saveBtn").removeAttr("disabled");
+    $(".saveBtn").css("cursor","default");
 }

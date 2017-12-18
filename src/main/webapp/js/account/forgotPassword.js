@@ -74,7 +74,7 @@ $(function(){
 });
 //手机更换，异步校验数据   * 三 *
 $(function () {
-    $("#phone").blur(function () {
+    $("#phone").change(function () {
         var phone = $("#phone").val();
         $.ajax({
             url: "http://localhost:8080/rufull/check/checkPhoneOrEmail",
@@ -121,7 +121,7 @@ function settime(val) {
 }
 
 $(function () {
-    $("#comfirePassword").blur(function () {
+    $("#comfirePassword").change(function () {
         var password = $("#newPasswrod").val();
         var comfirePassword = $("#comfirePassword").val();
         if (password != comfirePassword) {
