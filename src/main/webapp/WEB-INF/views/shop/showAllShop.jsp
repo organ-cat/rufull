@@ -171,7 +171,7 @@
 
             <span
                     class="location-change"><a ubt-click="400" hardjump=""
-                                               href="${pageContext.request.contextPath}/user/changeAddress.do">[切换地址]</a><ul
+                                               href="${pageContext.request.contextPath}/changeAddressUI">[切换地址]</a><ul
                     class="dropbox location-dropbox" ubt-visit="398">
 				<li class="arrow"></li>
 				<li class="changelocation"><a href="/home">修改收货地址<span
