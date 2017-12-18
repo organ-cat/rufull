@@ -69,7 +69,7 @@
 
             <div class="form-group">
                 <div class="col-sm-6 col-md-offset-3">
-                    <input class="form-control btn btn-primary" id="submit" value="立&nbsp;&nbsp;即&nbsp;&nbsp;创&nbsp;&nbsp;建" type="submit">
+                    <input class="form-control btn btn-primary"  value="立&nbsp;&nbsp;即&nbsp;&nbsp;创&nbsp;&nbsp;建" type="submit">
                 </div>
 
             </div>

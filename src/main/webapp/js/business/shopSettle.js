@@ -77,7 +77,7 @@ function searchByStationName() {
         //弹出坐标信息
         lng = poi.point.lng;
         lat = poi.point.lat;
-        alert(keyword+poi.point.lng + "," + poi.point.lat);
+       // alert(keyword+poi.point.lng + "," + poi.point.lat);
 
         //使用百度地图获取到经纬度，将经纬度放到对应的页面
         $("#lat").val(poi.point.lat);

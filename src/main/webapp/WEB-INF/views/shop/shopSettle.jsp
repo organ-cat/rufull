@@ -32,7 +32,7 @@
     </fieldset>
 
     <div>
-        <form action="${pageContext.request.contextPath}/shop/addShop" method="post" class="form-horizontal"
+        <form id="shopForm" action="${pageContext.request.contextPath}/shop/addShop" method="post" class="form-horizontal"
               enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-4 control-label text-info">商店名称:</label>
@@ -189,7 +189,7 @@
 
             <div class="form-group">
                 <div class="col-sm-6 col-md-offset-3">
-                    <input class="form-control btn btn-primary" id="submit"
+                    <input class="form-control btn btn-primary" id=""
                            value="立&nbsp;&nbsp;即&nbsp;&nbsp;创&nbsp;&nbsp;建" type="submit">
                 </div>
 

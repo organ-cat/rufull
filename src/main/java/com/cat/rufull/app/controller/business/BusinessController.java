@@ -200,4 +200,10 @@ public class BusinessController {
         return "business/businessSettle";
     }
 
+
+    @RequestMapping("reSettleBusiness")
+    public String reSettleBusiness(){
+        return "business/reSettle";
+    }
+
 }

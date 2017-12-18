@@ -166,7 +166,7 @@
         <div class="location" ng-style="{visibility: geohash ? '' : 'hidden'}" role="navigation" location="">
             <span>当前位置:</span> <span class="location-current"><a class="inherit ng-binding" ng-href="/place/w7y2mfr4g2x"
                                                                  ubt-click="401" ng-bind="place.name || place.address"
-                                                                 href=""> ${requestScope.address}</a>
+                                                                 href=""> ${address}</a>
             </span>
 
             <span
@@ -320,11 +320,12 @@
 <%--百度地图--%>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QAcuscTkuTce2GQd4iAMWs946omOlVRi"></script>
 <script src="${pageContext.request.contextPath}/js/business/showAllShop.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script src="${pageContext.request.contextPath}/js/account/login-register.js"></script>
 <script>
     //获取经纬度
-    var uLat = "${requestScope.lng}";
-    var uLon = "${requestScope.lon}";
+    var uLat = "${lng}";
+    var uLon = "${lon}";
     //获取到所有的商家，将商家信息放置到页面中
     var shopList = ${requestScope.shopList};
     //项目路径

@@ -12,13 +12,13 @@
 
 </head>
 <body>
-${sessionScope.business.id}
+
 <div class="container">
     <fieldset>
         <legend><h1 class="text-info">商家入驻</h1></legend>
     </fieldset>
     <div class="col-md-6 col-md-offset-3">
-        <form action="${pageContext.request.contextPath}/business/addBusiness" method="post"
+        <form id="businessForm" action="${pageContext.request.contextPath}/business/addBusiness" method="post"
               enctype="multipart/form-data">
             <div class="form-group has-feedback">
                 <div class="form-group">
@@ -90,7 +90,7 @@ ${sessionScope.business.id}
                 <br>
                 <div class="form-group">
                     <div class="form-group">
-                        <input class="form-control btn btn-primary" id="submit"
+                        <input class="form-control btn btn-primary" id="submitBussiness"
                                value="立&nbsp;&nbsp;即&nbsp;&nbsp;入&nbsp;&nbsp;驻" type="submit">
                     </div>
 
@@ -128,7 +128,8 @@ ${sessionScope.business.id}
             showCaption: false,//是否显示标题
             browseClass: "btn btn-primary", //按钮样式
             previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            maxFileSize: '2000'
+            maxFileSize: '2000',
+            validateInitialCount:true
         });
     }
 

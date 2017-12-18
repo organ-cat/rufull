@@ -72,6 +72,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public int getCountProductByShopId(Integer shopId) {
+        return productMapper.getCountProductByShopId(shopId);
+    }
+
+    @Override
     public int add(Product product) {
         /**
         *@Author:Caoxin
@@ -82,6 +87,11 @@ public class ProductServiceImpl implements ProductService {
         */
         productMapper.add(product);
         return 0;
+    }
+
+    @Override
+    public List<Product> pageSelectForProduct(Integer shopId, Integer pageNo, Integer pageSize) {
+        return productMapper.pageSelectForProduct(shopId,pageNo,pageSize);
     }
 
     @Override

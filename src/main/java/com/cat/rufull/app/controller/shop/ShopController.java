@@ -1,11 +1,10 @@
 package com.cat.rufull.app.controller.shop;
 
 import com.cat.rufull.domain.common.util.ShopUtils;
-import com.cat.rufull.domain.model.Account;
-import com.cat.rufull.domain.model.Business;
-import com.cat.rufull.domain.model.Product;
-import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
+import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,12 @@ public class ShopController {
 
     @Autowired
     private BusinessService businessService;
+
+    @Autowired
+    private EvaluationService evaluationService;
+
+    @Autowired
+    private AccountService accountService;
     /**
     *@Author:Caoxin
     *@Description:去到添加商店页面，在这里应该有一个BusinessId的值，但是还没有加上去
@@ -42,11 +47,12 @@ public class ShopController {
                           Shop shop, String[] shippingTimePart,
                           HttpServletRequest request,
                           HttpSession session){
-        Account account = (Account) session.getAttribute(Account.BUSINESS_SESSION);
+        Account account = (Account) session.getAttribute(Account.BUSINESS_SESSION);                     //从session中查找商家
+
+        accountService.updateAccountStatus(account.getId(),Business.BUSINESS_STATUS_CREATED_SHOP);   //更新商家用户对应的状态为创建商店
 
         Business business = businessService.findBusinessByAccountId(account.getId());   //通过查询出account来找到商家id
-
-        ShopUtils.upload2Shop(file,shop,shippingTimePart,request,business);
+        ShopUtils.upload2Shop(file,shop,shippingTimePart,request,business);              //创建商店
         shopService.add(shop);
 
         return "forward:/business/showBusinessProfile";
@@ -94,12 +100,25 @@ public class ShopController {
     *@param
     *@return
     */
+    //查看商家评价：小伟要自己写
     @RequestMapping(value = "showShopComments",method = RequestMethod.GET)
-    public String showBusinnessLicence(Integer id,ModelMap map){
+    public String showBusinnessLicence(Integer id, ModelMap map) throws Exception{
         //查找对应的商店
         Shop shopDetail = shopService.findById(id);
-
         map.put("shop",shopDetail);
+
+        //查询商店的全部评价
+        List<OrderEvaluation> orderEvaluations = evaluationService.findEvalByShopId(id);
+        map.put("orderEvaluations", orderEvaluations);
+
+        //查询商店满意的评价
+        List<OrderEvaluation> orderEvaluations1 = evaluationService.findEvalByShopId_Y(id);
+        map.put("orderEvaluations1", orderEvaluations1);
+
+        //查询商店不满意的评价
+        List<OrderEvaluation> orderEvaluations2 = evaluationService.findEvalByShopId_N(id);
+        map.put("orderEvaluations2", orderEvaluations2);
+
         return "shop/accountToShopComments";
     }
 
@@ -147,11 +166,17 @@ public class ShopController {
         return shopList;
     }
 
+    /**
+     *@Author:Caoxin
+     *@Description:更新商家状态
+     *@Date:10:49 2017/12/18
+     *@param[id, operateState, session]
+     *@returnjava.lang.String
+     */
     @RequestMapping(value = "updateShopOperateState/{id}/{operateState}")
     public String updateShopOperateState(@PathVariable("id") Integer id,
                                           @PathVariable("operateState") Integer operateState,
                                          HttpSession session){
-
         if(operateState == Shop.SHOP_STATUS_NORMAL){
             shopService.updateByIdSelective(new Shop(id,Shop.SHOP_STATUS_REST));
         }else {

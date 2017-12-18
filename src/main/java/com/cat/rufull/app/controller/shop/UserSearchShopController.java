@@ -32,9 +32,9 @@ public class UserSearchShopController {
         JSONArray jsonShopList = JSONArray.fromObject(shopList);
 
         model.addAttribute("shopList",jsonShopList);
-        model.addAttribute("address", address);
-        model.addAttribute("lng",lng);
-        model.addAttribute("lon",lat);
+        session.setAttribute("address", address);
+        session.setAttribute("lng", lng);
+        session.setAttribute("lon", lat);
 //        System.out.println("jsonShopList:"+shopList);
         return "shop/showAllShop";
     }

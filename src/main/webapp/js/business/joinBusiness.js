@@ -260,7 +260,7 @@ $(function(){
                 }else if(result == BUSINESS_STATUS_DELETE){      //商家被管理员删除
                     $(location).attr('href', 'http://localhost:8080/rufull/business/beRectified');
                 }else {
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/waitForReview');
+                    $(location).attr('href', 'http://localhost:8080/rufull/business/reSettleBusiness');
                 }
 
             }

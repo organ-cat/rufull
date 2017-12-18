@@ -26,7 +26,8 @@ $(function () {
                     },
                     notEmpty: {
                         message: '身份证不能为空'
-                    }
+                    },
+
                 }
             }
         }

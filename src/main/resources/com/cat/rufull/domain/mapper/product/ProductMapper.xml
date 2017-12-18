@@ -98,4 +98,18 @@
         sales_volume = ${salesVolume}, description = ${description}, photo = ${photo},
         shop_id = ${shopId}
     </update>
+
+    <!--分页在查询product-->
+    <select id="pageSelectForProduct" resultMap="ProductResultMap" resultType="list">
+        SELECT  <include refid="Product_Column_List"/>
+        FROM PRODUCT
+        WHERE shop_id = #{0}
+        LIMIT #{1}-1,#{2};
+    </select>
+    <!--获取总条数-->
+    <select id="getCountProductByShopId"  resultType="int">
+        SELECT  COUNT (*)
+        FROM PRODUCT
+        WHERE shop_id = #{0}
+    </select>
 </mapper>

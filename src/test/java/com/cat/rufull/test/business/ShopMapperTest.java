@@ -88,4 +88,10 @@ public class ShopMapperTest {
         System.out.println("shopList:"+shopList);
     }
 
+    @Test
+    public void testFindAllShop(){
+        List<Shop> allShop = shopService.findAllShop();
+        System.out.println("allShop:"+allShop);
+    }
+
 }

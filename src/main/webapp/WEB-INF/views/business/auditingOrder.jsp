@@ -34,12 +34,12 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="hidden-sm hidden-md"><a href="#">首页</a></li>
-                <li class="active"><a href="#">商家中心</a></li>
-                <li><a href="#">加盟合作</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/">首页</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/business/showBusinessProfile">商家中心</a></li>
+                <li><a href="${pageContext.request.contextPath}/business/joinBusiness">加盟合作</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/service/getAgreement">规则中心</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">用户名 <span class="caret"></span>
@@ -116,8 +116,9 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">编号</th>
-                                    <th class="text-center">下单时间</th>
+                                    <th class="text-center">接单时间</th>
                                     <th class="text-center">订单内容</th>
+                                    <th class="text-center">备注</th>
                                     <th class="text-center">支付金额（元）</th>
                                     <th class="text-center">状态</th>
                                     <th class="text-center">操作</th>
@@ -125,6 +126,14 @@
                                 </thead>
                                 <tbody>
                                 <c:if test="${requestScope.orderList != null}">
+                                    <script>
+                                        var connectCallback = function () {
+                                            <c:forEach items="${requestScope.orderList}" var="order">
+                                            stomp.subscribe('/user/${shop.id}/${order.id}/receiveApplyUrgeMessage', displayMessage); // 订阅消息
+                                            </c:forEach>
+                                        }
+
+                                    </script>
                                     <c:forEach var="order" items="${requestScope.orderList}" varStatus="st">
                                         <tr>
                                             <td>
@@ -133,29 +142,29 @@
                                             </td>
                                             <td>
                                                 <h4><strong>${order.createDateString}</strong></h4>
-                                                <p class="text-muted"><fmt:formatDate value='${order.createdTime}'
+                                                <p class="text-muted"><fmt:formatDate value='${order.acceptedTime}'
                                                                                       type='date' pattern='HH:mm'/></p>
                                             </td>
                                             <td>
-                                                <a href="#商店链接" class="order-shop-name">
-                                                    <h4><strong>royaltea 皇茶</strong></h4>
-                                                </a>
-                                                <a href="#">
-                                                    <c:set var="allItemDetail" value=""/>
-                                                    <c:forEach var="item" items="${order.lineItems}">
-                                                        <c:set var="itemDetail"
-                                                               value="${item.productName}${item.quantity}份 /"/>
-                                                        <c:set var="allItemDetail">${allItemDetail}${' '}${itemDetail}</c:set>
-                                                    </c:forEach>
-                                                    <c:set var="length" value="${fn:length(allItemDetail)}"/>
-                                                    <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}
+                                                <h4><strong>订单号: ${order.orderNumber}</strong></h4>
+                                                <c:forEach var="item" items="${order.lineItems}">
+                                                    <c:set var="itemDetail"
+                                                           value="${item.productName}${item.quantity}份 /"/>
+                                                    <c:set var="allItemDetail">${allItemDetail}${' '}${itemDetail}</c:set>
+                                                </c:forEach>
+                                                <c:set var="length" value="${fn:length(allItemDetail)}"/>
+                                                <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}<strong>${order.totalQuantity}</strong>
+                                                    个菜品</p>
 
-                                                        <strong>0</strong> 个菜品
+                                            </td>
+                                            <td>
 
-
-                                                    </p>
-                                                    <p class="text-muted">订单号: ${order.orderNumber}</p>
-                                                </a>
+                                                <c:if test="${order.notes == null}">
+                                                    <h4><strong>无</strong></h4>
+                                                </c:if>
+                                                <c:if test="${order.notes != null}">
+                                                    <h4><strong> ${order.notes}</strong></h4>
+                                                </c:if>
                                             </td>
                                             <td>
                                                 <h4><strong>${order.total}</strong></h4>
@@ -171,20 +180,19 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">等待商家接单</h4>
+                                                <h4 class="text-muted">等待退单</h4>
                                             </td>
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <form action="${pageContext.request.contextPath}/order/confirmRefund/${order.id}" method="post">
-                                                        <button class="btn btn-info order-btn" role="button" type="submit">确认退单</button>
+                                                    <form action="${pageContext.request.contextPath}/order/order/deliver/${order.id}" method="post">
+                                                        <button class="btn btn-info order-btn" role="button" type="submit">确定退单</button>
                                                     </form>
                                                 </div>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </c:if>
-
                                 </tbody>
                             </table>
                         </div>

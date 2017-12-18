@@ -34,12 +34,12 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="hidden-sm hidden-md"><a href="#">首页</a></li>
-                <li class="active"><a href="#">商家中心</a></li>
-                <li><a href="#">加盟合作</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/">首页</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/business/showBusinessProfile">商家中心</a></li>
+                <li><a href="${pageContext.request.contextPath}/business/joinBusiness">加盟合作</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                <li class="hidden-sm hidden-md"><a href="${pageContext.request.contextPath}/service/getAgreement">规则中心</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">用户名 <span class="caret"></span>
@@ -112,12 +112,13 @@
                     <div class="container-fluid" id="content">
                         <div class="panel panel-collapse">
 
-                            <table class="table table-hover text-center">
+                            <table class="table table-hover text-center ">
                                 <thead>
                                 <tr>
                                     <th class="text-center">编号</th>
                                     <th class="text-center">下单时间</th>
                                     <th class="text-center">订单内容</th>
+                                    <th class="text-center">备注</th>
                                     <th class="text-center">支付金额（元）</th>
                                     <th class="text-center">状态</th>
                                     <th class="text-center">操作</th>
@@ -138,18 +139,25 @@
                                                                                       type='date' pattern='HH:mm'/></p>
                                             </td>
                                             <td>
-                                                <a href="#">
-                                                    <c:set var="allItemDetail" value=""/>
+                                                    <h4><strong>订单号: ${order.orderNumber}</strong></h4>
                                                     <c:forEach var="item" items="${order.lineItems}">
                                                         <c:set var="itemDetail"
                                                                value="${item.productName}${item.quantity}份 /"/>
                                                         <c:set var="allItemDetail">${allItemDetail}${' '}${itemDetail}</c:set>
                                                     </c:forEach>
                                                     <c:set var="length" value="${fn:length(allItemDetail)}"/>
-                                                    <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}<strong>0</strong>
+                                                    <p class="text-muted">${fn:substring(allItemDetail, 0,length-1)}<strong>${order.totalQuantity}</strong>
                                                         个菜品</p>
-                                                    <p class="text-muted">订单号: ${order.orderNumber}</p>
-                                                </a>
+
+                                            </td>
+                                            <td>
+
+                                                <c:if test="${order.notes == null}">
+                                                    <h4><strong>无</strong></h4>
+                                                </c:if>
+                                                <c:if test="${order.notes != null}">
+                                                    <h4><strong> ${order.notes}</strong></h4>
+                                                </c:if>
                                             </td>
                                             <td>
                                                 <h4><strong>${order.total}</strong></h4>
