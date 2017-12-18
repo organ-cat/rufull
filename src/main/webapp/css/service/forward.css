@@ -167,11 +167,11 @@ ul.unstyled, ol.unstyled {
 .help .help-site {
     position: fixed;
     width: 236px;
-    top: 0
+    padding-top:0px;
 }
 
 .help .help-site ul {
-    margin: 80px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
     font-size: 14px;
     border: 1px solid #f2f2f2
 }
