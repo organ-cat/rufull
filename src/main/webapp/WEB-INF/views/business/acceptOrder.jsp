@@ -170,14 +170,24 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">等待发货</h4>
+                                                <c:if test="${order.status eq 'DELIVERY'}">
+                                                    <h4 class="text-muted">运送中</h4>
+                                                </c:if>
+                                                <c:if test="${order.status eq 'ACCEPTED'}">
+                                                    <h4 class="text-muted">等待发货</h4>
+                                                </c:if>
                                             </td>
 
                                             <td>
                                                 <div class="btn-group-vertical btn-group-sm">
-                                                    <form action="${pageContext.request.contextPath}/order/deliver/${order.id}" method="post">
-                                                        <button class="btn btn-info order-btn" role="button" type="submit">发货</button>
-                                                    </form>
+                                                    <c:if test="${order.status eq 'DELIVERY'}">
+                                                        <h4 class="text-muted">无法操作</h4>
+                                                    </c:if>
+                                                    <c:if test="${order.status eq 'ACCEPTED'}">
+                                                        <form action="${pageContext.request.contextPath}/order/deliver/${order.id}" method="post">
+                                                            <button class="btn btn-info order-btn" role="button" type="submit">发货</button>
+                                                        </form>
+                                                    </c:if>
                                                 </div>
                                             </td>
                                         </tr>

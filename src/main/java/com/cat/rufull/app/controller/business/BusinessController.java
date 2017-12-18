@@ -106,12 +106,15 @@ public class BusinessController {
                            Model model){
 //        System.out.println("shopId:"+shopId);
 //        System.out.println("orderStatus:"+orderStatus);
-
+        List<Order> suitableOrderList = null;
         if(shopId != null && orderStatus != null){
-            List<Order> suitableOrderList = orderService.findShopOrdersByStatus(shopId,orderStatus);
-            System.out.println("suitableOrderList:"+suitableOrderList);
-            model.addAttribute("orderList",suitableOrderList);
+            if (orderStatus.equals("PAID")){
+                suitableOrderList = orderService.findShopOrdersByStatus(shopId,orderStatus);
+            }else {
+                suitableOrderList = businessService.findOrderListByStatus(orderStatus,shopId);
+            }
         }
+        model.addAttribute("orderList",suitableOrderList);
         return "business/"+BusinessUtils.orderUrlMap.get(orderStatus);
     }
 

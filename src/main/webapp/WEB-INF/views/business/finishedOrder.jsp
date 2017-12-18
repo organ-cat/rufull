@@ -178,7 +178,12 @@
                                                 </p>
                                             </td>
                                             <td>
-                                                <h4 class="text-muted">已完成</h4>
+                                                <c:if test="${order.status eq 'COMPLETED'}">
+                                                    <h4 class="text-muted">完成订单</h4>
+                                                </c:if>
+                                                <c:if test="${order.status eq 'EVALUATED'}">
+                                                    <h4 class="text-muted">完成评价</h4>
+                                                </c:if>
                                             </td>
 
                                         </tr>

@@ -3,6 +3,8 @@ package com.cat.rufull.domain.service.business;
 import com.cat.rufull.domain.mapper.business.BusinessMapper;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
+import com.cat.rufull.domain.model.Order;
+import com.cat.rufull.domain.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,8 @@ public class BusinessServiceImpl implements BusinessService{
     @Autowired
     private ShopMapper shopMapper;
 
-
+    @Autowired
+    private OrderService orderService;
     @Override
     public List<Business> findAll() {
         /**
@@ -126,5 +129,19 @@ public class BusinessServiceImpl implements BusinessService{
             }
         }
         return businessList;
+    }
+
+    @Override
+    public List<Order> findOrderListByStatus(String status,Integer shopId) {
+        List<Order> orderList = new ArrayList<Order>();
+        if(status.equals("ACCEPTED")){
+            orderList =  orderService.findShopAcceptedOrders(shopId);
+        }else if (status.equals("AUDITING")){
+            orderList =  orderService.findShopRefundOrders(shopId);
+        }else {
+            orderList = orderService.findShopCompletedOrders(shopId);
+        }
+
+       return orderList;
     }
 }
