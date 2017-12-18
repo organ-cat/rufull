@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -212,13 +215,11 @@
             <nav>
                 <ul class="nav nav-tabs nav-style" role="tablist">
                     <li role="presentation" class="active"><a href="#all"
-                                                              aria-controls="home" role="tab" data-toggle="tab">全部(1056)</a></li>
+                                                              aria-controls="home" role="tab" data-toggle="tab">全部(${fn:length(orderEvaluations)})</a></li>
                     <li role="presentation"><a href="#good" aria-controls="profile"
-                                               role="tab" data-toggle="tab">满意(533)</a></li>
+                                               role="tab" data-toggle="tab">满意(${fn:length(orderEvaluations1)})</a></li>
                     <li role="presentation"><a href="#bad" aria-controls="messages"
-                                               role="tab" data-toggle="tab">不满意(56)</a></li>
-                    <li role="presentation"><a href="#images"
-                                               aria-controls="settings" role="tab" data-toggle="tab">有图(98)</a></li>
+                                               role="tab" data-toggle="tab">不满意(${fn:length(orderEvaluations2)})</a></li>
                 </ul>
             </nav>
 
@@ -288,7 +289,7 @@
                                         ${orderEval.comment}
                                         <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
                                     </p>
-                                    <span class="comment_date">${orderEval.evalTime}</span>
+                                    <span class="comment_date"><fmt:formatDate value="${orderEval.evalTime}" pattern="yyyy-MM-dd"/></span>
 
                                 </div>
                                 <c:forEach items="${orderEval.productEvaluations}" var="proEval">
@@ -389,7 +390,7 @@
                                             ${orderEval.comment}
                                             <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
                                     </p>
-                                    <span class="comment_date">${orderEval.evalTime}</span>
+                                    <span class="comment_date"><fmt:formatDate value="${orderEval.evalTime}" pattern="yyyy-MM-dd"/></span>
 
                                 </div>
                                 <c:forEach items="${orderEval.productEvaluations}" var="proEval">
@@ -490,7 +491,7 @@
                                             ${orderEval.comment}
                                             <%--<span class="comment_right_content_margain">30分钟送达</span>--%>
                                     </p>
-                                    <span class="comment_date">${orderEval.evalTime}</span>
+                                    <span class="comment_date"><fmt:formatDate value="${orderEval.evalTime}" pattern="yyyy-MM-dd"/></span>
 
                                 </div>
                                 <c:forEach items="${orderEval.productEvaluations}" var="proEval">

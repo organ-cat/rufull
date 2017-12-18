@@ -6,6 +6,7 @@ import com.cat.rufull.domain.model.LineItem;
 import com.cat.rufull.domain.model.Order;
 import com.cat.rufull.domain.model.OrderEvaluation;
 import com.cat.rufull.domain.model.ProductEvaluation;
+import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -25,7 +26,22 @@ public class EvalMapperTest {
 
     @Autowired
     private EvaluationMapper evaluationMapper;
+    @Autowired
+    private EvaluationService evaluationService;
 
+    @Test
+    public void testfindAvarageByShopId() throws Exception{
+       /*Double shopAvg = evaluationMapper.findAvarageByShopId(1);*/
+        Double shopAvg = evaluationService.findAvarageByShopId(1);
+        System.out.println(shopAvg);
+    }
+
+    @Test
+    public void testfindAvarageByProductId() throws Exception{
+        /*Double productAvg = evaluationMapper.findAvarageByProductId(1);*/
+        Double productAvg = evaluationService.findAvarageByProductId(1);
+        System.out.println(productAvg);
+    }
 
     @Test
     public void testFindEvalByShopId() throws Exception{

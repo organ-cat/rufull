@@ -20,4 +20,10 @@ public interface EvaluationMapper {
 
     //根据商店id查询不满意的评价
     public List<OrderEvaluation> findEvalByShopId_N(Integer id)throws Exception;
+
+    //根据商店id查询评价平均分
+    public Double findAvarageByShopId(Integer shopId) throws Exception;
+
+    //根据商品id查询评价平均分
+    public Double findAvarageByProductId(Integer productId) throws Exception;
 }
