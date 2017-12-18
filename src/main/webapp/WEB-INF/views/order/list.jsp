@@ -247,7 +247,7 @@
                 formatter: function (value, row, index) {
                     return [
                         '<a href="${showShopUrl}?id=' + row.shop.id + '">',
-                        '<img class="img-responsive center-block img-circle" alt="${row.shop.shopName}" src="${showShopPhotoUrl}/' + row.shop.shopPhoto + '"/>  ',
+                        '<img style="width:80px; height: 80px;" class="img-circle" alt="${row.shop.shopName}" src="${showShopPhotoUrl}/' + row.shop.shopPhoto + '"/>  ',
                         '</a>  '
                     ].join('');
                 }}, {

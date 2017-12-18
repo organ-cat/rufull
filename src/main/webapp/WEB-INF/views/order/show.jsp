@@ -128,6 +128,14 @@
             $('#orderCancelRefundBtn').click(function () {
                 $('#orderCancelRefundForm').submit();
             });
+
+            $('#addFavor').click(function () {
+                var url = '${addFavorUrl}?shopId=${order.shop.id}&accountId=${account.id}';
+
+                $.get(url, function(result){
+                    alert(result);
+                });
+            });
         });
     </script>
 </head>
@@ -349,7 +357,7 @@
                                             </p>
                                         </div>
                                         <div class="col-sm-4">
-                                            <a class="text-muted" href="${addFavorUrl}?shopId=${order.shop.id}&accountId=${account.id}"><span class="glyphicon glyphicon-star-empty"></span>收藏</a>
+                                            <a id="addFavor" class="text-muted" href="javascript:void(0);"><span class="glyphicon glyphicon-star-empty"></span>收藏</a>
                                             <a class="text-muted" href="${addComplaintUrl}?shopId=${order.shop.id}"><span class="glyphicon glyphicon-thumbs-down"></span>投诉</a>
                                         </div>
                                     </div>
