@@ -204,4 +204,12 @@
         AND
         ACCOUNT.role = #{role}
     </update>
+    <update id="updateBalance">
+        UPDATE
+        ACCOUNT
+        SET
+        ACCOUNT.balance = #{balance}
+        WHERE
+        ACCOUNT.id = #{id};
+    </update>
 </mapper>

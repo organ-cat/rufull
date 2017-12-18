@@ -448,6 +448,15 @@ public class TestByJiang {
         String result = "成功";
         SMS.sendNotification(phone, name, result);
     }
+    @Test
+    public void testBalance(){
+        int id = 1;
+        double balance = 10.00;
+        int result = accountService.updateBalance(id, balance);
+        System.out.println(result);
+    }
 }
+
+
 
 

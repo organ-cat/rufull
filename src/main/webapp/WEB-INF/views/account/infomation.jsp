@@ -68,7 +68,8 @@
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
 
     <spring:url value="/account/uploadPage" var="uploadPhotoUrl"/>
-
+    <spring:url value="/account/addPhonePage" var="addPhonePageUrl"/>
+    <spring:url value="/account/addEmailPage" var="addEmailPageUrl"/>
 
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
@@ -210,18 +211,32 @@
                                         <c:if test="${account.username != null}">
                                             <td class="attributeName">用户名</td>
                                             <td class="attributeList">${account.username}</td>
-                                            <td>不能修改</td>
+                                            <td></td>
                                         </c:if>
                                     </tr>
                                     <tr>
-                                        <td class="attributeName">手机号</td>
-                                        <td class="attributeList">${account.phone}</td>
-                                        <td><a href="#">修改</a></td>
+                                        <c:if test="${account.phone == null}">
+                                            <td class="attributeName">手机号</td>
+                                            <td class="attributeList">${account.phone}</td>
+                                            <td><a href="${addPhonePageUrl}">绑定</a></td>
+                                        </c:if>
+                                        <c:if test="${account.phone != null}">
+                                            <td class="attributeName">手机号</td>
+                                            <td class="attributeList">${account.phone}</td>
+                                            <td><a href="${showSecurityUrl}">修改</a></td>
+                                        </c:if>
                                     </tr>
                                     <tr>
-                                        <td class="attributeName">邮箱号</td>
-                                        <td class="attributeList">${account.email}</td>
-                                        <td><a href="#">修改</a></td>
+                                        <c:if test="${account.email == null}"><td class="attributeName">邮箱号</td>
+                                            <td class="attributeList">${account.email}</td>
+                                            <td><a href="${addEmailPageUrl}">绑定</a></td>
+
+                                        </c:if>
+                                        <c:if test="${account.email != null}">
+                                            <td class="attributeName">邮箱号</td>
+                                            <td class="attributeList">${account.email}</td>
+                                            <td><a href="${showSecurityUrl}">修改</a></td>
+                                        </c:if>
                                     </tr>
                                 </table>
                             </div>

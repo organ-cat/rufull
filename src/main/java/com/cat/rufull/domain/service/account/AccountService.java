@@ -62,4 +62,6 @@ public interface AccountService {
     void changePasswordByPhone(String phone, String password, int role);
 
     void changePasswordByEmail(String email, String password, int role);
+
+    int updateBalance(int id, double balance);
 }

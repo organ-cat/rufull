@@ -227,7 +227,6 @@ $(function(){
                     $(location).attr('href', 'http://localhost:8080/rufull');
                 } else if (result == PASSWORD_ERROR) {
                     shakeModal("账号或密码不正确");
-                    // $("#hideDiv").attr("style","display:block;");
                 }else if(result == REMOTE_LOGIN){
                     shakeModal("您是异地登陆，请进行身份验证");
                     $("#hideDiv").attr("style","display:block;");
