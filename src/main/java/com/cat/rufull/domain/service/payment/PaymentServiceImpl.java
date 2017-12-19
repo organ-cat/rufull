@@ -18,8 +18,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private ShopService shopService;
 
+    //退款处理：
     @Override
-    public void reFund(Integer orderId) throws Exception {
+    public void reFund(Integer orderId){
         Order order = orderService.findOrderById(orderId); //获取订单详情
 
         int shopId = order.getShop().getId();
@@ -29,8 +30,12 @@ public class PaymentServiceImpl implements PaymentService {
         Account account = accountService.findAccountById(accountId);//获取用户信息
         Shop shop = shopService.findById(shopId);//获取商店信息
 
+        //判断商店余额，若充足减去相应金额
+        //if
 
-
+        //添加用户余额
+        Double accountMoney = money.doubleValue() + account.getBalance().doubleValue();
+        accountService.updateBalance(account.getId(),accountMoney);
 
     }
 }
