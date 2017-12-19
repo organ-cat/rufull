@@ -73,6 +73,14 @@
             <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
         </interceptor>
         <interceptor>
+            <mapping path="/order/**"/>
+            <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
+        </interceptor>
+        <interceptor>
+            <mapping path="/cart/checkout"/>
+            <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
+        </interceptor>
+        <interceptor>
             <mapping path="/admin/*"/>
             <beans:bean class="com.cat.rufull.app.interceptor.account.AdminInterceptor"/>
         </interceptor>
