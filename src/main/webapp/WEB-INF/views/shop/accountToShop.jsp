@@ -252,7 +252,7 @@
                 <span class="status" data-unfaved="收藏 餐厅" data-faved="已收藏">收藏 餐厅</span>
             </div>
             <div id="rst_complain" class="rst-block rst-fav">
-                <a href="#"><i class="glyph">✘</i></a>
+                <a href="${pageContext.request.contextPath}/complaint/page/?shopId=${shop.id}"><i class="glyph">✘</i></a>
                 <span class="status" data-unfaved="投诉 餐厅" data-faved="已投诉">投诉 餐厅</span>
             </div>
         </div>

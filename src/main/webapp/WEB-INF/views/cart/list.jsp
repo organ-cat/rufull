@@ -54,7 +54,7 @@
     <spring:url value="/shop/showShopDetail" var="showShopUrl"/>
     <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>
-    <spring:url value="/complaint?from" var="addComplaintUrl"/>
+    <spring:url value="/complaint/showAccount" var="showComplaintUrl"/>
     <spring:url value="/payment" var="showPaymentUrl"/>
     <spring:url value="/order/cancel" var="cancelOrderUrl"/>
     <spring:url value="/upload/shop" var="showShopPhotoUrl"/>
@@ -131,7 +131,7 @@
                         <a class="text-muted" href="${showPlaceUrl}">${address}</a>
                         <a href="${showPlaceUrl}">[切换地址]</a>
                     </li>
-                    <li>近三个月订单(需要动态切换)</li>
+                    <li>购物车列表</li>
                 </ol>
             </div>
             <div class="container-fluid">
@@ -150,7 +150,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaintUrl}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->

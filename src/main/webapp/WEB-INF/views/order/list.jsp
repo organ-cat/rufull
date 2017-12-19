@@ -65,7 +65,7 @@
     <spring:url value="/changeAddress" var="showPlaceUrl"/>
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
-    <spring:url value="/complaint/showAccount" var="showComplaint"/>
+    <spring:url value="/complaint/showAccount" var="showComplaintUrl"/>
     <spring:url value="/account/infomation" var="showInfoUrl"/>
     <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop/showShopDetail" var="showShopUrl"/>
@@ -148,7 +148,7 @@
                         <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                         <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                         <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                        <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                        <li class="list-group-item"><strong><a class="text-muted" href="${showComplaintUrl}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                     </ul>
                 </div>
                 <!-- 显示内容 -->
