@@ -3,6 +3,7 @@ package com.cat.rufull.domain.service.shop;
 import com.cat.rufull.domain.model.Shop;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ShopService {
     List<Shop> findAll();                            // 查询正常营业的商店
@@ -24,6 +25,12 @@ public interface ShopService {
     List<Shop> fuzzyFindByShopName(String shopName);   // 通过商店名字模糊查询查找对应的商店
 
     List<Shop> fuzzyFindByShopAndProduct(String searchContext); // 通过搜索内容模糊查询对应的商家
+
+    Map<Integer,Integer> getShopEvaluation(List<Shop> shopList) ; //查找所有商店中的评分
+
+    Map<Integer,Integer> getShopSales(List<Shop> shopList);       //查询所有商店销售量
+
+    Map<Integer,Integer> getShopProductEvaluation(Shop shop);       //查询商店的商品评价
 
 
 

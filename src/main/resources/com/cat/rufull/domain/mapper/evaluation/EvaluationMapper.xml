@@ -94,12 +94,12 @@
     </insert>
     
     <!-- 根据商店id查询评价平均分 -->
-    <select id="findAvarageByShopId" parameterType="Integer" resultType="Double">
+    <select id="findAvarageByShopId" parameterType="integer" resultType="double">
         SELECT AVG(score) FROM order_evaluation WHERE shop_id = #{shopId};
     </select>
 
     <!-- 根据商品id查询评价平均分 -->
-    <select id="findAvarageByProductId" parameterType="Integer" resultType="Double">
+    <select id="findAvarageByProductId" parameterType="integer" resultType="double">
         SELECT AVG(pe.score)
         FROM product_evaluation pe,line_item li, product pd
         WHERE pe.item_id = li.id

@@ -4,6 +4,8 @@ import com.cat.rufull.domain.mapper.product.ProductMapper;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.evaluation.EvaluationService;
+import com.cat.rufull.domain.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,12 @@ public class ShopServiceImpl implements ShopService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private EvaluationService evaluationService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public List<Shop> findAllShop() {
@@ -155,6 +163,88 @@ public class ShopServiceImpl implements ShopService {
             shopLinkedList.add(shopIterator.next());
         }
         return shopLinkedList;
+    }
+    /**
+     *@Author:Caoxin
+     *@Description
+     *@Date:2:49 2017/12/19
+     *@param[shopList]查询对应商店中的商品的评价
+     *@returnjava.util.Map<java.lang.Integer,java.lang.Integer>
+     */
+    @Override
+    public Map<Integer, Integer> getShopProductEvaluation(Shop shop) {
+        Map<Integer,Integer> productEvaluation = new HashMap<Integer, Integer>();
+
+        Double evaluation = null;
+        for (Product product:shop.getProductList()
+             ) {
+            try {
+                evaluation = Math.ceil(evaluationService.findAvarageByProductId(product.getId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Integer shopEvaluation;
+            if(evaluation == null){
+                shopEvaluation = 0;
+            }else{
+                shopEvaluation  = evaluation.intValue();
+            }
+            productEvaluation.put(product.getId(),shopEvaluation);
+        }
+
+        return productEvaluation;
+    }
+
+    /**
+     *@Author:Caoxin
+     *@Description:查询所有商家每月销售量
+     *@Date:0:58 2017/12/19
+     *@param[shopList]
+     *@returnjava.util.Map<java.lang.Integer,java.lang.Integer>
+     */
+    @Override
+    public Map<Integer, Integer> getShopSales(List<Shop> shopList) {
+
+        Map<Integer,Integer> shopSalesMap = new HashMap<Integer, Integer>();
+
+        for (Shop shop:shopList
+                ) {
+            Integer monthlySales = orderService.getMonthlySales(shop.getId());
+            shopSalesMap.put(shop.getId(),monthlySales);
+        }
+        return shopSalesMap;
+    }
+
+    /**
+     *@Author:Caoxin
+     *@Description：查询全部商品评分
+     *@Date:23:55 2017/12/18
+     *@param[shopList]
+     *@returnjava.util.Map<java.lang.Integer,java.lang.Integer>
+     */
+    @Override
+    public Map<Integer, Integer> getShopEvaluation(List<Shop> shopList) {
+
+        Map<Integer,Integer> shopEvaluationMap = new HashMap<Integer, Integer>();
+        for (Shop shop:shopList
+             ) {
+            Double evaluation = null;
+            try {
+                evaluation = Math.ceil(evaluationService.findAvarageByShopId(shop.getId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("查询商店评分出错。。。");
+
+            }
+            Integer shopEvaluation;
+            if(evaluation == null){
+                shopEvaluation = 0;
+            }else{
+                shopEvaluation  = evaluation.intValue();
+            }
+            shopEvaluationMap.put(shop.getId(),shopEvaluation);
+        }
+        return shopEvaluationMap;
     }
 
     @Override
