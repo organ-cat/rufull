@@ -29,7 +29,7 @@
 
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
             $(document).ready(function () {
                 lay('#version').html('-v' + laydate.v);
                 laydate.render({
@@ -49,9 +49,8 @@
 
         var timeerror = "${timeerror}";
 
-        if(timeerror!= '')
-        {
-            window.onload = function() {
+        if (timeerror != '') {
+            window.onload = function () {
                 swal("操作失败", "开始时间不能大于结束时间!", "error");
             };
         }
@@ -60,77 +59,82 @@
 </head>
 
 <body>
+<div align="center">
+    <form class="form-inline" name="findLog" action="${pageContext.request.contextPath}/manageLog/checkLogs"
+          method="post">
+        <div class="col-sm-12">
+            <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
 
-<form class="form-inline" name="findLog" action="${pageContext.request.contextPath}/manageLog/checkLogs"
-      method="post">
-    <div class="col-sm-12">
-        <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
+                <input type="text" class="form-control input-lg" id="begin" readonly="readonly"
+                       name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
+                <input type="text" class="form-control input-lg" id="end" readonly="readonly"
+                       name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
+                <input type="text" class="form-control input-lg"
+                       id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
+                &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
+                                    class="btn btn-lg" onclick="findLogs();">查找
+            </button>
 
-            <input  type="text" class="form-control input-lg" id="begin" readonly="readonly"
-                    name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
-            <input type="text" class="form-control input-lg" id="end" readonly="readonly"
-                   name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
-            <input type="text" class="form-control input-lg"
-                   id="findname" name="keyword" style="min-width: 200px;max-width: 200px;" placeholder="请填写查找条件">
-            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
-                                class="btn btn-lg" onclick="findLogs();">查找
-        </button>
-
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
 
+    <div style="height:360px;">
+        <div class="col-sm-12" style="padding:20px 80px 20px 80px;">
+            <div class="panel panel-default">
 
-<div class="col-sm-12" style="padding:20px 80px 20px 80px;">
-    <div class="panel panel-default">
+                <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
+                    <h4>用户管理日志列表展示</h4>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>日志内容</th>
+                        <th>登记时间</th>
+                        <th>用户姓名</th>
+                        <th>用户角色</th>
+                        <th>登记者</th>
+                        <th>登记者角色</th>
+                    </tr>
+                    <c:forEach items="${Logslist}" var="list">
+                        <tr>
+                            <td>${list.detail}</td>
+                            <td><fmt:formatDate value="${list.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <c:if test="${list.account.id!=null}">
+                                <td>${list.account.username}</td>
+                            </c:if>
+                            <c:if test="${list.account.id==null}">
+                                <td>无</td>
+                            </c:if>
+                            <c:if test="${list.account.id!=null}">
+                                <c:if test="${list.account.role=='1'}">
+                                    <td>普通用户</td>
+                                </c:if>
+                                <c:if test="${list.account.role=='2'}">
+                                    <td>商家</td>
+                                </c:if>
+                            </c:if>
+                            <c:if test="${list.account.id==null}">
+                                <td>无</td>
+                            </c:if>
 
-        <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
-            <h4>用户管理日志列表展示</h4>
+                            <td>${list.manager.username}</td>
+                            <c:if test="${list.manager.role=='1'}">
+                                <td>超级管理员</td>
+                            </c:if>
+                            <c:if test="${list.manager.role=='2'}">
+                                <td>管理员</td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <tr>
-                <th>日志内容</th>
-                <th>登记时间</th>
-                <th>用户姓名</th>
-                <th>用户角色</th>
-                <th>登记者</th>
-                <th>登记者角色</th>
-            </tr>
-            <c:forEach items="${Logslist}" var="list">
-                <tr>
-                    <td>${list.detail}</td>
-                    <td><fmt:formatDate value="${list.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <c:if test="${list.account.id!=null}">
-                        <td>${list.account.username}</td>
-                    </c:if>
-                    <c:if test="${list.account.id==null}">
-                        <td>无</td>
-                    </c:if>
-                    <c:if test="${list.account.id!=null}">
-                    <c:if test="${list.account.role=='1'}">
-                        <td>普通用户</td>
-                    </c:if>
-                    <c:if test="${list.account.role=='2'}">
-                        <td>商家</td>
-                    </c:if>
-                    </c:if>
-                    <c:if test="${list.account.id==null}">
-                        <td>无</td>
-                    </c:if>
 
-                    <td>${list.manager.username}</td>
-                    <c:if test="${list.manager.role=='1'}">
-                        <td>超级管理员</td>
-                    </c:if>
-                    <c:if test="${list.manager.role=='2'}">
-                        <td>管理员</td>
-                    </c:if>
-                </tr>
-            </c:forEach>
-        </table>
     </div>
+    <%--<div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
+    </div>--%>
 </div>
-
 </body>
 </html>

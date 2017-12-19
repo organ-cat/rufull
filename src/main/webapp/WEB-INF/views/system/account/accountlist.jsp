@@ -56,9 +56,7 @@
                     window.location.href = "${pageContext.request.contextPath}/manageAcc/redelaccount?id=" + id;
                 });
         }
-        function findAccountlist() {
-            document.findAccount.submit();
-        }
+
         var logerror = "${logerror}";
         var delAccerror = "${delAccerror}";
         var delAccsuccess = "${delAccsuccess}";
@@ -72,23 +70,12 @@
 
 </head>
 <body>
-<form class="form-inline" name="findAccount" action="${pageContext.request.contextPath}/manageAcc/findaccount"
-      method="post">
-    <div class="col-sm-8">
-        <div class="form-group" style="padding-left: 40%;padding-top: 50px;padding-bottom: 10px;">
 
-            <input type="text" class="form-control input-lg"
-                   id="findname" name="findname" style="min-width: 350px;max-width: 350px;" placeholder="请填写查找条件">
-            <button type="button" style="max-width: 150px;"
-                    class="btn btn-lg" onclick="findAccountlist();">查找
-            </button>
-        </div>
-    </div>
-</form>
-<div class="col-sm-12">
-    <div class="panel panel-default">
+<div class="col-sm-12" style="padding-top: 80px;" align="center">
+    <div style="height: 360px;">
+    <div class="panel panel-default" >
 
-        <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 50%">
+        <div class="panel-heading" style="padding-top:3px;height:40px;padding-right: 50%px">
             <h4>用户列表展示</h4>
         </div>
         <table class="table table-bordered">
@@ -136,6 +123,10 @@
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    </div>
+    <div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
     </div>
 </div>
 </body>

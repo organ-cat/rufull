@@ -1,6 +1,6 @@
 package com.cat.rufull.domain.service.account;
 
-import com.cat.rufull.domain.mapper.account.LoginLogMapper;
+import com.cat.rufull.domain.mapper.loginLog.LoginLogMapper;
 import com.cat.rufull.domain.model.LoginLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

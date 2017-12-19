@@ -21,6 +21,10 @@
 </head>
 
 <body>
+<div class="complaint-title">
+    <p style="font-size: 35px;color: #0c9efc;margin-top: 35px;">对商家不满意？那就投诉吧</p>
+    <hr>
+</div>
 <div class="all">
     <div class="complaint">
         <form action="${pageContext.request.contextPath}/complaint/addComplaint" method="post" enctype="multipart/form-data">
@@ -44,7 +48,7 @@
             <br/>
             <p>投诉内容</p>
             <P>
-                <input id="content" type="text" name="content"/>
+                <textarea id="content"  name="content"></textarea>
             </P>
             <P>
                 <input id="evidence" name="evidence" type="file" onchange="imgPreview(this)"/>

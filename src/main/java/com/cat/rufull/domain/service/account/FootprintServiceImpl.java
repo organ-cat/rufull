@@ -1,6 +1,6 @@
 package com.cat.rufull.domain.service.account;
 
-import com.cat.rufull.domain.mapper.account.FootprintMapper;
+import com.cat.rufull.domain.mapper.footprint.FootprintMapper;
 import com.cat.rufull.domain.model.Footprint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

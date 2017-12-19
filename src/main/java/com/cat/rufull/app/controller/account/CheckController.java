@@ -1,7 +1,9 @@
 package com.cat.rufull.app.controller.account;
 
+import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.common.util.ReturnCode;
+import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,14 @@ public class CheckController {
         boolean isPhone = RegEx.regExPhone(phone);
         boolean isEmail = RegEx.regExEmail(phone);
         String code =  getCode();
-        getCode();
         if (isPhone) {
             session.setAttribute(Account.FORGOT_PASSWORD,code);
             System.out.println("手机接收——"+phone+"——验证码——"+code);
-//            sendSms(phone, code);
+            SMS.sendSMS(phone,code);
         } else if (isEmail) {
             session.setAttribute(Account.FORGOT_PASSWORD,code);
             System.out.println("邮箱接收——"+phone+"——验证码——"+code);
-//            Email.sendBing(mailSender, mailMessage, phone, code);
+            Email.sendBing(mailSender, mailMessage, phone, code);
         } else {
             returnMessage(response, ReturnCode.PHONE_FORMAT_ERROR);
         }
@@ -139,7 +140,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.PHONE_CHECK_CODE, checkCode);
         System.out.println("绑定手机" + phone + "收到验证码是：" + checkCode);
-//        sendSms(phone, checkCode);
+        SMS.sendSMS(phone,checkCode);
     }
     /**
      * 发送新手机验证码
@@ -152,7 +153,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.NEW_PHONE_CHECK_CODE, checkCode);
         System.out.println("绑定-新-手机" + phone + "收到验证码是：" + checkCode);
-//        sendSms(phone, checkCode);
+        SMS.sendSMS(phone,checkCode);
     }
     /**
      * 发送旧邮箱验证码
@@ -165,7 +166,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.EMAIL_CHECK_CODE, checkCode);
         System.out.println("绑定邮箱" + email + "收到验证码是：" + checkCode);
-//        Email.sendBing(mailSender, mailMessage, email, checkCode);
+        Email.sendBing(mailSender, mailMessage, email, checkCode);
     }
     /**
      * 发送旧邮箱验证码
@@ -178,7 +179,7 @@ public class CheckController {
         String checkCode = getCode();
         session.setAttribute(Account.NEW_EMAIL_CHECK_CODE, checkCode);
         System.out.println("绑定-新-邮箱" + email + "收到验证码是：" + checkCode);
-//        Email.sendBing(mailSender, mailMessage, email, checkCode);
+        Email.sendBing(mailSender, mailMessage, email, checkCode);
     }
     /**
      * 检验用户注册方式是否被使用
@@ -216,13 +217,13 @@ public class CheckController {
             result = ReturnCode.SNED_PHONE_CODE;//短信验证码已发送成功,请尽快确认
             //发送短信
             System.out.println("手机" + phone + "收到验证码是：" + checkCode);
-//            sendSms(phone, checkCode);
+            SMS.sendSMS(phone,checkCode);
         }
         if (isEmail) {
             result = ReturnCode.SNED_EMAIL_CODE;//邮箱验证码已发送成功，请尽快确认
             //发送邮箱
             System.out.println("邮箱" + phone + "收到验证码是：" + checkCode);
-//            Email.sendBing(mailSender, mailMessage, phone, checkCode);
+            Email.sendBing(mailSender, mailMessage, phone, checkCode);
         }
         session.setAttribute(Account.CHECKCODE_SESSION,checkCode);
         returnMessage(response, result);
@@ -275,11 +276,9 @@ public class CheckController {
         Account account = null;
         if (isUsername) {
             account = accountService.findAccountByUsername(username, Account.ACCOUNT_ROLE);
-        }
-        if (isPhone) {
+        }else if (isPhone) {
             account = accountService.findAccountByPhone(username, Account.ACCOUNT_ROLE);
-        }
-        if (isEmail) {
+        }else if (isEmail) {
             account = accountService.findAccountByEmail(username, Account.ACCOUNT_ROLE);
         }
         String phone = account.getPhone();
@@ -288,11 +287,11 @@ public class CheckController {
         String result = null;
         if (phone != null) {
             System.out.println("手机" + phone + "异地登陆的验证码是——" + code);
-//            sendSms(phone, code);
+            SMS.sendSMS(phone,code);
             result = ReturnCode.SNED_REMOTE_CODE_SUCCESS;
         } else {
             System.out.println("邮箱" + email + "异地登陆的验证码是——" + code);
-//            Email.sendBing(mailSender, mailMessage, phone, code);
+            Email.sendBing(mailSender, mailMessage, phone, code);
             result = ReturnCode.SNED_REMOTE_CODE_SUCCESS;
         }
         session.setAttribute(Account.REMOTE_CODE_SESSION, code);

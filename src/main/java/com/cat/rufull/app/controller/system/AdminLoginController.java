@@ -41,7 +41,6 @@ public class AdminLoginController {
      */
     @RequestMapping("/Login")
     public String Login(String loginname, String password, HttpSession session, RedirectAttributes attr) {
-        session.removeAttribute("loginerror");
         Manager manager = new Manager();
         boolean isUsername = RegEx.regExUsername(loginname);
         boolean isPhone = RegEx.regExPhone(loginname);

@@ -206,7 +206,8 @@ $('#searcher').click(function () {
     var region = document.getElementById("city").value;
     var add = document.getElementById("address").value;
     if (add == null || add == '') {
-        alert("请先输入搜索范围");
+        var txt=  "请输入搜索地址！";
+        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);
         return false;
     }
     else{
@@ -222,7 +223,9 @@ $('#submit').click(function () {
     var add = document.getElementById("address").value;
 
     if (add == null || add == '') {
-        alert("请先输入搜索范围");
+
+        var txt=  "请输入搜索地址！";
+        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.warning);
         return false;
     }
     else {

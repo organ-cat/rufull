@@ -32,9 +32,12 @@
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-1.12.4.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
-        <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
-        <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="${pageContext.request.contextPath}/js/account/login-register.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/account/index.js" type="text/javascript"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="${pageContext.request.contextPath}/css/service/xcComfirm/js/xcConfirm.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/service/xcComfirm/css/xcConfirm.css">
+
     <spring:url value="/account/center?id=${account.id}" var="center_url"/>
     <spring:url value="/favor/myFavor?id=${account.id}" var="favor_url"/>
     <spring:url value="/address/addressManage?id=${account.id}" var="address_url"/>

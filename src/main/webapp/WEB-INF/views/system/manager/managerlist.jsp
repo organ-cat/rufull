@@ -84,10 +84,11 @@
     </div>
     </div>
 </form>
-<div class="col-sm-12">
+<div class="col-sm-12" align="center">
+    <div style="height: 360px">
     <div class="panel panel-default">
 
-        <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 50%">
+        <div class="panel-heading" style="padding-top:3px;height:40px;">
             <h4>管理员列表展示</h4>
         </div>
         <table class="table table-bordered">
@@ -141,6 +142,10 @@
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    </div>
+    <div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
     </div>
 </div>
 </body>
