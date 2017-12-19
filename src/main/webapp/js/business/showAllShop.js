@@ -53,26 +53,50 @@ $(function(){
         //在测试中先把判断用户到商家的距离去掉  shippingDistanced单位是公里所以要 * 1000;
 //            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
         //把商家添加到商家
-        $("#shopListDiv").append(
-            "<a href='"+contextPath+"/shop/showShopDetail?id="+shopList[i].id+"'"+
-            "target='blank' class='rstblock'>" +
-                    "<div class='rstblock-logo'>" +
+        $("#shopListDiv").append(function () {
+                if(shopList[i].operateState == 0){
+                    return  "<a href='"+contextPath+"/shop/showShopDetail?id="+shopList[i].id+"'"+
+                        "target='blank' class='rstblock'>" +
+                        "<div class='rstblock-logo'>" +
                         "<img " +"src='"+contextPath+"/upload/shop/"+shopList[i].shopPhoto+"'"+
                         "width='70' height='70' alt='"+shopList[i].shopName+"'class='rstblock-logo-icon'/>"+
                         "<span class='rstblock-left-timeout'>"+shopList[i].shippingTime+ "分钟</span>"+
-                    "</div>"+
+                        "</div>"+
 
-                    "<div class='rstblock-content'>"+
-                    "<div class='rstblock-title'>"+shopList[i].shopName+"</div>"+
-                    "<div class='rating-star r8'></div>"+
-                    "<span class='rstblock-monthsales'>月售${查询订单出结果}单</span>"+
+                        "<div class='rstblock-content'>"+
+                        "<div class='rstblock-title'>"+shopList[i].shopName+"</div>"+
+                        "<div class='rating-star r"+shopEvaluation[0][shopList[i].id]*2+"'></div>"+
+                        "<span class='rstblock-monthsales'>月售"+shopSales[0][shopList[i].id]+"单</span>"+
 
-                    "<div class='rstblock-cost'>"+
-                         "￥ "+shopList[i].shippingFee+
-                    "</div>"+
-                    "<div class='rstblock-activity'></div>"+
-            "</div>"+
-            "</a>");
+                        "<div class='rstblock-cost'>"+
+                        "￥ "+shopList[i].shippingFee+
+                        "</div>"+
+                        "<div class='rstblock-activity'></div>"+
+                        "</div>"+
+                        "</a>";
+                }else if(shopList[i].operateState == 1){
+                    return  "<a href='"+contextPath+"/shop/showShopDetail?id="+shopList[i].id+"'"+
+                        "target='blank' class='rstblock'>" +
+                        "<div class='rstblock-logo'>" +
+                        "<img " +"src='"+contextPath+"/upload/shop/"+shopList[i].shopPhoto+"'"+
+                        "width='70' height='70' alt='"+shopList[i].shopName+"'class='rstblock-logo-icon'/>"+
+                        "<span class='rstblock-left-timeout'>"+shopList[i].shippingTime+ "分钟</span>"+
+                        "</div>"+
+
+                        "<div class='rstblock-content'>"+
+                        "<div class='rstblock-title'>"+shopList[i].shopName+"</div>"+
+                        "<div class='rating-star r"+shopEvaluation[0][shopList[i].id]*2+"'></div>"+
+                        "<span class='rstblock-monthsales'>月售"+shopSales[0][shopList[i].id]+"单</span>"+
+
+                        "<div class='rstblock-cost'>"+
+                        "￥ "+shopList[i].shippingFee+
+                        "</div>"+
+                        "<div class='rstblock-relaxing'>商家休息,暂不接单</div>"+
+                        "</div>"+
+                        "</a>";
+                }
+            }
+           );
         shopArray.push(shopList[i]);
     }
 //        }
@@ -98,6 +122,7 @@ function getDifferentTypeShop(type,tab) {
         医药健康：7
         全部    : 8
     */
+    console.log(type);
     if(type == 8){
         addShopList(shopArray);
     }else {
@@ -107,6 +132,7 @@ function getDifferentTypeShop(type,tab) {
                 sameShopTypeList.push(shopArray[i]);
             }
         }
+        console.log(sameShopTypeList);
         addShopList(sameShopTypeList);
     }
 
@@ -119,26 +145,49 @@ function addShopList(typeShopList) {
     $("#shopListDiv").empty();
     //再添加所需要的元素
     for(var i = 0; i < typeShopList.length; i++){
-        $("#shopListDiv").append(
-            "<a href='"+contextPath+"/shop/showShopDetail?id="+typeShopList[i].id+"'"+
-            "target='blank' class='rstblock'>" +
-            "<div class='rstblock-logo'>" +
-            "<img " +"src='"+contextPath+"/upload/shop/"+typeShopList[i].shopPhoto+"'"+
-            "width='70' height='70' alt='"+typeShopList[i].shopName+"'class='rstblock-logo-icon'/>"+
-            "<span class='rstblock-left-timeout'>"+typeShopList[i].shippingTime+ "分钟</span>"+
-            "</div>"+
+        $("#shopListDiv").append(function () {
+            if(typeShopList[i].operateState == 0){
+                return  "<a href='"+contextPath+"/shop/showShopDetail?id="+typeShopList[i].id+"'"+
+                    "target='blank' class='rstblock'>" +
+                    "<div class='rstblock-logo'>" +
+                    "<img " +"src='"+contextPath+"/upload/shop/"+typeShopList[i].shopPhoto+"'"+
+                    "width='70' height='70' alt='"+typeShopList[i].shopName+"'class='rstblock-logo-icon'/>"+
+                    "<span class='rstblock-left-timeout'>"+typeShopList[i].shippingTime+ "分钟</span>"+
+                    "</div>"+
 
-            "<div class='rstblock-content'>"+
-            "<div class='rstblock-title'>"+typeShopList[i].shopName+"</div>"+
-            "<div class='rating-star r8'></div>"+
-            "<span class='rstblock-monthsales'>月售3单</span>"+
+                    "<div class='rstblock-content'>"+
+                    "<div class='rstblock-title'>"+typeShopList[i].shopName+"</div>"+
+                    "<div class='rating-star r"+shopEvaluation[0][typeShopList[i].id]*2+"'></div>"+
+                    "<span class='rstblock-monthsales'>月售"+shopSales[0][typeShopList[i].id]+"单</span>"+
 
-            "<div class='rstblock-cost'>"+
-            "配送费用: "+typeShopList[i].shippingFee+
-            "</div>"+
-            "<div class='rstblock-activity'></div>"+
-            "</div>"+
-            "</a>");
+                    "<div class='rstblock-cost'>"+
+                    "￥ "+typeShopList[i].shippingFee+
+                    "</div>"+
+                    "<div class='rstblock-activity'></div>"+
+                    "</div>"+
+                    "</a>";
+            }else if(typeShopList[i].operateState == 1){
+                return  "<a href='"+contextPath+"/shop/showShopDetail?id="+typeShopList[i].id+"'"+
+                    "target='blank' class='rstblock'>" +
+                    "<div class='rstblock-logo'>" +
+                    "<img " +"src='"+contextPath+"/upload/shop/"+typeShopList[i].shopPhoto+"'"+
+                    "width='70' height='70' alt='"+typeShopList[i].shopName+"'class='rstblock-logo-icon'/>"+
+                    "<span class='rstblock-left-timeout'>"+typeShopList[i].shippingTime+ "分钟</span>"+
+                    "</div>"+
+
+                    "<div class='rstblock-content'>"+
+                    "<div class='rstblock-title'>"+typeShopList[i].shopName+"</div>"+
+                    "<div class='rating-star r"+shopEvaluation[0][typeShopList[i].id]*2+"'></div>"+
+                    "<span class='rstblock-monthsales'>月售"+shopSales[0][typeShopList[i].id]+"单</span>"+
+
+                    "<div class='rstblock-cost'>"+
+                    "￥ "+typeShopList[i].shippingFee+
+                    "</div>"+
+                    "<div class='rstblock-relaxing'>商家休息,暂不接单</div>"+
+                    "</div>"+
+                    "</a>";
+            }
+        });
 
     }
 }
@@ -150,7 +199,6 @@ function searchShopAndFood() {
         var searchContext = $("#globalsearch").val();
 
         var url = "/rufull/shop/findFuzzySearchShop?searchContext="+searchContext;
-        var sendData = null;
         console.log(searchContext);
         $.get(url,sendData,function(backData,textStaut,ajax){
             var jsonShopList = ajax.responseText;
