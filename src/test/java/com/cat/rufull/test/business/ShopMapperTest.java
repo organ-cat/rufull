@@ -3,6 +3,7 @@ package com.cat.rufull.test.business;
 import com.cat.rufull.domain.mapper.shop.ShopMapper;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.Shop;
+import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,10 @@ public class ShopMapperTest {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private EvaluationService evaluationService;
+
     @Test
     public void testaddShop(){
         Shop shop = new Shop();
@@ -93,6 +98,18 @@ public class ShopMapperTest {
     public void testFindAllShop(){
         List<Shop> allShop = shopService.findAllShop();
         System.out.println("allShop:"+allShop);
+    }
+
+    @Test
+    public void testGetStartForShop() throws Exception {
+        Double avarage = evaluationService.findAvarageByShopId(1);
+        System.out.println("商品平均分："+avarage);
+    }
+
+    @Test
+    public void testGetStartForProduct() throws Exception {
+        Double avarage = evaluationService.findAvarageByProductId(1);
+        System.out.println("商品平均分："+avarage);
     }
 
 }

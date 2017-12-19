@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +20,22 @@
 
 </head>
 <body>
-
+<spring:url value="/" var="rootUrl"/>
+<spring:url value="/order" var="showOrderUrl"/>
+<spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
+<spring:url value="/order/refund" var="showRefundOrderUrl"/>
+<spring:url value="/business/joinBusiness" var="showCooperationUrl"/>
+<spring:url value="/service/getAgreement" var="showAgreementUrl"/>
+<spring:url value="/account/center" var="showProfileUrl"/>
+<spring:url value="/favor/myFavor" var="showFavorUrl"/>
+<spring:url value="/account/center" var="footprintUrl"/>
+<spring:url value="/address/addressManage" var="showAddressUrl"/>
+<spring:url value="/account/security" var="showSecurityUrl"/>
+<spring:url value="/account/logout" var="logoutUrl"/>
+<spring:url value="/complaint/showAccount" var="showComplaintUrl"/>
+<spring:url value="/account/infomation" var="showInfoUrl"/>
+<spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
+<spring:url value="/cart" var="showCartUrl"/>
 <!-- 留着用来作导航条 -->
 <div class="my-header-nav">
     <nav class="mynav navbar navbar-default">
@@ -32,34 +48,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="${rootUrl}">
                     <img class="img-responsive center-block" alt="饱了么" src="">
                 </a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="hidden-sm hidden-md active"><a href="#">首页</a></li>
-                    <li><a href="${pageContext.request.contextPath}/rufull/cart">我的订单</a></li>
-                    <li><a href="#">加盟合作</a></li>
+                    <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
+                    <li class="active"><a href="${showOrderUrl}">我的订单</a></li>
+                    <li><a href="${showCooperationUrl}">加盟合作</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                    <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">用户名 <span class="caret"></span>
-                        </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人中心</a>
-                            </li>
-                            <li><a href="#"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> 我的收藏</a>
-                            </li>
-                            <li><a href="#"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 我的地址</a>
-                            </li>
-                            <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a>
-                            </li>
+                            <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
+                            <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
+                            <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
+                            <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
                             <li class="divider" role="separator"></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a>
-                            </li>
+                            <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -124,6 +134,11 @@
                                     医药健康
                                 </c:otherwise>
                             </c:choose>
+
+                        </span>
+                        <br>
+                        <span>
+                            <h4><b>评分：<div class="rating-star r${requestScope.shopEvaluation * 2}"></div></b></h4>
 
                         </span>
                     </div>

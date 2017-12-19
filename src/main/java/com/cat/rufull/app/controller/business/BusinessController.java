@@ -13,6 +13,7 @@ import com.cat.rufull.domain.service.shop.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -142,7 +143,13 @@ public class BusinessController {
     *@return
     */
     @RequestMapping("showBusinessSettleInfo")
-    public String showBusinessSettleInfo(){
+    public String showBusinessSettleInfo(HttpSession session, ModelMap map){
+        Account accountBusiness= (Account) session.getAttribute(Account.BUSINESS_SESSION);  //在session找出对应的商家
+
+        Business business = businessService.findBusinessByAccountId(accountBusiness.getId());//通过accountId查找对应的商家
+
+        map.addAttribute("business",business);
+
         return "business/businessSettleInfo";
     }
 
