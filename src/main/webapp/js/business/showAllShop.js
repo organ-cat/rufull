@@ -200,6 +200,7 @@ function searchShopAndFood() {
 
         var url = "/rufull/shop/findFuzzySearchShop?searchContext="+searchContext;
         console.log(searchContext);
+        var sendData = null;
         $.get(url,sendData,function(backData,textStaut,ajax){
             var jsonShopList = ajax.responseText;
 
