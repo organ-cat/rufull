@@ -75,5 +75,5 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <context:annotation-config/>
+
 </beans>

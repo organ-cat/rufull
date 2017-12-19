@@ -47,7 +47,6 @@ public class NoLoginController {
                                @RequestParam("password") String password,
                                @RequestParam("checkCode") String checkCode,
                                HttpSession session, HttpServletResponse response) {
-        System.out.println(phone+"|"+password+"|"+checkCode);
         String code = (String) session.getAttribute(Account.FORGOT_PASSWORD);
         boolean isPhone = RegEx.regExPhone(phone);
         boolean isEmail = RegEx.regExEmail(phone);
@@ -62,11 +61,9 @@ public class NoLoginController {
                 returnMessage(response,"1");
             } else {
                 returnMessage(response,"0");
-                System.out.println("手机或者邮箱格式错误");
             }
         } else {
             returnMessage(response,"0");
-            System.out.println("验证码错误");
         }
     }
     /**
@@ -151,7 +148,6 @@ public class NoLoginController {
                       String ip,
                       String city,
                       String remoteCode){
-        System.out.println(username + "|" + password + "|" + ip + "|" + city + "|" + remoteCode);
         Account account = new Account();
         //判断是否是用户名
         boolean isUsernaem = RegEx.regExUsername(username);
@@ -181,7 +177,6 @@ public class NoLoginController {
             if (login.getRole()  == Account.ACCOUNT_ROLE) {
                 //从session中获取异地登陆的验证码
                 String recode = (String) session.getAttribute(Account.REMOTE_CODE_SESSION);
-                System.out.println(recode);
                 //异地登陆的验证码是空，表示第一次登陆，不需要异地登陆验证码
                 if (recode == null) {
                     //判断是否是异地登陆
@@ -200,11 +195,9 @@ public class NoLoginController {
                         //将异地登陆验证码赋值为uuid并放入session，防止破解
                         session.setAttribute(remoteCode, UUID.randomUUID().toString().replaceAll("-", ""));
                         //返回异地登陆信息，提示需要短信验证码
-                        System.out.println("1");
                         result = ReturnCode.REMOTE_LOGIN;//异地登陆
                     }
                 } else {//非第一次登陆
-                    System.out.println("输入验证码"+recode+remoteCode);
                     //判断输入的异地登陆的验证码是否正确
                     if (recode.equals(remoteCode)) {//正确
                         //存入session中
@@ -357,68 +350,72 @@ public class NoLoginController {
         boolean isPhone = RegEx.regExPhone(phoneOrEmail);
         //判断是否是邮箱
         boolean isEmail = RegEx.regExEmail(phoneOrEmail);
-        //判断用户输入的验证码是否正确
-        if (registerCode.equals(checkCode)) {
-            //设置角色
-            account.setRole(role);
+        if (registerCode != null) {
+            //判断用户输入的验证码是否正确
+            if (registerCode.equals(checkCode)) {
+                //设置角色
+                account.setRole(role);
 /////////////////////////////////////////////////////////////////////////////////////////////
-            account.setPassword(password); //编码阶段，完成后改为account.setPassword(EncryptByMD5.encrypt(password));
+                account.setPassword(password); //编码阶段，完成后改为account.setPassword(EncryptByMD5.encrypt(password));
 /////////////////////////////////////////////////////////////////////////////////////////////
-            //注册方式是手机
-            if (isPhone) {
-                //根据手机查找用户账号
-                Account user = accountService.findAccountByPhone(phoneOrEmail,role);
-                //账号不存在，可以注册
-                if (user == null) {
-                    //设置账号的手机
-                    account.setPhone(phoneOrEmail);
-                    accountService.register(account);
-                    if (role == Account.ACCOUNT_ROLE) {
-                        Account registerSuccess =accountService.findAccountByPhone(phoneOrEmail, role);
-                        httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
-                        returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
-                    }
+                //注册方式是手机
+                if (isPhone) {
+                    //根据手机查找用户账号
+                    Account user = accountService.findAccountByPhone(phoneOrEmail, role);
+                    //账号不存在，可以注册
+                    if (user == null) {
+                        //设置账号的手机
+                        account.setPhone(phoneOrEmail);
+                        accountService.register(account);
+                        if (role == Account.ACCOUNT_ROLE) {
+                            Account registerSuccess = accountService.findAccountByPhone(phoneOrEmail, role);
+                            httpSession.setAttribute(Account.ACCOUNT_SESSION, account);
+                            returnMessage(response, ReturnCode.REGISTERED_SUCCESS);
+                        }
 /******************************************************************************************/
-                    //如果是商家注册，跳转到对应页面
-                    if (role == Account.BUSINESS_ROLE) {
-                        Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
-                        httpSession.setAttribute(Account.BUSINESS_SESSION, account);
-                        returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
+                        //如果是商家注册，跳转到对应页面
+                        if (role == Account.BUSINESS_ROLE) {
+                            Account registerBusiness = accountService.findAccountByPhone(phoneOrEmail, Account.BUSINESS_ROLE);
+                            httpSession.setAttribute(Account.BUSINESS_SESSION, account);
+                            returnMessage(response, ReturnCode.REGISTERED_SUCCESS);
+                        }
+                    } else {
+                        returnMessage(response, ReturnCode.PHONE_REGISTERED);
                     }
-                } else {
-                    returnMessage(response,ReturnCode.PHONE_REGISTERED);
-                }
-            }else if (isEmail) {//注册方式是邮箱
-                //根据邮箱查找用户账号
-                Account user = accountService.findAccountByEmail(phoneOrEmail, role);
-                //用户账号不存在,可以注册
-                if (user == null) {
-                    //设置账号的邮箱
-                    account.setEmail(phoneOrEmail);
-                    //发送激活账号邮箱
+                } else if (isEmail) {//注册方式是邮箱
+                    //根据邮箱查找用户账号
+                    Account user = accountService.findAccountByEmail(phoneOrEmail, role);
+                    //用户账号不存在,可以注册
+                    if (user == null) {
+                        //设置账号的邮箱
+                        account.setEmail(phoneOrEmail);
+                        //发送激活账号邮箱
 //                Email.sendBing(mailSender, mailMessage, phoneOrEmail);
-                    //注册账号
-                    accountService.register(account);
-                    if (role == Account.ACCOUNT_ROLE) {
-                        Account registerSuccess = accountService.findAccountByEmail(phoneOrEmail, role);
-                        httpSession.setAttribute(Account.ACCOUNT_SESSION, registerSuccess);
-                        returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
+                        //注册账号
+                        accountService.register(account);
+                        if (role == Account.ACCOUNT_ROLE) {
+                            Account registerSuccess = accountService.findAccountByEmail(phoneOrEmail, role);
+                            httpSession.setAttribute(Account.ACCOUNT_SESSION, registerSuccess);
+                            returnMessage(response, ReturnCode.REGISTERED_SUCCESS);
+                        }
+                        //如果是商家注册，跳转到对应页面
+                        if (role == Account.BUSINESS_ROLE) {
+                            Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
+                            httpSession.setAttribute(Account.BUSINESS_SESSION, account);
+                            returnMessage(response, ReturnCode.REGISTERED_SUCCESS);
+                        }
+                    } else {
+                        //邮箱被注册了，跳转到注册页面
+                        returnMessage(response, ReturnCode.EMAIL_REGISTERED);
                     }
-/******************************************************************************************/
-                    //如果是商家注册，跳转到对应页面
-                    if (role == Account.BUSINESS_ROLE) {
-                        Account registerBusiness = accountService.findAccountByEmail(phoneOrEmail, Account.BUSINESS_ROLE);
-                        httpSession.setAttribute(Account.BUSINESS_SESSION, account);
-                        returnMessage(response,ReturnCode.REGISTERED_SUCCESS);
-                    }
-                } else {
-                    //邮箱被注册了，跳转到注册页面
-                    returnMessage(response,ReturnCode.EMAIL_REGISTERED);
                 }
+            } else {
+                returnMessage(response, ReturnCode.CHECKCODE_ERROR);
             }
         } else {
             returnMessage(response, ReturnCode.CHECKCODE_ERROR);
         }
+
 
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cat.rufull.domain.mapper.account.LoginLogMapper">
+<mapper namespace="com.cat.rufull.domain.mapper.loginLog.LoginLogMapper">
     <insert id="addLoginLog" keyProperty="id" parameterType="LoginLog" useGeneratedKeys="true">
         INSERT
         INTO
