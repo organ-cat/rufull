@@ -3,11 +3,14 @@ package com.cat.rufull.app.controller.system;
 import com.aliyuncs.http.HttpRequest;
 import com.cat.rufull.domain.common.util.DateFormat;
 import com.cat.rufull.domain.common.util.EncryptByMD5;
+import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -60,10 +63,18 @@ public class ManageAccountController {
      * @return
      */
     @RequestMapping("/getAccountList")
-    public String getAccountlist(Model model){
+    public String getAccountlist(Model model, Page page){
+        PageHelper.offsetPage(page.getStart(), page.getCount());
         List<Account> mlist = accountService.findAllAccount();
+        int total = (int) new PageInfo<>(mlist).getTotal();
+        page.setTotal(total);
         model.addAttribute("allalist", mlist);
+        model.addAttribute("page",page);
         return "system/account/accountlist";
+    }
+    @RequestMapping("/getcheckAccount")
+    public String getcheckAccount(){
+        return "system/account/checkaccount";
     }
 
     /**
@@ -188,10 +199,11 @@ public class ManageAccountController {
         log.setType(2);
         int a = logService.addLog(log);
         if (a >= 1) {
-            return "system/account/accountlist";
-        } else
+            return "system/account/checkaccount";
+        } else {
             attr.addFlashAttribute("logerror","出错了");
-        return "system/account/accountlist";
+        }
+        return "system/account/checkaccount";
     }
 
 }

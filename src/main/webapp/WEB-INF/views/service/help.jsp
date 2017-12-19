@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh">
@@ -20,7 +20,7 @@
     <spring:url value="/order/unrated" var="showUnratedOrderUrl"/>
     <spring:url value="/order/refund" var="showRefundOrderUrl"/>
     <spring:url value="/service/getAgreement" var="showAgreementUrl"/>
-    <spring:url value="/account/logout"  var="logoutUrl"/>
+    <spring:url value="/account/logout" var="logoutUrl"/>
     <spring:url value="/account/center?id=${account.id}" var="showProfileUrl"/>
     <spring:url value="/favor/myFavor?id=${account.id}" var="showFavorUrl"/>
     <spring:url value="/address/addressManage?id=${account.id}" var="showAddressUrl"/>
@@ -30,12 +30,13 @@
     <spring:url value="/service/getAgreement" var="getAgreement"/>
     <spring:url value="/service/fanAnalysis?type=0" var="fan"/>
     <spring:url value="/service/fanAnalysis?type=1" var="column"/>
+    <spring:url value="/cart" var="showCartUrl"/>
 
     <link href="${pageContext.request.contextPath}/css/service/forward.css" type="text/css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link href="${pageContext.request.contextPath}/css/account/login-register.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet" />
+    <%--<link href="${pageContext.request.contextPath}/css/account/index.css" rel="stylesheet"/>--%>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <script src="${pageContext.request.contextPath}/js/business/jquery-2.2.4.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/business/bootstrap.js"></script>
@@ -48,18 +49,19 @@
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
     <script type="text/javascript">
-        $("body").css("width", window.innerWidth);
-        $(window).resize(function () {
-            $("body").css("width", window.innerWidth);
-        })
         function loginerror() {
-                swal("操作失败", "用户尚未登录!", "error");
-                }
+            swal("操作失败", "用户尚未登录!", "error");
+        }
     </script>
 </head>
 
 <body>
-
+    <script type="text/javascript">
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        });
+    </script>
 <div class="container">
     <script type="text/javascript">
         $("body").css("width", window.innerWidth);
@@ -87,15 +89,19 @@
                             <div class="form loginBox">
 
                                 <form method="post" accept-charset="UTF-8">
-                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱" name="username">
-                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码" name="password">
+                                    <input id="username" class="form-control loi" type="text" placeholder="手机/用户名/邮箱"
+                                           name="username">
+                                    <input id="loginPassword" class="form-control loi" type="password" placeholder="密码"
+                                           name="password">
 
                                     <div id="hideDiv">
-                                        <input id="remoteCode" type="text" class="loh" name="checkCode" placeholder="验证码">
+                                        <input id="remoteCode" type="text" class="loh" name="checkCode"
+                                               placeholder="验证码">
                                         <input id="loginCodeBtn" class="loh" type="button" readonly value="免费获取验证码">
                                     </div>
 
-                                    <input id="loginButton" class="btn btn-default loi btn-login" type="button" value="登陆">
+                                    <input id="loginButton" class="btn btn-default loi btn-login" type="button"
+                                           value="登陆">
                                 </form>
                             </div>
                         </div>
@@ -104,11 +110,14 @@
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
                                 <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
-                                <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
-                                <input id="confirmationPassword" class="form-control loi" type="password" placeholder="确认密码" name="password_confirmation">
+                                <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码"
+                                       name="password">
+                                <input id="confirmationPassword" class="form-control loi" type="password"
+                                       placeholder="确认密码" name="password_confirmation">
                                 <input id="checkcode" type="text" class="loh" name="checkCode" placeholder="验证码">
                                 <input id="getCheckCodeButton" class="loh" type="button" value="免费获取验证码">
-                                <input id="registerButton" class="btn btn-default btn-register  loi" type="button" value="注册"/>
+                                <input id="registerButton" class="btn btn-default btn-register  loi" type="button"
+                                       value="注册"/>
                             </div>
                         </div>
                     </div>
@@ -142,7 +151,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么" src=""></a>
+                        <a class="navbar-brand" href="${rootUrl}"><img class="img-responsive center-block" alt="饱了么"
+                                                                       src=""></a>
                     </div>
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
@@ -152,31 +162,36 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
-                                <c:if test="${empty account}">
-                                    <li class="hidden-sm hidden-md">
-                                        <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
-                                            登录/注册
-                                        </a></li>
-                                </c:if>
+                            <c:if test="${empty account}">
+                                <li class="hidden-sm hidden-md">
+                                    <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
+                                        登录/注册
+                                    </a></li>
+                            </c:if>
 
-                                <c:if test="${!empty account}">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">${account.nickname}<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
-                                                                          aria-hidden="true"></span>个人中心</a></li>
-                                    <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
-                                                                        aria-hidden="true"></span>我的收藏</a></li>
-                                    <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
-                                                                          aria-hidden="true"></span>我的地址</a></li>
-                                    <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
-                                                                           aria-hidden="true"></span> 安全设置</a></li>
-                                    <li class="divider" role="separator"></li>
-                                    <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                        退出登录</a></li>
-                                </ul>
-                            </li></c:if>
+                            <c:if test="${!empty account}">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">${account.nickname}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
+                                                                              aria-hidden="true"></span>个人中心</a></li>
+                                        <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
+                                                                           aria-hidden="true"></span>购物车</a></li>
+                                        <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
+                                                                            aria-hidden="true"></span>我的收藏</a></li>
+                                        <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"
+                                                                              aria-hidden="true"></span>我的地址</a></li>
+                                        <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog"
+                                                                               aria-hidden="true"></span> 安全设置</a></li>
+                                        <li class="divider" role="separator"></li>
+                                        <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off"
+                                                                         aria-hidden="true"></span>
+                                            退出登录</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
                         </ul>
                     </div>
                 </div>
@@ -190,21 +205,21 @@
     <div class="container">
         <div class="help">
             <div class="help-site">
-            <ul class="">
-                <li><a href="${gethelp}" class="active">问题答疑</a></li>
-                <c:if test="${!empty account}">
-                <li><a href="${getAccorder}" >我的账单</a></li>
-                <li><a href="${fan}" >扇形分析</a></li>
-                <li><a href="${column}">柱形分析</a></li>
-                </c:if>
-                <c:if test="${empty account}">
-                    <li><a  href="javascript:void(0);" onclick="loginerror();" >我的账单</a></li>
-                    <li><a href="javascript:void(0);" onclick="loginerror();" >扇形分析</a></li>
-                    <li><a href="javascript:void(0);" onclick="loginerror();" >柱形分析</a></li>
-                </c:if>
-                <li><a href="${getAgreement}">网站规则</a></li>
-            </ul>
-        </div>
+                <ul class="">
+                    <li><a href="${gethelp}" class="active">问题答疑</a></li>
+                    <c:if test="${!empty account}">
+                        <li><a href="${getAccorder}">我的账单</a></li>
+                        <li><a href="${fan}">扇形分析</a></li>
+                        <li><a href="${column}">柱形分析</a></li>
+                    </c:if>
+                    <c:if test="${empty account}">
+                        <li><a href="javascript:void(0);" onclick="loginerror();">我的账单</a></li>
+                        <li><a href="javascript:void(0);" onclick="loginerror();">扇形分析</a></li>
+                        <li><a href="javascript:void(0);" onclick="loginerror();">柱形分析</a></li>
+                    </c:if>
+                    <li><a href="${getAgreement}">网站规则</a></li>
+                </ul>
+            </div>
             <div class="help-content">
                 <h1>热门问题</h1>
                 <ul class="answer-list">
@@ -276,43 +291,44 @@
                             </li>
                             <li id="Q14"><h4>我第一次在“A”餐厅下单，“A”餐厅有参加“1st”活动，我为什么享受不到新用户的立减优惠？</h4>
                                 <p>活动中的新用户指的是吃货宝网站的新用户，而不是指“A”餐厅的新客户。如果您不符合吃货宝网站新用户的定义则无法享受于新用户相关的活动优惠。</p></li>
-                        </ul> </li>
-                            <li><h3>订餐问题</h3>
-                                <ul class="ouranswer-sub-list">
-                                    <li id="Q15"><h4>下单后，餐厅长时间未确认订单，怎么办？</h4>
-                                        <p>这个情况可能由于餐厅出现网络信号问题无法及时查看到您的订单，您可以在订单上查找到餐厅电话，致电餐厅进行确认订单。如果联系不上餐厅可以致电客服。</p>
-                                    </li>
-                                    <li id="Q16"><h4>餐厅确认订单了，我要催单，怎么办？</h4>
-                                        <p>
-                                            如果餐厅页面支持留言，您可以直接给餐厅留言催单。如果餐厅页面不支持留言，您可以到饿单中心，查找到餐厅电话，直接致电餐厅进行催单。如果联系不上餐厅可以致电客服。</p>
-                                    </li>
-                                    <li id="Q17"><h4>实际送餐时间跟吃货宝上显示的送餐时间有差距？</h4>
-                                        <p>吃货宝上显示是最近 30
-                                            天用户点评的餐厅送餐速度的平均值。这个送餐速度只是作为用户订餐时的参考,跟实际送餐速度有出入属于正常情况。遇到恶劣天气时,送餐速度会受到影响。</p>
-                                    </li>
-                                    <li id="Q18"><h4>点餐的时候提示美食篮子失效，怎么回事？</h4>
-                                        <ul class="list-with-icon">
-                                            <li>请检查您的美食篮子价格是否低于4元，网站规定参与活动下单，总下单价格必须&gt;=4元，若低于4元是无法下单的。所以显示无效。</li>
-                                            <li>如果您的价格正常，美食篮子依然显示无效，建议您卸载客户端重新安装。</li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                        </ul>
+                    </li>
+                    <li><h3>订餐问题</h3>
+                        <ul class="ouranswer-sub-list">
+                            <li id="Q15"><h4>下单后，餐厅长时间未确认订单，怎么办？</h4>
+                                <p>这个情况可能由于餐厅出现网络信号问题无法及时查看到您的订单，您可以在订单上查找到餐厅电话，致电餐厅进行确认订单。如果联系不上餐厅可以致电客服。</p>
                             </li>
-
-                            <li><h3>其他问题</h3>
-                                <ul class="ouranswer-sub-list">
-                                    <li id="Q19"><h4>什么是超时赔付？</h4>
-                                        <p>
-                                            餐厅页面有“赔”字icon的，则说明该餐厅有参加超时赔付。超时赔付是指：餐厅承诺一个送达时间和一个折扣,从用户下单时间开始计算,如果外卖超过了承诺时间才送到,则该份外卖按照折扣价收取费用。若餐厅有备注：由于恶劣天气、某些美食烹调时间过长、或者其他因素,餐厅可以选择性的延长承诺时间或者不做承诺。</p>
-                                    </li>
-                                    <li id="Q20"><h4>什么是订单数？</h4>
-                                        <p>订单数是指餐厅最近30天的订单总数，这个数据是动态的，每天都会进行更新。</p></li>
-                                    <li id="Q21"><h4>美食多久内可以点评？点评后是否能修改？</h4>
-                                        <p>美食一旦点评就不能做修改。如果您有特殊情况需要删除点评，可以联系客服协助操作。</p></li>
+                            <li id="Q16"><h4>餐厅确认订单了，我要催单，怎么办？</h4>
+                                <p>
+                                    如果餐厅页面支持留言，您可以直接给餐厅留言催单。如果餐厅页面不支持留言，您可以到饿单中心，查找到餐厅电话，直接致电餐厅进行催单。如果联系不上餐厅可以致电客服。</p>
+                            </li>
+                            <li id="Q17"><h4>实际送餐时间跟吃货宝上显示的送餐时间有差距？</h4>
+                                <p>吃货宝上显示是最近 30
+                                    天用户点评的餐厅送餐速度的平均值。这个送餐速度只是作为用户订餐时的参考,跟实际送餐速度有出入属于正常情况。遇到恶劣天气时,送餐速度会受到影响。</p>
+                            </li>
+                            <li id="Q18"><h4>点餐的时候提示美食篮子失效，怎么回事？</h4>
+                                <ul class="list-with-icon">
+                                    <li>请检查您的美食篮子价格是否低于4元，网站规定参与活动下单，总下单价格必须&gt;=4元，若低于4元是无法下单的。所以显示无效。</li>
+                                    <li>如果您的价格正常，美食篮子依然显示无效，建议您卸载客户端重新安装。</li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
+
+                    <li><h3>其他问题</h3>
+                        <ul class="ouranswer-sub-list">
+                            <li id="Q19"><h4>什么是超时赔付？</h4>
+                                <p>
+                                    餐厅页面有“赔”字icon的，则说明该餐厅有参加超时赔付。超时赔付是指：餐厅承诺一个送达时间和一个折扣,从用户下单时间开始计算,如果外卖超过了承诺时间才送到,则该份外卖按照折扣价收取费用。若餐厅有备注：由于恶劣天气、某些美食烹调时间过长、或者其他因素,餐厅可以选择性的延长承诺时间或者不做承诺。</p>
+                            </li>
+                            <li id="Q20"><h4>什么是订单数？</h4>
+                                <p>订单数是指餐厅最近30天的订单总数，这个数据是动态的，每天都会进行更新。</p></li>
+                            <li id="Q21"><h4>美食多久内可以点评？点评后是否能修改？</h4>
+                                <p>美食一旦点评就不能做修改。如果您有特殊情况需要删除点评，可以联系客服协助操作。</p></li>
+                        </ul>
+                    </li>
+                </ul>
+                </li>
                 </ul>
             </div>
         </div>

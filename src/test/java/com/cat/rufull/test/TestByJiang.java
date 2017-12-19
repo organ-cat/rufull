@@ -5,8 +5,11 @@ import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
 import com.cat.rufull.domain.service.favor.FavorService;
+import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.cat.rufull.domain.service.system.ManageService;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,8 @@ public class TestByJiang {
     private SimpleMailMessage mailMessage;
     @Autowired(required=true)
     private FavorService favorService;
+    @Autowired
+    private ManagerLogService managerLogService;
 
     @Test
     public void login() {
@@ -432,6 +437,13 @@ public class TestByJiang {
         double balance = 10.00;
         int result = accountService.updateBalance(id, balance);
         System.out.println(result);
+    }
+
+    @Test
+    public void testManagerLog()
+    {
+        List<ManageLog> logs = managerLogService.findLogsByCondition(null,null,"%" + "" + "%");
+        System.out.println(logs.size());
     }
 }
 
