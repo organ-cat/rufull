@@ -231,7 +231,7 @@
                                     <c:forEach items="${footprintList}" var="footprint">
                                         <div class="shoplist">
                                             <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
+                                            <a href="${showShopDetailUrl}?id=${footprint.id} " target="_self">
                                                 <div class="rstblock-logo">
                                                     <img src="${pageContext.request.contextPath}/upload/shop/${footprint.shopPhoto}"
                                                          width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">

@@ -179,7 +179,7 @@
                                     <c:forEach items="${favorList}" var="favor">
                                         <div class="shoplist">
                                             <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${favor.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${favor.id} " target="_self">
+                                            <a href="${showShopDetailUrl}?id=${favor.id} " target="_self">
                                                 <div class="rstblock-logo">
                                                     <img src="${pageContext.request.contextPath}/upload/shop/${favor.shopPhoto}"
                                                          width="70" height="70" alt="${favor.shopName}" class="rstblock-logo-icon">
