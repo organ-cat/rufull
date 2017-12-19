@@ -25,7 +25,7 @@ public class RegEx {
             return false;
         }
         //必须是字母开头，用户名由字母，数字和_组成，2-20位
-        String regex  = "[a-zA-Z]{1}[a-zA-Z0-9_]{2,20}";
+        String regex  = "[a-zA-Z]{1}[a-zA-Z0-9_]{3,20}";
         return username.matches(regex);
     }
 

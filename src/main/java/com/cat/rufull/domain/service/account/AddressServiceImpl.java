@@ -1,6 +1,6 @@
 package com.cat.rufull.domain.service.account;
 
-import com.cat.rufull.domain.mapper.account.AddressMapper;
+import com.cat.rufull.domain.mapper.address.AddressMapper;
 import com.cat.rufull.domain.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

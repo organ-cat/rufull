@@ -6,6 +6,8 @@ import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
 import com.cat.rufull.domain.service.favor.FavorService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -159,37 +161,34 @@ public class TestByJiang {
     //    **************************************************************************************************************/
 //投诉测试
 //    **************************************************************************************************************/
-  
+   @Test
+    public void findComplaintById(){
+       Complaint complaintById = complaintService.findComplaintById(20);
+       System.out.println(complaintById.toString());
+   }
 
     @Test
-    public void findAccountComplaintById() {
-        int id = 1;
-        Complaint complaint = complaintService.findComplaintById(id);
-        if (complaint != null) {
+    public void completedComplaintList(){
+        List<Complaint> list = complaintService.completedComplaintList();
+        for (Complaint complaint : list) {
             System.out.println(complaint.toString());
-        } else {
-            System.out.println("nononoonononononon");
         }
     }
 
     @Test
-    public void findAccountComplaintListById() {
-        int account_id = 1;
-        List<Complaint> list = complaintService.findAccountComplaintListById(account_id);
-        for (Complaint c : list) {
-            System.out.println(c.toString());
+    public void findComplaintByTime(){
+        List<Complaint> list = complaintService.findComplaintByTime(null,null,null);
+        for (Complaint complaint : list) {
+            System.out.println(complaint.toString());
         }
     }
-
-
     @Test
-    public void findAllComplaintList() {
+    public void findAllComplaint(){
         List<Complaint> list = complaintService.findAllComplaint();
-        for (Complaint c : list) {
-            System.out.println(c.toString());
+        for (Complaint complaint : list) {
+            System.out.println(complaint.toString());
         }
     }
-
 
 //    **************************************************************************************************************/
 //足迹测试
@@ -284,14 +283,6 @@ public class TestByJiang {
         System.out.println("0" + footprint.toString());
         System.out.println("1" + footprint1.toString());
 
-    }
-
-
-    @Test
-    public void test() {
-        int id = 1;
-        int status = 100;
-        accountService.updateAccountStatus(id, status);
     }
 
     @Test
@@ -433,6 +424,30 @@ public class TestByJiang {
         int result = accountService.updateBalance(id, balance);
         System.out.println(result);
     }
+
+    @Test
+    public void fenye(){
+        PageInfo<Complaint> page = selectComplaintByPage(0, 1);
+        System.out.println("getSize——"+page.getSize());
+        System.out.println("getPageSize——"+page.getPageSize());
+        System.out.println("getPrePage——"+page.getPrePage());
+        System.out.println("getNextPage——"+page.getNextPage());
+        System.out.println("getPages——"+page.getPages());
+
+
+        List<Complaint> list = page.getList();
+        for (Complaint complaint : list) {
+            System.out.println(complaint.toString());
+        }
+    }
+
+    public PageInfo<Complaint> selectComplaintByPage(int currentPage, int pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<Complaint> list = complaintService.findAccountComplaintListById(1);
+        PageInfo<Complaint> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
 }
 
 
