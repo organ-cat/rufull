@@ -1,11 +1,14 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,9 +47,13 @@ public class ManageShopController {
      * @return
      */
     @RequestMapping("/getNotSettledBusiness")
-    public String getNotSettledShop(Model model) {
+    public String getNotSettledShop(Model model, Page page) {
+        PageHelper.offsetPage(page.getStart(), page.getCount());
         List<Business> businessesList = businessService.findNotSettledBusiness();
+        int total = (int) new PageInfo<>(businessesList).getTotal();
+        page.setTotal(total);
         model.addAttribute("notSettleShop", businessesList);
+        model.addAttribute("page",page);
         return "system/shop/notSettleShop";
     }
 
@@ -200,7 +207,7 @@ public class ManageShopController {
         Business business = businessService.findById(id);
         business.getAccount().setStatus(Business.BUSINESS_STATUS_DELETE);
         Shop shop = shopService.findShopByBusinessId(business.getId());
-        if(shop!=null) {
+        if (shop != null) {
             shop.setOperateState(Shop.SHOP_STATUS_DELETE);
             shopService.updateById(shop);
         }

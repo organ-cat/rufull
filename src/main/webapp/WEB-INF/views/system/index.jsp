@@ -33,6 +33,7 @@
     <spring:url value="manageLog/showAccountlog" var="showAccountlog"></spring:url>
     <spring:url value="manageLog/goLogs" var="goLogs"></spring:url>
     <spring:url value="manageAcc/getAccountList" var="getAccountList"></spring:url>
+    <spring:url value="manageAcc/getcheckAccount" var="getcheckAccount"></spring:url>
     <spring:url value="manageShop/getNotSettledBusiness" var="getNotSettledBusiness"></spring:url>
     <spring:url value="manageShop/findBusiness" var="findBusiness"></spring:url>
     <spring:url value="ordermanage/findOrdersList" var="findOrdersList"></spring:url>
@@ -194,8 +195,10 @@
                 </a>
 
                     <ul class="submenu">
-
                         <li><a href="${getAccountList}" target="mainframe"> <i
+                                class="icon-double-angle-right"></i> 用户列表
+                        </a></li>
+                        <li><a href="${getcheckAccount}" target="mainframe"> <i
                                 class="icon-double-angle-right"></i> 查询用户
                         </a></li>
 

@@ -1,4 +1,4 @@
-package com.cat.rufull.domain.mapper.account;
+package com.cat.rufull.domain.mapper.complaint;
 
 import com.cat.rufull.domain.model.Complaint;
 import org.apache.ibatis.annotations.Param;

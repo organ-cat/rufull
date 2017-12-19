@@ -121,3 +121,44 @@ footer {
 .bottomfooter{
 	margin-bottom: 15px;
 }
+
+/*星星*/
+.rating-star {
+	display: inline-block;
+	width: 61px;
+	height: 14px;
+	background: url(../../image/service/bg.gif) no-repeat -1px -193px
+}
+.rating-star.r0 {
+	background-position: -1px -333px
+}
+.rating-star.r1 {
+	background-position: -1px -318px
+}
+.rating-star.r2 {
+	background-position: -1px -303px
+}
+.rating-star.r3 {
+	background-position: -1px -288px
+}
+.rating-star.r4 {
+	background-position: -1px -273px
+}
+.rating-star.r5 {
+	background-position: -1px -256px
+}
+.rating-star.r6 {
+	background-position: -1px -239px
+}
+.rating-star.r7 {
+	background-position: -1px -223px
+}
+.rating-star.r8 {
+	background-position: -1px -209px
+}
+.rating-star.r9 {
+	background-position: -1px -194px
+}
+.rating-star.r10 {
+	background-position: -1px -179px
+}

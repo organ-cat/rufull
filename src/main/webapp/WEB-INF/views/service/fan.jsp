@@ -37,10 +37,6 @@
     <script src="${pageContext.request.contextPath}/js/system/sweet-alert.min.js"></script>
 
     <script type="text/javascript">
-        $("body").css("width", window.innerWidth);
-        $(window).resize(function () {
-            $("body").css("width", window.innerWidth);
-        })
 
         $(function() {
             var chart;
@@ -136,6 +132,7 @@
     <spring:url value="/service/getAgreement" var="getAgreement"/>
     <spring:url value="/service/fanAnalysis?type=0" var="fan"/>
     <spring:url value="/service/fanAnalysis?type=1" var="column"/>
+    <spring:url value="/cart" var="showCartUrl"/>
 
 
 
@@ -143,7 +140,12 @@
 </head>
 
 <body>
-
+    <script type="text/javascript">
+        $("body").css("width", window.innerWidth);
+        $(window).resize(function () {
+            $("body").css("width", window.innerWidth);
+        });
+    </script>
 <div class="full-content-wrapper">
     <nav class="navbar navbar-default">
         <div class="container">
@@ -171,6 +173,8 @@
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}"><span class="glyphicon glyphicon-user"
                                                                   aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart"
+                                                               aria-hidden="true"></span>购物车</a></li>
                             <li><a href="${showFavorUrl}"><span class="glyphicon glyphicon-star"
                                                                 aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}"><span class="glyphicon glyphicon-map-marker"

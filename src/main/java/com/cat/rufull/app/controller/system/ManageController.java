@@ -1,17 +1,16 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
-import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.ManagerUtils;
+import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.system.ManageService;
-import org.apache.ibatis.annotations.Param;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -228,9 +227,13 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/getManagerList")
-    public String getManagerList(Model model) {
+    public String getManagerList(Model model,Page page) {
+        PageHelper.offsetPage(page.getStart(),page.getCount());
         List<Manager> mlist = manageService.findAll();
+        int total = (int) new PageInfo<>(mlist).getTotal();
+        page.setTotal(total);
         model.addAttribute("allmlist", mlist);
+        model.addAttribute("page", page);
         return "system/manager/managerlist";
     }
 
@@ -394,11 +397,17 @@ public class ManageController {
      * @return
      */
     @RequestMapping("/findbycondition")
-    public String findbycondition(String findname, Model model, HttpSession session,HttpServletRequest request) {
+    public String findbycondition(String findname, Model model, HttpSession session,HttpServletRequest request,
+            Page page) {
         System.out.println("查找的字段为：" + findname);
-        session.removeAttribute("logerror");
+
+        PageHelper.offsetPage(page.getStart(),page.getCount());
         List<Manager> findlist = manageService.findName("%" + findname + "%");
+        int total = (int) new PageInfo<>(findlist).getTotal();
+        page.setTotal(total);
+
         model.addAttribute("allmlist", findlist);
+        model.addAttribute("page", page);
         log.setCreateTime(DateFormat.getNewdate(date));
         log.setDetail("查询管理员！");
         log.setManager((Manager) session.getAttribute("manager"));

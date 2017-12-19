@@ -29,7 +29,7 @@
 
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
             $(document).ready(function () {
                 lay('#version').html('-v' + laydate.v);
                 laydate.render({
@@ -51,14 +51,13 @@
         var logerror = "${logerror}";
         var timeerror = "${timeerror}";
 
-        if(logerror!='') {
-            window.onload = function() {
+        if (logerror != '') {
+            window.onload = function () {
                 swal("操作失败", "插入日志出错!", "error");
             };
         }
-        if(timeerror!= '')
-        {
-            window.onload = function() {
+        if (timeerror != '') {
+            window.onload = function () {
                 swal("操作失败", "开始时间不能大于结束时间!", "error");
             };
         }
@@ -66,90 +65,94 @@
 </head>
 
 <body>
+<div align="center">
+    <form class="form-inline" name="findorder"
+          action="${pageContext.request.contextPath}/ordermanage/getOrdersbycondition"
+          method="post">
+        <div class="col-sm-12">
+            <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
 
-<form class="form-inline" name="findorder" action="${pageContext.request.contextPath}/ordermanage/getOrdersbycondition"
-      method="post">
-    <div class="col-sm-12">
-        <div class="form-group" style="padding-left: 20%;padding-top: 20px;padding-bottom: 20px;">
+                <input type="text" class="form-control input-lg" id="begin" readonly="readonly"
+                       name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
+                <input type="text" class="form-control input-lg" id="end" readonly="readonly"
+                       name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
 
-            <input  type="text" class="form-control input-lg" id="begin" readonly="readonly"
-                    name="beginTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入开始时间">----
-            <input type="text" class="form-control input-lg" id="end" readonly="readonly"
-                   name="endTime" style="min-width: 200px;max-width: 200px;" placeholder="请输入结束时间">&nbsp;&nbsp;
+                &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
+                                    class="btn btn-lg" onclick="findallorders();">查找
+            </button>
+            </div>
+        </div>
+    </form>
 
-            &nbsp;&nbsp;<button type="button" style="max-width: 150px;"
-                                class="btn btn-lg" onclick="findallorders();">查找
-        </button>
+    <div style="height:360px;">
+        <div class="col-sm-12" style="padding:20px 80px 20px 80px;">
+            <div class="panel panel-default">
 
+                <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
+                    <h4>订单列表展示</h4>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>订单号</th>
+                        <th>创建时间</th>
+                        <th>商店名称</th>
+                        <th>支付方式</th>
+                        <th>订单总额</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                    </tr>
+                    <c:forEach items="${morderlist}" var="list">
+                        <tr>
+                            <td>${list.orderNumber}</td>
+                            <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                            <td>${list.shop.shopName}</td>
+                            <c:if test="${list.paymentMethod=='ONLINE'}">
+                                <td>在线支付</td>
+                            </c:if>
+                            <c:if test="${list.paymentMethod=='OFFLINE'}">
+                                <td>货到付款</td>
+                            </c:if>
+                            <td>${list.total}</td>
+                            <c:if test="${list.status=='UNPAID'}">
+                                <td>未付款</td>
+                            </c:if>
+                            <c:if test="${list.status=='PAID'}">
+                                <td>已付款</td>
+                            </c:if>
+                            <c:if test="${list.status=='CANCELED'}">
+                                <td>已取消</td>
+                            </c:if>
+                            <c:if test="${list.status=='ACCEPTED'}">
+                                <td>已接单</td>
+                            </c:if>
+                            <c:if test="${list.status=='DELIVERY'}">
+                                <td>运送中</td>
+                            </c:if>
+                            <c:if test="${list.status=='COMPLETED'}">
+                                <td>已完成</td>
+                            </c:if>
+                            <c:if test="${list.status=='AUDITING'}">
+                                <td>审核中</td>
+                            </c:if>
+                            <c:if test="${list.status=='UNCOMPLETED'}">
+                                <td>未完成</td>
+                            </c:if>
+                            <c:if test="${list.status=='EVALUATED'}">
+                                <td>已评价</td>
+                            </c:if>
+                            <td>
+                                <input type="button" class="btn btn-primary" value="查看详情"
+                                       onclick="getdetail(${list.id});"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
     </div>
-</form>
-
-
-<div class="col-sm-12" style="padding:20px 80px 20px 80px;">
-    <div class="panel panel-default">
-
-        <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
-            <h4>订单列表展示</h4>
-        </div>
-        <table class="table table-bordered">
-            <tr>
-                <th>订单号</th>
-                <th>创建时间</th>
-                <th>商店名称</th>
-                <th>支付方式</th>
-                <th>订单总额</th>
-                <th>订单状态</th>
-                <th>操作</th>
-            </tr>
-            <c:forEach items="${morderlist}" var="list">
-                <tr>
-                    <td>${list.orderNumber}</td>
-                    <td><fmt:formatDate value="${list.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td>${list.shop.shopName}</td>
-                    <c:if test="${list.paymentMethod=='ONLINE'}">
-                        <td>在线支付</td>
-                    </c:if>
-                    <c:if test="${list.paymentMethod=='OFFLINE'}">
-                        <td>货到付款</td>
-                    </c:if>
-                    <td>${list.total}</td>
-                    <c:if test="${list.status=='UNPAID'}">
-                        <td>未付款</td>
-                    </c:if>
-                    <c:if test="${list.status=='PAID'}">
-                        <td>已付款</td>
-                    </c:if>
-                    <c:if test="${list.status=='CANCELED'}">
-                        <td>已取消</td>
-                    </c:if>
-                    <c:if test="${list.status=='ACCEPTED'}">
-                        <td>已接单</td>
-                    </c:if>
-                    <c:if test="${list.status=='DELIVERY'}">
-                        <td>运送中</td>
-                    </c:if>
-                    <c:if test="${list.status=='COMPLETED'}">
-                        <td>已完成</td>
-                    </c:if>
-                    <c:if test="${list.status=='AUDITING'}">
-                        <td>审核中</td>
-                    </c:if>
-                    <c:if test="${list.status=='UNCOMPLETED'}">
-                        <td>未完成</td>
-                    </c:if>
-                    <c:if test="${list.status=='EVALUATED'}">
-                        <td>已评价</td>
-                    </c:if>
-                    <td>
-                        <input type="button" class="btn btn-primary" value="查看详情"
-                               onclick="getdetail(${list.id});"/>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
+    <%--<div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
+    </div>--%>
 </div>
-
 </body>
 </html>

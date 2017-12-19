@@ -64,12 +64,12 @@ public class ComplaintController {
         account.setId(accountId);
         complaintService.addComplaint(
                 new Complaint(type, content, fileName, new Date(), Complaint.COMPLAINTED, account, shop));
-        return "index";
+        return "redirect:/complaint/showAccount?id=" + accountId;
     }
 
     @RequestMapping(value = "/showAccount", method = RequestMethod.GET)
-    public ModelAndView getComplaintByAccount(@RequestParam("accountId") int accountId) {
-        List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
+    public ModelAndView getComplaintByAccount(@RequestParam("id") int id) {
+        List<Complaint> list = complaintService.findAccountComplaintListById(id);
         ModelAndView view = new ModelAndView();
         view.setViewName("account/comlpaintList");
         for (Complaint complaint : list) {
@@ -77,10 +77,6 @@ public class ComplaintController {
         }
         view.addObject("complaintList", list);
         return view;
-    }
-    @RequestMapping(value = "/findComplaintById", method = RequestMethod.GET)
-    public void findComplaintById(){
-
     }
 
     @RequestMapping(value = "/getComplaintByShop", method = RequestMethod.GET)

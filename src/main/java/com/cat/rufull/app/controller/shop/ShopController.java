@@ -7,6 +7,7 @@ import com.cat.rufull.domain.service.account.FootprintService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("shop")
@@ -71,15 +73,33 @@ public class ShopController {
     *@return
     */
     @RequestMapping(value = "showShopDetail",method = RequestMethod.GET)
-    public String showShopDetail(Integer id, ModelMap map,HttpSession session){
+    public String showShopDetail(Integer id, ModelMap map,HttpSession session) throws Exception {
 
-        //缺少获取展示所有商家页面，点击商家页面后跳过过来这里。
-        Shop shopDetail = shopService.findById(id);
+
+        Shop shopDetail = shopService.findById(id);//查询出对应的商店
         System.out.println("shopDetail"+shopDetail);
 
+        JSONArray jsonProductList = JSONArray.fromObject(shopDetail.getProductList());
+
+        Map<Integer, Integer> productEvaluationMap =
+                shopService.getShopProductEvaluation(shopDetail);//查询出商品评价
+        JSONArray jsonproductEvaluationMap = JSONArray.fromObject(productEvaluationMap);
+
+        Double shopEvaluation = evaluationService.findAvarageByShopId(shopDetail.getId());
+        if(shopEvaluation == null){
+            shopEvaluation = 0.0;
+        }
+
         Account account = (Account) session.getAttribute(Account.ACCOUNT_SESSION);
-        footprintService.addFootprint(new Footprint(id,account.getId()));//为用户添加足记
+        if(account != null ){
+            footprintService.addFootprint(new Footprint(id,account.getId()));//用户不为空的时候，为用户添加足记
+        }
+
+
+        map.put("productEvaluationMap",jsonproductEvaluationMap);
+        map.put("shopEvaluation",shopEvaluation.intValue());
         map.put("shop",shopDetail);
+        map.put("productList",jsonProductList);
         return "shop/accountToShop";
     }
 
@@ -91,9 +111,16 @@ public class ShopController {
     *@return
     */
     @RequestMapping(value = "showBusinessLicense",method = RequestMethod.GET)
-    public String showBusinessLicense(Integer id,ModelMap map){
+    public String showBusinessLicense(Integer id,ModelMap map) throws Exception {
 
         Shop shopDetail = shopService.findById(id); //查找对应的商店
+        Double shopEvaluation = evaluationService.findAvarageByShopId(shopDetail.getId());//查询商店评分
+
+        if(shopEvaluation == null){
+            shopEvaluation = 0.0;
+        }
+
+        map.put("shopEvaluation",shopEvaluation.intValue());
         map.put("shop",shopDetail);
 
         return "shop/accountToBusinessLicense";
@@ -125,6 +152,13 @@ public class ShopController {
         List<OrderEvaluation> orderEvaluations2 = evaluationService.findEvalByShopId_N(id);
         map.put("orderEvaluations2", orderEvaluations2);
 
+        Double shopEvaluation = evaluationService.findAvarageByShopId(shopDetail.getId());//查询商店评分
+
+        if(shopEvaluation == null){
+            shopEvaluation = 0.0;
+        }
+
+        map.put("shopEvaluation",shopEvaluation.intValue());
         return "shop/accountToShopComments";
     }
 
@@ -137,8 +171,11 @@ public class ShopController {
     */
     @RequestMapping("showAllShop")
     public String showAllShow(ModelMap map){
-        List<Shop> shopList = shopService.findAll();
+        List<Shop> shopList = shopService.findAll();       //查询所有允许营业的shop
+
+
         map.put("shopList",shopList);
+
         return "shop/showAllShop";
     }
 

@@ -1,6 +1,7 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
@@ -8,6 +9,8 @@ import com.cat.rufull.domain.service.account.ComplaintService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import com.cat.rufull.domain.service.system.ManageService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,13 +47,16 @@ public class ManageComplaintController {
      * 查看用户的所有投诉
      *
      * @param model
-     * @param session
      * @return
      */
     @RequestMapping("/findAllComp")
-    public String findAllComp(Model model, HttpSession session) {
+    public String findAllComp(Model model, Page page) {
+        PageHelper.offsetPage(page.getStart(),page.getCount());
         List<Complaint> complaintList = complaintService.findAllComplaint();
+        int total = (int) new PageInfo<>(complaintList).getTotal();
+        page.setTotal(total);
         model.addAttribute("managecomp", complaintList);
+        model.addAttribute("page",page);
         return "system/complaint/allcomplaint";
     }
 

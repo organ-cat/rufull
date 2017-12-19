@@ -25,8 +25,9 @@
     <script src="${pageContext.request.contextPath}/js/service/jquery/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/css/service/bootstrap3/js/bootstrap.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/service/login-register.js" type="text/javascript"></script>
-    <script>
-    </script>
+    <script src="${pageContext.request.contextPath}/css/service/xcComfirm/js/xcConfirm.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/service/xcComfirm/css/xcConfirm.css">
+
 </head>
 <body class="homepage">
     <div class="homepage-container" align="center" style="width:1080px;">

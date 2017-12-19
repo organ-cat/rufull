@@ -20,12 +20,12 @@ function updateAddress(id){
             $("#id").val(result.id);
             $("#phone").val(result.phone);
             $("#receiver").val(result.receiver);
-            $("#location").val(result.location);
+            $("#location").attr('placeholder', result.location);
             $("#detail").val(result.detail);
-            if(result.status == 1){
-                $("#radioCheckedTrue").attr("checked", true);
+            if(result.status == "1"){
+                $("#radioCheckedTrue").attr("checked", "checked");
             }else {
-                $("#radioCheckedFalse").attr("checked",true)
+                $("#radioCheckedFalse").attr("checked", "checked");
             }
         }
     });
@@ -43,7 +43,7 @@ function hideView() {
     $('.error').removeClass('alert alert-danger').html('');
 }
 $(function () {
-    $("#phone").change(function () {
+    $("#phone").mouseleave(function () {
         var phone = $("#phone").val();
         if(isTelCode(phone)){
             $("#phone").css("border", "1px solid #999999");
@@ -55,7 +55,7 @@ $(function () {
     });
 })
 $(function () {
-    $("#receiverPhone").change(function () {
+    $("#receiverPhone").mouseleave(function () {
         var phone = $("#receiverPhone").val();
         if(isTelCode(phone)){
             $("#receiverPhone").css("border", "1px solid #999999");
@@ -66,6 +66,7 @@ $(function () {
         }
     });
 })
+
 /*校验电话码格式 */
 function isTelCode(str) {
     var reg= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;

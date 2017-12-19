@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -31,7 +32,16 @@ public class UserSearchShopController {
         List<Shop> shopList = shopService.findAll();
         JSONArray jsonShopList = JSONArray.fromObject(shopList);
 
+        Map<Integer, Integer> shopEvaluation = shopService.getShopEvaluation(shopList);//查询所有的商店评分
+        JSONArray jsonShopEvaluation = JSONArray.fromObject(shopEvaluation);
+
+        Map<Integer, Integer> shopSalesMap = shopService.getShopSales(shopList);//查询所有商家的销售量
+        JSONArray jsonShopSales = JSONArray.fromObject(shopEvaluation);
+
+        model.addAttribute("shopEvaluation",jsonShopEvaluation);
+        model.addAttribute("ShopSales",jsonShopSales);
         model.addAttribute("shopList",jsonShopList);
+
         session.setAttribute("address", address);
         session.setAttribute("lng", lng);
         session.setAttribute("lon", lat);
@@ -63,10 +73,19 @@ public class UserSearchShopController {
     public String newAddress(String city,String lng,String lat,String newaddress,HttpSession session,Model model){
 //        System.out.println("定位的区域是："+city+"，经纬度是："+lng+","+lat);
 //        System.out.println("新的地址是："+newaddress);
-        List<Shop> shopList = shopService.findAll();
+        List<Shop> shopList = shopService.findAll();//查询商家
         JSONArray jsonShopList = JSONArray.fromObject(shopList);
 
+        Map<Integer, Integer> shopEvaluation = shopService.getShopEvaluation(shopList);//查询所有的商店评分
+        JSONArray jsonShopEvaluation = JSONArray.fromObject(shopEvaluation);
+
+        Map<Integer, Integer> shopSalesMap = shopService.getShopSales(shopList);//查询所有商家的销售量
+        JSONArray jsonShopSales = JSONArray.fromObject(shopEvaluation);
+
+        model.addAttribute("shopEvaluation",jsonShopEvaluation);
+        model.addAttribute("ShopSales",jsonShopSales);
         model.addAttribute("shopList",jsonShopList);
+
         session.setAttribute("lng",lng);
         session.setAttribute("lon",lat);
         session.setAttribute("address",newaddress);

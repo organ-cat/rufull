@@ -51,8 +51,7 @@
     <spring:url value="/place" var="showPlaceUrl"/>
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
-    <spring:url value="/account/infomation" var="infomationUrl"/>
-    <spring:url value="/account/showInfo" var="showInfoUrl"/>
+    <spring:url value="/account/infomation" var="showInfoUrl"/>
     <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop" var="showShopUrl"/>
     <spring:url value="/rate" var="addRateUrl"/>
@@ -67,6 +66,9 @@
     <spring:url value="/order/confirm" var="confirmOrderUrl"/>
     <spring:url value="/shop/showShopDetail" var="showShopDetailUrl"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
+    <spring:url value="/complaint/showAccount" var="showComplaint"/>
+    <spring:url value="/cart" var="showCartUrl"/>
+    <spring:url value="/account/infomation" var="infomationUrl"/>
     <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
 
     <script type="text/javascript">
@@ -122,6 +124,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
+                            <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
                             <li><a href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的收藏</a></li>
                             <li><a href="${showAddressUrl}?id=${account.id}"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>我的地址</a></li>
                             <li><a href="${showSecurityUrl}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 安全设置</a></li>
@@ -151,21 +154,19 @@
                 <div class="row">
                     <div class="col-md-2">
                         <ul class="list-group text-center">
-                            <li class="list-group-item list-group-item-info"><strong><a class="text-muted" href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>个人中心</a></strong></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>我的订单</strong></li>
-                            <li class="list-group-item"><a class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
-                            <li class="list-group-item"><a class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
-                            <li class="list-group-item"><a class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
-                            <li class="list-group-item"><strong><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>我的资产</strong></li>
-                            <li class="list-group-item"><a class="text-muted" href="${showBalanceUrl}">账户余额</a></li>
+                            <li class="list-group-item"><a id="list" class="text-muted" href="${showOrderUrl}">近三个订单</a></li>
+                            <li class="list-group-item"><a id="listUnrated" class="text-muted" href="${showUnratedOrderUrl}">待评价订单</a></li>
+                            <li class="list-group-item"><a id="listRefund" class="text-muted" href="${showRefundOrderUrl}">退单记录</a></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><span class="glyphicon glyphicon-user" aria-hidden="true"></span>我的资料</strong></li>
-                            <li class="list-group-item"><a id="infoinfo"  class="text-muted"  href="${infomationUrl}">个人资料</a></li>
-                            <%--href="${showInfoUrl}"--%>
+                            <li class="list-group-item"><a class="text-muted" href="${showInfoUrl}">个人资料</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showAddressUrl}?id=${account.id}">地址管理</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showFavorUrl}?id=${account.id}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>我的收藏</a></strong></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
@@ -230,9 +231,9 @@
                                     <c:forEach items="${footprintList}" var="footprint">
                                         <div class="shoplist">
                                             <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
+                                            <a href="${showShopDetailUrl}?id=${footprint.id} " target="_self">
                                                 <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/account/${footprint.shopPhoto}"
+                                                    <img src="${pageContext.request.contextPath}/upload/shop/${footprint.shopPhoto}"
                                                          width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">
                                                     <span class="rstblock-left-timeout">${footprint.shippingTime}+分钟</span>
                                                 </div>

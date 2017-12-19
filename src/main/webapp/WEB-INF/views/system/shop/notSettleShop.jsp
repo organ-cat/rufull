@@ -56,7 +56,8 @@
 </script>
 
 <body>
-<div class="col-sm-12" style="padding: 50px">
+<div class="col-sm-12" style="padding: 50px" align="center">
+    <div  style="height: 360px">
     <div class="panel panel-default">
 
         <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 45%">
@@ -87,6 +88,10 @@
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    </div>
+    <div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
     </div>
 </div>
 </body>

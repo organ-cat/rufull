@@ -1,4 +1,4 @@
-package com.cat.rufull.domain.mapper.account;
+package com.cat.rufull.domain.mapper.address;
 
 import com.cat.rufull.domain.model.Address;
 

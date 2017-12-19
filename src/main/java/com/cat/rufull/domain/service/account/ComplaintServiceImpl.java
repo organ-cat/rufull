@@ -1,6 +1,6 @@
 package com.cat.rufull.domain.service.account;
 
-import com.cat.rufull.domain.mapper.account.ComplaintMapper;
+import com.cat.rufull.domain.mapper.complaint.ComplaintMapper;
 import com.cat.rufull.domain.model.Complaint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

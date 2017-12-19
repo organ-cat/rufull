@@ -102,7 +102,7 @@
 </head>
 <body>
 
-<div class="col-sm-12" style="padding:80px;">
+<div class="col-sm-12" style="padding:80px;" align="center">
     <div class="col-sm-4">
         <tr>
             <td><input type="checkbox" onclick="swapCheck()"/>&nbsp;&nbsp;全选&nbsp;&nbsp;</td>
@@ -110,6 +110,7 @@
             <td><input type="button" class="btn btn-warning" onclick="CancelAll()" value="一键取消"/></td>
         </tr>
     </div>
+    <div style="height:360px;">
     <div class="panel panel-default">
 
         <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 40%">
@@ -155,6 +156,10 @@
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    </div>
+    <div class="pageDiv">
+        <%@include file="../adminPage.jsp" %>
     </div>
 </div>
 

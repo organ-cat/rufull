@@ -1,12 +1,15 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.order.OrderService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.expression.spel.ast.OpOr;
 import org.springframework.stereotype.Controller;
@@ -52,8 +55,8 @@ public class ManageOrderController {
      * @return
      */
     @RequestMapping("/getOrdersbycondition")
-    public String getOrdersbycondition(String beginTime,
-                                String endTime, Model model,HttpServletRequest request) throws Exception {
+    public String getOrdersbycondition(String beginTime, String endTime,
+                                       Model model,HttpServletRequest request,Page page) throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date begin = null;
         Date end = null;
@@ -78,7 +81,7 @@ public class ManageOrderController {
      * @return
      */
     @RequestMapping("/findOrdersList")
-    public String findOrdersList(Model model) {
+    public String findOrdersList(Model model, Page page) {
         List<Order> orderList = orderService.findAllOrders();
         model.addAttribute("morderlist", orderList);
         return "system/order/ordersList";
