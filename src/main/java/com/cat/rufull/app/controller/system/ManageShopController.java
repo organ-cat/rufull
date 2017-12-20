@@ -2,7 +2,10 @@ package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
 import com.cat.rufull.domain.common.util.Page;
-import com.cat.rufull.domain.model.*;
+import com.cat.rufull.domain.model.Business;
+import com.cat.rufull.domain.model.ManageLog;
+import com.cat.rufull.domain.model.Manager;
+import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.AccountService;
 import com.cat.rufull.domain.service.business.BusinessService;
 import com.cat.rufull.domain.service.managerlog.ManagerLogService;
@@ -11,9 +14,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;

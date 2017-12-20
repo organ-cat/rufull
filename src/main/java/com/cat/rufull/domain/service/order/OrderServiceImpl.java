@@ -11,6 +11,7 @@ import com.cat.rufull.domain.model.Order;
 import com.cat.rufull.domain.model.Shop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService {
     private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-//    private AmqpTemplate amqpTemplate;
+    private AmqpTemplate amqpTemplate;
 
     private OrderMapper orderMapper;
 
@@ -165,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
         lineItemMapper.insertLineItems(items);
 
         // 将订单id放进延时队列,15分钟后若未支付则自动关闭
-//        amqpTemplate.convertAndSend(order.getId());
+        amqpTemplate.convertAndSend(order.getId());
     }
 
     @Override
@@ -310,8 +311,8 @@ public class OrderServiceImpl implements OrderService {
         this.lineItemMapper = lineItemMapper;
     }
 
-//    @Autowired
-//    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
-//        this.amqpTemplate = amqpTemplate;
-//    }
+    @Autowired
+    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
+        this.amqpTemplate = amqpTemplate;
+    }
 }

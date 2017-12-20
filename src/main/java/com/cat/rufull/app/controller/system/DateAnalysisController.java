@@ -6,7 +6,6 @@ import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.evaluation.EvaluationService;
 import com.cat.rufull.domain.service.order.OrderService;
 import com.cat.rufull.domain.service.shop.ShopService;
-import org.hibernate.validator.internal.engine.messageinterpolation.parser.ELState;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
