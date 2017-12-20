@@ -10,7 +10,7 @@ $(function(){
         if(newPassword == confirmPassword){
             if(isPassword(newPassword)){
                 $.ajax({
-                    url: "http://localhost:8080/rufull/account/updatePassword",
+                    url: "http://172.16.13.94:8080/rufull/account/updatePassword",
                     data: {"id": id,"newPassword":newPassword,"oldPassword":oldPassword},
                     async: true,
                     cache: false,

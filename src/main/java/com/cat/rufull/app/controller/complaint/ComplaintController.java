@@ -66,7 +66,7 @@ public class ComplaintController {
         account.setId(accountId);
         complaintService.addComplaint(
                 new Complaint(type, content, fileName, new Date(), Complaint.COMPLAINTED, account, shop));
-        return "redirect:/complaint/showAccount?id=" + accountId;
+        return "redirect:/complaint/showAccount?id=" + accountId+"&currentPage=1";
     }
 
     @RequestMapping(value = "/showAccount", method = RequestMethod.GET)
@@ -85,7 +85,7 @@ public class ComplaintController {
         return view;
     }
     public PageInfo<Complaint> selectComplaintByAccount(int accountId, int currentPage) {
-        PageHelper.startPage(currentPage, 1);
+        PageHelper.startPage(currentPage, 4);
         List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
         PageInfo<Complaint> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -98,8 +98,6 @@ public class ComplaintController {
         view.addObject("complaintList", list);
         return view;
     }
-
-
     /**
      * 返回页面的json信息
      * @param response HttpServletResponse
