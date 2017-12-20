@@ -30,9 +30,9 @@ function showLoginForm(){
     $('#loginModal .registerBox').fadeOut('fast',function(){
         $('.loginBox').fadeIn('fast');
         $('.register-footer').fadeOut('fast',function(){
-            $('.login-footer').fadeIn('fast');    
+            $('.login-footer').fadeIn('fast');
         });
-        
+
         $('.modal-title').html('登陆方式');
     });
      $('.error').removeClass('alert alert-danger').html('');
@@ -41,7 +41,7 @@ function showLoginForm(){
 function openLoginModal(){
     showLoginForm();
     setTimeout(function(){
-        $('#loginModal').modal('show');    
+        $('#loginModal').modal('show');
     }, 230);
 }
 function openRegisterModal(){
@@ -56,7 +56,7 @@ function shakeModal(message){
              $('.error').addClass('alert alert-danger').html(message);
              $('input[type="password"]').val('');
              setTimeout( function(){
-                $('#loginModal .modal-dialog').removeClass('shake'); 
+                $('#loginModal .modal-dialog').removeClass('shake');
     }, 1000 );
 }
 
@@ -210,7 +210,7 @@ $(function(){
             dataType: "json",
             success: function (result) {
                 if (result == LOGIN_SUCCESS) {
-                    $(location).attr('href', 'http://localhost:8080/rufull');
+                    $(location).attr('href', 'http://localhost:8080/rufull/searchShop');
                 } else if (result == PASSWORD_ERROR) {
                     shakeModal("账号或密码不正确");
                 }else if(result == REMOTE_LOGIN){

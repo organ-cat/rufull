@@ -81,7 +81,7 @@
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
                                 <!--使用了c标签-->
-                                <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
+                                <!--<form method="post" action="<c:url value="/nologin/accountRegister"/>" accept-charset="UTF-8"> -->
                                 <form method="post" action="">
                                     <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
                                     <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
