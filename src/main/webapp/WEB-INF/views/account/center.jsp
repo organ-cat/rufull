@@ -166,7 +166,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}&currentPage=1"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
@@ -231,7 +231,7 @@
                                     <c:forEach items="${footprintList}" var="footprint">
                                         <div class="shoplist">
                                             <a href="${deleteFootprintUrl}?accountId=${account.id}&shopId=${footprint.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${footprint.id} " target="_self">
+                                            <a href="${showShopDetailUrl}?id=${footprint.id} " target="_self">
                                                 <div class="rstblock-logo">
                                                     <img src="${pageContext.request.contextPath}/upload/shop/${footprint.shopPhoto}"
                                                          width="70" height="70" alt="${footprint.shopName}" class="rstblock-logo-icon">

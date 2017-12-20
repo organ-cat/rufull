@@ -165,7 +165,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}&currentPage=1"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
@@ -179,7 +179,7 @@
                                     <c:forEach items="${favorList}" var="favor">
                                         <div class="shoplist">
                                             <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${favor.id}" class="deleteFootprint">删除</a>
-                                            <a href="${showShopDetailUrl}?shopid=${favor.id} " target="_self">
+                                            <a href="${showShopDetailUrl}?id=${favor.id} " target="_self">
                                                 <div class="rstblock-logo">
                                                     <img src="${pageContext.request.contextPath}/upload/shop/${favor.shopPhoto}"
                                                          width="70" height="70" alt="${favor.shopName}" class="rstblock-logo-icon">
