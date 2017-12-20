@@ -68,7 +68,9 @@
     <spring:url value="/favor/deleteFavor" var="deleteFavorUrl"/>
     <spring:url value="/complaint/showAccount" var="showComplaint"/>
     <spring:url value="/cart" var="showCartUrl"/>
-    <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
+    <spring:url value="/upload/shop/" var="shop_photo_url"/>
+    <spring:url value="/resources/js/account/center.js" var="center_url"/>
+    <script src="${center_url}" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -181,7 +183,7 @@
                                             <a href="${deleteFavorUrl}?accountId=${account.id}&shopId=${favor.id}" class="deleteFootprint">删除</a>
                                             <a href="${showShopDetailUrl}?id=${favor.id} " target="_self">
                                                 <div class="rstblock-logo">
-                                                    <img src="${pageContext.request.contextPath}/upload/shop/${favor.shopPhoto}"
+                                                    <img src="${shop_photo_url}${favor.shopPhoto}"
                                                          width="70" height="70" alt="${favor.shopName}" class="rstblock-logo-icon">
                                                     <span class="rstblock-left-timeout">${favor.shippingTime}+分钟</span>
                                                 </div>

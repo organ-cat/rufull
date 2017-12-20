@@ -16,7 +16,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(isTelCode(phone)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/bindPhone",
+                url: "http://172.16.13.94:8080/rufull/account/bindPhone",
                 data: {"phone": phone, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -51,7 +51,7 @@ $(function(){
                 phonePassed();
                 settime(this);
                 $.ajax({
-                    url: "http://localhost:8080/rufull/check/sendbindPhone",
+                    url: "http://172.16.13.94:8080/rufull/check/sendbindPhone",
                     data: {"phone": phone},
                     async: true,
                     cache: false,
@@ -68,7 +68,7 @@ $(function(){
                 phonePassed();
                 settime(this);
                 $.ajax({
-                    url: "http://localhost:8080/rufull/check/sendbindNewPhone",
+                    url: "http://172.16.13.94:8080/rufull/check/sendbindNewPhone",
                     data: {"phone": phone},
                     async: true,
                     cache: false,
@@ -91,7 +91,7 @@ $(function () {
         if(!flag){
             var phone = $("#phone").val();
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkPhone",
+                url: "http://172.16.13.94:8080/rufull/check/checkPhone",
                 data: {"phone": phone},
                 async: true,
                 cache: false,

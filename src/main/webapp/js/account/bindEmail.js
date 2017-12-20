@@ -15,7 +15,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(IsEmail(email)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/bindEmail",
+                url: "http://172.16.13.94:8080/rufull/account/bindEmail",
                 data: {"email": email, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -51,7 +51,7 @@ $(function(){
                 emailPassed();
                 settime(this);
                 $.ajax({
-                    url: "http://localhost:8080/rufull/check/sendbindEmail",
+                    url: "http://172.16.13.94:8080/rufull/check/sendbindEmail",
                     data: {"email": email},
                     async: true,
                     cache: false,
@@ -70,7 +70,7 @@ $(function(){
                 emailPassed();
                 settime(this);
                 $.ajax({
-                    url: "http://localhost:8080/rufull/check/sendbindNewEmail",
+                    url: "http://172.16.13.94:8080/rufull/check/sendbindNewEmail",
                     data: {"email": email},
                     async: true,
                     cache: false,
@@ -91,7 +91,7 @@ $(function () {
         if(!flag){
             var email = $("#email").val();
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkEmail",
+                url: "http://172.16.13.94:8080/rufull/check/checkEmail",
                 data: {"email": email},
                 async: true,
                 cache: false,

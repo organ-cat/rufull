@@ -67,7 +67,9 @@
     <spring:url value="/complaint/showAccount" var="showComplaint"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
-    <script src="${pageContext.request.contextPath}/js/account/upload.js" type="text/javascript"></script>
+    <spring:url value="/resources/js/bootstrap.js" var="upload_js_url"/>
+    <spring:url value="/upload/account/" var="photo_url"/>
+    <script src="${upload_js_url}" type="text/javascript"></script>
     <spring:url value="/resources/css/account/upload.css" var="upload_css_url"/>
     <link rel="stylesheet" type="text/css" href="${upload_css_url}"/>
     <script type="text/javascript">
@@ -176,10 +178,10 @@
                                 <p style="font-size: 15px;margin-bottom: 20px;">请上传小于5M的照片</p>
                                 <div class="photoDiv">
                                     <c:if test="${account.photo == null}">
-                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像">
+                                        <img id="preview" src="${photo_url}rufull.png" alt="头像">
                                     </c:if>
                                     <c:if test="${account.photo != null}">
-                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
+                                        <img id="preview" src="${photo_url}${account.photo}" alt="头像">
                                     </c:if>
                                 </div>
                                 <div class="photoDiv">

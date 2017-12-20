@@ -69,7 +69,8 @@
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
     <spring:url value="/cart" var="showCartUrl"/>
-    <script src="${pageContext.request.contextPath}/js/account/center.js" type="text/javascript"></script>
+    <spring:url value="/resources/js/account/center.js" var="center_url"/>
+    <script src="${center_url}" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#orderCancelBtn').click(function () {

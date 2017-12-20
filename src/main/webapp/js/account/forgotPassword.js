@@ -11,7 +11,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(isTelCode(phone)||IsEmail(phone)){
             $.ajax({
-                url: "http://localhost:8080/rufull/nologin/forgotPassword",
+                url: "http://172.16.13.94:8080/rufull/nologin/forgotPassword",
                 data: {"phone": phone,"password":password, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -50,7 +50,7 @@ $(function(){
         if(isTelCode(phone)||IsEmail(phone)) {
             settime(this);
             $.ajax({
-                url: "http://localhost:8080/rufull/check/sendCode",
+                url: "http://172.16.13.94:8080/rufull/check/sendCode",
                 data: {"phone": phone},
                 async: true,
                 cache: false,
@@ -77,7 +77,7 @@ $(function () {
     $("#phone").change(function () {
         var phone = $("#phone").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/check/checkPhoneOrEmail",
+            url: "http://172.16.13.94:8080/rufull/check/checkPhoneOrEmail",
             data: {"phone": phone},
             async: true,
             cache: false,

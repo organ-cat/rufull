@@ -8,7 +8,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(IsEmail(email)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/addEmail",
+                url: "http://172.16.13.94:8080/rufull/account/addEmail",
                 data: {"email": email, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -38,7 +38,7 @@ $(function(){
         if(IsEmail(email)){
             settime(this);
             $.ajax({
-                url: "http://localhost:8080/rufull/check/sendbindEmail",
+                url: "http://172.16.13.94:8080/rufull/check/sendbindEmail",
                 data: {"email": email},
                 async: true,
                 cache: false,
@@ -60,7 +60,7 @@ $(function () {
         var email = $("#email").val();
         if(IsEmail(email)){
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkEmail",
+                url: "http://172.16.13.94:8080/rufull/check/checkEmail",
                 data: {"email": email},
                 async: true,
                 cache: false,
@@ -118,7 +118,7 @@ function bindSuccess() {
     $("#returnMessage").html("绑定成功");
     countdown = 0;
     setTimeout(function () {
-        $(location).attr('href', 'http://localhost:8080/rufull/account/security');
+        $(location).attr('href', 'http://172.16.13.94:8080/rufull/account/security');
     },3000)
 }
 function emailError() {

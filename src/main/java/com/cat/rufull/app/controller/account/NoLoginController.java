@@ -217,7 +217,7 @@ public class NoLoginController {
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
                 session.setAttribute(Account.BUSINESS_SESSION, login);
-                result = String.valueOf(login.getStatus());             //商家状态。
+                result = String.valueOf(login.getStatus());  //商家状态。
             }
         }
         returnMessage(response, result);

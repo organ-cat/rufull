@@ -9,7 +9,7 @@ function showAddresss() {
 }
 function updateAddress(id){
     $.ajax({
-        url: "http://localhost:8080/rufull/address/findAddressById",
+        url: "http://172.16.13.94:8080/rufull/address/findAddressById",
         data: {"id": id},
         async: true,
         cache: false,
