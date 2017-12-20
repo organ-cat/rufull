@@ -52,7 +52,7 @@
                             <li><a href="${pageContext.request.contextPath}/business/showAccountAndShopInfo"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>个人资料</a></li>
                         </c:if>
                         <li class="divider" role="separator"></li>
-                        <li><a href="${pageContext.request.contextPath}/account/logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
+                        <li><a href="${pageContext.request.contextPath}/business/loginOut"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
                     </ul>
                 </li>
             </ul>

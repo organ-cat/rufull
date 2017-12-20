@@ -139,7 +139,7 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                            <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                             <c:if test="${empty account}">
                                 <li class="hidden-sm hidden-md">
                                     <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">

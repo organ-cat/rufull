@@ -147,9 +147,13 @@ public class ProductController {
     @RequestMapping(value = "pageForProduct",method = RequestMethod.GET)
     @ResponseBody
     public PaginationResult pageForProduct(Integer shopId, Integer limit, Integer offset){
-        List<Product> products = productService.pageSelectForProduct(shopId, offset, limit);
 
-        PaginationResult paginationResult = new PaginationResult(products.size(),products);
+        System.out.println("shopId:"+shopId);
+        System.out.println("shopId:"+shopId);
+        System.out.println("shopId:"+shopId);
+        List<Product> products = productService.pageSelectForProduct(shopId,offset, limit );
+        int countProductByShopId = productService.getCountProductByShopId(shopId);
+        PaginationResult paginationResult = new PaginationResult(countProductByShopId,products);
         return paginationResult;
     }
 

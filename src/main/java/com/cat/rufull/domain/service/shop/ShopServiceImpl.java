@@ -178,11 +178,9 @@ public class ShopServiceImpl implements ShopService {
         Double evaluation = null;
         for (Product product:shop.getProductList()
              ) {
-            try {
-                evaluation = Math.ceil(evaluationService.findAvarageByProductId(product.getId()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            evaluation = evaluationService.findAvarageByProductId(product.getId());
+
             Integer shopEvaluation;
             if(evaluation == null){
                 shopEvaluation = 0;
@@ -229,13 +227,9 @@ public class ShopServiceImpl implements ShopService {
         for (Shop shop:shopList
              ) {
             Double evaluation = null;
-            try {
-                evaluation = Math.ceil(evaluationService.findAvarageByShopId(shop.getId()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("查询商店评分出错。。。");
 
-            }
+            evaluation = evaluationService.findAvarageByShopId(shop.getId());
+
             Integer shopEvaluation;
             if(evaluation == null){
                 shopEvaluation = 0;

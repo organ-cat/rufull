@@ -354,7 +354,7 @@
                         </c:forEach>
                 </ul>
 
-                <ul role="tabpanel" class="tab-pane active" id="good">
+                <ul role="tabpanel" class="tab-pane" id="good">
                     <%--<li class="comment-left">--%>
                     <%--<span class="commentitem-left-img">
                         <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">
@@ -455,7 +455,7 @@
                     </c:forEach>
                 </ul>
 
-                <ul role="tabpanel" class="tab-pane active" id="bad">
+                <ul role="tabpanel" class="tab-pane" id="bad">
                     <%--<li class="comment-left">--%>
                     <%--<span class="commentitem-left-img">
                         <img class="comment_img" src="img/美食/u=1856966395,724479572&fm=72.jpg">

@@ -108,8 +108,6 @@
     </select>
     <!--获取总条数-->
     <select id="getCountProductByShopId"  resultType="int">
-        SELECT  COUNT (*)
-        FROM PRODUCT
-        WHERE shop_id = #{0}
+        SELECT  COUNT(*) FROM PRODUCT WHERE shop_id = #{0};
     </select>
 </mapper>
