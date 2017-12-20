@@ -167,7 +167,7 @@
                                    data-page-list="[10, 25, 50, 100, ALL]"
                                    data-show-footer="false"
                                    data-side-pagination="server"
-                                   data-page-size="1"
+                                   data-page-size="5"
                                    data-url="${showOrderUrl}/${ordersUrl}">
                             </table>
                         </div>

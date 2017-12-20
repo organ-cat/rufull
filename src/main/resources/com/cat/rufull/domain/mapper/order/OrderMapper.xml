@@ -99,6 +99,7 @@
   <update id="updateOrder" parameterType="com.cat.rufull.domain.model.Order">
     UPDATE `ORDER`
     SET
+      CREATED_TIME=#{createdTime},
       COMPLETED_TIME=#{completedTime},
       ACCEPTED_TIME=#{acceptedTime},
       STATUS=#{status},
