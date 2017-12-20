@@ -1,4 +1,9 @@
 @charset "UTF-8";
+.complaint-show {
+    text-align: center;
+    width: 1070px;
+    height: 500px;
+}
 .complaint-div {
     text-align: center;
     width: 1070px;
@@ -17,4 +22,9 @@ td {
 }
 .evidence {
     width: 120px;
+}
+.page-div {
+    text-align: right;
+    width: 1070px;
+    height: 20px;
 }
