@@ -73,9 +73,6 @@ public class ComplaintController {
     public ModelAndView getComplaintByAccount(@RequestParam("id") int id,
                                               @RequestParam("currentPage") int currentPage) {
         PageInfo<Complaint> pageInfo = selectComplaintByAccount(id, currentPage);
-        for (Complaint complaint : pageInfo.getList()) {
-            System.out.println(complaint.toString());
-        }
         ModelAndView view = new ModelAndView();
         view.setViewName("account/comlpaintList");
         view.addObject("complaintList", pageInfo.getList());
