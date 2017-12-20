@@ -25,7 +25,7 @@ var search = new BMap.LocalSearch("中国", {
 
 
 //计算用户到商家距离
-function compto(userLat,userLon,shopLat,shopLon){
+function compto(userLat,userLon,shopLon,shopLat){
     //lng经,lat纬
 //        console.log(new Number(userLat));
 //        console.log(new Number(userLon));
@@ -51,7 +51,7 @@ $(function(){
     for(var i = 0; i < shopList.length; i++){
         var account2ShopDistance = compto(uLat,uLon,shopList[i].lat,shopList[i].lon);
         //在测试中先把判断用户到商家的距离去掉  shippingDistanced单位是公里所以要 * 1000;
-//            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
+            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
         //把商家添加到商家
         $("#shopListDiv").append(function () {
                 if(shopList[i].operateState == 0){
@@ -99,7 +99,7 @@ $(function(){
            );
         shopArray.push(shopList[i]);
     }
-//        }
+        }
 });
 
 // 查询不同类型的美食：通过前端输入的不同商家类型来查找对应不同的商家

@@ -85,7 +85,7 @@ public class ShopController {
                 shopService.getShopProductEvaluation(shopDetail);//查询出商品评价
         JSONArray jsonproductEvaluationMap = JSONArray.fromObject(productEvaluationMap);
 
-        Double shopEvaluation = evaluationService.findAvarageByShopId(shopDetail.getId());
+        Double shopEvaluation = evaluationService.findAvarageByShopId(shopDetail.getId());//查找商家评价
         if(shopEvaluation == null){
             shopEvaluation = 0.0;
         }

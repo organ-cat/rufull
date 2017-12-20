@@ -104,12 +104,10 @@
         SELECT  <include refid="Product_Column_List"/>
         FROM PRODUCT
         WHERE shop_id = #{0}
-        LIMIT #{1}-1,#{2};
+        LIMIT #{1},#{2};
     </select>
     <!--获取总条数-->
     <select id="getCountProductByShopId"  resultType="int">
-        SELECT  COUNT (*)
-        FROM PRODUCT
-        WHERE shop_id = #{0}
+        SELECT  COUNT(*) FROM PRODUCT WHERE shop_id = #{0};
     </select>
 </mapper>

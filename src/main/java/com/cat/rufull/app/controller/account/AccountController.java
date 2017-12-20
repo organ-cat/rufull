@@ -388,6 +388,7 @@ public class AccountController {
                 }
             }
         }
+        session.removeAttribute("shop");
         session.invalidate();
         return "index";
     }
