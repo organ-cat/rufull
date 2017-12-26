@@ -65,6 +65,12 @@ public class ManageAccountController {
         model.addAttribute("page",page);
         return "system/account/accountlist";
     }
+
+
+    /**
+     * 跳转到查询用户界面
+     * @return
+     */
     @RequestMapping("/getcheckAccount")
     public String getcheckAccount(){
         return "system/account/checkaccount";

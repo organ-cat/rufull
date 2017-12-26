@@ -21,8 +21,6 @@
     <!--启用@Contorller注解,同时启用Spring的类型转换,格式化,校验-->
     <annotation-driven validator="validator"/>
 
-
-
     <!--定义静态资源的映射位置-->
     <resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
 
@@ -36,12 +34,6 @@
     <default-servlet-handler/>
 
     <context:component-scan base-package="com.cat.rufull.app"/>
-
-    <!--使用Tiles实现视图模板化-->
-    <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-                id="tilesViewResolver">
-        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
-    </beans:bean>
 
     <!--i18n支持并从MessageSource中获取信息-->
     <beans:bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"

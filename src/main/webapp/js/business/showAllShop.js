@@ -27,10 +27,10 @@ var search = new BMap.LocalSearch("中国", {
 //计算用户到商家距离
 function compto(userLat,userLon,shopLon,shopLat){
     //lng经,lat纬
-//        console.log(new Number(userLat));
-//        console.log(new Number(userLon));
-//        console.log(new Number(shopLat));
-//        console.log(new Number(shopLon));
+    //    console.log(new Number(userLat));
+    //    console.log(new Number(userLon));
+    //    console.log(new Number(shopLat));
+    //    console.log(new Number(shopLon));
 
     var userPoint = new BMap.Point(new Number(userLat),new Number(userLon));  // 创建点坐标A--用户坐标
     var shopPoint = new BMap.Point(new Number(shopLat),new Number(shopLon));  // 创建点坐标B--商家坐标
@@ -49,9 +49,13 @@ var shopArray = [];
 //添加用户查看到的商家，这段js添加不进js文件。
 $(function(){
     for(var i = 0; i < shopList.length; i++){
+        // console.log(shopList);
+        // console.log("经度："+shopList[i].lat);
+        // console.log("维度："+shopList[i].lon);
         var account2ShopDistance = compto(uLat,uLon,shopList[i].lat,shopList[i].lon);
         //在测试中先把判断用户到商家的距离去掉  shippingDistanced单位是公里所以要 * 1000;
-            if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
+        console.log(account2ShopDistance);
+           if(account2ShopDistance < (shopList[i].shippingDistance * 1000)){
         //把商家添加到商家
         $("#shopListDiv").append(function () {
                 if(shopList[i].operateState == 0){
@@ -99,7 +103,7 @@ $(function(){
            );
         shopArray.push(shopList[i]);
     }
-        }
+       }
 });
 
 // 查询不同类型的美食：通过前端输入的不同商家类型来查找对应不同的商家
