@@ -49,7 +49,6 @@ public class AddressController {
                                       @RequestParam("receiver") String receiver, @RequestParam("phone") String phone,
                                       @RequestParam("location") String location, @RequestParam("detail") String detail,
                                       @RequestParam("status") int status){
-        System.out.println(id + "+" + accountId + "+" + receiver + "+" + phone + "+" + location + "+" + detail + "+" + status);
         addressService.updateAddress(new Address(id, receiver, phone, location, detail, status, accountId));
         return returnView(accountId);
     }

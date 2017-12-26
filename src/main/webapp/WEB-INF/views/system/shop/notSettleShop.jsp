@@ -60,7 +60,7 @@
     <div  style="height: 360px">
     <div class="panel panel-default">
 
-        <div class="panel-heading" style="padding-top:3px;height:40px;padding-left: 45%">
+        <div class="panel-heading" style="padding-top:3px;height:40px;">
             <h4>商家申请列表展示</h4>
         </div>
         <table class="table table-bordered">
@@ -90,9 +90,9 @@
         </table>
     </div>
     </div>
-    <div class="pageDiv">
+    <%--<div class="pageDiv">
         <%@include file="../adminPage.jsp" %>
-    </div>
+    </div>--%>
 </div>
 </body>
 </html>

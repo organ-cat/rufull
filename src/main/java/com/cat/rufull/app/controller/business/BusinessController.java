@@ -75,6 +75,7 @@ public class BusinessController {
         HttpSession session = request.getSession();
 
         Account businnessAccount = (Account) session.getAttribute(Account.BUSINESS_SESSION);  //从Session中获得商家登录的用户
+        System.out.println("businessAccount:"+businnessAccount);
         Business business= businessService.findBusinessByAccountId(businnessAccount.getId()); //通过用户查询商家
         System.out.println("business:"+business);
         Shop shop = shopService.findShopByBusinessId(business.getId());                                   //通过商家查询商店
@@ -217,6 +218,12 @@ public class BusinessController {
     @RequestMapping("reSettleBusiness")
     public String reSettleBusiness(){
         return "business/reSettle";
+    }
+
+    @RequestMapping("loginOut")
+    public String businessLoginOut(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
     }
 
 

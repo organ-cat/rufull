@@ -21,21 +21,25 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Complaint findComplaintById(int id) {
         return complaintMapper.findComplaintById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Complaint> findAccountComplaintListById(int account_id) {
         return complaintMapper.findAccountComplaintListById(account_id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Complaint> findShopComplaintListById(int shop_id) {
         return complaintMapper.findShopComplaintListById(shop_id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Complaint> findAllComplaint() {
         return complaintMapper.findAllComplaint();
     }

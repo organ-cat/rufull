@@ -1,6 +1,7 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.Account;
 import com.cat.rufull.domain.model.ManageLog;
@@ -90,7 +91,12 @@ public class ManageAccountController {
         Account old = accountService.findAccountById(account.getId());
         old.setUsername(account.getUsername());
        // old.setPassword(EncryptByMD5.encrypt(account.getPassword()));
-        old.setPassword(account.getPassword());
+        if(account.getPassword().toString().length()>16) {
+            old.setPassword(account.getPassword());
+        }
+        else if(account.getPassword().toString().length()<=16||account.getPassword().toString().length()>=6) {
+            old.setPassword(EncryptByMD5.encrypt(account.getPassword().toString()));
+        }
         old.setPhone(account.getPhone());
         old.setEmail(account.getEmail());
         int i = accountService.mUpdateAccount(old);

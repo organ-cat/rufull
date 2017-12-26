@@ -99,6 +99,7 @@
   <update id="updateOrder" parameterType="com.cat.rufull.domain.model.Order">
     UPDATE `ORDER`
     SET
+      CREATED_TIME=#{createdTime},
       COMPLETED_TIME=#{completedTime},
       ACCEPTED_TIME=#{acceptedTime},
       STATUS=#{status},
@@ -147,7 +148,7 @@
       LEFT OUTER JOIN SHOP S ON O.SHOP_ID=S.ID
     <where>
       <if test="accountId != null">
-        ACCOUNT_ID &gt;= #{accountId}
+        ACCOUNT_ID = #{accountId}
       </if>
       <if test="beginDate != null">
         AND CREATED_TIME &gt;= #{beginDate}
@@ -243,8 +244,8 @@
     FROM `ORDER` O
     WHERE
       SHOP_ID = #{shopId}
-      AND CREATED_TIME &gt;= #{today}
-      AND CREATED_TIME &lt;= #{lastMonthToday}
+      AND CREATED_TIME &gt;= #{lastMonthToday}
+      AND CREATED_TIME &lt;= #{today}
       AND (STATUS = 'COMPLETED' OR STATUS = 'EVALUATED')
   </select>
 
@@ -253,8 +254,8 @@
     FROM `ORDER` O
     WHERE
     SHOP_ID = #{shopId}
-    AND CREATED_TIME &gt;= #{today}
-    AND CREATED_TIME &lt;= #{lastMonthToday}
+    AND CREATED_TIME &gt;= #{lastMonthToday}
+    AND CREATED_TIME &lt;= #{today}
     AND (STATUS = 'COMPLETED' OR STATUS = 'EVALUATED')
   </select>
 </mapper>

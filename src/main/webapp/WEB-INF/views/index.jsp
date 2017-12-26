@@ -44,6 +44,7 @@
     <spring:url value="/account/security" var="security_url"/>
     <spring:url value="/account/logout" var="logout_url"/>
     <spring:url value="/nologin/forgotPasswordPage" var="forgot_password_url"/>
+    <spring:url value="/cart" var="showCartUrl"/>
 </head>
 <body class="homepage">
 <div class="homepage-container" align="center">
@@ -94,6 +95,7 @@
                                 </li>
                             </c:if>
                             <li class="hideImg"><a href="${center_url}" class="aLabel"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>
+                            <li class="hideImg"><a href="${showCartUrl}" class="aLabel"><span class="glyphicon glyphicon-shopping-cart"></span> 购物车</a></li>
                             <li class="hideImg"><a href="${favor_url}" class="aLabel"><span class="glyphicon glyphicon-star"></span> 我的收藏</a></li>
                             <li class="hideImg"><a href="${address_url}" class="aLabel"><span class="glyphicon glyphicon-map-marker"></span> 我的地址</a></li>
                             <li class="hideImg"><a href="${security_url}" class="aLabel"><span class="glyphicon glyphicon-cog"></span> 安全设置</a></li>

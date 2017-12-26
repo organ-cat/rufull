@@ -7,17 +7,17 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="connectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-        <property name="host" value="localhost"/>
+        <property name="host" value="gdougym.cn"/>
         <property name="port" value="5672"/>
-        <property name="username" value="guest"/>
-        <property name="password" value="guest"/>
+        <property name="username" value="admin"/>
+        <property name="password" value="admin"/>
     </bean>
 
     <rabbit:admin connection-factory="connectionFactory"/>
 
     <rabbit:queue name="delay_queue" auto-declare="true">
         <rabbit:queue-arguments>
-            <entry key="x-message-ttl" value="#{30*1000}" value-type="java.lang.Long" />
+            <entry key="x-message-ttl" value="#{5*60*1000}" value-type="java.lang.Long" />
             <entry key="x-dead-letter-exchange" value="exchange_delay" />
             <entry key="x-dead-letter-routing-key" value="task_queue" />
         </rabbit:queue-arguments>

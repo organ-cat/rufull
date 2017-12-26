@@ -74,6 +74,9 @@
         </interceptor>
         <interceptor>
             <mapping path="/order/**"/>
+            <exclude-mapping path="/order/confirmRefund/**"/>
+            <exclude-mapping path="/order/accept/**"/>
+            <exclude-mapping path="/order/deliver/**"/>
             <beans:bean class="com.cat.rufull.app.interceptor.account.LoginInterceptor"/>
         </interceptor>
         <interceptor>

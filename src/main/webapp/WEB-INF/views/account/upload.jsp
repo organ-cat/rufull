@@ -67,7 +67,9 @@
     <spring:url value="/complaint/showAccount" var="showComplaint"/>
     <spring:url value="/account/deleteFootprint" var="deleteFootprintUrl"/>
     <spring:url value="/account/showshowshow" var="jiangShowShopUrl"/>
-    <script src="${pageContext.request.contextPath}/js/account/upload.js" type="text/javascript"></script>
+    <spring:url value="/upload/account/" var="photo_url"/>
+    <spring:url value="/resources/js/account/upload.js" var="upload_js_url"/>
+    <script src="${upload_js_url}" type="text/javascript"></script>
     <spring:url value="/resources/css/account/upload.css" var="upload_css_url"/>
     <link rel="stylesheet" type="text/css" href="${upload_css_url}"/>
     <script type="text/javascript">
@@ -119,7 +121,14 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <c:if test="${account.nickname == null}">
+                                <span >Hi,美食家</span>
+                            </c:if>
+                            <c:if test="${account.nickname != null}">
+                                <span >Hi,${account.nickname}</span>
+                            </c:if>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
                             <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
@@ -164,7 +173,7 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}&currentPage=1"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
@@ -176,10 +185,10 @@
                                 <p style="font-size: 15px;margin-bottom: 20px;">请上传小于5M的照片</p>
                                 <div class="photoDiv">
                                     <c:if test="${account.photo == null}">
-                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/rufull.png" alt="头像">
+                                        <img id="preview" src="${photo_url}rufull.png" alt="头像">
                                     </c:if>
                                     <c:if test="${account.photo != null}">
-                                        <img id="preview" src="${pageContext.request.contextPath}/upload/account/${account.photo}" alt="头像">
+                                        <img id="preview" src="${photo_url}${account.photo}" alt="头像">
                                     </c:if>
                                 </div>
                                 <div class="photoDiv">

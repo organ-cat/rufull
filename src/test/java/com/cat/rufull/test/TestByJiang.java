@@ -1,6 +1,7 @@
 package com.cat.rufull.test;
 
 
+import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.*;
 import com.cat.rufull.domain.service.account.*;
@@ -444,6 +445,17 @@ public class TestByJiang {
     {
         List<ManageLog> logs = managerLogService.findLogsByCondition(null,null,"%" + "" + "%");
         System.out.println(logs.size());
+    }
+    @Test
+    public void testEmail()
+    {
+        Email.sendBing(mailSender,mailMessage,"510146714@qq.com","123456");
+        System.out.println("?????????????????????????");
+    }
+
+    @Test
+    public void testShop(){
+//        List<OrderEvaluation> evaluationList = evaluationService.findEvalByShopId(shopid);
     }
 }
 

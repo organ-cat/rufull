@@ -1,3 +1,4 @@
+var host = window.location.host;
 function addAddress(){
     showAddresss();
     setTimeout(function(){
@@ -9,7 +10,7 @@ function showAddresss() {
 }
 function updateAddress(id){
     $.ajax({
-        url: "http://localhost:8080/rufull/address/findAddressById",
+        url: "/rufull/address/findAddressById",
         data: {"id": id},
         async: true,
         cache: false,

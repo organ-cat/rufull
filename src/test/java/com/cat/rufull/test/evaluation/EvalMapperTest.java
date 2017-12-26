@@ -46,7 +46,7 @@ public class EvalMapperTest {
     @Test
     public void testFindEvalByShopId() throws Exception{
         List<OrderEvaluation> orderEvaluation = evaluationMapper.findEvalByShopId(1);
-       System.out.println(orderEvaluation);
+       System.out.println("哈哈哈哈"+orderEvaluation);
     }
 
     @Test

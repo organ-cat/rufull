@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -57,6 +58,7 @@ public class PaymentController {
     public String process(@PathVariable("id") Integer id, // 订单id
                           @RequestParam("pd_FrpId") String bank, // 选择银行
                           @RequestParam("total") BigDecimal total, // 支付金额
+                          HttpServletRequest request,
                           HttpServletResponse response) throws Exception{
 
         Order order = orderService.findOrderById(id); // 获取订单详情
@@ -72,7 +74,7 @@ public class PaymentController {
             String p5_Pid = "";
             String p6_Pcat = "";
             String p7_Pdesc = "";
-            String p8_Url = "http://localhost:8080/rufull/payment/payBack";
+            String p8_Url = "http://" + request.getServerName() + ":8080/rufull/payment/payBack";
             String p9_SAF = "";
             String pa_MP = "";
             String pr_NeedResponse = "1";

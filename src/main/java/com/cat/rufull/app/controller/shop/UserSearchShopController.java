@@ -36,11 +36,20 @@ public class UserSearchShopController {
         JSONArray jsonShopEvaluation = JSONArray.fromObject(shopEvaluation);
 
         Map<Integer, Integer> shopSalesMap = shopService.getShopSales(shopList);//查询所有商家的销售量
-        JSONArray jsonShopSales = JSONArray.fromObject(shopEvaluation);
+
+
+        JSONArray jsonShopSales = JSONArray.fromObject(shopSalesMap);
 
         model.addAttribute("shopEvaluation",jsonShopEvaluation);
         model.addAttribute("ShopSales",jsonShopSales);
         model.addAttribute("shopList",jsonShopList);
+        //当地址为空的时候，默认是广东海洋大学的地址
+        if(address==null||address=="")
+        {
+            address = "湛江市麻章区广东海洋大学";
+            lng="110.307239";
+            lat ="21.157362";
+        }
 
         session.setAttribute("address", address);
         session.setAttribute("lng", lng);
@@ -80,11 +89,20 @@ public class UserSearchShopController {
         JSONArray jsonShopEvaluation = JSONArray.fromObject(shopEvaluation);
 
         Map<Integer, Integer> shopSalesMap = shopService.getShopSales(shopList);//查询所有商家的销售量
-        JSONArray jsonShopSales = JSONArray.fromObject(shopEvaluation);
+
+
+        JSONArray jsonShopSales = JSONArray.fromObject(shopSalesMap);
 
         model.addAttribute("shopEvaluation",jsonShopEvaluation);
         model.addAttribute("ShopSales",jsonShopSales);
         model.addAttribute("shopList",jsonShopList);
+
+        if(newaddress==null||newaddress=="")
+        {
+            newaddress = "湛江市麻章区广东海洋大学";
+            lng="110.307239";
+            lat ="21.157362";
+        }
 
         session.setAttribute("lng",lng);
         session.setAttribute("lon",lat);

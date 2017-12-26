@@ -69,6 +69,7 @@ public class FootprintServiceImpl implements FootprintService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Footprint> findFootprintList(int account_id) {
         return footprintMapper.findFootprintList(account_id);
     }

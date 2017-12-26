@@ -258,7 +258,7 @@ public class OrderController {
     public ModelAndView handleBusinessError(HttpServletRequest req, Exception ex) {
         logger.error("Request: " + req.getRequestURL() + " raised " + ex);
 
-        ModelAndView mav = initErrorView(ex, req, "order/error");
+        ModelAndView mav = initErrorView(ex, req, "business/error");
 
         return mav;
     }

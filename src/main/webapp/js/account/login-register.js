@@ -1,3 +1,4 @@
+var host = window.location.host;
 var countdown=60;
 var flag = false;
 var REGISTERED_SUCCESS = "1";       //注册成功
@@ -30,9 +31,9 @@ function showLoginForm(){
     $('#loginModal .registerBox').fadeOut('fast',function(){
         $('.loginBox').fadeIn('fast');
         $('.register-footer').fadeOut('fast',function(){
-            $('.login-footer').fadeIn('fast');    
+            $('.login-footer').fadeIn('fast');
         });
-        
+
         $('.modal-title').html('登陆方式');
     });
      $('.error').removeClass('alert alert-danger').html('');
@@ -41,7 +42,7 @@ function showLoginForm(){
 function openLoginModal(){
     showLoginForm();
     setTimeout(function(){
-        $('#loginModal').modal('show');    
+        $('#loginModal').modal('show');
     }, 230);
 }
 function openRegisterModal(){
@@ -56,7 +57,7 @@ function shakeModal(message){
              $('.error').addClass('alert alert-danger').html(message);
              $('input[type="password"]').val('');
              setTimeout( function(){
-                $('#loginModal .modal-dialog').removeClass('shake'); 
+                $('#loginModal .modal-dialog').removeClass('shake');
     }, 1000 );
 }
 
@@ -85,7 +86,7 @@ $(function(){
     $("#phone").blur(function(){
         var value=$("#phone").val();
         $.ajax({
-            url:"http://localhost:8080/rufull/check/checkAccountRegisterWays",//要请求的服务器url
+            url:"/rufull/check/checkAccountRegisterWays",//要请求的服务器url
             data:{phone:value},  //这里的phone对应表单中的name="phone"，注册方式也可替换成邮箱
             async:true,   //是否为异步请求
             cache:false,  //是否缓存结果
@@ -143,7 +144,7 @@ $(function(){
         if(flag){
             settime(this);
             $.ajax({
-                url:"http://localhost:8080/rufull/check/sendRegisterCode",//要请求的服务器url
+                url:"/rufull/check/sendRegisterCode",//要请求的服务器url
                 data:{phone:value},  //这里的phone对应表单中的name="phone"，注册方式也可替换成邮箱
                 async:true,   //是否为异步请求
                 cache:false,  //是否缓存结果
@@ -202,7 +203,7 @@ $(function(){
         var city = returnCitySN["cname"] ;
         var remoteCode = $("#remoteCode").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/nologin/accountLogin",
+            url: "/rufull/nologin/accountLogin",
             data: {"username": username,"password":password,"ip":ip,"city":city,"remoteCode":remoteCode},
             async: true,
             cache: false,
@@ -210,7 +211,7 @@ $(function(){
             dataType: "json",
             success: function (result) {
                 if (result == LOGIN_SUCCESS) {
-                    $(location).attr('href', 'http://localhost:8080/rufull');
+                    $(location).attr('href', 'http://' + host + '/rufull/');
                 } else if (result == PASSWORD_ERROR) {
                     shakeModal("账号或密码不正确");
                 }else if(result == REMOTE_LOGIN){
@@ -230,7 +231,7 @@ $(function () {
         var username = $("#username").val();
         settime(this);
         $.ajax({
-            url: "http://localhost:8080/rufull/check/sendRometeCheckCode",
+            url: "/rufull/check/sendRometeCheckCode",
             data: {"username": username},
             async: true,
             cache: false,
@@ -254,7 +255,7 @@ $(function(){
         var password = $("#registerPassword").val();
         var checkCode = $("#checkcode").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/nologin/accountRegister",
+            url: "/rufull/nologin/accountRegister",
             data: {"phone": phone,"password":password,"checkCode":checkCode},
             async: true,
             cache: false,
@@ -262,7 +263,7 @@ $(function(){
             dataType: "json",
             success: function (result) {
                 if (result == REGISTERED_SUCCESS) {
-                    $(location).attr('href', 'http://localhost:8080/rufull');
+                    $(location).attr('href', 'http://' + host + '/rufull');
                 } else if (result == CHECKCODE_ERROR) {
                     messageShow();
                     shakeModal("验证码错误");

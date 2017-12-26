@@ -1,3 +1,4 @@
+var host = window.location.host;
 var PHONE_PASSED = "10";            //手机号码通过
 var PHONE_REGISTERED = "11";        //手机号码被注册了
 var PHONE_FORMAT_ERROR = "12";      //手机号码格式错误
@@ -11,7 +12,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(isTelCode(phone)||IsEmail(phone)){
             $.ajax({
-                url: "http://localhost:8080/rufull/nologin/forgotPassword",
+                url: "/rufull/nologin/forgotPassword",
                 data: {"phone": phone,"password":password, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -50,7 +51,7 @@ $(function(){
         if(isTelCode(phone)||IsEmail(phone)) {
             settime(this);
             $.ajax({
-                url: "http://localhost:8080/rufull/check/sendCode",
+                url: "/rufull/check/sendCode",
                 data: {"phone": phone},
                 async: true,
                 cache: false,
@@ -77,7 +78,7 @@ $(function () {
     $("#phone").change(function () {
         var phone = $("#phone").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/check/checkPhoneOrEmail",
+            url: "/rufull/check/checkPhoneOrEmail",
             data: {"phone": phone},
             async: true,
             cache: false,

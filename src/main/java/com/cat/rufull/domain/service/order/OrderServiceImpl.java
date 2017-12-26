@@ -166,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
         lineItemMapper.insertLineItems(items);
 
         // 将订单id放进延时队列,15分钟后若未支付则自动关闭
-        amqpTemplate.convertAndSend(order.getId());
+        amqpTemplate.convertAndSend(order.getId().toString());
     }
 
     @Override
@@ -261,10 +261,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public Integer getMonthlySales(Integer shopId) {
-        // 获取今日 yyyy-MM-dd 00:00:00
+        // 获取今日 yyyy-MM-"dd+1" 00:00:00
         Calendar today = DateUtils.getCalendarToday();
+        today.add(Calendar.DATE, 1);
 
-        // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
+        // 获取上月今日 yyyy-"MM-1"-dd 00:00:00
         Calendar todayLastMonth = getTodayLastMonth();
 
         return orderMapper.getMonthlySales(shopId, today.getTime(), todayLastMonth.getTime());
@@ -273,10 +274,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public BigDecimal getMonthlyTotal(Integer shopId) {
-        // 获取今日 yyyy-MM-dd 00:00:00
+        // 获取今日 yyyy-MM-"dd+1" 00:00:00
         Calendar today = DateUtils.getCalendarToday();
+        today.add(Calendar.DATE, 1);
 
-        // 获取上月今日 yyyy-"MM-1"-dd 23:59:59
+        // 获取上月今日 yyyy-"MM-1"-dd 00:00:00
         Calendar todayLastMonth = getTodayLastMonth();
 
         return orderMapper.getMonthlyTotal(shopId, today.getTime(), todayLastMonth.getTime());
@@ -291,8 +293,6 @@ public class OrderServiceImpl implements OrderService {
 
         todayLastMonth.setTime(DateUtils.getCalendarToday().getTime());
         todayLastMonth.add(Calendar.MONTH, -1);
-        todayLastMonth.add(Calendar.DATE, 1);
-        todayLastMonth.add(Calendar.SECOND, -1);
 
         return todayLastMonth;
     }

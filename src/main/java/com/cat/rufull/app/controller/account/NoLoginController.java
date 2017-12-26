@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.account;
 
+import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.RegEx;
 import com.cat.rufull.domain.common.util.ReturnCode;
 import com.cat.rufull.domain.common.util.RufullCookie;
@@ -50,21 +51,26 @@ public class NoLoginController {
         String code = (String) session.getAttribute(Account.FORGOT_PASSWORD);
         boolean isPhone = RegEx.regExPhone(phone);
         boolean isEmail = RegEx.regExEmail(phone);
-        if (checkCode.equals(code)) {
-            if (isPhone) {
-                accountService.changePasswordByPhone(phone,password, Account.ACCOUNT_ROLE);
-                session.removeAttribute(Account.FORGOT_PASSWORD);
-                returnMessage(response,"1");
-            } else if (isEmail) {
-                accountService.changePasswordByEmail(phone,password, Account.ACCOUNT_ROLE);
-                session.removeAttribute(Account.FORGOT_PASSWORD);
-                returnMessage(response,"1");
+        if (code != null|| !code.equals("")) {
+            if (checkCode.equals(code)) {
+                if (isPhone) {
+                    accountService.changePasswordByPhone(phone, EncryptByMD5.encrypt(password), Account.ACCOUNT_ROLE);
+                    session.removeAttribute(Account.FORGOT_PASSWORD);
+                    returnMessage(response, "1");
+                } else if (isEmail) {
+                    accountService.changePasswordByEmail(phone, EncryptByMD5.encrypt(password), Account.ACCOUNT_ROLE);
+                    session.removeAttribute(Account.FORGOT_PASSWORD);
+                    returnMessage(response, "1");
+                } else {
+                    returnMessage(response, "0");
+                }
             } else {
-                returnMessage(response,"0");
+                returnMessage(response, "0");
             }
         } else {
-            returnMessage(response,"0");
+            returnMessage(response, "0");
         }
+
     }
     /**
      * 用户注册
@@ -157,9 +163,7 @@ public class NoLoginController {
         boolean isEmail = RegEx.regExEmail(username);
         //返回结果
         String result = null;
-/////////////////////////////////////////////////////////////////////////////////////////////
-        account.setPassword(password); //编码阶段，完成后改为account.setPassword(EncryptByMD5.encrypt(password));
-/////////////////////////////////////////////////////////////////////////////////////////////
+        account.setPassword(EncryptByMD5.encrypt(password));
         account.setRole(role);
         if (isUsernaem) {
             account.setUsername(username);
@@ -217,7 +221,7 @@ public class NoLoginController {
             //商家已经登陆成功逻辑
             if(login.getRole()  == Account.BUSINESS_ROLE){
                 session.setAttribute(Account.BUSINESS_SESSION, login);
-                result = String.valueOf(login.getStatus());             //商家状态。
+                result = String.valueOf(login.getStatus());  //商家状态。
             }
         }
         returnMessage(response, result);
@@ -355,9 +359,7 @@ public class NoLoginController {
             if (registerCode.equals(checkCode)) {
                 //设置角色
                 account.setRole(role);
-/////////////////////////////////////////////////////////////////////////////////////////////
-                account.setPassword(password); //编码阶段，完成后改为account.setPassword(EncryptByMD5.encrypt(password));
-/////////////////////////////////////////////////////////////////////////////////////////////
+                account.setPassword(EncryptByMD5.encrypt(password));
                 //注册方式是手机
                 if (isPhone) {
                     //根据手机查找用户账号

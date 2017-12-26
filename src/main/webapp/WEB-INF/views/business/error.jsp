@@ -80,7 +80,7 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="hidden-sm hidden-md"><a href="${rootUrl}">首页</a></li>
-                <li class="active"><a href="">商家中心</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/business/showBusinessProfile">商家中心</a></li>
                 <li><a href="${showCooperationUrl}">加盟合作</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -88,13 +88,17 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>我的商店</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的订单</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>入驻信息</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商店信息</a></li>
+                        <c:if test="${shop != null}">
+                            <li><a href="${pageContext.request.contextPath}/business/showBusinessProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 我的商店</a></li>
+                            <li><a href="${pageContext.request.contextPath}/business/showOrder?shopId=${sessionScope.shop.id}&orderStatus=PAID"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>我的订单</a></li>
+                        </c:if>
+                        <li><a href="${pageContext.request.contextPath}/business/showBusinessSettleInfo"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> 入驻资料</a>
+                        </li>
+                        <c:if test="${shop != null}">
+                            <li><a href="${pageContext.request.contextPath}/business/showAccountAndShopInfo"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>个人资料</a></li>
+                        </c:if>
                         <li class="divider" role="separator"></li>
-                        <li><a href="${logoutUrl}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
+                        <li><a href="${pageContext.request.contextPath}/account/logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出登录</a></li>
                     </ul>
                 </li>
             </ul>
@@ -114,7 +118,27 @@
             <div class="row">
                 <div class="col-md-2">
                     <ul class="list-group text-center">
-
+                        <li class="list-group-item "><strong><span class="glyphicon glyphicon-home"
+                                                                   aria-hidden="true"></span>商家商店</strong></li>
+                        <li class="list-group-item "><a class="text-muted" href="${pageContext.request.contextPath}/business/showBusinessProfile">我的商店</a></li>
+                        <c:if test="${shop != null}">
+                            <li class="list-group-item"><strong><span class="glyphicon glyphicon-th-list"
+                                                                      aria-hidden="true"></span>商家订单</strong></li>
+                            <li class="list-group-item "><a class="text-muted" href="${pageContext.request.contextPath}/business/showOrder?shopId=${sessionScope.shop.id}&orderStatus=PAID">未接订单</a></li>
+                            <li class="list-group-item "><a class="text-muted" href="${pageContext.request.contextPath}/business/showOrder?shopId=${sessionScope.shop.id}&orderStatus=ACCEPTED">已接订单</a></li>
+                            <li class="list-group-item"><a class="text-muted" href="${pageContext.request.contextPath}/business/showOrder?shopId=${sessionScope.shop.id}&orderStatus=AUDITING">退单记录</a></li>
+                            <li class="list-group-item "><a class="text-muted" href="${pageContext.request.contextPath}/business/showOrder?shopId=${sessionScope.shop.id}&orderStatus=COMPLETED">完成订单</a></li>
+                        </c:if>
+                        <li class="list-group-item"><strong><span class="glyphicon glyphicon-user"
+                                                                  aria-hidden="true"></span>我的资料</strong></li>
+                        <c:if test="${shop != null}">
+                            <li class="list-group-item"><a class="text-muted"
+                                                           href="${pageContext.request.contextPath}/business/showAccountAndShopInfo">个人资料</a>
+                            </li>
+                        </c:if>
+                        <li class="list-group-item list-group-item-info"><a class="text-muted"
+                                                                            href="${pageContext.request.contextPath}/business/showBusinessSettleInfo">入驻资料</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- 显示内容 -->

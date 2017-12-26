@@ -1,6 +1,6 @@
 var UPDATE_PASSWORD_SUCCESS = "300";
 var UPDATE_PASSWORD_FAIL = "301";
-
+var host = window.location.host;
 $(function(){
     $("#updatePassword").click(function(){
         var id = $("#id").val();
@@ -10,7 +10,7 @@ $(function(){
         if(newPassword == confirmPassword){
             if(isPassword(newPassword)){
                 $.ajax({
-                    url: "http://localhost:8080/rufull/account/updatePassword",
+                    url: "/rufull/account/updatePassword",
                     data: {"id": id,"newPassword":newPassword,"oldPassword":oldPassword},
                     async: true,
                     cache: false,

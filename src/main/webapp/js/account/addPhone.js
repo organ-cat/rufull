@@ -1,3 +1,4 @@
+var host = window.location.host;
 var PHONE_PASSED = "10";            //手机号码通过
 var PHONE_REGISTERED = "11";        //手机号码被注册了
 var PHONE_FORMAT_ERROR = "12";      //手机号码格式错误
@@ -9,7 +10,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(isTelCode(phone)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/addPhone",
+                url: "/rufull/account/addPhone",
                 data: {"phone": phone, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -38,7 +39,7 @@ $(function(){
         if(isTelCode(phone)){
             settime(this);
             $.ajax({
-                url: "http://localhost:8080/rufull/check/sendbindPhone",
+                url: "/rufull/check/sendbindPhone",
                 data: {"phone": phone},
                 async: true,
                 cache: false,
@@ -58,7 +59,7 @@ $(function () {
         var phone = $("#phone").val();
         if(isTelCode(phone)){
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkPhone",
+                url: "/rufull/check/checkPhone",
                 data: {"phone": phone},
                 async: true,
                 cache: false,
@@ -113,7 +114,7 @@ function bindSuccess() {
     $("#checkCode").val("");
     countdown = 0;
     setTimeout(function () {
-        $(location).attr('href', 'http://localhost:8080/rufull/account/security');
+        $(location).attr('href', '/rufull/account/security');
     },3000)
 }
 function phoneError() {

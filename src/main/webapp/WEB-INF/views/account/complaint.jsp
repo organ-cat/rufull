@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="${complaint_css_url}"/>
     <spring:url value="/resources/js/account/complaint.js" var="complaint_js_url"/>
     <script src="${complaint_js_url}" type="text/javascript"></script>
+    <spring:url value="/complaint/addComplaint" var="addComplaint_url"/>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
 </div>
 <div class="all">
     <div class="complaint">
-        <form action="${pageContext.request.contextPath}/complaint/addComplaint" method="post" enctype="multipart/form-data">
+        <form action="${addComplaint_url}" method="post" enctype="multipart/form-data">
             <p>
                 商店：<b>${shop.shopName}</b>
             </p>

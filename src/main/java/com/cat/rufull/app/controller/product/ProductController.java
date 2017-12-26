@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.product;
 
+import com.cat.rufull.domain.common.util.PaginationResult;
 import com.cat.rufull.domain.common.util.ProductUtils;
 import com.cat.rufull.domain.model.Product;
 import com.cat.rufull.domain.service.product.ProductService;
@@ -143,17 +144,22 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "pageForProduct",method = RequestMethod.POST)
+    @RequestMapping(value = "pageForProduct",method = RequestMethod.GET)
     @ResponseBody
-    public List<Product> pageForProduct(Integer shopId, Integer pageNo, Integer pageSize){
-        List<Product> products = productService.pageSelectForProduct(shopId, pageNo, pageSize);
+    public PaginationResult pageForProduct(Integer shopId, Integer limit, Integer offset){
 
-        return products;
+        System.out.println("shopId:"+shopId);
+        System.out.println("shopId:"+shopId);
+        System.out.println("shopId:"+shopId);
+        List<Product> products = productService.pageSelectForProduct(shopId,offset, limit );
+        int countProductByShopId = productService.getCountProductByShopId(shopId);
+        PaginationResult paginationResult = new PaginationResult(countProductByShopId,products);
+        return paginationResult;
     }
 
     @RequestMapping("showPageForProduct")
     public String showPageForProduct(){
-        return "shop/product";
+        return "business/bootstrap_table";
     }
 
 }

@@ -198,19 +198,13 @@ public class DateAnalysisController {
         int c = 0;
         int d = 0;
         int e = 0;
-        double eva = 0.0;
+        Double eva = 0.0;
         List<Shop> shopList = shopService.findAllShop();
         for (Shop shop : shopList) {
             Integer shopid = shop.getBusiness().getId();
-            List<OrderEvaluation> evaluationList = evaluationService.findEvalByShopId(shopid);
-            if (evaluationList != null){
-                double avg = 0.0;
-                for (OrderEvaluation evaluation : evaluationList) {
-                        avg = avg + evaluation.getScore();
-                        System.out.println(evaluation.getShopId()+","+avg+","+evaluationList.size());
-                    }
-                eva = avg / evaluationList.size();
-                if (0.0 < eva && eva <= 1.0) {
+            eva = evaluationService.findAvarageByShopId(shopid);
+            if (eva != null) {
+                if (0.0 <= eva && eva <= 1.0) {
                     a = a + 1;
                 }
                 if (1.0 < eva && eva <= 2.0) {
@@ -225,7 +219,7 @@ public class DateAnalysisController {
                 if (4.0 < eva) {
                     e = e + 1;
                 }
-        }
+            }
         }
         model.addAttribute("mshop", shopList);
         model.addAttribute("a", a);

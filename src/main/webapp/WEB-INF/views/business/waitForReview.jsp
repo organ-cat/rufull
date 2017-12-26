@@ -19,7 +19,7 @@
     <h3>入驻成功！等待管理员审核</h3>
 
     <p>
-        <a href="http://localhost:8080/rufull" class="btn btn-primary" role="button">点击这里跳转至首页</a>
+        <a href="/rufull" class="btn btn-primary" role="button">点击这里跳转至首页</a>
     </p>
     <span class="text-primary" id="successText"></span>
 </div>

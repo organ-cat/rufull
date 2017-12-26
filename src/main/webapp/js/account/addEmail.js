@@ -1,3 +1,4 @@
+var host = window.location.host;
 var EMAIL_PASSED = "20";             //邮箱号码通过
 var EMAIL_REGISTERED = "21";         //邮箱号码被注册了
 var EMAIL_FORMAT_ERROR = "22";       //邮箱号码格式错误
@@ -8,7 +9,7 @@ $(function(){
         var checkCode = $("#checkCode").val();
         if(IsEmail(email)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/addEmail",
+                url: "/rufull/account/addEmail",
                 data: {"email": email, "checkCode": checkCode},
                 async: true,
                 cache: false,
@@ -38,7 +39,7 @@ $(function(){
         if(IsEmail(email)){
             settime(this);
             $.ajax({
-                url: "http://localhost:8080/rufull/check/sendbindEmail",
+                url: "/rufull/check/sendbindEmail",
                 data: {"email": email},
                 async: true,
                 cache: false,
@@ -60,7 +61,7 @@ $(function () {
         var email = $("#email").val();
         if(IsEmail(email)){
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkEmail",
+                url: "/rufull/check/checkEmail",
                 data: {"email": email},
                 async: true,
                 cache: false,
@@ -118,7 +119,7 @@ function bindSuccess() {
     $("#returnMessage").html("绑定成功");
     countdown = 0;
     setTimeout(function () {
-        $(location).attr('href', 'http://localhost:8080/rufull/account/security');
+        $(location).attr('href', 'http://' + host + '/rufull/account/security');
     },3000)
 }
 function emailError() {

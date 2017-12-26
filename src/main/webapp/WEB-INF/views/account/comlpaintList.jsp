@@ -124,7 +124,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${account.username}<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <c:if test="${account.nickname == null}">
+                                <span >Hi,美食家</span>
+                            </c:if>
+                            <c:if test="${account.nickname != null}">
+                                <span >Hi,${account.nickname}</span>
+                            </c:if><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="${showProfileUrl}?id=${account.id}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>个人中心</a></li>
                             <li><a href="${showCartUrl}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>购物车</a></li>
@@ -169,14 +175,14 @@
                             <li class="list-group-item"><a class="text-muted" href="${showSecurityUrl}">安全中心</a></li>
                             <li class="list-group-item"><a class="text-muted" href="${changePasswordUrl}">修改密码</a></li>
                             <li class="list-group-item"><strong><a class="text-muted" href="${footprintUrl}?id=${account.id}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>我的足迹</a></strong></li>
-                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
+                            <li class="list-group-item"><strong><a class="text-muted" href="${showComplaint}?id=${account.id}&currentPage=1"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>我的投诉</a></strong></li>
                         </ul>
                     </div>
                     <!-- 显示内容 -->
                     <div class="col-md-10">
                         <div class="container-fluid" id="content">
                             <div class="row">
-                                <div id="footprint">
+                                <div class="complaint-list">
                                     <h3>投诉过的商家</h3>
                                     <hr/>
                                     <c:forEach items="${complaintList}" var="complaint">
@@ -273,6 +279,14 @@
                                             </table>
                                         </div>
                                     </c:forEach>
+                                </div>
+                                <div class="page-div">
+                                    <c:if test="${prePage != 0}">
+                                        <a href="${pageContext.request.contextPath}/complaint/showAccount?id=${account.id}&currentPage=${prePage}"><b style="font-size: 15px">上一页</b></a>
+                                    </c:if>
+                                    <c:if test="${nextPage != 0}">
+                                        <a href="${pageContext.request.contextPath}/complaint/showAccount?id=${account.id}&currentPage=${nextPage}"><b style="font-size: 15px">下一页</b></a>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

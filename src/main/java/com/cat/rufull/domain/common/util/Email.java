@@ -20,4 +20,15 @@ public class Email {
         //发送邮箱
         mailSender.send(mailMessage);
     }
+
+    public static void sendNotification(MailSender mailSender, SimpleMailMessage mailMessage, String to, String result) {
+        //发送的到对应的邮箱
+        mailMessage.setTo(to);
+        //邮箱的标题
+        mailMessage.setSubject("吃货宝智能订餐系统-商家申请审核结果");
+        //邮箱的内容
+        mailMessage.setText(result);
+        //发送邮箱
+        mailSender.send(mailMessage);
+    }
 }

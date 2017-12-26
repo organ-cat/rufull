@@ -85,6 +85,7 @@ public class AccountServiceImpl implements AccountService {
 
     //管理员获得所有用户
     @Override
+    @Transactional(readOnly = true)
     public List<Account> findAllAccount() {
         return accountMapper.findAllAccount();
     }
@@ -103,6 +104,7 @@ public class AccountServiceImpl implements AccountService {
     }
     //根据用户名，手机，邮箱查找用户
     @Override
+    @Transactional(readOnly = true)
     public List<Account> findName(String findName) {
         return accountMapper.findName(findName);
     }

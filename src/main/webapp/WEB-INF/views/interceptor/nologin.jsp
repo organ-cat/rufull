@@ -17,12 +17,13 @@
     <spring:url value="/resources/css/account/nologin.css" var="nologin_css_url"/>
     <link rel="stylesheet" type="text/css" href="${nologin_css_url}"/>
     <spring:url value="/resources/image/account/nologin.jpg" var="nologin_url"/>
+    <spring:url value="/" var="index_url"/>
 </head>
 <body>
     <div class="nologin">
         <img class="image" src="${nologin_url}"><br/><br/>
         <h2>提示：您还没有登陆！</h2><br/><br/>
-        <a href="http://localhost:8080/rufull">回到首页登陆or注册</a>
+        <a href="${index_url}">回到首页登陆or注册</a>
     </div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+var host = window.location.host;
 var flag = false;
 $(function () {
     $(".accountPhoto").mouseenter(function () {
@@ -21,7 +22,7 @@ $(function () {
         var nickname = $("#nickname").val();
         if(nickname!=""){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/updateNickname",
+                url: "/rufull/account/updateNickname",
                 data: {"nickname": nickname},
                 async: true,
                 cache: false,
@@ -45,7 +46,7 @@ $(function () {
         var username = $("#username").val();
         if(flag && isUsername(username)){
             $.ajax({
-                url: "http://localhost:8080/rufull/account/setUsername",
+                url: "/rufull/account/setUsername",
                 data: {"username": username},
                 async: true,
                 cache: false,
@@ -54,7 +55,7 @@ $(function () {
                 success: function (result) {
                     $("#usernameMessage").html("设置成功");
                     setTimeout(function(){
-                        $(location).attr('href', 'http://localhost:8080/rufull/account/infomation');
+                        $(location).attr('href', 'http://' + host + '/rufull/account/infomation');
                         },3000);
 
                 }
@@ -72,7 +73,7 @@ $(function () {
         var username = $("#username").val();
         if(isUsername(username)){
             $.ajax({
-                url: "http://localhost:8080/rufull/check/checkUsername",
+                url: "/rufull/check/checkUsername",
                 data: {"username": username},
                 async: true,
                 cache: false,

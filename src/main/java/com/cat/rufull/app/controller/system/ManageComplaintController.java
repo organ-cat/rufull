@@ -148,7 +148,7 @@ public class ManageComplaintController {
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
             attr.addFlashAttribute("replysuccess", "处理成功，结果为真");
-            SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，处理结果为对该商家进行批评教育！");
+            //SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，处理结果为对该商家进行批评教育！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉，结果为真！");
             log.setManager(mana);
@@ -190,7 +190,7 @@ public class ManageComplaintController {
         int i = complaintService.completedComplaint(complaint);
         if (i >= 1) {
             attr.addFlashAttribute("replysuccess", "处理成功，结果为假");
-            SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，由于该投诉与事实不符，所以我们否决了此次投诉请求！");
+            //SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，由于该投诉与事实不符，所以我们否决了此次投诉请求！");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉,结果为假！");
             log.setManager(mana);
@@ -235,7 +235,7 @@ public class ManageComplaintController {
                 complaint.setSolver(mana.getId());
                 int i = complaintService.completedComplaint(complaint);
                 if (i >= 1) {
-                    if(result==1)
+                    /*if(result==1)
                     {
                         SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，" +
                                 "处理结果为对该商家进行批评教育！");
@@ -244,7 +244,7 @@ public class ManageComplaintController {
                     {
                         SMS.sendNotification(complaint.getAccount().getPhone(),complaint.getAccount().getUsername(),"您好，您发起的投诉我们已经处理，" +
                                 "由于该投诉与事实不符，所以我们否决了此次投诉请求！");
-                    }
+                    }*/
                     attr.addFlashAttribute("replysuccess", "处理成功");
                     log.setCreateTime(DateFormat.getNewdate(date));
                     log.setDetail("管理员处理" + complaint.getAccount().getUsername() + "用户投诉！");

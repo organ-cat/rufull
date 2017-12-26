@@ -1,5 +1,6 @@
 package com.cat.rufull.app.controller.account;
 
+import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.ReturnCode;
 import com.cat.rufull.domain.common.util.RufullCookie;
 import com.cat.rufull.domain.model.Account;
@@ -293,7 +294,7 @@ public class AccountController {
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public void updatePassword(@RequestParam("id") int id, @RequestParam("newPassword") String newPassword,
                                @RequestParam("oldPassword") String oldPassword, HttpServletResponse response) {
-        boolean isSuccess = accountService.updatePassword(id, newPassword, oldPassword);
+        boolean isSuccess = accountService.updatePassword(id, EncryptByMD5.encrypt(newPassword), EncryptByMD5.encrypt(oldPassword));
         if (isSuccess) {
             returnMessage(response, ReturnCode.UPDATE_PASSWORD_SUCCESS);
         } else {
@@ -388,6 +389,7 @@ public class AccountController {
                 }
             }
         }
+        session.removeAttribute("shop");
         session.invalidate();
         return "index";
     }

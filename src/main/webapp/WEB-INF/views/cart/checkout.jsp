@@ -63,7 +63,7 @@
     <spring:url value="/home" var="homeUrl"/>
     <spring:url value="/balance" var="showBalanceUrl"/>
     <spring:url value="/info" var="showInfoUrl"/>
-    <spring:url value="/security/changepassword" var="changePasswordUrl"/>
+    <spring:url value="/account/updatePasswordPage" var="changePasswordUrl"/>
     <spring:url value="/shop/showShopDetail" var="showShopUrl"/>
     <spring:url value="/evaluation" var="addEvaluationUrl"/>
     <spring:url value="/favor" var="addFavorUrl"/>

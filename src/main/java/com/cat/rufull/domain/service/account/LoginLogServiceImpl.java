@@ -31,6 +31,7 @@ public class LoginLogServiceImpl implements LoginLogService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LoginLog> fingLoginLogList(int account_id) {
         return loginLogMapper.fingLoginLogList(account_id);
     }

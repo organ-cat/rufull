@@ -1,7 +1,9 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.Email;
 import com.cat.rufull.domain.common.util.Page;
+import com.cat.rufull.domain.common.util.SMS;
 import com.cat.rufull.domain.model.Business;
 import com.cat.rufull.domain.model.ManageLog;
 import com.cat.rufull.domain.model.Manager;
@@ -12,6 +14,9 @@ import com.cat.rufull.domain.service.managerlog.ManagerLogService;
 import com.cat.rufull.domain.service.shop.ShopService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +43,12 @@ public class ManageShopController {
     @Resource
     private ShopService shopService;
 
+    @Autowired
+    private MailSender mailSender;
+
+    @Autowired
+    private SimpleMailMessage mailMessage;
+
     private ManageLog log = new ManageLog();
     private Date date = new Date();
 
@@ -49,12 +60,12 @@ public class ManageShopController {
      */
     @RequestMapping("/getNotSettledBusiness")
     public String getNotSettledShop(Model model, Page page) {
-        PageHelper.offsetPage(page.getStart(), page.getCount());
+       // PageHelper.offsetPage(page.getStart(), page.getCount());
         List<Business> businessesList = businessService.findNotSettledBusiness();
-        int total = (int) new PageInfo<>(businessesList).getTotal();
-        page.setTotal(total);
+       // int total = (int) new PageInfo<>(businessesList).getTotal();
+       // page.setTotal(total);
         model.addAttribute("notSettleShop", businessesList);
-        model.addAttribute("page",page);
+       // model.addAttribute("page",page);
         return "system/shop/notSettleShop";
     }
 
@@ -88,9 +99,15 @@ public class ManageShopController {
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus(Business.BUSINESS_STATUS_SETTLED_PASS);
         int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
+        if(business.getAccount().getPhone()!=null) {
+            SMS.sendNotification(business.getAccount().getPhone(), business.getAccount().getUsername(), "通过！");
+        }
+        else
+        {
+            Email.sendNotification(mailSender,mailMessage,business.getAccount().getEmail(),"您好，您发起的商家申请审核结果为：通过！");
+        }
         if (i >= 1) {
             attr.addFlashAttribute("examsuccess", "审核成功!");
-            System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家已通过审核");
             log.setCreateTime(DateFormat.getNewdate(date));
             log.setDetail("审核商家信息，审核通过！");
             log.setManager(mana);
@@ -124,6 +141,13 @@ public class ManageShopController {
         Manager mana = (Manager) session.getAttribute("manager");
         business.getAccount().setStatus((Business.BUSINESS_STATUS_SETTLED_NOTPASS));
         int i = accountService.updateAccountStatus(business.getAccount().getId(), business.getAccount().getStatus());
+        if(business.getAccount().getPhone()!=null) {
+            SMS.sendNotification(business.getAccount().getPhone(), business.getAccount().getUsername(), "并不通过，请重新申请！");
+        }
+        else
+        {
+            Email.sendNotification(mailSender,mailMessage,business.getAccount().getEmail(),"您好，您发起的商家申请审核结果为：不通过，请重新申请！");
+        }
         if (i >= 1) {
             System.out.println(business.getAccount().getPhone() + ":你好，您申请的商家未通过审核");
             attr.addFlashAttribute("npexamsuccess", "审核结果为不通过!");

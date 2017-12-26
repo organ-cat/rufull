@@ -17,6 +17,7 @@ public class AddressServiceImpl implements AddressService {
     private AccountService accountService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Address> queryAddressList(Integer accountId) {
         return addressMapper.queryAddressList(accountId);
     }
@@ -35,11 +36,13 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Address findAddressById(Integer id) {
         return addressMapper.findAddressById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int findAddressCount(int account_id) {
         return addressMapper.findAddressCount(account_id);
     }

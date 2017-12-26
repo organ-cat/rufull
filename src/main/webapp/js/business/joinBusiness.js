@@ -2,6 +2,7 @@ $("body").css("width", window.innerWidth);
 $(window).resize(function () {
     $("body").css("width", window.innerWidth);
 })
+var host = window.location.host;
 var REGISTERED_SUCCESS = "1";       //注册成功
 var CHECKCODE_ERROR = "3";          //验证码错误
 var countdown=60;
@@ -100,7 +101,7 @@ $(function(){
     $("#phone").blur(function(){
         var value=$("#phone").val();
         $.ajax({
-            url:"http://localhost:8080/rufull/check/checkBusinessRegisterWays",//要请求的服务器url
+            url:"/rufull/check/checkBusinessRegisterWays",//要请求的服务器url
             data:{phone:value},  //这里的phone对应表单中的name="phone"，注册方式也可替换成邮箱
             async:true,   //是否为异步请求
             cache:false,  //是否缓存结果
@@ -158,7 +159,7 @@ $(function(){
         if(flag){
             settime(this);
             $.ajax({
-                url:"http://localhost:8080/rufull/check/sendRegisterCode",//要请求的服务器url
+                url:"/rufull/check/sendRegisterCode",//要请求的服务器url
                 data:{phone:value},  //这里的phone对应表单中的name="phone"，注册方式也可替换成邮箱
                 async:true,   //是否为异步请求
                 cache:false,  //是否缓存结果
@@ -231,7 +232,7 @@ $(function(){
         var username = $("#username").val();
         var password = $("#loginPassword").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/nologin/businessLogin",
+            url: "/rufull/nologin/businessLogin",
             data: {"username": username,"password":password},
             async: true,
             cache: false,
@@ -249,18 +250,18 @@ $(function(){
                     shakeModal("验证码错误，请重新输入");
                     $("#hideDiv").attr("style","display:block;");
                 }else if (result == BUSINESS_STATUS_REGISTERED) {// 注册成功直接跳转到商家入驻页面
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusinessUI');
+                    $(location).attr('href', 'http://' + host + '/rufull/business/addBusinessUI');
                 }else if(result == BUSINESS_STATUS_SETTLED){// 等待审核
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/waitForReview');
+                    $(location).attr('href', 'http://' + host + '/rufull/business/waitForReview');
                 }else if(result == BUSINESS_STATUS_SETTLED_PASS ||
                     result == BUSINESS_STATUS_CREATED_SHOP){ // 已经填写入驻想信息
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/showBusinessProfile');  // 展示商家页面
+                    $(location).attr('href', 'http://' + host + '/rufull/business/showBusinessProfile');  // 展示商家页面
                 }else if( result == BUSINESS_STATUS_RECITIFY){   // 商家被停业整顿
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/beRectified');  //停业整顿页面
+                    $(location).attr('href', 'http://' + host + '/rufull/business/beRectified');  //停业整顿页面
                 }else if(result == BUSINESS_STATUS_DELETE){      //商家被管理员删除
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/beRectified');
+                    $(location).attr('href', 'http://' + host + '/rufull/business/beRectified');
                 }else {
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/reSettleBusiness');
+                    $(location).attr('href', 'http://' + host + '/rufull/business/reSettleBusiness');
                 }
 
             }
@@ -274,7 +275,7 @@ $(function () {
         var username = $("#username").val();
         settime(this);
         $.ajax({
-            url: "http://localhost:8080/rufull/check/sendRometeCheckCode",
+            url: "/rufull/check/sendRometeCheckCode",
             data: {"username": username},
             async: true,
             cache: false,
@@ -300,7 +301,7 @@ $(function(){
         var password = $("#registerPassword").val();
         var checkCode = $("#checkcode").val();
         $.ajax({
-            url: "http://localhost:8080/rufull/nologin/businessRegister",
+            url: "/rufull/nologin/businessRegister",
             data: {"phone": phone,"password":password,"checkCode":checkCode},
             async: true,
             cache: false,
@@ -308,7 +309,7 @@ $(function(){
             dataType: "json",
             success: function (result) {
                 if (result == REGISTERED_SUCCESS) {
-                    $(location).attr('href', 'http://localhost:8080/rufull/business/addBusinessUI');
+                    $(location).attr('href', 'http://' + host + '/rufull/business/addBusinessUI');
                 } else if (result == CHECKCODE_ERROR) {
                     messageShow();
                     shakeModal("验证码错误");

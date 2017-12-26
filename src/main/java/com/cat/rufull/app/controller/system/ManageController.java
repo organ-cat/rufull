@@ -1,6 +1,7 @@
 package com.cat.rufull.app.controller.system;
 
 import com.cat.rufull.domain.common.util.DateFormat;
+import com.cat.rufull.domain.common.util.EncryptByMD5;
 import com.cat.rufull.domain.common.util.ManagerUtils;
 import com.cat.rufull.domain.common.util.Page;
 import com.cat.rufull.domain.model.ManageLog;
@@ -108,8 +109,7 @@ public class ManageController {
             Manager manager = (Manager) session.getAttribute("manager");
             //if(EncryptByMD5.encrypt(password).equals(manager.getPassword().toString()))
             System.out.println(password+"------------------------"+manager.getPassword().toString());
-            if (password.equals(manager.getPassword().toString())) {
-
+            if (EncryptByMD5.encrypt(password).equals(manager.getPassword().toString())) {
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print(flag);
             } else {
@@ -138,11 +138,12 @@ public class ManageController {
     public String editPwd(String password, String pwd1, HttpSession session,
                           RedirectAttributes attr, HttpServletRequest request) {
         Manager manager = (Manager) session.getAttribute("manager");
-        if (!password.equals(manager.getPassword())) {
+        if (!EncryptByMD5.encrypt(password).equals(manager.getPassword())) {
             attr.addFlashAttribute("repetpwd", "重复密码不一致");
             return "redirect:changePwd";
         }
-        manager.setPassword(pwd1);
+
+        manager.setPassword(EncryptByMD5.encrypt(pwd1));
         int i = manageService.updateManager(manager);
         if (i >= 1) {
             session.setAttribute("manager",manager);
@@ -177,7 +178,8 @@ public class ManageController {
             System.out.print("失败上传路径名：" + path);
         }
         response.setContentType("text/html;charset=UTF-8");
-        Manager newmanager = manageService.getManagerById(manager.getId());
+        Manager newmana = manageService.getManagerById(manager.getId());
+        session.setAttribute("manager",newmana);
         response.getWriter().print(path);
         return null;
 
@@ -249,6 +251,7 @@ public class ManageController {
     public String saveManager(Manager manager, Model model, HttpSession session,
                               HttpServletRequest request, RedirectAttributes attr) {
         manager.setCreatedTime(DateFormat.getNewdate(date));
+        manager.setPassword(EncryptByMD5.encrypt(manager.getPassword()));
         manager.setPhoto("profile-pic.jpg");
         manager.setStatus(1);
         manager.setRole(2);
@@ -304,7 +307,12 @@ public class ManageController {
         Manager old = manageService.getManagerById(manager.getId());
         old.setEmail(manager.getEmail());
         old.setPhone(manager.getPhone());
-        old.setPassword(manager.getPassword());
+        if(manager.getPassword().toString().length()>16) {
+            old.setPassword(manager.getPassword());
+        }
+        else if(manager.getPassword().toString().length()<=16||manager.getPassword().toString().length()>=6) {
+            old.setPassword(EncryptByMD5.encrypt(manager.getPassword()));
+        }
         old.setUsername(manager.getUsername());
         int i = manageService.updateManager(old);
         if (i >= 1) {

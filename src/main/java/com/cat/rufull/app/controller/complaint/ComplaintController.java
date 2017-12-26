@@ -5,6 +5,8 @@ import com.cat.rufull.domain.model.Complaint;
 import com.cat.rufull.domain.model.Shop;
 import com.cat.rufull.domain.service.account.ComplaintService;
 import com.cat.rufull.domain.service.shop.ShopService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +48,6 @@ public class ComplaintController {
                              @RequestParam("evidence") MultipartFile evidence,
                              @RequestParam("content") String content,
                              HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("投诉参数——"+accountId +"|"+ shopId +"|"+ type +"|"+ content);
         String fileName = null;
         if (evidence != null){
             String path = request.getServletContext().getRealPath("upload/complaint");
@@ -64,19 +65,26 @@ public class ComplaintController {
         account.setId(accountId);
         complaintService.addComplaint(
                 new Complaint(type, content, fileName, new Date(), Complaint.COMPLAINTED, account, shop));
-        return "redirect:/complaint/showAccount?id=" + accountId;
+        return "redirect:/complaint/showAccount?id=" + accountId+"&currentPage=1";
     }
 
     @RequestMapping(value = "/showAccount", method = RequestMethod.GET)
-    public ModelAndView getComplaintByAccount(@RequestParam("id") int id) {
-        List<Complaint> list = complaintService.findAccountComplaintListById(id);
+    public ModelAndView getComplaintByAccount(@RequestParam("id") int id,
+                                              @RequestParam("currentPage") int currentPage) {
+        PageInfo<Complaint> pageInfo = selectComplaintByAccount(id, currentPage);
         ModelAndView view = new ModelAndView();
         view.setViewName("account/comlpaintList");
-        for (Complaint complaint : list) {
-            System.out.println(complaint.toString());
-        }
-        view.addObject("complaintList", list);
+        view.addObject("complaintList", pageInfo.getList());
+        view.addObject("nextPage", pageInfo.getNextPage());
+        view.addObject("prePage", pageInfo.getPrePage());
+        view.addObject("pages", pageInfo.getPages());
         return view;
+    }
+    public PageInfo<Complaint> selectComplaintByAccount(int accountId, int currentPage) {
+        PageHelper.startPage(currentPage, 4);
+        List<Complaint> list = complaintService.findAccountComplaintListById(accountId);
+        PageInfo<Complaint> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 
     @RequestMapping(value = "/getComplaintByShop", method = RequestMethod.GET)

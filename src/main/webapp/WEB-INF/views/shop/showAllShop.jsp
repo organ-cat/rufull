@@ -81,7 +81,7 @@
                         <div class="content registerBox" style="display:none;">
                             <div class="form">
                                 <!--使用了c标签-->
-                                <!--<form method="post" action="<c:url value="/account/accountRegister"/>" accept-charset="UTF-8"> -->
+                                <!--<form method="post" action="<c:url value="/nologin/accountRegister"/>" accept-charset="UTF-8"> -->
                                 <form method="post" action="">
                                     <input id="phone" class="form-control loi" type="text" placeholder="手机/邮箱" name="phone">
                                     <input id="registerPassword" class="form-control loi" type="password" placeholder="您的密码" name="password">
@@ -139,7 +139,7 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="hidden-sm hidden-md"><a href="">规则中心</a></li>
+                            <li class="hidden-sm hidden-md"><a href="${showAgreementUrl}">规则中心</a></li>
                             <c:if test="${empty account}">
                                 <li class="hidden-sm hidden-md">
                                     <a href="javascript:void(0)" style="color: indigo;" onclick="openLoginModal();">
@@ -150,7 +150,13 @@
                             <c:if test="${!empty account}">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-haspopup="true" aria-expanded="false">${sessionScope.account.nickname}
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <c:if test="${account.nickname == null}">
+                                            <span >Hi,美食家</span>
+                                        </c:if>
+                                        <c:if test="${account.nickname != null}">
+                                            <span >Hi,${account.nickname}</span>
+                                        </c:if>
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">

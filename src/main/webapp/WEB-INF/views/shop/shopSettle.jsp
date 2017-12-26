@@ -28,7 +28,7 @@
 <body>
 <div class="container">
     <fieldset>
-        <legend><h1 class="text-info">商家创建</h1></legend>
+        <legend><h1 class="text-info">商店创建</h1></legend>
     </fieldset>
 
     <div>
